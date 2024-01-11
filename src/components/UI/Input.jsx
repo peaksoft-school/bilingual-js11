@@ -2,33 +2,36 @@ import React, { forwardRef } from 'react'
 import TextField from '@mui/material/TextField'
 import { styled } from '@mui/material'
 
-const Input = forwardRef((props, ref) => {
-   const {
-      type,
-      value,
-      onChange,
-      error,
-      label,
-      disabled,
-      placeholder,
-      ...restProps
-   } = props
-
-   return (
-      <StyledTextField
-         type={type}
-         label={label}
-         ref={ref}
-         disabled={disabled}
-         value={value}
-         onChange={onChange}
-         error={error}
-         placeholder={placeholder}
-         variant="outlined"
-         {...restProps}
-      />
-   )
-})
+const Input = forwardRef(
+   (
+      {
+         type,
+         value,
+         onChange,
+         error,
+         label,
+         disabled,
+         placeholder,
+         ...restProps
+      },
+      ref
+   ) => {
+      return (
+         <StyledTextField
+            type={type}
+            label={label}
+            ref={ref}
+            disabled={disabled}
+            value={value}
+            onChange={onChange}
+            error={error}
+            placeholder={placeholder}
+            variant="outlined"
+            {...restProps}
+         />
+      )
+   }
+)
 
 export default Input
 
