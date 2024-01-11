@@ -1,6 +1,6 @@
 import { AppBar, Typography, styled } from '@mui/material'
 import React, { useState } from 'react'
-import Bilingual from '../../assets/images/Bilingual.png'
+import BilingualLogo from '../../assets/images/Bilingual.png'
 
 const Header = (props) => {
    const [isClicked, setIsClicked] = useState(false)
@@ -8,18 +8,12 @@ const Header = (props) => {
 
    return (
       <StyledContainer position="static">
-         <img src={Bilingual} alt="Logo-Bilingual" />
-         <StyledTextCon>
-            <Typography
-               onClick={() => setIsClicked((prev) => !prev)}
-               style={{ color: isClicked ? '#3A10E5' : '#4C4859' }}
-            >
+         <img src={BilingualLogo} alt="Logo-Bilingual" />
+         <StyledTextCon $isClicked={isClicked}>
+            <Typography onClick={() => setIsClicked((prev) => !prev)}>
                TESTS
             </Typography>
-            <Typography
-               onClick={() => setIsClicked((prev) => !prev)}
-               style={{ color: isClicked ? '#4C4859' : '#3A10E5' }}
-            >
+            <Typography onClick={() => setIsClicked((prev) => !prev)}>
                {user} RESULTS
             </Typography>
             {logOut}
@@ -46,14 +40,14 @@ const StyledContainer = styled(AppBar)(() => ({
    width: '100%',
 }))
 
-const StyledTextCon = styled('div')((props) => ({
+const StyledTextCon = styled('div')(({ $isClicked }) => ({
    '& .MuiTypography-root': {
       fontSize: '15px',
       fontStyle: 'normal',
       fontWeight: '600',
       lineHeight: 'normal',
       textTransform: 'uppercase',
-      color: `${props.isClicked} ? `,
+      color: $isClicked ? '#4C4859' : '#3A10E5',
    },
    display: 'flex',
    alignItems: 'center',
