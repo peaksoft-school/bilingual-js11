@@ -5,14 +5,14 @@ import ToBeginBtnBackground from '../../../assets/images/buttons/button.png'
 import StartBtnBackground from '../../../assets/images/buttons/button (1).png'
 
 const LandingButton = forwardRef(
-   ({ children, onClick, isStart, isali, ...rest }, ref) => (
+   ({ children, onClick, isStart, togglePhoto, ...rest }, ref) => (
       <div>
          {isStart ? (
             <StyleStartButton
                onClick={onClick}
                type="submit"
                ref={ref}
-               isali={isali}
+               togglePhoto={togglePhoto}
                {...rest}
             />
          ) : (
@@ -31,9 +31,9 @@ const LandingButton = forwardRef(
 
 export default LandingButton
 
-const StyleStartButton = styled(Button)(({ isali }) => ({
+const StyleStartButton = styled(Button)(({ togglePhoto }) => ({
    backgroundImage: `url(${
-      isali === 'true' ? StartBtnBackground : ToBeginBtnBackground
+      togglePhoto === 'true' ? StartBtnBackground : ToBeginBtnBackground
    })`,
    backgroundSize: 'cover',
    backgroundRepeat: 'no-repeat',
