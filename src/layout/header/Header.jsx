@@ -13,7 +13,10 @@ const Header = (props) => {
             <Typography onClick={() => setIsClicked((prev) => !prev)}>
                TESTS
             </Typography>
-            <Typography onClick={() => setIsClicked((prev) => !prev)}>
+            <Typography
+               className="typography"
+               onClick={() => setIsClicked((prev) => !prev)}
+            >
                {user} RESULTS
             </Typography>
             {logOut}
@@ -40,14 +43,17 @@ const StyledContainer = styled(AppBar)(() => ({
    width: '100%',
 }))
 
-const StyledTextCon = styled('div')(({ $isClicked }) => ({
+const StyledTextCon = styled('div')(({ isClicked }) => ({
    '& .MuiTypography-root': {
       fontSize: '15px',
       fontStyle: 'normal',
       fontWeight: '600',
       lineHeight: 'normal',
       textTransform: 'uppercase',
-      color: $isClicked ? '#4C4859' : '#3A10E5',
+      color: isClicked ? '#4C4859' : '#3A10E5',
+   },
+   '& .typography': {
+      color: isClicked ? '#3A10E5' : '#4C4859',
    },
    display: 'flex',
    alignItems: 'center',
