@@ -2,9 +2,8 @@ import { AppBar, Typography, styled } from '@mui/material'
 import React, { useState } from 'react'
 import BilingualLogo from '../../assets/images/Bilingual.png'
 
-const Header = (props) => {
+const Header = ({ user, logOut }) => {
    const [isClicked, setIsClicked] = useState(false)
-   const { user, logOut } = props
 
    return (
       <StyledContainer position="static">
