@@ -30,32 +30,32 @@ const Input = forwardRef((props, ref) => {
 
 export default Input
 
-const StyledTextField = styled(TextField)((props) => ({
+const StyledTextField = styled(TextField)(({ error, disabled }) => ({
    '& .MuiOutlinedInput-root': {
+      borderRadius: '8px',
       border: '#BDBDBD',
       color: '#757575',
       '&:hover': {
          '& fieldset': {
-            border: `1px solid ${props.error ? '#F61414' : '#3A10E5'}`,
+            border: `1px solid ${error ? '#F61414' : '#3A10E5'}`,
             borderRadius: '8px',
          },
       },
       '&.Mui-focused': {
          '& fieldset': {
-            border: `1px solid ${props.error ? '#F61414' : '#3A10E5'}`,
+            border: `1px solid ${error ? '#F61414' : '#3A10E5'}`,
          },
       },
       '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-         border: `1px solid ${props.error ? '#F61414' : '#3A10E5'}`,
+         border: `1px solid ${error ? '#F61414' : '#3A10E5'}`,
       },
-      ...(props.disabled && {
+      ...(disabled && {
          backgroundColor: '#F7F7F7',
       }),
    },
    '& label.Mui-focused': {
-      color: `${props.error ? 'gray' : '#3A10E5'}`,
+      color: `${error ? 'gray' : '#3A10E5'}`,
    },
    width: '100%',
    height: '52px',
-   borderRadius: '8px',
 }))
