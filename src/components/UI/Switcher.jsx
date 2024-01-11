@@ -19,7 +19,7 @@ const Switcher = forwardRef(({ checked, onChange, disabled, ...rest }, ref) => {
 
 export default Switcher
 
-const IOSSwitch = styled(Switch)({
+const IOSSwitch = styled(Switch)(({ theme }) => ({
    width: '38px',
    height: '22px',
    padding: 0,
@@ -31,7 +31,7 @@ const IOSSwitch = styled(Switch)({
 
       '&.Mui-checked': {
          transform: 'translateX(16px)',
-         color: '#fff',
+         color: theme.palette.primary.white,
 
          '& + .MuiSwitch-track': {
             backgroundColor: '#2AB930',
@@ -58,4 +58,4 @@ const IOSSwitch = styled(Switch)({
       backgroundColor: '#C4C4C4',
       opacity: 1,
    },
-})
+}))

@@ -14,12 +14,12 @@ const Radio = forwardRef(({ selectedValue, onChange, ...rest }, ref) => {
 
 export default Radio
 
-const PurpleRadioIcon = styled(RadioIcon)({
+const PurpleRadioIcon = styled(RadioIcon)(({ theme }) => ({
    width: '20px',
    height: '20px',
    padding: '1px',
    color: '#9A9A9A',
    '&.Mui-checked': {
-      color: '#3A10E5',
+      color: theme.palette.primary.main,
    },
-})
+}))
