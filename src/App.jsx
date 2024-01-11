@@ -1,12 +1,7 @@
-import Input from './components/UI/Input'
 import './App.css'
 
 const App = () => {
-   return (
-      <div>
-         <Input />
-      </div>
-   )
+   return <div>Bilingual</div>
 }
 
 export default App
