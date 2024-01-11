@@ -9,7 +9,7 @@ const Header = (props) => {
    return (
       <StyledContainer position="static">
          <img src={BilingualLogo} alt="Logo-Bilingual" />
-         <StyledTextCon $isClicked={isClicked}>
+         <StyledTextCon isClicked={isClicked}>
             <Typography onClick={() => setIsClicked((prev) => !prev)}>
                TESTS
             </Typography>
