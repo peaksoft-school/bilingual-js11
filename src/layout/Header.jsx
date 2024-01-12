@@ -1,14 +1,15 @@
-import { AppBar, Button, Typography, styled } from '@mui/material'
-import BilingualLogoImage from '../assets/images/bilingual.svg'
+import { AppBar, Typography, styled } from '@mui/material'
+import BilingualLogoImage from '../assets/images/bilingual.png'
+import Button from '../components/UI/buttons/Button'
 
 const Header = () => {
    return (
       <StyledContainer position="static">
-         <img src={BilingualLogoImage} alt="Logo-Bilingual_Image" />
+         <img src={BilingualLogoImage} alt="logo" />
          <StyledTextCon>
             <StyledTests>TESTS</StyledTests>
             <StyledResults className="typography">RESULTS</StyledResults>
-            <StyledLogOutBtn>LOG OUT</StyledLogOutBtn>
+            <StyledLogOutBtn variant="secondary">LOG OUT</StyledLogOutBtn>
          </StyledTextCon>
       </StyledContainer>
    )
@@ -16,16 +17,16 @@ const Header = () => {
 
 export default Header
 
-const StyledContainer = styled(AppBar)(() => ({
-   background: '#FFFFFF',
+const StyledContainer = styled(AppBar)(({ theme }) => ({
+   background: theme.palette.primary.white,
    boxShadow: 'none',
    display: 'flex',
    flexDirection: 'row',
    justifyContent: 'space-between',
    alignItems: 'center',
+   padding: '0 120px',
    color: '#4C4859',
    '& img': {
-      marginLeft: '120px',
       width: '174px',
       height: '42px',
    },
@@ -41,7 +42,6 @@ const StyledTextCon = styled('div')(() => ({
    display: 'flex',
    alignItems: 'center',
    gap: '60px',
-   marginRight: '120px',
    cursor: 'pointer',
 }))
 
@@ -61,19 +61,9 @@ const StyledResults = styled(Typography)(() => ({
 }))
 
 const StyledLogOutBtn = styled(Button)(() => ({
-   border: '2px solid #4C4859',
-   boxShadow:
-      '0px 1px 2px rgba(76, 72, 89, 0.2), 0px 1px 2px rgba(76, 72, 89, 0.2)',
-   borderRadius: '8px',
-   background: 'none',
-   fontSize: '14px',
-   lineHeight: '16px',
-   color: '#4C4C4C',
-   padding: '13px 24px',
-   fontWeight: 700,
-   '&:hover': {
-      background: '#3A10E5',
-      color: '#fff',
-      border: '2px solid #3A10E5',
+   '&.MuiButton-root': {
+      color: '#4C4C4C',
+      fontWeight: '700',
+      border: '2px solid #4C4859',
    },
 }))
