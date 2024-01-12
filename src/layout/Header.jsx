@@ -1,3 +1,4 @@
+import React from 'react'
 import { AppBar, Button, Typography, styled } from '@mui/material'
 import BilingualLogoImage from '../assets/images/bilingual.png'
 
@@ -25,7 +26,7 @@ const StyledContainer = styled(AppBar)(() => ({
    justifyContent: 'space-between',
    alignItems: 'center',
    color: '#4C4859',
-   img: {
+   '& img': {
       marginLeft: '120px',
       width: '174px',
       height: '42px',
@@ -81,7 +82,7 @@ const StyledLogOutBtn = styled(Button)(() => ({
    fontWeight: 700,
    gap: '8px',
    marginLeft: '60px',
-   ':hover': {
+   '&:hover': {
       background: '#3A10E5',
       color: '#fff',
       border: '2px solid #3A10E5',
