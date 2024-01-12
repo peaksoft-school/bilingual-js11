@@ -20,26 +20,34 @@ const MainPart3 = () => {
             </StyledHeaderBlock>
 
             <StyledBlockExperience>
-               <StyledCon>
-                  <img alt="network-mobileTime" />
-                  <Typography variant="p">
-                     Accessible anytime, anywhere
-                  </Typography>
-               </StyledCon>
-               <StyledCon>
-                  <img alt="search" />
-                  <Typography variant="p">Extensive business conten</Typography>
-               </StyledCon>
-               <StyledCon>
-                  <img alt="speech" />
-                  <Typography variant="p">
-                     Leading speech recognition
-                  </Typography>
-               </StyledCon>
-               <StyledCon>
-                  <img alt="message" />
-                  <Typography variant="p">Unlimited live tutoring</Typography>
-               </StyledCon>
+               <StyledBlockCon>
+                  <StyledCon>
+                     <img alt="network-mobileTime" />
+                     <Typography variant="p">
+                        Accessible anytime, anywhere
+                     </Typography>
+                  </StyledCon>
+                  <StyledCon>
+                     <img alt="search" />
+                     <Typography variant="p">
+                        Extensive business conten
+                     </Typography>
+                  </StyledCon>
+               </StyledBlockCon>
+               <StyledBlockCon>
+                  <StyledCon>
+                     <img alt="speech" />
+                     <Typography variant="p">
+                        Leading speech recognition
+                     </Typography>
+                  </StyledCon>
+                  <StyledCon>
+                     <img alt="message" />
+                     <Typography variant="p">
+                        Unlimited live tutoring
+                     </Typography>
+                  </StyledCon>
+               </StyledBlockCon>
             </StyledBlockExperience>
          </StyledMainContainer>
          <StyledMainContainer2>
@@ -53,7 +61,6 @@ export default MainPart3
 
 const StyledHeaderBlock = styled('div')({
    width: '100%',
-   background: '#FCD200',
    display: 'flex',
    flexDirection: 'column',
    gap: '34px',
@@ -61,7 +68,6 @@ const StyledHeaderBlock = styled('div')({
 
 const StyledMainPage = styled('div')({
    width: '100%',
-   background: '#FCD200',
    display: 'flex',
    flexDirection: 'row',
    justifyContent: 'center',
@@ -69,7 +75,6 @@ const StyledMainPage = styled('div')({
 })
 const StyledMainContainer = styled('div')({
    width: '100%',
-   background: '#FCD200',
 })
 const StyledText = styled(Typography)({
    width: '100%',
@@ -77,16 +82,31 @@ const StyledText = styled(Typography)({
 })
 const StyledMainContainer2 = styled('div')({
    width: '100%',
-   background: '#FCD200',
 })
 const StyledBlockExperience = styled('div')({
    width: '100%',
    marginTop: '43px',
    display: 'flex',
    gap: '74px',
-   flexDirection: 'column',
+   flexDirection: 'row',
 })
 const StyledCon = styled('div')({
    width: '100%',
-   background: '#FCD200',
+   display: 'flex',
+   gap: '26px',
+   '& .MuiTypography-root': {
+      width: '160px',
+      color: '#23212A',
+      fontFamily: 'Poppins',
+      fontSize: '16px',
+      fontStyle: 'normal',
+      fontWeight: '400',
+      lineHeight: '140%',
+   },
+})
+const StyledBlockCon = styled('div')({
+   width: '100%',
+   display: 'flex',
+   flexDirection: 'column',
+   gap: '53px',
 })
