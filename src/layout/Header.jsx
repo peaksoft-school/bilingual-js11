@@ -1,13 +1,13 @@
 import { AppBar, Typography, styled } from '@mui/material'
-import BilingualLogoImage from '../assets/images/bilingual.png'
+import Logo from '../assets/images/bilingual.png'
 import Button from '../components/UI/buttons/Button'
 
 const Header = () => (
-   <StyledContainer position="static">
-      <img src={BilingualLogoImage} alt="logo" />
+   <StyledContainer>
+      <img src={Logo} alt="logo" />
       <StyledTextCon>
          <StyledTests>TESTS</StyledTests>
-         <StyledResults className="typography">RESULTS</StyledResults>
+         <StyledResults>RESULTS</StyledResults>
          <StyledLogOutBtn variant="secondary">LOG OUT</StyledLogOutBtn>
       </StyledTextCon>
    </StyledContainer>
@@ -19,42 +19,42 @@ const StyledContainer = styled(AppBar)(({ theme }) => ({
    background: theme.palette.primary.white,
    boxShadow: 'none',
    display: 'flex',
-   flexDirection: 'row',
    justifyContent: 'space-between',
+   flexDirection: 'row',
    alignItems: 'center',
-   padding: '0 120px',
+   padding: '0 7.5rem',
    color: '#4C4859',
    '& img': {
-      width: '174px',
-      height: '42px',
+      width: '10.875rem',
+      height: '2.625rem',
    },
-   height: '94px',
+   height: '5.875rem',
    width: '100%',
 }))
 
 const StyledTextCon = styled('div')(() => ({
    '& .MuiTypography-root': {
-      fontSize: '15px',
+      fontSize: '0.9375rem',
       fontWeight: '600',
    },
    display: 'flex',
    alignItems: 'center',
-   gap: '60px',
+   gap: '3.75rem',
    cursor: 'pointer',
 }))
 
 const StyledTests = styled(Typography)(() => ({
-   fontSize: '15px',
+   fontSize: '0.9375rem',
    lineHeight: '18px',
-   fontWeight: 700,
+   fontWeight: '700',
    cursor: 'pointer',
    textDecoration: 'none',
 }))
 
 const StyledResults = styled(Typography)(() => ({
-   fontSize: '15px',
-   fontWeight: 700,
-   lineHeight: '18px',
+   fontSize: '0.9375rem',
+   fontWeight: '700',
+   lineHeight: '1.125rem',
    cursor: 'pointer',
 }))
 
@@ -62,6 +62,6 @@ const StyledLogOutBtn = styled(Button)(() => ({
    '&.MuiButton-root': {
       color: '#4C4C4C',
       fontWeight: '700',
-      border: '2px solid #4C4859',
+      border: '0.125rem solid #4C4859',
    },
 }))
