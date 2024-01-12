@@ -1,6 +1,5 @@
 import { forwardRef } from 'react'
-import Button from '@mui/material/Button'
-import { styled } from '@mui/material'
+import { styled, Button } from '@mui/material'
 import BeginBtnImage from '../../../assets/images/buttons/toBegin.png'
 import StartBtnImage from '../../../assets/images/buttons/getStarted.png'
 
