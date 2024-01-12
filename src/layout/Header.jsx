@@ -1,6 +1,6 @@
 import React from 'react'
 import { AppBar, Button, Typography, styled } from '@mui/material'
-import BilingualLogoImage from '../assets/images/bilingual.png'
+import BilingualLogoImage from '../assets/images/bilingual.svg'
 
 const Header = () => {
    return (
@@ -8,10 +8,8 @@ const Header = () => {
          <img src={BilingualLogoImage} alt="Logo-Bilingual_Image" />
          <StyledTextCon>
             <StyledTests>TESTS</StyledTests>
-            <StyledResults className="typography">
-               RESULTS
-               <StyledLogOutBtn>LOG OUT</StyledLogOutBtn>
-            </StyledResults>
+            <StyledResults className="typography">RESULTS</StyledResults>
+            <StyledLogOutBtn>LOG OUT</StyledLogOutBtn>
          </StyledTextCon>
       </StyledContainer>
    )
@@ -39,10 +37,7 @@ const StyledContainer = styled(AppBar)(() => ({
 const StyledTextCon = styled('div')(() => ({
    '& .MuiTypography-root': {
       fontSize: '15px',
-      fontStyle: 'normal',
       fontWeight: '600',
-      lineHeight: 'normal',
-      textTransform: 'uppercase',
    },
    display: 'flex',
    alignItems: 'center',
@@ -54,7 +49,6 @@ const StyledTextCon = styled('div')(() => ({
 const StyledTests = styled(Typography)(() => ({
    fontSize: '15px',
    lineHeight: '18px',
-   textTransform: 'uppercase',
    fontWeight: 700,
    cursor: 'pointer',
    textDecoration: 'none',
@@ -64,10 +58,7 @@ const StyledResults = styled(Typography)(() => ({
    fontSize: '15px',
    fontWeight: 700,
    lineHeight: '18px',
-   textTransform: 'uppercase',
-   marginLeft: '60px',
    cursor: 'pointer',
-   textDecoration: 'none',
 }))
 
 const StyledLogOutBtn = styled(Button)(() => ({
@@ -81,8 +72,6 @@ const StyledLogOutBtn = styled(Button)(() => ({
    color: '#4C4C4C',
    padding: '13px 24px',
    fontWeight: 700,
-   gap: '8px',
-   marginLeft: '60px',
    '&:hover': {
       background: '#3A10E5',
       color: '#fff',
