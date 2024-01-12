@@ -1,38 +1,30 @@
 import { forwardRef } from 'react'
-import MuiButton from '@mui/material/Button'
-import { styled } from '@mui/material'
+import { styled, Button as MuiButton } from '@mui/material'
 
 const Button = forwardRef(
    ({ onClick, disabled, children, icon, ...rest }, ref) => (
-      <StyleButton
-         onClick={onClick}
-         disabled={disabled}
-         type="submit"
-         ref={ref}
-         {...rest}
-      >
+      <StyledButton onClick={onClick} disabled={disabled} ref={ref} {...rest}>
          {icon && <span className="icon">{icon}</span>}
          {children}
-      </StyleButton>
+      </StyledButton>
    )
 )
 export default Button
 
-const StyleButton = styled(MuiButton)(({ theme }) => ({
+const StyledButton = styled(MuiButton)(({ theme }) => ({
    '&.MuiButton-root': {
-      borderRadius: '8px',
+      borderRadius: '0.5rem',
       background: theme.palette.primary.main,
-      padding: '13px 24px',
+      padding: '0.813rem 1.5rem',
       boxShadow: 'none',
       color: '#FFF',
       textAlign: 'center',
-      fontSize: '14px',
+      fontSize: '0.875rem',
       fontStyle: 'normal',
       fontWeight: '400',
       lineHeight: 'normal',
-      letterSpacing: '0.28px',
       '&:hover': {
-         borderRadius: '8px',
+         borderRadius: '0.5rem',
          background: '#4E28E8',
       },
       '&:active': {
@@ -40,14 +32,13 @@ const StyleButton = styled(MuiButton)(({ theme }) => ({
       },
       '&.Mui-disabled': {
          opacity: 0.5,
-         pointerEvents: 'none',
          background: 'white',
-         color: '#C4C4C4',
-         borderColor: '#C4C4C4 solid 1px',
-         border: '2px solid',
+         color: theme.palette.primary.white,
+         backgroundColor: '#C4C4C4',
+         border: '0.125rem solid',
       },
       '& .icon': {
-         marginRight: '10px',
+         marginRight: '0.625rem',
       },
    },
 }))
