@@ -2,18 +2,16 @@ import { AppBar, Typography, styled } from '@mui/material'
 import BilingualLogoImage from '../assets/images/bilingual.png'
 import Button from '../components/UI/buttons/Button'
 
-const Header = () => {
-   return (
-      <StyledContainer position="static">
-         <img src={BilingualLogoImage} alt="logo" />
-         <StyledTextCon>
-            <StyledTests>TESTS</StyledTests>
-            <StyledResults className="typography">RESULTS</StyledResults>
-            <StyledLogOutBtn variant="secondary">LOG OUT</StyledLogOutBtn>
-         </StyledTextCon>
-      </StyledContainer>
-   )
-}
+const Header = () => (
+   <StyledContainer position="static">
+      <img src={BilingualLogoImage} alt="logo" />
+      <StyledTextCon>
+         <StyledTests>TESTS</StyledTests>
+         <StyledResults className="typography">RESULTS</StyledResults>
+         <StyledLogOutBtn variant="secondary">LOG OUT</StyledLogOutBtn>
+      </StyledTextCon>
+   </StyledContainer>
+)
 
 export default Header
 
