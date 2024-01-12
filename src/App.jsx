@@ -1,7 +1,8 @@
 import './App.css'
+import Intro from './components/landing/Intro'
 
 const App = () => {
-   return <div>Bilingual</div>
+   return <Intro />
 }
 
 export default App
