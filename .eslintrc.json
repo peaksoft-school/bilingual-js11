@@ -22,7 +22,6 @@
       "react-hooks/exhaustive-deps": "off",
       "react-hooks/rules-of-hooks": "off",
       "react/function-component-definition": "off",
-      "import/no-unresolved": "off",
       "max-len": [
          "error",
          {
