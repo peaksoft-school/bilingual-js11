@@ -2,14 +2,14 @@ import React from 'react'
 import { AppBar, Button, Typography, styled } from '@mui/material'
 import BilingualLogoImage from '../assets/images/bilingual.png'
 
-const Header = ({ user }) => {
+const Header = () => {
    return (
       <StyledContainer position="static">
          <img src={BilingualLogoImage} alt="Logo-Bilingual_Image" />
          <StyledTextCon>
             <StyledTests>TESTS</StyledTests>
             <StyledResults className="typography">
-               {user} RESULTS
+               RESULTS
                <StyledLogOutBtn>LOG OUT</StyledLogOutBtn>
             </StyledResults>
          </StyledTextCon>
@@ -21,6 +21,7 @@ export default Header
 
 const StyledContainer = styled(AppBar)(() => ({
    background: '#FFFFFF',
+   boxShadow: 'none',
    display: 'flex',
    flexDirection: 'row',
    justifyContent: 'space-between',
