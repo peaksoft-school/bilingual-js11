@@ -1,12 +1,12 @@
 import React, { forwardRef } from 'react'
 import { FormControlLabel, Switch, styled } from '@mui/material'
 
-const Switcher = forwardRef(({ checked, onChange, disabled, ...rest }, ref) => {
-   return (
+const Switcher = forwardRef(
+   ({ selectedValue, onChange, disabled, ...rest }, ref) => (
       <FormControlLabel
          control={
             <IOSSwitch
-               defaultChecked={checked}
+               defaultChecked={selectedValue}
                onChange={onChange}
                disabled={disabled}
                ref={ref}
@@ -15,7 +15,7 @@ const Switcher = forwardRef(({ checked, onChange, disabled, ...rest }, ref) => {
          }
       />
    )
-})
+)
 
 export default Switcher
 
