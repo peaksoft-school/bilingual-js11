@@ -1,4 +1,3 @@
-import React from 'react'
 import { AppBar, Button, Typography, styled } from '@mui/material'
 import BilingualLogoImage from '../assets/images/bilingual.svg'
 
