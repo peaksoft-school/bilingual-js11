@@ -6,8 +6,8 @@ const Header = () => (
    <StyledContainer>
       <img src={Logo} alt="logo" />
       <StyledTextCon>
-         <StyledText>TESTS</StyledText>
-         <StyledText>RESULTS</StyledText>
+         <StyledTexts>TESTS</StyledTexts>
+         <StyledTexts>RESULTS</StyledTexts>
          <StyledLogOutBtn variant="secondary">LOG OUT</StyledLogOutBtn>
       </StyledTextCon>
    </StyledContainer>
@@ -43,7 +43,7 @@ const StyledTextCon = styled('div')(() => ({
    cursor: 'pointer',
 }))
 
-const StyledText = styled(Typography)(() => ({
+const StyledTexts = styled(Typography)(() => ({
    fontSize: '0.9375rem',
    lineHeight: '18px',
    fontWeight: '700',
