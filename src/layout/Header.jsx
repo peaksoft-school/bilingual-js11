@@ -6,8 +6,8 @@ const Header = () => (
    <StyledContainer>
       <img src={Logo} alt="logo" />
       <StyledTextCon>
-         <StyledTests>TESTS</StyledTests>
-         <StyledResults>RESULTS</StyledResults>
+         <StyledText>TESTS</StyledText>
+         <StyledText>RESULTS</StyledText>
          <StyledLogOutBtn variant="secondary">LOG OUT</StyledLogOutBtn>
       </StyledTextCon>
    </StyledContainer>
@@ -43,21 +43,12 @@ const StyledTextCon = styled('div')(() => ({
    cursor: 'pointer',
 }))
 
-const StyledTests = styled(Typography)(() => ({
+const StyledText = styled(Typography)(() => ({
    fontSize: '0.9375rem',
    lineHeight: '18px',
    fontWeight: '700',
    cursor: 'pointer',
-   textDecoration: 'none',
 }))
-
-const StyledResults = styled(Typography)(() => ({
-   fontSize: '0.9375rem',
-   fontWeight: '700',
-   lineHeight: '1.125rem',
-   cursor: 'pointer',
-}))
-
 const StyledLogOutBtn = styled(Button)(() => ({
    '&.MuiButton-root': {
       color: '#4C4C4C',
