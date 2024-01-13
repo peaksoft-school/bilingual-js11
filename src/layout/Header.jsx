@@ -6,8 +6,8 @@ const Header = () => (
    <StyledContainer>
       <img src={Logo} alt="logo" />
       <StyledTextCon>
-         <StyledTexts>TESTS</StyledTexts>
-         <StyledTexts>RESULTS</StyledTexts>
+         <Typography>TESTS</Typography>
+         <Typography>RESULTS</Typography>
          <StyledLogOutBtn variant="secondary">LOG OUT</StyledLogOutBtn>
       </StyledTextCon>
    </StyledContainer>
@@ -35,18 +35,13 @@ const StyledContainer = styled(AppBar)(({ theme }) => ({
 const StyledTextCon = styled('div')(() => ({
    '& .MuiTypography-root': {
       fontSize: '0.9375rem',
-      fontWeight: '600',
+      lineHeight: '18px',
+      fontWeight: '700',
+      cursor: 'pointer',
    },
    display: 'flex',
    alignItems: 'center',
    gap: '3.75rem',
-   cursor: 'pointer',
-}))
-
-const StyledTexts = styled(Typography)(() => ({
-   fontSize: '0.9375rem',
-   lineHeight: '18px',
-   fontWeight: '700',
    cursor: 'pointer',
 }))
 const StyledLogOutBtn = styled(Button)(() => ({
