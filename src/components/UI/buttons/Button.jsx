@@ -61,7 +61,7 @@ const StyledButton = styled(MuiButton)(({ theme, variant }) => {
          '&.MuiButton-root': {
             borderRadius: '0.5rem',
             height: '2.625rem',
-            background: 'var(--Green-button, #2AB930)',
+            background: '#2AB930',
             padding: '0.813rem 1.5rem',
             color: theme.palette.primary.white,
             textAlign: 'center',
