@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { styled } from '@mui/material'
 import Button from '../components/UI/buttons/Button'
-import Logo from '../assets/images/logo/biligualLogo.svg'
+import Logo from '../assets/images/bilingual.png'
 
 const LandingHeader = () => {
    const [isScrolled, setIsScrolled] = useState(false)
@@ -45,6 +45,11 @@ const StyledHeader = styled('div')(({ isScrolled }) => ({
    width: '100%',
    zIndex: 1000,
    transition: 'background-color 0.5s ease-in-out',
+
+   img: {
+      width: '14.67925rem',
+      height: '3rem',
+   },
 }))
 
 const StyledButtonsContainer = styled('div')({

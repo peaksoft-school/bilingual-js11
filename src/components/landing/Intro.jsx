@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Typography, styled } from '@mui/material'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { motion } from 'framer-motion'
 import LandingHeader from '../../layout/LandingHeader'
 import BackgroundImage from '../../assets/images/introPage/background-image.svg'
-import LandingButtons from '../UI/buttons/LandingButtons'
+import LandingButton from '../UI/buttons/LandingButton'
 import {
    BookOneImg,
    BookThreeImg,
@@ -32,6 +31,7 @@ const Intro = () => {
    return (
       <>
          <LandingHeader />
+
          <StyledIntroPage>
             <motion.div
                animate={{ y: 50, opacity: isVisible ? 1 : 0 }}
@@ -64,6 +64,7 @@ const Intro = () => {
                   }}
                />
             </motion.div>
+
             <motion.div
                animate={{ y: 110, opacity: isVisible ? 1 : 0 }}
                initial={{ opacity: 0 }}
@@ -79,6 +80,7 @@ const Intro = () => {
                   }}
                />
             </motion.div>
+
             <motion.div
                animate={{
                   y: 365,
@@ -97,6 +99,7 @@ const Intro = () => {
                   }}
                />
             </motion.div>
+
             <motion.div
                animate={{ y: 550, opacity: isVisible ? 1 : 0 }}
                initial={{ opacity: 0 }}
@@ -112,6 +115,7 @@ const Intro = () => {
                   }}
                />
             </motion.div>
+
             <motion.div
                animate={{ y: 200, opacity: isVisible ? 1 : 0 }}
                initial={{ opacity: 0 }}
@@ -127,6 +131,7 @@ const Intro = () => {
                   }}
                />
             </motion.div>
+
             <motion.div
                animate={{ y: 386, opacity: isVisible ? 1 : 0 }}
                initial={{ opacity: 0 }}
@@ -142,6 +147,7 @@ const Intro = () => {
                   }}
                />
             </motion.div>
+
             <motion.div
                animate={{ y: 475, opacity: isVisible ? 1 : 0 }}
                initial={{ opacity: 0 }}
@@ -157,6 +163,7 @@ const Intro = () => {
                   }}
                />
             </motion.div>
+
             <motion.div
                animate={{ y: 545, opacity: isVisible ? 1 : 0 }}
                initial={{ opacity: 0 }}
@@ -172,10 +179,11 @@ const Intro = () => {
                   }}
                />
             </motion.div>
+
             <motion.div
                animate={{ opacity: isVisible ? 1 : 0 }}
                initial={{ opacity: 0 }}
-               transition={{ ease: 'easeOut', duration: 2 }}
+               transition={{ ease: 'easeOut', duration: 0.6 }}
             >
                <ShadowBookImg
                   style={{
@@ -188,28 +196,45 @@ const Intro = () => {
                />
             </motion.div>
          </StyledIntroPage>
+
          <motion.div
+            animate={{ x: 50, opacity: isVisible ? 1 : 0 }}
+            initial={{ opacity: 0 }}
+            transition={{ ease: 'easeOut', duration: 1 }}
             style={{
                width: '33.328rem',
                height: '4.495rem',
                position: 'absolute',
-               top: '15rem',
-               left: '5rem',
+               top: '10.5rem',
+               left: '1.6rem',
             }}
          >
-            <Typography>Prove your English proficiency today with</Typography>
-            <Typography>BILINGUAL</Typography>
+            <StyledTypography>
+               Prove your English proficiency today with
+            </StyledTypography>
+
+            <StyledTypographyTwo>BILINGUAL</StyledTypographyTwo>
+
+            <StyledPtag>
+               For nearly 30 years, learners have turned to Rosetta Stone to
+               build the fluency and confidence they need to speak new
+               languages.
+            </StyledPtag>
          </motion.div>
+
          <motion.div
+            animate={{ opacity: isVisible ? 1 : 0 }}
+            initial={{ opacity: 0 }}
+            transition={{ ease: 'easeOut', duration: 2 }}
             style={{
                width: '33.328rem',
                height: '4.495rem',
                position: 'absolute',
-               top: '15rem',
-               left: '5rem',
+               top: '34rem',
+               left: '4.6rem',
             }}
          >
-            <LandingButtons isStart={false}>To begin</LandingButtons>
+            <LandingButton isStart={false} />
          </motion.div>
       </>
    )
@@ -229,4 +254,29 @@ const StyledIntroPage = styled('div')({
    width: '100%',
    height: '42rem',
    position: 'relative',
+})
+
+const StyledTypography = styled(Typography)({
+   width: '40rem',
+   fontSize: '3.75rem',
+   fontFamily: 'Gilroy',
+   color: '#43404E',
+   fontWeight: '900',
+})
+
+const StyledTypographyTwo = styled(Typography)({
+   color: '#C93D7D',
+   fontFamily: 'Gilroy',
+   fontSize: '3.75rem',
+   paddingTop: '0px',
+})
+
+const StyledPtag = styled('p')({
+   color: '#47454e',
+   width: '48.25rem',
+   fontFamily: 'Arial',
+   fontWeight: 100,
+   fontSize: '1.25rem',
+   paddingTop: '1.813rem',
+   paaddingBottom: '1.875rem',
 })

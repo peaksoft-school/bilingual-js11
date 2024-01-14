@@ -3,25 +3,24 @@ import { styled, Button } from '@mui/material'
 import BeginBtnImage from '../../../assets/images/buttons/toBegin.png'
 import StartBtnImage from '../../../assets/images/buttons/getStarted.png'
 
-const LandingButtons = forwardRef(
+const LandingButton = forwardRef(
    ({ children, onClick, isStart = true, ...rest }, ref) => (
-      <div>
-         <StyleStartButton
-            onClick={onClick}
-            isstart={isStart.toString()}
-            ref={ref}
-            {...rest}
-         />
-      </div>
+      <StyleStartButton
+         onClick={onClick}
+         isstart={isStart.toString()}
+         ref={ref}
+         {...rest}
+      />
    )
 )
 
-export default LandingButtons
+export default LandingButton
 
 const StyleStartButton = styled(Button)(({ isstart }) => ({
    backgroundImage: `url(${
       isstart !== 'false' ? StartBtnImage : BeginBtnImage
    })`,
+
    backgroundSize: 'cover',
    backgroundRepeat: 'no-repeat',
    width: '12.5rem',
