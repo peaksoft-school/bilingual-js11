@@ -190,6 +190,7 @@ const LearnMore = () => {
 export default LearnMore
 
 const StyledContainer = styled('div')({
+   margin: 'auto',
    backgroundColor: '#FEF5E8',
    display: 'flex',
    flexDirection: 'column',
@@ -199,7 +200,6 @@ const StyledContainer = styled('div')({
    padding: '2rem',
    position: 'relative',
    maxWidth: '1440px',
-   width: '100%',
 })
 
 const StyledRow = styled('div')({
