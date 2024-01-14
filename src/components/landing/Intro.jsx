@@ -48,7 +48,6 @@ const Intro = () => {
                   }}
                />
             </motion.div>
-
             <motion.div
                animate={{ y: 180, opacity: isVisible ? 1 : 0 }}
                initial={{ opacity: 0 }}
@@ -64,7 +63,6 @@ const Intro = () => {
                   }}
                />
             </motion.div>
-
             <motion.div
                animate={{ y: 110, opacity: isVisible ? 1 : 0 }}
                initial={{ opacity: 0 }}
@@ -80,7 +78,6 @@ const Intro = () => {
                   }}
                />
             </motion.div>
-
             <motion.div
                animate={{
                   y: 365,
@@ -99,7 +96,6 @@ const Intro = () => {
                   }}
                />
             </motion.div>
-
             <motion.div
                animate={{ y: 550, opacity: isVisible ? 1 : 0 }}
                initial={{ opacity: 0 }}
@@ -115,7 +111,6 @@ const Intro = () => {
                   }}
                />
             </motion.div>
-
             <motion.div
                animate={{ y: 200, opacity: isVisible ? 1 : 0 }}
                initial={{ opacity: 0 }}
@@ -131,7 +126,6 @@ const Intro = () => {
                   }}
                />
             </motion.div>
-
             <motion.div
                animate={{ y: 386, opacity: isVisible ? 1 : 0 }}
                initial={{ opacity: 0 }}
@@ -147,7 +141,6 @@ const Intro = () => {
                   }}
                />
             </motion.div>
-
             <motion.div
                animate={{ y: 475, opacity: isVisible ? 1 : 0 }}
                initial={{ opacity: 0 }}
@@ -163,7 +156,6 @@ const Intro = () => {
                   }}
                />
             </motion.div>
-
             <motion.div
                animate={{ y: 545, opacity: isVisible ? 1 : 0 }}
                initial={{ opacity: 0 }}
@@ -179,7 +171,6 @@ const Intro = () => {
                   }}
                />
             </motion.div>
-
             <motion.div
                animate={{ opacity: isVisible ? 1 : 0 }}
                initial={{ opacity: 0 }}
@@ -195,47 +186,46 @@ const Intro = () => {
                   }}
                />
             </motion.div>
+
+            <motion.div
+               animate={{ x: 50, opacity: isVisible ? 1 : 0 }}
+               initial={{ opacity: 0 }}
+               transition={{ ease: 'easeOut', duration: 1 }}
+               style={{
+                  width: '33.328rem',
+                  height: '4.495rem',
+                  position: 'absolute',
+                  top: '7rem',
+                  left: '1.6rem',
+               }}
+            >
+               <StyledTypography>
+                  Prove your English proficiency today with
+               </StyledTypography>
+
+               <StyledTypographyTwo>BILINGUAL</StyledTypographyTwo>
+
+               <StyledPtag>
+                  For nearly 30 years, learners have turned to Rosetta Stone to
+                  build the fluency and confidence they need to speak new
+                  languages.
+               </StyledPtag>
+            </motion.div>
+            <motion.div
+               animate={{ opacity: isVisible ? 1 : 0 }}
+               initial={{ opacity: 0 }}
+               transition={{ ease: 'easeOut', duration: 2 }}
+               style={{
+                  width: '33.328rem',
+                  height: '4.495rem',
+                  position: 'absolute',
+                  top: '30.5rem',
+                  left: '4.6rem',
+               }}
+            >
+               <LandingButton isStart={false} />
+            </motion.div>
          </StyledIntroPage>
-
-         <motion.div
-            animate={{ x: 50, opacity: isVisible ? 1 : 0 }}
-            initial={{ opacity: 0 }}
-            transition={{ ease: 'easeOut', duration: 1 }}
-            style={{
-               width: '33.328rem',
-               height: '4.495rem',
-               position: 'absolute',
-               top: '10.5rem',
-               left: '1.6rem',
-            }}
-         >
-            <StyledTypography>
-               Prove your English proficiency today with
-            </StyledTypography>
-
-            <StyledTypographyTwo>BILINGUAL</StyledTypographyTwo>
-
-            <StyledPtag>
-               For nearly 30 years, learners have turned to Rosetta Stone to
-               build the fluency and confidence they need to speak new
-               languages.
-            </StyledPtag>
-         </motion.div>
-
-         <motion.div
-            animate={{ opacity: isVisible ? 1 : 0 }}
-            initial={{ opacity: 0 }}
-            transition={{ ease: 'easeOut', duration: 2 }}
-            style={{
-               width: '33.328rem',
-               height: '4.495rem',
-               position: 'absolute',
-               top: '34rem',
-               left: '4.6rem',
-            }}
-         >
-            <LandingButton isStart={false} />
-         </motion.div>
       </>
    )
 }
@@ -243,6 +233,7 @@ const Intro = () => {
 export default Intro
 
 const StyledIntroPage = styled('div')({
+   margin: 'auto',
    display: 'flex',
    flexDirection: 'column',
    alignItems: 'end',
@@ -251,7 +242,7 @@ const StyledIntroPage = styled('div')({
    backgroundImage: `url(${BackgroundImage})`,
    backgroundSize: 'cover',
    backgroundRepeat: 'no-repeat',
-   width: '100%',
+   maxWidth: '1440px',
    height: '42rem',
    position: 'relative',
 })

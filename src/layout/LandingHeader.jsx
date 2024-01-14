@@ -32,6 +32,7 @@ const LandingHeader = () => {
 export default LandingHeader
 
 const StyledHeader = styled('div')(({ isScrolled }) => ({
+   margin: 'auto',
    display: 'flex',
    alignItems: 'flex-start',
    justifyContent: 'space-between',
@@ -42,7 +43,7 @@ const StyledHeader = styled('div')(({ isScrolled }) => ({
    paddingBottom: '1rem',
    position: 'sticky',
    top: 0,
-   width: '100%',
+   maxWidth: '1440px',
    zIndex: 1000,
    transition: 'background-color 0.5s ease-in-out',
 
