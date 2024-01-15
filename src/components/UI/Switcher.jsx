@@ -1,25 +1,23 @@
 import { forwardRef } from 'react'
 import { FormControlLabel, Switch, styled } from '@mui/material'
 
-const Switcher = forwardRef(
-   ({ selectedValue, onChange, disabled, ...rest }, ref) => (
-      <FormControlLabel
-         control={
-            <IOSSwitch
-               defaultChecked={selectedValue}
-               onChange={onChange}
-               disabled={disabled}
-               ref={ref}
-               {...rest}
-            />
-         }
-      />
-   )
-)
+const Switcher = forwardRef(({ checked, onChange, disabled, ...rest }, ref) => (
+   <FormControlLabel
+      control={
+         <StyledSwitch
+            checked={checked}
+            onChange={onChange}
+            disabled={disabled}
+            ref={ref}
+            {...rest}
+         />
+      }
+   />
+))
 
 export default Switcher
 
-const IOSSwitch = styled(Switch)(({ theme }) => ({
+const StyledSwitch = styled(Switch)(({ theme }) => ({
    width: '38px',
    height: '22px',
    padding: 0,
@@ -42,7 +40,8 @@ const IOSSwitch = styled(Switch)(({ theme }) => ({
 
       '&.Mui-focusVisible .MuiSwitch-thumb': {
          color: '#33cf4d',
-         border: '6px solid #fff',
+         border: '6px solid',
+         borderColor: theme.palette.primary.white,
       },
    },
 

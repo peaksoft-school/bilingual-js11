@@ -1,18 +1,13 @@
 import { forwardRef } from 'react'
-import { Radio as RadioIcon, styled } from '@mui/material'
+import { Radio as MuiRadio, styled } from '@mui/material'
 
-const Radio = forwardRef(({ selectedValue, onChange, ...rest }, ref) => (
-   <PurpleRadioIcon
-      checked={selectedValue}
-      onChange={onChange}
-      ref={ref}
-      {...rest}
-   />
+const Radio = forwardRef(({ checked, onChange, ...rest }, ref) => (
+   <PurpleRadioIcon checked={checked} onChange={onChange} ref={ref} {...rest} />
 ))
 
 export default Radio
 
-const PurpleRadioIcon = styled(RadioIcon)(({ theme }) => ({
+const PurpleRadioIcon = styled(MuiRadio)(({ theme }) => ({
    width: '20px',
    height: '20px',
    padding: '1px',
