@@ -20,7 +20,6 @@ const StyleStartButton = styled(Button)(({ isstart }) => ({
    backgroundImage: `url(${
       isstart !== 'false' ? StartBtnImage : BeginBtnImage
    })`,
-
    backgroundSize: 'cover',
    backgroundRepeat: 'no-repeat',
    width: '12.5rem',
