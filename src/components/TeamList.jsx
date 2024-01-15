@@ -1,5 +1,7 @@
-import React from 'react'
-import { Grid, Typography } from '@mui/material'
+import { Grid, Typography, styled } from '@mui/material'
+import Slider from 'react-slick'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 import TeamMember from './TeamMember'
 
 const teamMembers = [
@@ -17,9 +19,7 @@ const teamMembers = [
       name: 'Mia George',
       role: 'Marketer',
       customStyle: {
-         borderRadius: '40px 0px',
-         background:
-            'lightgray -108.851px -63.099px / 213.033% 319.511% no-repeat',
+         borderRadius: '2.5rem 0rem',
       },
    },
    {
@@ -29,7 +29,7 @@ const teamMembers = [
       name: 'Oscar Ryan',
       role: 'Developer',
       customStyle: {
-         borderRadius: '0px 40px 0px 0px',
+         borderRadius: '0rem 0rem 2.5rem 0rem',
       },
    },
    {
@@ -39,7 +39,7 @@ const teamMembers = [
       name: 'Jack William',
       role: 'UX/UI Designer',
       customStyle: {
-         borderRadius: '40px 0px 0px 0px',
+         borderRadius: '2.5rem 0rem 0rem 0rem',
       },
    },
    {
@@ -49,7 +49,7 @@ const teamMembers = [
       name: 'Rose Thomas',
       role: 'Chief Editor',
       customStyle: {
-         borderRadius: '40px 0px',
+         borderRadius: '2.5rem 0rem',
       },
    },
    {
@@ -59,33 +59,47 @@ const teamMembers = [
       name: 'Albert Stanley',
       role: 'Chief Editor',
       customStyle: {
-         borderRadius: '0px 40px 0px 0px',
+         borderRadius: '0rem 2.5rem 0rem 0rem',
       },
    },
 ]
+
+const settings = {
+   infinite: true,
+   speed: 5000,
+   slidesToShow: 4,
+   autoplay: true,
+   autoplaySpeed: 0,
+   cssEase: 'linear',
+   initialSlide: teamMembers.length,
+   pauseOnHover: false,
+}
+
 const TeamList = () => {
    return (
-      <Grid container spacing={3} flexDirection="row">
+      <Grid>
          <Grid item xs={12}>
-            <Typography
-               variant="h4"
-               sx={{
-                  right: '550px',
-                  color: '#3752B4',
-                  textTransform: 'capitalize',
-                  textAlign: 'center',
-               }}
-            >
-               Our Team
-            </Typography>
+            <StyledOurTeam>Our Team</StyledOurTeam>
          </Grid>
-         {teamMembers.map((member) => (
-            <Grid item xs={2} key={member.id}>
-               <TeamMember {...member} />
-            </Grid>
-         ))}
+         <StyledSlaid>
+            <Slider {...settings}>
+               {teamMembers.map((member) => (
+                  <TeamMember key={member.id} {...member} />
+               ))}
+            </Slider>
+         </StyledSlaid>
       </Grid>
    )
 }
 
 export default TeamList
+const StyledOurTeam = styled(Typography)({
+   fontSize: '2.5rem',
+   color: '#3752B4',
+   textAlign: 'center',
+})
+const StyledSlaid = styled(Grid)({
+   minWidth: 'auto',
+   margin: '0',
+   padding: '3rem 6.5rem',
+})
