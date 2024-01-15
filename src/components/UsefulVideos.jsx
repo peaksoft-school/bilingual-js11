@@ -6,7 +6,7 @@ import video1 from '../assets/videos/video1.mp4'
 import video2 from '../assets/videos/video2.mp4'
 import video3 from '../assets/videos/video3.mp4'
 import intro from '../assets/images/intro.png'
-import { textAnimation } from '../utils/helpers/animations'
+import { textAnimation } from '../utils/contants/animations'
 
 const videos = [
    {
@@ -44,46 +44,44 @@ const videosAnimation = {
    }),
 }
 
-const StyledUsefulVideos = () => {
-   return (
-      <StyledContainer
-         initial="hidden"
-         whileInView="visible"
-         viewport={{ amount: 0.4 }}
-      >
-         <StyledFirstCon>
-            <StyledTitleContainer variants={textAnimation}>
-               <StyledTitle> Useful videos </StyledTitle>
-            </StyledTitleContainer>
-            <StyledSecondCon>
-               {videos.map((item) => (
-                  <StyledVideoContainer
-                     key={item.id}
-                     variants={videosAnimation}
-                     custom={item.id}
+const StyledUsefulVideos = () => (
+   <StyledContainer
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ amount: 0.4 }}
+   >
+      <StyledFirstCon>
+         <StyledTitleContainer variants={textAnimation}>
+            <StyledTitle> Useful videos </StyledTitle>
+         </StyledTitleContainer>
+         <StyledSecondCon>
+            {videos.map(({ id, intro, title, video, videosTime }) => (
+               <StyledVideoContainer
+                  key={id}
+                  variants={videosAnimation}
+                  custom={id}
+               >
+                  <StyledVideo
+                     controle={[
+                        'PlayPause',
+                        'Seek',
+                        'Time',
+                        'Volume',
+                        'FullScreen',
+                     ]}
+                     poster={intro}
                   >
-                     <StyledVideo
-                        controle={[
-                           'PlayPause',
-                           'Seek',
-                           'Time',
-                           'Volume',
-                           'FullScreen',
-                        ]}
-                        poster={item.intro}
-                     >
-                        <source src={item.video} type="video/webm" />
-                     </StyledVideo>
+                     <source src={video} type="video/webm" />
+                  </StyledVideo>
 
-                     <StyledVideoTitle>{item.title}</StyledVideoTitle>
-                     <StyledVideosTime>{item.videosTime}</StyledVideosTime>
-                  </StyledVideoContainer>
-               ))}
-            </StyledSecondCon>
-         </StyledFirstCon>
-      </StyledContainer>
-   )
-}
+                  <StyledVideoTitle>{title}</StyledVideoTitle>
+                  <StyledVideosTime>{videosTime}</StyledVideosTime>
+               </StyledVideoContainer>
+            ))}
+         </StyledSecondCon>
+      </StyledFirstCon>
+   </StyledContainer>
+)
 
 export default StyledUsefulVideos
 
