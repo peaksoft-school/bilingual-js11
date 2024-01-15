@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Typography, styled } from '@mui/material'
 import { motion } from 'framer-motion'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import Aos from 'aos'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import 'aos/dist/aos.css'
 
 import {
@@ -13,54 +11,28 @@ import {
    ImageThree,
    ImageTwo,
    PathImage,
-} from '../assets/images/learnMore'
-import LandingButton from './UI/buttons/LandingButton'
+} from '../../assets/images/learnMore'
+import LandingButton from '../UI/buttons/LandingButton'
 
 const LearnMore = () => {
-   const [scrollY, setScrollY] = useState(0)
-
    useEffect(() => {
       Aos.init({
          easing: 'ease-in-quart',
          delay: 0,
          duration: 800,
       })
-
-      const handleScroll = () => {
-         setScrollY(document.documentElement.scrollTop)
-      }
-
-      window.addEventListener('scroll', handleScroll)
-
-      return () => {
-         window.removeEventListener('scroll', handleScroll)
-      }
    }, [])
 
    return (
       <StyledContainer>
          <StyledTypography>Learn More</StyledTypography>
-         <motion.div
-            transition={{ duration: 10 }}
-            style={{
-               opacity: 1,
-               clipPath: `inset(${
-                  (scrollY / window.innerHeight) * 100
-               }% 0% 0% 0%)`,
-               position: 'absolute',
-               top: '10rem',
-               left: '32.94rem',
-               width: '24.375rem',
-            }}
+         <StyledAnimationDiv
+            initial={{ clipPath: 'inset(0% 0% 100% 0%)' }}
+            animate={{ clipPath: 'inset(0% 0% 0% 0%)' }}
+            transition={{ duration: 3, ease: 'easeInOut', repeat: Infinity }}
          >
-            <PathImage
-               style={{
-                  width: '100%',
-                  height: '78rem',
-                  objectFit: 'cover',
-               }}
-            />
-         </motion.div>
+            <StyledPathImage />
+         </StyledAnimationDiv>
 
          <StyledRow>
             <div data-aos="fade-right">
@@ -73,38 +45,22 @@ const LearnMore = () => {
                   Test because of its radical accessibility.
                </StyledTypographyMoreText>
             </div>
-            <motion.div
-               animate={{
-                  scale: [0.97, 1, 0.97, 1],
-               }}
-               transition={{ repeat: Infinity, duration: 5 }}
-               style={{
-                  position: 'absolute',
-                  top: '11.2rem',
-                  left: '37rem',
-                  zIndex: 1,
-               }}
+            <StyledAnimationImage
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1, scale: [0.97, 1, 0.97, 1] }}
+               transition={{ repeat: Infinity, duration: 8 }}
             >
                <GlobeImage />
-            </motion.div>
+            </StyledAnimationImage>
          </StyledRow>
 
          <StyledRow>
             <motion.div
-               animate={{
-                  scale: [0.99, 1, 0.99, 1],
-                  z: 1,
-               }}
-               transition={{ repeat: Infinity, duration: 5 }}
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1, scale: [0.99, 1, 0.99, 1] }}
+               transition={{ repeat: Infinity, duration: 8 }}
             >
-               <ImageOne
-                  style={{
-                     position: 'absolute',
-                     top: '-25',
-                     left: '20.8rem',
-                     zIndex: 1,
-                  }}
-               />
+               <StyledImageOne />
             </motion.div>
 
             <div data-aos="fade-left">
@@ -132,37 +88,21 @@ const LearnMore = () => {
                </StyledTypographyMoreText>
             </div>
             <motion.div
-               animate={{
-                  scale: [0.99, 1, 0.99, 1],
-               }}
-               transition={{ repeat: Infinity, duration: 5 }}
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1, scale: [0.99, 1, 0.99, 1] }}
+               transition={{ repeat: Infinity, duration: 8 }}
             >
-               <ImageTwo
-                  style={{
-                     position: 'absolute',
-                     top: '-50',
-                     right: 400,
-                     zIndex: 1,
-                  }}
-               />
+               <StyledImageTwo />
             </motion.div>
          </StyledRow>
 
          <StyledRow>
             <motion.div
-               animate={{
-                  scale: [0.99, 1, 0.99, 1],
-               }}
-               transition={{ repeat: Infinity, duration: 5 }}
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1, scale: [0.99, 1, 0.99, 1] }}
+               transition={{ repeat: Infinity, duration: 8 }}
             >
-               <ImageThree
-                  style={{
-                     position: 'absolute',
-                     top: '-28',
-                     left: 320,
-                     zIndex: 1,
-                  }}
-               />
+               <StyledImageThree />
             </motion.div>
 
             <div data-aos="fade-left">
@@ -189,19 +129,11 @@ const LearnMore = () => {
                </StyledTypographyMoreText>
             </div>
             <motion.div
-               animate={{
-                  scale: [0.98, 0.99, 0.98, 0.99],
-               }}
-               transition={{ repeat: Infinity, duration: 5 }}
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1, scale: [0.98, 0.99, 0.98, 0.99] }}
+               transition={{ repeat: Infinity, duration: 8 }}
             >
-               <ImageFour
-                  style={{
-                     position: 'absolute',
-                     top: '-30',
-                     right: 340,
-                     zIndex: 1,
-                  }}
-               />
+               <StyledImageFour />
             </motion.div>
          </StyledRow>
          <StyledButton>
@@ -220,10 +152,10 @@ const StyledContainer = styled('div')({
    flexDirection: 'column',
    alignItems: 'center',
    justifyContent: 'center',
-   minHeight: '100vh',
    padding: '2rem',
    position: 'relative',
-   maxWidth: '1440px',
+   maxWidth: '1600px',
+   width: '100%',
 })
 
 const StyledRow = styled('div')({
@@ -258,5 +190,56 @@ const StyledTypographyMoreText = styled(Typography)({
 })
 
 const StyledButton = styled('div')({
-   marginTop: '4.5rem',
+   marginTop: '8rem',
+})
+
+const StyledAnimationDiv = styled(motion.div)({
+   opacity: 1,
+   position: 'absolute',
+   top: '10rem',
+   left: '32.94rem',
+   width: '24.375rem',
+   overflow: 'hidden',
+})
+
+const StyledPathImage = styled(PathImage)({
+   width: '100%',
+   height: '78rem',
+   objectFit: 'cover',
+   zIndex: 2,
+})
+
+const StyledAnimationImage = styled(motion.div)({
+   position: 'absolute',
+   top: '11.2rem',
+   left: '37rem',
+   zIndex: 1,
+})
+
+const StyledImageOne = styled(ImageOne)({
+   position: 'absolute',
+   top: '-25',
+   left: '20.8rem',
+   zIndex: 1,
+})
+
+const StyledImageTwo = styled(ImageTwo)({
+   position: 'absolute',
+   top: '-50',
+   right: 400,
+   zIndex: 1,
+})
+
+const StyledImageThree = styled(ImageThree)({
+   position: 'absolute',
+   top: '-28',
+   left: 320,
+   zIndex: 1,
+})
+
+const StyledImageFour = styled(ImageFour)({
+   position: 'absolute',
+   top: '-30',
+   right: 340,
+   zIndex: 1,
 })
