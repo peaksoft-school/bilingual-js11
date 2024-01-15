@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import { forwardRef } from 'react'
 import { FormControlLabel, Switch, styled } from '@mui/material'
 
 const Switcher = forwardRef(

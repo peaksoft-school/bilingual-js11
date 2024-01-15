@@ -1,6 +1,5 @@
-import React, { forwardRef } from 'react'
-import Checkbox from '@mui/material/Checkbox'
-import { styled } from '@mui/material'
+import { forwardRef } from 'react'
+import { styled, Checkbox } from '@mui/material'
 
 const CheckBox = forwardRef(
    ({ selectedValue, onChange, disabled, ...rest }, ref) => (

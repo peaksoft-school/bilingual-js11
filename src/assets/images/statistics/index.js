@@ -1,0 +1,6 @@
+export { ReactComponent as Airoplane } from './airoplane.svg'
+export { ReactComponent as Earth } from './earth.svg'
+export { ReactComponent as Lines } from './lines.svg'
+export { ReactComponent as PiggyBank } from './piggyBanks.svg'
+export { ReactComponent as Coins } from './coins.svg'
+export { ReactComponent as BorderAiroplane } from './borderAiroplane.svg'
