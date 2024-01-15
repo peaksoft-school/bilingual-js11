@@ -242,7 +242,8 @@ const StyledIntroPage = styled('div')({
    backgroundImage: `url(${BackgroundImage})`,
    backgroundSize: 'cover',
    backgroundRepeat: 'no-repeat',
-   maxWidth: '1440px',
+   maxWidth: '1600px',
+   width: '100%',
    height: '42rem',
    position: 'relative',
 })

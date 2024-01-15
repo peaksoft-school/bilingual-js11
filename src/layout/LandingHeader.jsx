@@ -43,7 +43,8 @@ const StyledHeader = styled('div')(({ isScrolled }) => ({
    paddingBottom: '1rem',
    position: 'sticky',
    top: 0,
-   maxWidth: '1440px',
+   maxWidth: '1600px',
+   width: '100%',
    zIndex: 1000,
    transition: 'background-color 0.5s ease-in-out',
 
