@@ -1,7 +1,8 @@
 import './App.css'
+import LearnMore from './components/LearnMore'
 
 const App = () => {
-   return <div>Bilingual</div>
+   return <LearnMore />
 }
 
 export default App

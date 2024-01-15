@@ -23,11 +23,11 @@ const LearnMore = () => {
       Aos.init({
          easing: 'ease-in-quart',
          delay: 0,
-         duration: 700,
+         duration: 800,
       })
 
       const handleScroll = () => {
-         setScrollY(window.scrollY)
+         setScrollY(document.documentElement.scrollTop)
       }
 
       window.addEventListener('scroll', handleScroll)
@@ -49,7 +49,6 @@ const LearnMore = () => {
                }% 0% 0% 0%)`,
                position: 'absolute',
                top: '10rem',
-               zIndex: 1,
                left: '32.94rem',
                width: '24.375rem',
             }}
@@ -75,6 +74,10 @@ const LearnMore = () => {
                </StyledTypographyMoreText>
             </div>
             <motion.div
+               animate={{
+                  scale: [0.97, 1, 0.97, 1],
+               }}
+               transition={{ repeat: Infinity, duration: 5 }}
                style={{
                   position: 'absolute',
                   top: '11.2rem',
@@ -87,16 +90,22 @@ const LearnMore = () => {
          </StyledRow>
 
          <StyledRow>
-            <div>
+            <motion.div
+               animate={{
+                  scale: [0.99, 1, 0.99, 1],
+                  z: 1,
+               }}
+               transition={{ repeat: Infinity, duration: 5 }}
+            >
                <ImageOne
                   style={{
                      position: 'absolute',
-                     top: '28.8rem',
+                     top: '-25',
                      left: '20.8rem',
                      zIndex: 1,
                   }}
                />
-            </div>
+            </motion.div>
 
             <div data-aos="fade-left">
                <StyledTypographyH3>
@@ -122,29 +131,39 @@ const LearnMore = () => {
                   fraud and cheating and ensure results you can trust.
                </StyledTypographyMoreText>
             </div>
-            <div>
+            <motion.div
+               animate={{
+                  scale: [0.99, 1, 0.99, 1],
+               }}
+               transition={{ repeat: Infinity, duration: 5 }}
+            >
                <ImageTwo
                   style={{
                      position: 'absolute',
-                     top: '43.2rem',
-                     right: 450,
+                     top: '-50',
+                     right: 400,
                      zIndex: 1,
                   }}
                />
-            </div>
+            </motion.div>
          </StyledRow>
 
          <StyledRow>
-            <div>
+            <motion.div
+               animate={{
+                  scale: [0.99, 1, 0.99, 1],
+               }}
+               transition={{ repeat: Infinity, duration: 5 }}
+            >
                <ImageThree
                   style={{
                      position: 'absolute',
-                     top: '59.4rem',
-                     left: 340,
+                     top: '-28',
+                     left: 320,
                      zIndex: 1,
                   }}
                />
-            </div>
+            </motion.div>
 
             <div data-aos="fade-left">
                <StyledTypographyH3>
@@ -169,16 +188,21 @@ const LearnMore = () => {
                   to see a question repeated.
                </StyledTypographyMoreText>
             </div>
-            <div>
+            <motion.div
+               animate={{
+                  scale: [0.98, 0.99, 0.98, 0.99],
+               }}
+               transition={{ repeat: Infinity, duration: 5 }}
+            >
                <ImageFour
                   style={{
                      position: 'absolute',
-                     top: '75.7rem',
-                     right: 400,
+                     top: '-30',
+                     right: 340,
                      zIndex: 1,
                   }}
                />
-            </div>
+            </motion.div>
          </StyledRow>
          <StyledButton>
             <LandingButton />
