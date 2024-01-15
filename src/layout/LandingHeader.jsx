@@ -19,24 +19,35 @@ const LandingHeader = () => {
    }, [])
 
    return (
-      <StyledHeader isScrolled={isScrolled}>
-         <img src={Logo} alt="bilingual-logo" />
-         <StyledButtonsContainer>
-            <StyledButton>to come in</StyledButton>
-            <StyledRegusterBtn variant="secondary">register</StyledRegusterBtn>
-         </StyledButtonsContainer>
-      </StyledHeader>
+      <StyledContainer isScrolled={isScrolled}>
+         <StyledHeader>
+            <img src={Logo} alt="bilingual-logo" />
+            <StyledButtonsContainer>
+               <StyledButton>to come in</StyledButton>
+               <StyledRegusterBtn variant="secondary">
+                  register
+               </StyledRegusterBtn>
+            </StyledButtonsContainer>
+         </StyledHeader>
+      </StyledContainer>
    )
 }
 
 export default LandingHeader
 
-const StyledHeader = styled('div')(({ isScrolled }) => ({
+const StyledContainer = styled('div')(({ isScrolled }) => ({
+   backgroundColor: isScrolled ? 'white' : '#FCD200',
+   position: 'sticky',
+   top: 0,
+   zIndex: 1000,
+   transition: 'background-color 0.5s ease-in-out',
+}))
+
+const StyledHeader = styled('div')({
    margin: 'auto',
    display: 'flex',
    alignItems: 'flex-start',
    justifyContent: 'space-between',
-   backgroundColor: isScrolled ? 'white' : '#FCD200',
    paddingLeft: '5rem',
    paddingRight: '5rem',
    paddingTop: '1rem',
@@ -45,14 +56,12 @@ const StyledHeader = styled('div')(({ isScrolled }) => ({
    top: 0,
    maxWidth: '1600px',
    width: '100%',
-   zIndex: 1000,
-   transition: 'background-color 0.5s ease-in-out',
 
    img: {
       width: '14.67925rem',
       height: '3rem',
    },
-}))
+})
 
 const StyledButtonsContainer = styled('div')({
    display: 'flex',
