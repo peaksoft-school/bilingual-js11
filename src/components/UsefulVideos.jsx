@@ -8,7 +8,7 @@ import { textAnimation } from '../utils/contants/animations'
 const videosAnimation = {
    hidden: {
       opacity: 0,
-      y: 100,
+      y: '6.25rem',
    },
    visible: (custom) => ({
       opacity: 1,
@@ -74,35 +74,35 @@ const StyledTitleContainer = styled(motion(Grid))({
 
 const StyledTitle = styled(Typography)(({ theme }) => ({
    fontWeight: '700',
-   fontSize: '40px',
-   lineHeight: '48px',
+   fontSize: '2.5rem',
+   lineHeight: '3rem',
    color: theme.palette.primary.dullBlue,
-   marginTop: '138px',
+   marginTop: '8.625rem',
 }))
 
 const StyledSecondCon = styled(Grid)({
    display: 'flex',
    justifyContent: 'space-evenly',
    flexWrap: 'wrap',
-   marginBottom: '120px',
-   marginTop: '48px',
+   marginBottom: '7.5rem',
+   marginTop: '3rem',
 })
 
 const StyledVideo = styled(DefaultPlayer)(() => ({
-   borderRadius: '16px 16px 0px 0px',
-   marginBottom: '-7px',
-   width: '370px',
-   height: '261px',
+   borderRadius: '1rem 1rem 0 0',
+   marginBottom: '-0.4375rem',
+   width: '23.125rem',
+   height: '16.3125rem',
    '& .rh5v-Volume_icon, .rh5v-Fullscreen_icon, .rh5v-PlayPause_icon': {
-      width: '30px',
-      height: '30px',
+      width: '1.875rem',
+      height: '1.875rem',
    },
 }))
 
 const StyledVideoContainer = styled(motion(Grid))(({ theme }) => ({
    background: theme.palette.primary.white,
-   border: '1px solid #DDDDDD',
-   borderRadius: '16px',
+   border: '0.0625rem solid #DDDDDD',
+   borderRadius: '1rem',
    transform: 'matrix(1, 0, 0, 1, 0, 0)',
    cursor: 'pointer',
    '&:hover': {
@@ -112,19 +112,19 @@ const StyledVideoContainer = styled(motion(Grid))(({ theme }) => ({
 
 const StyledVideoTitle = styled(Typography)(({ theme }) => ({
    fontWeight: 'bolder',
-   fontSize: '20px',
-   lineHeight: '24px',
+   fontSize: '1.25rem',
+   lineHeight: '1.5rem',
    color: theme.palette.primary.main,
-   marginTop: '16px',
-   marginLeft: '20px',
-   marginBottom: '10px',
+   marginTop: '1rem',
+   marginLeft: '1.25rem',
+   marginBottom: '0.625rem',
 }))
 
 const StyledVideosTime = styled(Typography)({
    fontWeight: '400',
-   fontSize: '18px',
-   lineHeight: '21px',
+   fontSize: '1.125rem',
+   lineHeight: '1.3125rem',
    color: '#212629',
-   marginLeft: '20px',
-   marginBottom: '16px',
+   marginLeft: '1.25rem',
+   marginBottom: '1rem',
 })
