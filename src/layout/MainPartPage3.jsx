@@ -4,7 +4,10 @@ import { motion } from 'framer-motion'
 import ScrollTrigger from 'react-scroll-trigger'
 import { ourTeamArray } from '../../utils/constants/common'
 import { textAnimation } from '../../utils/helpers/animations'
-import { SpeechIcon, ExtensiveIcon, AccessibleIcon } from '../assets/icons'
+import accessible from '../../assets/images/accessible.png'
+import speech from '../../assets/images/speech.png'
+import extensive from '../../assets/images/extensive.png'
+import tutoring from '../../assets/images/tutoring.png'
 import booksBackground from '../../assets/icons/background.svg'
 import bookImg from '../../assets/icons/bookImg.svg'
 import learnImg from '../../assets/icons/learnImg.svg'
@@ -188,6 +191,11 @@ const ImgReading = styled(motion.img)(() => ({
    left: '21.5rem',
    bottom: '14rem',
 }))
+// const ImgAnimation = styled('div')(() => ({
+//    marginTop: '17px',
+//    marginRight: '154.19px',
+//    width: '35%',
+// }))
 const DivSeparation = styled('div')(() => ({
    display: 'flex',
    gap: '67.88px',
@@ -304,13 +312,13 @@ const InfoSection = () => {
                </DescriptionText>
                <DivSeparation>
                   <DivAccessible>
-                     <ImgAccessible src={AccessibleIcon} />
+                     <ImgAccessible src={accessible} />
                      <ImgAccessibleText>
                         Accessible anytime, anywhere
                      </ImgAccessibleText>
                   </DivAccessible>
                   <DivExtensive>
-                     <ImgExtensive src={ExtensiveIcon} />
+                     <ImgExtensive src={extensive} />
                      <ImgExtensiveText>
                         Extensive business content
                      </ImgExtensiveText>
@@ -318,7 +326,7 @@ const InfoSection = () => {
                </DivSeparation>
                <DivSeparation>
                   <DivSpeech>
-                     <ImgSpeech src={SpeechIcon} />
+                     <ImgSpeech src={speech} />
                      <ImgSpeechText>Leading speech recognition</ImgSpeechText>
                   </DivSpeech>
                   <DivTutoring>
