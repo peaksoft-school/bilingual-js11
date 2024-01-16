@@ -1,7 +1,12 @@
 import './App.css'
+import Feedback from './components/landing/Feedback'
 
 const App = () => {
-   return <div>Bilingual</div>
+   return (
+      <div>
+         <Feedback />
+      </div>
+   )
 }
 
 export default App
