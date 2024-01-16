@@ -1,16 +1,14 @@
 import { Avatar, Typography, CardContent, styled } from '@mui/material'
 
-const TeamMember = ({ imgSrc, name, role, customStyle }) => {
-   return (
-      <StyledCardContent>
-         <StyledAvatarContainer>
-            <StyledAvatar src={imgSrc} sx={customStyle} />
-         </StyledAvatarContainer>
-         <StyledName>{name}</StyledName>
-         <StyledRole>{role}</StyledRole>
-      </StyledCardContent>
-   )
-}
+const TeamMember = ({ img, name, role, customStyle }) => (
+   <StyledCardContent>
+      <StyledAvatarContainer>
+         <StyledAvatar src={img} sx={customStyle} />
+      </StyledAvatarContainer>
+      <StyledName>{name}</StyledName>
+      <StyledRole>{role}</StyledRole>
+   </StyledCardContent>
+)
 
 export default TeamMember
 
