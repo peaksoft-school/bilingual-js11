@@ -1,7 +1,12 @@
-import './App.css'
-
+import React from 'react'
+import Partners from './components/Partners'
 const App = () => {
-   return <div>Bilingual</div>
+   return (
+      <div>
+         <Partners />
+         Bilingual
+      </div>
+   )
 }
 
 export default App
