@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Typography, styled } from '@mui/material'
+import { Typography, keyframes, styled } from '@mui/material'
 import { motion } from 'framer-motion'
 import Aos from 'aos'
 import 'aos/dist/aos.css'
@@ -14,6 +14,14 @@ import {
 } from '../../assets/images/learnMore'
 import LandingButton from '../UI/buttons/LandingButton'
 
+const dash = keyframes`
+        to  {
+          stroke-dashoffset: 0;  
+        } from {
+          stroke-dashoffset: 300;
+        }
+      `
+
 const LearnMore = () => {
    useEffect(() => {
       Aos.init({
@@ -27,11 +35,7 @@ const LearnMore = () => {
       <StyledLearnMorePage>
          <StyledContainer>
             <StyledTypography>Learn More</StyledTypography>
-            <StyledAnimationDiv
-               initial={{ clipPath: 'inset(0% 0% 100% 0%)', opacity: 0 }}
-               animate={{ clipPath: 'inset(0% 0% 0% 0%)', opacity: 1 }}
-               transition={{ ease: 'easeInOut', repeat: Infinity, duration: 6 }}
-            >
+            <StyledAnimationDiv>
                <StyledPathImage />
             </StyledAnimationDiv>
 
@@ -134,6 +138,7 @@ export default LearnMore
 const StyledLearnMorePage = styled('div')({
    backgroundColor: '#FEF5E8',
    width: '100%',
+   overflow: 'hidden',
 })
 
 const StyledContainer = styled('div')({
@@ -197,6 +202,11 @@ const StyledPathImage = styled(PathImage)({
    height: '78rem',
    objectFit: 'cover',
    zIndex: 2,
+
+   path: {
+      strokeDasharray: '18.56 18.56',
+      animation: `${dash} 3.5s infinite linear forwards`,
+   },
 })
 
 const StyledAnimationImage = styled(motion.div)({
