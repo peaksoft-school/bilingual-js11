@@ -10,7 +10,7 @@ import {
    ImageOne,
    ImageThree,
    ImageTwo,
-   PathImage,
+   RoadmapImage,
 } from '../../assets/images/learnMore'
 import LandingButton from '../UI/buttons/LandingButton'
 
@@ -36,7 +36,7 @@ const LearnMore = () => {
          <StyledContainer>
             <StyledTypography>Learn More</StyledTypography>
             <StyledAnimationDiv>
-               <StyledPathImage />
+               <StyledRoadmapImage />
             </StyledAnimationDiv>
 
             <StyledRow>
@@ -197,7 +197,7 @@ const StyledAnimationDiv = styled(motion.div)({
    overflow: 'hidden',
 })
 
-const StyledPathImage = styled(PathImage)({
+const StyledRoadmapImage = styled(RoadmapImage)({
    width: '100%',
    height: '78rem',
    objectFit: 'cover',
