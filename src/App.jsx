@@ -1,10 +1,10 @@
 import './App.css'
-import MainPart3 from './layout/MainPart3'
+import UserExperience from './layout/UserExperience'
 
 const App = () => {
    return (
       <div>
-         <MainPart3 />
+         <UserExperience />
       </div>
    )
 }
