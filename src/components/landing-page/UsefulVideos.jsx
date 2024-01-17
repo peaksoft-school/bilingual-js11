@@ -2,8 +2,8 @@ import { Grid, Typography, styled } from '@mui/material'
 import { DefaultPlayer } from 'react-html5video'
 import 'react-html5video/dist/styles.css'
 import { motion } from 'framer-motion'
-import { videos } from '../utils/contants/videosArr'
-import { textAnimation } from '../utils/contants/animations'
+import { videos } from '../../utils/contants/videosArr'
+import { textAnimation } from '../../utils/contants/animations'
 
 const videosAnimation = {
    hidden: {
@@ -17,7 +17,7 @@ const videosAnimation = {
    }),
 }
 
-const StyledUsefulVideos = () => (
+const UsefulVideos = () => (
    <StyledContainer
       initial="hidden"
       whileInView="visible"
@@ -56,7 +56,7 @@ const StyledUsefulVideos = () => (
    </StyledContainer>
 )
 
-export default StyledUsefulVideos
+export default UsefulVideos
 
 const StyledContainer = styled(motion(Grid))({
    background: '#F0F0DC',
