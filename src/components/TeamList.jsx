@@ -41,6 +41,8 @@ const StyledOurTeam = styled(Typography)({
 })
 const StyledSlaid = styled(Grid)({
    minWidth: 'auto',
-   margin: '0',
-   padding: '1.88rem',
+   margin: '',
+   paddingTop: '2.94rem',
+   paddingLeft: '6.5rem',
+   paddingRight: '6.5rem',
 })
