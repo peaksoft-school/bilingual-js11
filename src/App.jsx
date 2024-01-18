@@ -1,12 +1,7 @@
 import './App.css'
-import UsefulVideos from './components/landing/UsefulVideos'
 
 const App = () => {
-   return (
-      <div>
-         <UsefulVideos />
-      </div>
-   )
+   return <div>Bilingual</div>
 }
 
 export default App
