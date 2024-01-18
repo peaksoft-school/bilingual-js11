@@ -1,17 +1,10 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Typography, keyframes, styled } from '@mui/material'
 import { motion } from 'framer-motion'
 import Aos from 'aos'
 import 'aos/dist/aos.css'
-
-import {
-   GlobeImage,
-   ImageFour,
-   ImageOne,
-   ImageThree,
-   ImageTwo,
-   RoadmapImage,
-} from '../../assets/images/learnMore'
+import { RoadmapImage } from '../../assets/icons'
+import { iconComponents, sections } from '../../utils/constants'
 import LandingButton from '../UI/buttons/LandingButton'
 
 const dash = keyframes`
@@ -39,95 +32,44 @@ const LearnMore = () => {
                <StyledRoadmapImage />
             </StyledAnimationDiv>
 
-            <StyledRow>
-               <div data-aos="fade-right">
-                  <StyledTypographyH3>
-                     Expand your applicant pool
-                  </StyledTypographyH3>
-                  <StyledTypographyMoreText>
-                     Tap into a diverse pool of candidates from 210+ countries
-                     and territories of origin, who have taken the Bilingual
-                     English Test because of its radical accessibility.
-                  </StyledTypographyMoreText>
-               </div>
-               <StyledAnimationImage>
-                  <GlobeImage />
-               </StyledAnimationImage>
-            </StyledRow>
-
-            <StyledRow>
-               <div>
-                  <StyledImageOne />
-               </div>
-
-               <div data-aos="fade-left">
-                  <StyledTypographyH3>
-                     Built on the latest assessment sciencee
-                  </StyledTypographyH3>
-                  <StyledTypographyMoreText>
-                     The Duolingo English Test is a computer adaptive test
-                     backed by rigorous research, with results that are highly
-                     correlated
-                     <br />
-                     with other major assessments such as the TOEFL and the
-                     <br />
-                     IELTS.
-                  </StyledTypographyMoreText>
-               </div>
-            </StyledRow>
-
-            <StyledRow>
-               <div data-aos="fade-right">
-                  <StyledTypographyH3>
-                     Innovative test security
-                  </StyledTypographyH3>
-                  <StyledTypographyMoreText>
-                     Industry-leading security protocols, individual test
-                     proctoring, and computer adaptive technology help prevent
-                     fraud and cheating and ensure results you can trust.
-                  </StyledTypographyMoreText>
-               </div>
-               <div>
-                  <StyledImageTwo />
-               </div>
-            </StyledRow>
-
-            <StyledRow>
-               <div>
-                  <StyledImageThree />
-               </div>
-
-               <div data-aos="fade-left">
-                  <StyledTypographyH3>
-                     Convenient results dashboard
-                  </StyledTypographyH3>
-                  <StyledTypographyMoreText>
-                     Access candidates’ certificates, video interviews, and
-                     writing samples through a free and secure dashboard.
-                     Quickly and easily view applicant data with filtering
-                     tools.
-                  </StyledTypographyMoreText>
-               </div>
-            </StyledRow>
-
-            <StyledRow>
-               <div data-aos="fade-right">
-                  <StyledTypographyH3>Secure Design</StyledTypographyH3>
-                  <StyledTypographyMoreText>
-                     Adaptive test engine dynamically administers test questions
-                     from a database of hundreds of thousands of items. <br />
-                     Someone would have to take the test more than 1,000 times
-                     <br />
-                     to see a question repeated.
-                  </StyledTypographyMoreText>
-               </div>
-               <div>
-                  <StyledImageFour />
-               </div>
-            </StyledRow>
-            <StyledButton>
+            {sections.map(({ animation, text, title, icon, style }) => (
+               <StyledRow key={title}>
+                  <div data-aos={animation}>
+                     <StyledTypographyH3 style={style}>
+                        {title}
+                     </StyledTypographyH3>
+                     <StyledTypographyMoreText style={style}>
+                        {text}
+                     </StyledTypographyMoreText>
+                  </div>
+                  <StyledAnimationImage
+                     animate={{
+                        scale: [0.97, 1, 0.97, 1],
+                     }}
+                     transition={{
+                        ease: 'easeOut',
+                        duration: 10,
+                        repeat: Infinity,
+                     }}
+                  >
+                     {React.createElement(iconComponents[icon].component, {
+                        style: iconComponents[icon].style,
+                     })}
+                  </StyledAnimationImage>
+               </StyledRow>
+            ))}
+            <SyledButtonContainer
+               animate={{
+                  scale: [0.95, 1, 0.95, 1],
+               }}
+               transition={{
+                  ease: 'easeOut',
+                  duration: 4,
+                  repeat: Infinity,
+               }}
+            >
                <LandingButton />
-            </StyledButton>
+            </SyledButtonContainer>
          </StyledContainer>
       </StyledLearnMorePage>
    )
@@ -147,59 +89,74 @@ const StyledContainer = styled('div')({
    flexDirection: 'column',
    alignItems: 'center',
    justifyContent: 'center',
-   padding: '2rem',
    position: 'relative',
    maxWidth: '1440px',
    width: '100%',
 })
 
-const StyledRow = styled('div')({
-   display: 'flex',
-   flexDirection: 'row',
-   alignItems: 'center',
-   justifyContent: 'space-between',
-   width: '1440px',
-   paddingTop: '2rem',
-   paddingLeft: '1.5rem',
-   paddingRight: '2rem',
-})
+const StyledRow = styled('div')(({ theme }) => ({
+   marginTop: '1rem',
+   marginBottom: '1rem',
+   marginLeft: '7.5rem',
+   width: '100%',
 
-const StyledTypography = styled(Typography)({
+   [theme.breakpoints.down('ld')]: {
+      marginLeft: 0,
+      paddingRight: '6rem',
+   },
+}))
+
+const StyledTypography = styled(Typography)(({ theme }) => ({
    color: '#3752B4',
    fontFamily: 'Gilroy',
    fontSize: '2.5rem',
-})
 
-const StyledTypographyH3 = styled(Typography)({
+   [theme.breakpoints.down('ld')]: {
+      width: '100%',
+      fontSize: '2rem',
+      textAlign: 'center',
+   },
+}))
+
+const StyledTypographyH3 = styled(Typography)(({ theme }) => ({
    color: '#23212A',
    fontSize: ' 1.5rem',
    fontWeight: '600',
    paddingTop: '6rem',
-})
 
-const StyledTypographyMoreText = styled(Typography)({
+   [theme.breakpoints.down('ld')]: {
+      width: '100%',
+      fontSize: '1.1rem',
+   },
+}))
+
+const StyledTypographyMoreText = styled(Typography)(({ theme }) => ({
    width: '30.875rem',
    paddingTop: '0.6rem',
-   paddingRight: '2rem',
    fontSize: '1rem',
-})
 
-const StyledButton = styled('div')({
-   marginTop: '7rem',
-})
+   [theme.breakpoints.down('ld')]: {
+      width: '25rem',
+      fontSize: '0.9rem',
+   },
+}))
 
-const StyledAnimationDiv = styled(motion.div)({
+const StyledAnimationDiv = styled(motion.div)(({ theme }) => ({
    opacity: 1,
    position: 'absolute',
    top: '10rem',
    left: '32.94rem',
    width: '24.375rem',
    overflow: 'hidden',
-})
 
-const StyledRoadmapImage = styled(RoadmapImage)({
+   [theme.breakpoints.down('ld')]: {
+      height: '88rem',
+   },
+}))
+
+const StyledRoadmapImage = styled(RoadmapImage)(({ theme }) => ({
    width: '100%',
-   height: '78rem',
+   height: '80rem',
    objectFit: 'cover',
    zIndex: 2,
 
@@ -207,39 +164,25 @@ const StyledRoadmapImage = styled(RoadmapImage)({
       strokeDasharray: '18.56 18.56',
       animation: `${dash} 3.5s infinite linear forwards`,
    },
-})
 
-const StyledAnimationImage = styled(motion.div)({
-   position: 'absolute',
-   top: '11.2rem',
-   left: '37rem',
-   zIndex: 1,
-})
+   [theme.breakpoints.down('ld')]: {
+      height: '30%',
+      marginLeft: '20%',
+      padding: 0,
+   },
+}))
 
-const StyledImageOne = styled(ImageOne)({
-   position: 'absolute',
-   top: '28.8rem',
-   left: '22rem',
-   zIndex: 1,
-})
+const StyledAnimationImage = styled(motion.div)(({ theme }) => ({
+   position: 'relative',
+   top: '-17rem',
+   [theme.breakpoints.down('ld')]: {
+      width: '100%',
+      fontSize: 'rem',
+      marginLeft: '-8rem',
+   },
+}))
 
-const StyledImageTwo = styled(ImageTwo)({
-   position: 'absolute',
-   top: '43.5rem',
-   right: '26rem',
-   zIndex: 1,
-})
-
-const StyledImageThree = styled(ImageThree)({
-   position: 'absolute',
-   top: '60rem',
-   left: 365,
-   zIndex: 1,
-})
-
-const StyledImageFour = styled(ImageFour)({
-   position: 'absolute',
-   top: '76rem',
-   right: '24rem',
-   zIndex: 1,
+const SyledButtonContainer = styled(motion.div)({
+   marginTop: '12rem',
+   marginBottom: '4rem',
 })

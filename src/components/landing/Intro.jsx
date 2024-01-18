@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Typography, styled } from '@mui/material'
 import { motion } from 'framer-motion'
 import LandingHeader from '../../layout/LandingHeader'
-import BackgroundImage from '../../assets/images/introPage/background-image.svg'
+import BackgroundImage from '../../assets/icons/svgs/background-image.svg'
 import LandingButton from '../UI/buttons/LandingButton'
 import {
    BookOneImg,
@@ -15,7 +15,7 @@ import {
    PaperThreeImg,
    PaperTwoImg,
    ShadowBookImg,
-} from '../../assets/images/introPage'
+} from '../../assets/icons'
 
 const Intro = () => {
    const [isVisible, setIsVisible] = useState(false)
@@ -140,9 +140,14 @@ const Intro = () => {
                </StyledText>
 
                <StyledButton
-                  animate={{ opacity: isVisible ? 1 : 0 }}
-                  initial={{ opacity: 0 }}
-                  transition={{ ease: 'easeOut', duration: 2 }}
+                  animate={{
+                     scale: [0.95, 1, 0.95, 1],
+                  }}
+                  transition={{
+                     ease: 'easeOut',
+                     duration: 4,
+                     repeat: Infinity,
+                  }}
                >
                   <LandingButton isStart={false} />
                </StyledButton>
@@ -173,38 +178,59 @@ const StyledIntroPage = styled('div')({
    position: 'relative',
 })
 
-const StyledTypography = styled(Typography)({
+const StyledTypography = styled(Typography)(({ theme }) => ({
    width: '40rem',
    fontSize: '3.75rem',
    fontFamily: 'Gilroy',
    color: '#43404E',
    fontWeight: '900',
-})
 
-const StyledTypographyTwo = styled(Typography)({
+   [theme.breakpoints.down('ld')]: {
+      width: '4rem',
+      fontSize: '1rem',
+   },
+}))
+
+const StyledTypographyTwo = styled(Typography)(({ theme }) => ({
    color: '#C93D7D',
    fontFamily: 'Gilroy',
    fontSize: '3.75rem',
    paddingTop: '0px',
-})
 
-const StyledPtag = styled('p')({
+   [theme.breakpoints.down('ld')]: {
+      width: '4rem',
+
+      fontSize: '8px',
+   },
+}))
+
+const StyledPtag = styled('p')(({ theme }) => ({
    color: '#47454e',
    width: '48.25rem',
    fontFamily: 'Arial',
    fontWeight: 100,
    fontSize: '1.25rem',
    paddingTop: '1.813rem',
-   paaddingBottom: '1.875rem',
-})
+   paddingBottom: '1.875rem',
 
-const StyledMantieImg = styled(MantieImg)({
+   [theme.breakpoints.down('ld')]: {
+      width: '4rem',
+      fontSize: '0.8rem',
+   },
+}))
+
+const StyledMantieImg = styled(MantieImg)(({ theme }) => ({
    width: '14rem',
    height: '15rem',
    position: 'absolute',
    top: '1rem',
    right: '8.5rem',
-})
+
+   [theme.breakpoints.down('ld')]: {
+      width: '5rem',
+      height: '5rem',
+   },
+}))
 
 const StyledPaperOneImg = styled(PaperOneImg)({
    width: '6rem',
