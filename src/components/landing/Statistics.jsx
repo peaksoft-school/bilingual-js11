@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { styled, Typography } from '@mui/material'
+import { keyframes, styled, Typography } from '@mui/material'
 import { motion } from 'framer-motion'
 import CountUp from 'react-countup'
 import {
@@ -11,16 +11,19 @@ import {
    BorderAiroplane,
 } from '../../assets/images/statistics'
 
+const dash = keyframes`
+        to  {
+          stroke-dashoffset: 0;
+        } from {
+          stroke-dashoffset: 300;
+        }
+      `
+
 const Statistics = () => {
    const [isVisible, setIsVisible] = useState(false)
-
    const [isVisibleCount, setIsVisibleCount] = useState(false)
 
    useEffect(() => {
-      const timeoutId = setTimeout(() => {
-         setIsVisible(true)
-      }, 100)
-
       const handleScroll = () => {
          const element = document.getElementById('statistics-count')
 
@@ -30,15 +33,17 @@ const Statistics = () => {
 
             if (top < innerHeight && bottom >= 0) {
                setIsVisibleCount(true)
+               setIsVisible(true)
             }
          }
       }
+
+      handleScroll()
 
       window.addEventListener('scroll', handleScroll)
 
       return () => {
          window.removeEventListener('scroll', handleScroll)
-         clearTimeout(timeoutId)
       }
    }, [])
 
@@ -47,10 +52,11 @@ const Statistics = () => {
          <StyledCard>
             <StyledImage>
                <StyledMotion
+                  initial={{ opacity: 0 }}
                   animate={{
                      x: 47.03,
                      y: -14.96,
-                     opacity: isVisible ? 0 : 1,
+                     opacity: isVisible ? 1 : 0,
                   }}
                   transition={{ repeat: Infinity, duration: 3 }}
                >
@@ -94,8 +100,10 @@ const Statistics = () => {
             <StyledImage>
                <StyledLines />
                <motion.div
+                  initial={{ opacity: 0 }}
                   animate={{
                      scale: [0.98, 1, 0.98, 1],
+                     opacity: isVisible ? 1 : 0,
                   }}
                   transition={{ duration: 3, repeat: Infinity }}
                >
@@ -121,7 +129,8 @@ const Statistics = () => {
             <StyledImage>
                <StyledPiggyBank />
                <motion.div
-                  animate={{ y: 20.96, opacity: isVisible ? 0 : 1 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ y: 20.96, opacity: isVisible ? 1 : 0 }}
                   transition={{ duration: 4, repeat: Infinity }}
                >
                   <StyledCoins />
@@ -188,11 +197,19 @@ const StyledBorderAiroplane = styled(BorderAiroplane)(() => ({
    position: 'relative',
    top: '0.2rem',
    left: '1.4rem',
+   path: {
+      strokeDasharray: '18.56 18.56',
+      animation: `${dash} 3.5s infinite linear forwards`,
+   },
 }))
 const StyledLines = styled(Lines)(() => ({
    position: 'relative',
    left: '3rem',
    top: '0.3rem',
+   path: {
+      strokeDasharray: '18.56 18.56',
+      animation: `${dash} 3.5s infinite linear forwards`,
+   },
 }))
 
 const StyledEarth = styled(Earth)(() => ({
@@ -205,6 +222,10 @@ const StyledPiggyBank = styled(PiggyBank)(() => ({
    position: 'relative',
    left: '2.6rem',
    top: '0.2rem',
+   path: {
+      strokeDasharray: '18.56 18.56',
+      animation: `${dash} 3.5s infinite linear forwards`,
+   },
 }))
 
 const StyledCoins = styled(Coins)(() => ({
