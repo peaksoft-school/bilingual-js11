@@ -2,8 +2,7 @@ import { Grid, Typography, styled } from '@mui/material'
 import { DefaultPlayer } from 'react-html5video'
 import 'react-html5video/dist/styles.css'
 import { motion } from 'framer-motion'
-import { videos } from '../../utils/contants/videosArr'
-import { textAnimation } from '../../utils/contants/animations'
+import { textAnimation, VIDEOS } from '../../utils/constants/index'
 
 const videosAnimation = {
    hidden: {
@@ -28,7 +27,7 @@ const UsefulVideos = () => (
             <StyledTitle> Useful videos </StyledTitle>
          </StyledTitleContainer>
          <StyledSecondCon>
-            {videos.map(({ id, intro, title, video, videosTime }) => (
+            {VIDEOS.map(({ id, intro, title, video, videosTime }) => (
                <StyledVideoContainer
                   key={id}
                   variants={videosAnimation}
@@ -59,11 +58,13 @@ const UsefulVideos = () => (
 export default UsefulVideos
 
 const StyledContainer = styled(motion(Grid))({
-   background: '#F0F0DC',
+   background: '#FEF5E8',
 })
 
 const StyledFirstCon = styled(Grid)({
    display: 'flex',
+   maxWidth: '1600px',
+   width: '100%',
    margin: '0 auto',
    flexDirection: 'column',
 })
