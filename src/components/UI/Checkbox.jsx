@@ -1,6 +1,6 @@
-import React, { forwardRef } from 'react'
+import { forwardRef } from 'react'
 import { styled, Checkbox as MuiCheckbox } from '@mui/material'
-import { CHECKBOX_IMAGE } from '../../utils/constants/checkboxImage'
+import { CHECKBOX_IMAGE } from '../../utils/constants/index'
 
 const CheckBox = forwardRef(({ checked, onChange, disabled, ...rest }, ref) => (
    <StyledCheckbox
