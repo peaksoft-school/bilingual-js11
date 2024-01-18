@@ -1,0 +1,7 @@
+export { default as PersonOne } from './rabiya.png'
+export { default as PersonTwo } from './alina.png'
+export { default as PersonThree } from './meerim.png'
+export { default as PersonFour } from './nurislam.png'
+export { default as PersonFive } from './nuriza.png'
+export { default as PersonSix } from './elaman.png'
+export { default as PersonSeven } from './adelia.png'
