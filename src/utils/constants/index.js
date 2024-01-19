@@ -54,7 +54,7 @@ const DATA_FEEDBACK = [
       id: 1,
       description:
          'Bilingual is a fantastic website for learning English. The interface is user-friendly and the content is engaging and interactive.',
-      name: '- Rabiya Aiylchieva',
+      name: '- Aijan Nurmatova',
       rating: 5,
       avatar: PersonOne,
    },
@@ -62,7 +62,7 @@ const DATA_FEEDBACK = [
       id: 2,
       description:
          'I have tried other language apps and found them boring but with Bilingual, it is easy and fun to practice every day.',
-      name: '- Alina Temirova',
+      name: '- Nursultan Kenzhebaev',
       rating: 5,
       avatar: PersonTwo,
    },
@@ -70,40 +70,41 @@ const DATA_FEEDBACK = [
       id: 3,
       description:
          'Great way to learn a language. Fun, interactive, and engaging. I am enjoying the course immensely.',
-      name: '- Meerim Kerkibasheva',
+      name: '- Dinara Bakirova',
       rating: 5,
       avatar: PersonThree,
    },
    {
       id: 4,
       description:
-         'Bilingual offers a personalized learning experience. I can set my own goals and study at my own pace, making it a flexible and effective platform for English learning.',
-      name: '- Nurislam Isaev ',
-      rating: 4,
-      avatar: PersonFour,
+         'I love the audio feature on Bilingual, which allows me to practice my listening skills. Its a great way to improve comprehension.',
+      name: '- Aziat Abdimalikov',
+      rating: 5,
+      avatar: PersonSix,
    },
    {
       id: 5,
       description:
-         'Bilingual provides excellent feedback on my exercises and assessments. It helps me identify areas where I need tracks my progress over time.',
-      name: '- Nuriza Zununova',
+         'Bilingual offers a personalized learning experience. I can set my own goals and study at my own pace, making it a flexible and effective platform for English learning.',
+      name: '- Ulan Kubanychbekov ',
       rating: 5,
-      avatar: PersonFive,
+      avatar: PersonFour,
    },
    {
       id: 6,
       description:
-         'I love the audio feature on Bilingual, which allows me to practice my listening skills. Its a great way to improve comprehension.',
-      name: '- Elaman Zanysbekov',
-      rating: 4,
-      avatar: PersonSix,
+         'Bilingual provides excellent feedback on my exercises and assessments. It helps me identify areas where I need tracks my progress over time.',
+      name: '- Elizar Aitbek',
+      rating: 5,
+      avatar: PersonFive,
    },
+
    {
       id: 7,
       description:
          'I highly recommend Bilingual for anyone looking to improve their English skills. The lessons are well-structured and cover a wide range of topics.',
-      name: '- Adelia Jyldyzbekova',
-      rating: 5,
+      name: '- Alisher Jumanov',
+      rating: 4,
       avatar: PersonSeven,
    },
 ]
