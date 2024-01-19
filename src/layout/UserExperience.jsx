@@ -241,13 +241,14 @@ const Description = styled('div')(() => ({
 const ContainerOfExperience = styled('div')(() => ({
    display: 'flex',
    flexDirection: 'column',
-   gap: '74px',
+   gap: '3.31rem',
+   marginTop: '2.69rem',
 }))
 const StyledBlocks = styled('div')(({ theme }) => ({
    display: 'flex',
-   gap: '26px',
+   gap: '4.24rem',
    '& .MuiTypography-root': {
-      width: '160px',
+      width: '150px',
       color: theme.palette.primary.blackGrey,
       fontWeight: '400',
       lineHeight: '140%',
@@ -274,19 +275,11 @@ const ImgAccessible = styled('img')(() => ({
    height: '50px',
 }))
 
-const ImgText = styled(Typography)(() => ({
-   width: '160px',
-   height: '44px',
-   fontWeight: '400',
-   color: '#23212A',
-   lineHeight: '140%',
-}))
+const ImgText = styled(Typography)(() => ({}))
 
 const Container = styled('div')(() => ({
    display: 'flex',
-   gap: '28.58px',
-   alignItems: 'center',
-   marginTop: '40px',
+   gap: '1.61rem',
 }))
 
 const ImgSpeech = styled('img')(() => ({
