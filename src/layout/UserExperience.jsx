@@ -16,6 +16,7 @@ import Bus from '../assets/icons/svgs/bus.svg'
 import Book from '../assets/icons/svgs/book.svg'
 import Background from '../assets/images/backgroundImage.png'
 import B from '../assets/icons/svgs/b.svg'
+import A from '../assets/icons/svgs/a.svg'
 
 const animate = {
    offscreen: {
@@ -31,7 +32,7 @@ const animate = {
    animate: {
       rotate: [-2, 3, -7, 4, 4],
       transition: {
-         duration: 2.5,
+         duration: 2,
          repeat: Infinity,
          repeatType: 'reverse',
       },
@@ -39,21 +40,10 @@ const animate = {
 }
 const pulseAnimation = {
    animate: {
-      scale: [1, 1.2, 1],
+      scale: [1, 1.15, 1],
       transition: {
-         duration: 1.5,
+         duration: 1,
          repeat: Infinity,
-      },
-   },
-}
-
-const spinAnimation = {
-   animate: {
-      rotate: [0, 360],
-      transition: {
-         duration: 2,
-         repeat: Infinity,
-         ease: 'linear',
       },
    },
 }
@@ -96,119 +86,157 @@ const UserExperience = () => {
                </StyledBlocks>
             </ContainerOfExperience>
          </StyledCon>
-         <div>
-            <ImgBackground background={Background}>
-               <ChildContainer>
-                  <ImgBook
-                     variants={pulseAnimation}
-                     initial="offscreen"
-                     whileInView="onscreen"
-                     animate="animate"
-                     src={Book}
-                     loading="lazy"
-                  />
-                  <ImgLearn
-                     variants={animate}
-                     initial="offscreen"
-                     whileInView="onscreen"
-                     animate="animate"
-                     src={Learn}
-                     loading="lazy"
-                  />
-                  <ImgReading
-                     variants={animate}
-                     initial="offscreen"
-                     whileInView="onscreen"
-                     animate="animate"
-                     src={Reading}
-                     loading="lazy"
-                  />
-                  <ImgStar
-                     variants={spinAnimation}
-                     initial="offscreen"
-                     whileInView="onscreen"
-                     animate="animate"
-                     src={Star}
-                     loading="lazy"
-                  />
-                  <ImgC
-                     variants={spinAnimation}
-                     initial="offscreen"
-                     whileInView="onscreen"
-                     animate="animate"
-                     src={C}
-                     loading="lazy"
-                  />
-                  <ImgB
-                     variants={spinAnimation}
-                     initial="offscreen"
-                     whileInView="onscreen"
-                     animate="animate"
-                     src={B}
-                     loading="lazy"
-                  />
-                  <ImgBus
-                     variants={spinAnimation}
-                     initial="offscreen"
-                     whileInView="onscreen"
-                     animate="animate"
-                     src={Bus}
-                     loading="lazy"
-                  />
-                  <ImgYellowCard
-                     variants={spinAnimation}
-                     initial="offscreen"
-                     whileInView="onscreen"
-                     animate="animate"
-                     src={YellowCard}
-                     loading="lazy"
-                  />
-                  <ImgMug
-                     variants={spinAnimation}
-                     initial="offscreen"
-                     whileInView="onscreen"
-                     animate="animate"
-                     src={Mug}
-                     loading="lazy"
-                  />
-                  <ImgPoint
-                     variants={spinAnimation}
-                     initial="offscreen"
-                     whileInView="onscreen"
-                     animate="animate"
-                     src={Point}
-                     loading="lazy"
-                  />
-                  <ImgPoint
-                     variants={spinAnimation}
-                     initial="offscreen"
-                     whileInView="onscreen"
-                     animate="animate"
-                     src={Point}
-                     loading="lazy"
-                  />
-                  <ImgPointBritain
-                     variants={spinAnimation}
-                     initial="offscreen"
-                     whileInView="onscreen"
-                     animate="animate"
-                     src={PointBritain}
-                     loading="lazy"
-                  />
-               </ChildContainer>
-            </ImgBackground>
-         </div>
+         <StyledImgCon>
+            <ImgBackground src={Background} />
+            <ChildContainer>
+               <ImgBook
+                  variants={pulseAnimation}
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  animate="animate"
+                  src={Book}
+                  loading="lazy"
+               />
+               <ImgLearn
+                  variants={animate}
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  animate="animate"
+                  src={Learn}
+                  loading="lazy"
+               />
+               <ImgReading
+                  variants={animate}
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  animate="animate"
+                  src={Reading}
+                  loading="lazy"
+               />
+               <ImgStar
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  animate="animate"
+                  src={Star}
+                  loading="lazy"
+               />
+               <ImgStar2
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  animate="animate"
+                  src={Star}
+                  loading="lazy"
+               />
+               <ImgStar3
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  animate="animate"
+                  src={Star}
+                  loading="lazy"
+               />
+
+               <ImgC
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  animate="animate"
+                  src={C}
+                  loading="lazy"
+               />
+               <ImgB
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  animate="animate"
+                  src={B}
+                  loading="lazy"
+               />
+               <ImgBus
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  animate="animate"
+                  src={Bus}
+                  loading="lazy"
+               />
+               <ImgYellowCard
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  animate="animate"
+                  src={YellowCard}
+                  loading="lazy"
+               />
+               <ImgMug
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  animate="animate"
+                  src={Mug}
+                  loading="lazy"
+               />
+               <ImgPoint
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  animate="animate"
+                  src={Point}
+                  loading="lazy"
+               />
+               <ImgPoint2
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  animate="animate"
+                  src={Point}
+                  loading="lazy"
+               />
+               <ImgPoint3
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  animate="animate"
+                  src={Point}
+                  loading="lazy"
+               />
+               <ImgPoint4
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  animate="animate"
+                  src={Point}
+                  loading="lazy"
+               />
+               <ImgPoint5
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  animate="animate"
+                  src={Point}
+                  loading="lazy"
+               />
+               <ImgPointBritain
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  animate="animate"
+                  src={PointBritain}
+                  loading="lazy"
+               />
+               <ImgA
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  animate="animate"
+                  src={A}
+                  loading="lazy"
+               />
+            </ChildContainer>
+         </StyledImgCon>
       </Description>
    )
 }
 
 export default UserExperience
 
+const StyledImgCon = styled('div')(() => ({
+   marginRight: '30rem',
+}))
+
 const Description = styled('div')(() => ({
    display: 'flex',
    justifyContent: 'space-between',
    marginLeft: '81px',
-   marginBottom: '121.39px',
+   gap: '6.5rem',
+   maxWidth: '1600px',
 }))
 const ContainerOfExperience = styled('div')(() => ({
    display: 'flex',
@@ -275,14 +303,10 @@ const ImgTutoring = styled('img')(() => ({
    height: '50px',
 }))
 
-const ImgBackground = styled('div')(({ background }) => ({
-   position: 'relative',
+const ImgBackground = styled('img')(() => ({
    marginTop: '17px',
-   marginRight: '154.19px',
-   width: '100%',
-   backgroundImage: `url(${background})`,
-   backgroundRepeat: 'no-repeat',
-   backgroundPosition: 'center',
+   width: '27.52988rem',
+   height: '26.25rem',
 }))
 
 const ChildContainer = styled(motion.div)(() => ({
@@ -293,24 +317,127 @@ const ChildContainer = styled(motion.div)(() => ({
    bottom: 0,
 }))
 
-const ImgBook = styled(motion.img)(() => ({}))
+const ImgBook = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '2',
+   width: '22.11994rem',
+   height: '18.65006rem',
+   left: '52.5rem',
+   top: '6.5rem',
+}))
 
-const ImgLearn = styled(motion.img)(() => ({}))
+const ImgLearn = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '4',
+   left: '29.5rem',
+   bottom: '11rem',
+}))
 
-const ImgReading = styled(motion.img)(() => ({}))
+const ImgReading = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '3',
+   left: '43.8rem',
+   bottom: '8rem',
+}))
 
-const ImgStar = styled(motion.img)(() => ({}))
+const ImgStar = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '4',
+   left: '18.7rem',
+   bottom: '0.1rem',
+}))
 
-const ImgC = styled(motion.img)(() => ({}))
+const ImgStar2 = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '4',
+   left: '35.35rem',
+   bottom: '11.5rem',
+}))
 
-const ImgB = styled(motion.img)(() => ({}))
+const ImgStar3 = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '10',
+   left: '35.4rem',
+   top: '6.65rem',
+}))
 
-const ImgBus = styled(motion.img)(() => ({}))
+const ImgC = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '3',
+   left: '30rem',
+   top: '7.2rem',
+}))
 
-const ImgYellowCard = styled(motion.img)(() => ({}))
+const ImgB = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '4',
+   left: '11.5rem',
+   bottom: '3.5rem',
+}))
 
-const ImgMug = styled(motion.img)(() => ({}))
+const ImgBus = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '4',
+   left: '10rem',
+   top: '7.75rem',
+}))
 
-const ImgPoint = styled(motion.img)(() => ({}))
+const ImgYellowCard = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '4',
+   left: '25.3rem',
+   top: '5rem',
+}))
 
-const ImgPointBritain = styled(motion.img)(() => ({}))
+const ImgMug = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '4',
+   left: '23.5rem',
+   bottom: '3.5rem',
+}))
+
+const ImgPoint = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '4',
+   left: '0.7rem',
+   top: '1.4rem',
+}))
+
+const ImgPoint2 = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '4',
+   left: '8.5rem',
+   top: '6.2rem',
+}))
+const ImgPoint3 = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '4',
+   left: '16.7rem',
+   top: '3.6rem',
+}))
+const ImgPoint4 = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '4',
+   left: '17rem',
+   bottom: '7.3rem',
+}))
+
+const ImgPoint5 = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '4',
+   left: '2rem',
+   bottom: '13.2rem',
+}))
+
+const ImgPointBritain = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '3',
+   left: '4rem',
+   bottom: '12.5rem',
+}))
+const ImgA = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '3',
+   left: '7.3rem',
+   bottom: '12.5rem',
+}))
