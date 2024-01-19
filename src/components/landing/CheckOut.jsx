@@ -101,8 +101,6 @@ const StyledCard = styled('div')(({ background }) => ({
    flexDirection: 'row',
    alignItems: 'center',
    gap: '1.62rem',
-   width: '64.25rem',
-   height: '27.5rem',
    borderRadius: '4.375rem 4.375rem 4.375rem 0rem',
    backgroundColor: background,
    boxShadow: '16px 16px 20px 0px rgba(0, 0, 0, 0.30)',
@@ -110,7 +108,7 @@ const StyledCard = styled('div')(({ background }) => ({
 
    '&.slide': {
       transform: 'scale(0.3)',
-      transition: 'transform 1200ms',
+      transition: 'transform 1200ms ease-in-out',
       opacity: '0.1',
    },
 
@@ -157,7 +155,6 @@ const StyledSlider = styled(Slider)({
    },
    '& .slick-list': {
       width: '65.625rem',
-      height: '46.25rem',
       overflow: 'visible',
    },
    '& .slick-arrow': {
@@ -169,7 +166,7 @@ const StyledSlider = styled(Slider)({
    '& .slick-next': {
       position: 'relative',
       left: '40rem',
-      top: '-14.4rem',
+      top: '4.4rem',
       width: '3.75rem',
       height: '3.75rem',
    },
@@ -191,7 +188,7 @@ const StyledSlider = styled(Slider)({
       },
    },
    '& .slick-dots': {
-      bottom: '16rem',
+      bottom: '-2rem',
       right: '1rem',
    },
 
