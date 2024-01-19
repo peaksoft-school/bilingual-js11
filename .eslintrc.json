@@ -18,6 +18,8 @@
    },
    "rules": {
       "react/prop-types": "off",
+      "import/no-extraneous-dependencies": "off",
+      "import/no-unused-vars": "off",
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "react/jsx-props-no-spreading": "off",
       "react/react-in-jsx-scope": "off",
