@@ -42,16 +42,7 @@ const LearnMore = () => {
                         {text}
                      </StyledTypographyMoreText>
                   </div>
-                  <StyledAnimationImage
-                     animate={{
-                        scale: [0.97, 1, 0.97, 1],
-                     }}
-                     transition={{
-                        ease: 'easeOut',
-                        duration: 10,
-                        repeat: Infinity,
-                     }}
-                  >
+                  <StyledAnimationImage>
                      {React.createElement(iconComponents[icon].component, {
                         style: iconComponents[icon].style,
                      })}
@@ -100,10 +91,7 @@ const StyledRow = styled('div')(({ theme }) => ({
    marginLeft: '7.5rem',
    width: '100%',
 
-   [theme.breakpoints.down('ld')]: {
-      marginLeft: 0,
-      paddingRight: '6rem',
-   },
+   [theme.breakpoints.down('ld')]: {},
 }))
 
 const StyledTypography = styled(Typography)(({ theme }) => ({
@@ -111,11 +99,7 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
    fontFamily: 'Gilroy',
    fontSize: '2.5rem',
 
-   [theme.breakpoints.down('ld')]: {
-      width: '100%',
-      fontSize: '2rem',
-      textAlign: 'center',
-   },
+   [theme.breakpoints.down('ld')]: {},
 }))
 
 const StyledTypographyH3 = styled(Typography)(({ theme }) => ({
@@ -124,10 +108,7 @@ const StyledTypographyH3 = styled(Typography)(({ theme }) => ({
    fontWeight: '600',
    paddingTop: '6rem',
 
-   [theme.breakpoints.down('ld')]: {
-      width: '100%',
-      fontSize: '1.1rem',
-   },
+   [theme.breakpoints.down('ld')]: {},
 }))
 
 const StyledTypographyMoreText = styled(Typography)(({ theme }) => ({
@@ -135,10 +116,7 @@ const StyledTypographyMoreText = styled(Typography)(({ theme }) => ({
    paddingTop: '0.6rem',
    fontSize: '1rem',
 
-   [theme.breakpoints.down('ld')]: {
-      width: '25rem',
-      fontSize: '0.9rem',
-   },
+   [theme.breakpoints.down('ld')]: {},
 }))
 
 const StyledAnimationDiv = styled(motion.div)(({ theme }) => ({
@@ -149,9 +127,7 @@ const StyledAnimationDiv = styled(motion.div)(({ theme }) => ({
    width: '24.375rem',
    overflow: 'hidden',
 
-   [theme.breakpoints.down('ld')]: {
-      height: '88rem',
-   },
+   [theme.breakpoints.down('ld')]: {},
 }))
 
 const StyledRoadmapImage = styled(RoadmapImage)(({ theme }) => ({
@@ -165,21 +141,19 @@ const StyledRoadmapImage = styled(RoadmapImage)(({ theme }) => ({
       animation: `${dash} 3.5s infinite linear forwards`,
    },
 
-   [theme.breakpoints.down('ld')]: {
-      height: '30%',
-      marginLeft: '20%',
-      padding: 0,
-   },
+   [theme.breakpoints.down('ld')]: {},
 }))
 
 const StyledAnimationImage = styled(motion.div)(({ theme }) => ({
    position: 'relative',
-   top: '-17rem',
-   [theme.breakpoints.down('ld')]: {
-      width: '100%',
-      fontSize: 'rem',
-      marginLeft: '-8rem',
-   },
+   top: '-18rem',
+   right: '3.2rem',
+
+   // path: {
+   //    strokeDasharray: '18.56 18.56',
+   //    animation: `${dash} 3.5s infinite linear forwards`,
+   // },
+   [theme.breakpoints.down('ld')]: {},
 }))
 
 const SyledButtonContainer = styled(motion.div)({
