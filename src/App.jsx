@@ -1,7 +1,13 @@
 import './App.css'
+import Footer from './components/Footer'
 
 const App = () => {
-   return <div>Bilingual</div>
+   return (
+      <div>
+         <Footer />
+         Bilingual
+      </div>
+   )
 }
 
 export default App
