@@ -49,7 +49,7 @@ const VIDEOS = [
    },
 ]
 
-const DATA_FEEDBACK = [
+const DATA_FEEDBACKS = [
    {
       id: 1,
       description:
@@ -79,7 +79,7 @@ const DATA_FEEDBACK = [
       description:
          'I love the audio feature on Bilingual, which allows me to practice my listening skills. Its a great way to improve comprehension.',
       name: '- Aziat Abdimalikov',
-      rating: 5,
+      rating: 4,
       avatar: PersonSix,
    },
    {
@@ -94,7 +94,7 @@ const DATA_FEEDBACK = [
       id: 6,
       description:
          'Bilingual provides excellent feedback on my exercises and assessments. It helps me identify areas where I need tracks my progress over time.',
-      name: '- Elizar Aitbek',
+      name: '- Elizar Aitbekov',
       rating: 5,
       avatar: PersonFive,
    },
@@ -109,4 +109,4 @@ const DATA_FEEDBACK = [
    },
 ]
 
-export { VIDEOS, CHECKBOX_IMAGE, textAnimation, DATA_FEEDBACK }
+export { VIDEOS, CHECKBOX_IMAGE, textAnimation, DATA_FEEDBACKS }

@@ -3,22 +3,22 @@ import { Rating, Typography, styled } from '@mui/material'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import { DATA_FEEDBACK } from '../../utils/constants'
+import { DATA_FEEDBACKS } from '../../utils/constants'
 import {
-   NextIcon,
+   NextArrowIcon,
    Pagination,
    PaginationActive,
-   PrevIcon,
+   PrevArrowIcon,
 } from '../../assets/icons'
 
 const PrevArrow = ({ onClick, className }) => (
-   <PrevIcon onClick={onClick} className={className} />
+   <PrevArrowIcon onClick={onClick} className={className} />
 )
 const NextArrow = ({ onClick, className }) => (
-   <NextIcon onClick={onClick} className={className} />
+   <NextArrowIcon onClick={onClick} className={className} />
 )
 
-const Feedback = () => {
+const Feedbacks = () => {
    const [index, setIndex] = useState(0)
 
    const paginatonActive = (i) => {
@@ -51,24 +51,24 @@ const Feedback = () => {
       <StyledFeedbackPage>
          <StyledTypography>Why people love Bilingual</StyledTypography>
          <StyledContainer>
-            <StyledSlider {...settings}>
-               {DATA_FEEDBACK.map(
-                  ({ id, name, description, rating, avatar }, ind) => (
-                     <StyledCard key={id} isActive={ind === index}>
+            <StyledSlide {...settings}>
+               {DATA_FEEDBACKS.map(
+                  ({ id, name, description, rating, avatar }, data) => (
+                     <StyledCard key={id} isActive={data === index}>
                         <img src={avatar} alt={name} />
-                        <StyledDescription>{description}</StyledDescription>
+                        <Typography>{description}</Typography>
                         <h4>{name}</h4>
-                        <Rating value={rating} readOnly />
+                        <StyledRating value={rating} readOnly />
                      </StyledCard>
                   )
                )}
-            </StyledSlider>
+            </StyledSlide>
          </StyledContainer>
       </StyledFeedbackPage>
    )
 }
 
-export default Feedback
+export default Feedbacks
 
 const StyledFeedbackPage = styled('div')({
    display: 'flex',
@@ -101,12 +101,6 @@ const StyledTypography = styled('div')({
    },
 })
 
-const StyledDescription = styled(Typography)({
-   width: '19.125rem',
-   margin: 'auto',
-   paddingTop: '2.38rem',
-})
-
 const StyledCard = styled('div')(({ isActive }) => ({
    position: 'relative',
    textAlign: 'center',
@@ -117,6 +111,12 @@ const StyledCard = styled('div')(({ isActive }) => ({
    background: isActive ? '#666CA7' : '#E5E5E5',
    transition: 'background 0.2s ease, transform 0.5s ease, filter 0.5s ease',
    borderRadius: '40px',
+
+   '.MuiTypography-root': {
+      width: '19.125rem',
+      margin: 'auto',
+      paddingTop: '2.38rem',
+   },
 
    '& img': {
       width: isActive ? '16.25rem' : '11.25rem',
@@ -164,7 +164,13 @@ const StyledCard = styled('div')(({ isActive }) => ({
    },
 }))
 
-const StyledSlider = styled(Slider)(({ theme }) => ({
+const StyledRating = styled(Rating)({
+   '& .MuiRating-iconEmpty': {
+      color: 'white',
+   },
+})
+
+const StyledSlide = styled(Slider)(({ theme }) => ({
    padding: '0 30px',
    display: 'grid',
    gridTemplateColumns: 'repeat(3, auto)',
@@ -194,8 +200,7 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
       fontWeight: 600,
       paddingTop: '1.5rem',
       paddingBottom: '1.5rem',
-      paddingLeft: '6.2rem',
-      textAlign: 'center',
+      paddingLeft: '6.3rem',
    },
 
    '& .MuiRating-root': {
