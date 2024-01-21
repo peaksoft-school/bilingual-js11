@@ -1,14 +1,7 @@
 import './App.css'
-import Intro from './components/landing/Intro'
-import LearnMore from './components/landing/LearnMore'
 
 const App = () => {
-   return (
-      <div>
-         <Intro />
-         <LearnMore />
-      </div>
-   )
+   return <div>Bilingual</div>
 }
 
 export default App

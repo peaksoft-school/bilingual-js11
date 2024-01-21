@@ -1,10 +1,17 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Typography, keyframes, styled } from '@mui/material'
 import { motion } from 'framer-motion'
 import Aos from 'aos'
 import 'aos/dist/aos.css'
-import { RoadmapImage } from '../../assets/icons'
-import { iconComponents, sections } from '../../utils/constants'
+
+import {
+   GlobeImage,
+   ImageFour,
+   ImageOne,
+   ImageThree,
+   ImageTwo,
+   RoadmapImage,
+} from '../../assets/icons'
 import LandingButton from '../UI/buttons/LandingButton'
 
 const dash = keyframes`
@@ -32,24 +39,91 @@ const LearnMore = () => {
                <StyledRoadmapImage />
             </StyledAnimationDiv>
 
-            {sections.map(({ animation, text, title, icon, style }) => (
-               <StyledRow key={title}>
-                  <div data-aos={animation}>
-                     <StyledTypographyH3 style={style}>
-                        {title}
-                     </StyledTypographyH3>
-                     <StyledTypographyMoreText style={style}>
-                        {text}
-                     </StyledTypographyMoreText>
-                  </div>
-                  <StyledAnimationImage>
-                     {React.createElement(iconComponents[icon].component, {
-                        style: iconComponents[icon].style,
-                     })}
-                  </StyledAnimationImage>
-               </StyledRow>
-            ))}
-            <SyledButtonContainer
+            <StyledRow>
+               <div data-aos="fade-right">
+                  <StyledTypographyH3>
+                     Expand your applicant pool
+                  </StyledTypographyH3>
+                  <StyledTypographyMoreText>
+                     Tap into a diverse pool of candidates from 210+ countries
+                     and territories of origin, who have taken the Bilingual
+                     English Test because of its radical accessibility.
+                  </StyledTypographyMoreText>
+               </div>
+               <StyledGlobeImage />
+            </StyledRow>
+
+            <StyledRow>
+               <div>
+                  <StyledImageOne />
+               </div>
+
+               <div data-aos="fade-left">
+                  <StyledTypographyH3>
+                     Built on the latest assessment sciencee
+                  </StyledTypographyH3>
+                  <StyledTypographyMoreText>
+                     The Duolingo English Test is a computer adaptive test
+                     backed by rigorous research, with results that are highly
+                     correlated
+                     <br />
+                     with other major assessments such as the TOEFL and the
+                     <br />
+                     IELTS.
+                  </StyledTypographyMoreText>
+               </div>
+            </StyledRow>
+
+            <StyledRow>
+               <div data-aos="fade-right">
+                  <StyledTypographyH3>
+                     Innovative test security
+                  </StyledTypographyH3>
+                  <StyledTypographyMoreText>
+                     Industry-leading security protocols, individual test
+                     proctoring, and computer adaptive technology help prevent
+                     fraud and cheating and ensure results you can trust.
+                  </StyledTypographyMoreText>
+               </div>
+               <div>
+                  <StyledImageTwo />
+               </div>
+            </StyledRow>
+
+            <StyledRow>
+               <div>
+                  <StyledImageThree />
+               </div>
+
+               <div data-aos="fade-left">
+                  <StyledTypographyH3>
+                     Convenient results dashboard
+                  </StyledTypographyH3>
+                  <StyledTypographyMoreText>
+                     Access candidates’ certificates, video interviews, and
+                     writing samples through a free and secure dashboard.
+                     Quickly and easily view applicant data with filtering
+                     tools.
+                  </StyledTypographyMoreText>
+               </div>
+            </StyledRow>
+
+            <StyledRow>
+               <div data-aos="fade-right">
+                  <StyledTypographyH3>Secure Design</StyledTypographyH3>
+                  <StyledTypographyMoreText>
+                     Adaptive test engine dynamically administers test questions
+                     from a database of hundreds of thousands of items. <br />
+                     Someone would have to take the test more than 1,000 times
+                     <br />
+                     to see a question repeated.
+                  </StyledTypographyMoreText>
+               </div>
+               <div>
+                  <StyledImageFour />
+               </div>
+            </StyledRow>
+            <StyledButton
                animate={{
                   scale: [0.95, 1, 0.95, 1],
                }}
@@ -60,7 +134,7 @@ const LearnMore = () => {
                }}
             >
                <LandingButton />
-            </SyledButtonContainer>
+            </StyledButton>
          </StyledContainer>
       </StyledLearnMorePage>
    )
@@ -74,24 +148,36 @@ const StyledLearnMorePage = styled('div')({
    overflow: 'hidden',
 })
 
-const StyledContainer = styled('div')({
+const StyledContainer = styled('div')(({ theme }) => ({
    margin: 'auto',
    display: 'flex',
    flexDirection: 'column',
    alignItems: 'center',
    justifyContent: 'center',
+   padding: '2rem',
    position: 'relative',
    maxWidth: '1440px',
    width: '100%',
-})
+
+   [theme.breakpoints.down('lg')]: {
+      maxWidth: '1200px',
+   },
+}))
 
 const StyledRow = styled('div')(({ theme }) => ({
-   marginTop: '1rem',
-   marginBottom: '1rem',
-   marginLeft: '7.5rem',
-   width: '100%',
+   display: 'flex',
+   flexDirection: 'row',
+   alignItems: 'center',
+   justifyContent: 'space-between',
+   width: '1440px',
+   paddingTop: '2rem',
+   paddingLeft: '4.5rem',
+   paddingRight: '2rem',
 
-   [theme.breakpoints.down('ld')]: {},
+   [theme.breakpoints.down('lg')]: {
+      maxWidth: '1180px',
+      paddingTop: '5.5rem',
+   },
 }))
 
 const StyledTypography = styled(Typography)(({ theme }) => ({
@@ -99,7 +185,10 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
    fontFamily: 'Gilroy',
    fontSize: '2.5rem',
 
-   [theme.breakpoints.down('ld')]: {},
+   [theme.breakpoints.down('lg')]: {
+      fontSize: '2rem',
+      textAlign: 'center',
+   },
 }))
 
 const StyledTypographyH3 = styled(Typography)(({ theme }) => ({
@@ -108,15 +197,33 @@ const StyledTypographyH3 = styled(Typography)(({ theme }) => ({
    fontWeight: '600',
    paddingTop: '6rem',
 
-   [theme.breakpoints.down('ld')]: {},
+   [theme.breakpoints.down('lg')]: {
+      fontSize: ' 1.1rem',
+      paddingTop: '2.5rem',
+   },
 }))
 
 const StyledTypographyMoreText = styled(Typography)(({ theme }) => ({
    width: '30.875rem',
    paddingTop: '0.6rem',
+   paddingRight: '2rem',
    fontSize: '1rem',
 
-   [theme.breakpoints.down('ld')]: {},
+   [theme.breakpoints.down('lg')]: {
+      width: '28rem',
+      paddingTop: '0.5rem',
+      paddingRight: '2rem',
+      fontSize: '0.9rem',
+   },
+}))
+
+const StyledButton = styled(motion.div)(({ theme }) => ({
+   marginTop: '7rem',
+
+   [theme.breakpoints.down('lg')]: {
+      maxWidth: '1200px',
+      marginTop: '4rem',
+   },
 }))
 
 const StyledAnimationDiv = styled(motion.div)(({ theme }) => ({
@@ -127,12 +234,14 @@ const StyledAnimationDiv = styled(motion.div)(({ theme }) => ({
    width: '24.375rem',
    overflow: 'hidden',
 
-   [theme.breakpoints.down('ld')]: {},
+   [theme.breakpoints.down('lg')]: {
+      maxWidth: '1100px',
+   },
 }))
 
 const StyledRoadmapImage = styled(RoadmapImage)(({ theme }) => ({
    width: '100%',
-   height: '80rem',
+   height: '78rem',
    objectFit: 'cover',
    zIndex: 2,
 
@@ -141,22 +250,108 @@ const StyledRoadmapImage = styled(RoadmapImage)(({ theme }) => ({
       animation: `${dash} 3.5s infinite linear forwards`,
    },
 
-   [theme.breakpoints.down('ld')]: {},
+   [theme.breakpoints.down('lg')]: {
+      height: '70rem',
+      right: '10rem',
+      objectFit: 'cover',
+      marginLeft: '-10rem',
+   },
 }))
 
-const StyledAnimationImage = styled(motion.div)(({ theme }) => ({
-   position: 'relative',
-   top: '-18rem',
-   right: '3.2rem',
+const StyledGlobeImage = styled(GlobeImage)(({ theme }) => ({
+   position: 'absolute',
+   top: '11.2rem',
+   left: '37rem',
+   zIndex: 2,
 
-   // path: {
-   //    strokeDasharray: '18.56 18.56',
-   //    animation: `${dash} 3.5s infinite linear forwards`,
-   // },
-   [theme.breakpoints.down('ld')]: {},
+   path: {
+      strokeDasharray: '90',
+      animation: `${dash} 7.5s infinite linear forwards`,
+   },
+
+   [theme.breakpoints.down('lg')]: {
+      width: '16.5rem',
+      height: '16.5rem',
+      left: '28rem',
+      top: '7rem',
+   },
 }))
 
-const SyledButtonContainer = styled(motion.div)({
-   marginTop: '12rem',
-   marginBottom: '4rem',
-})
+const StyledImageOne = styled(ImageOne)(({ theme }) => ({
+   position: 'absolute',
+   top: '28.8rem',
+   left: '22rem',
+
+   path: {
+      strokeDasharray: '80',
+      animation: `${dash} 8.5s infinite linear forwards`,
+   },
+
+   [theme.breakpoints.down('lg')]: {
+      width: '16.5rem',
+      height: '16.5rem',
+      top: '23rem',
+      left: '22rem',
+      zIndex: 0,
+   },
+}))
+
+const StyledImageTwo = styled(ImageTwo)(({ theme }) => ({
+   position: 'absolute',
+   top: '43.5rem',
+   right: '26rem',
+   zIndex: 1,
+
+   path: {
+      strokeDasharray: '80',
+      animation: `${dash} 8.5s infinite linear forwards`,
+   },
+
+   [theme.breakpoints.down('lg')]: {
+      width: '15rem',
+      height: '15rem',
+      top: '37.5rem',
+      left: '37rem',
+      zIndex: 0,
+   },
+}))
+
+const StyledImageThree = styled(ImageThree)(({ theme }) => ({
+   position: 'absolute',
+   top: '60rem',
+   left: 365,
+   zIndex: 1,
+
+   path: {
+      strokeDasharray: '300',
+      animation: `${dash} 8.5s infinite linear forwards`,
+   },
+
+   [theme.breakpoints.down('lg')]: {
+      width: '16.5rem',
+      height: '16.5rem',
+      top: '51.5rem',
+      left: '20rem',
+      zIndex: 0,
+   },
+}))
+
+const StyledImageFour = styled(ImageFour)(({ theme }) => ({
+   position: 'absolute',
+   top: '76rem',
+   right: '24rem',
+   zIndex: 1,
+
+   path: {
+      strokeDasharray: '300',
+      animation: `${dash} 8.5s infinite linear forwards`,
+   },
+
+   [theme.breakpoints.down('lg')]: {
+      width: '16.5rem',
+      height: '16.5rem',
+      top: '66rem',
+      left: '36rem',
+      zIndex: 0,
+   },
+}))

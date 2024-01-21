@@ -163,6 +163,16 @@ const StyledContainer = styled('div')({
    backgroundImage: `url(${BackgroundImage})`,
    backgroundSize: 'cover',
    backgroundRepeat: 'no-repeat',
+
+   '@media (max-width: 1200px)': {
+      maxWidth: '1200px',
+      paddingRight: '1rem',
+      height: '35rem',
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: '9rem',
+      gap: '10rem',
+   },
 })
 
 const StyledIntroPage = styled('div')({
@@ -178,33 +188,36 @@ const StyledIntroPage = styled('div')({
    position: 'relative',
 })
 
-const StyledTypography = styled(Typography)(({ theme }) => ({
+const StyledTypography = styled(Typography)({
    width: '40rem',
    fontSize: '3.75rem',
    fontFamily: 'Gilroy',
    color: '#43404E',
    fontWeight: '900',
 
-   [theme.breakpoints.down('ld')]: {
-      width: '4rem',
-      fontSize: '1rem',
+   '@media (max-width: 1200px)': {
+      maxWidth: '40rem',
+      fontSize: '3rem',
+      position: 'relative',
+      top: '-1.5rem',
    },
-}))
+})
 
-const StyledTypographyTwo = styled(Typography)(({ theme }) => ({
+const StyledTypographyTwo = styled(Typography)({
    color: '#C93D7D',
    fontFamily: 'Gilroy',
    fontSize: '3.75rem',
    paddingTop: '0px',
 
-   [theme.breakpoints.down('ld')]: {
-      width: '4rem',
-
-      fontSize: '8px',
+   '@media (max-width: 1200px)': {
+      maxWidth: '40rem',
+      fontSize: '3rem',
+      position: 'relative',
+      top: '-1.5rem',
    },
-}))
+})
 
-const StyledPtag = styled('p')(({ theme }) => ({
+const StyledPtag = styled('p')({
    color: '#47454e',
    width: '48.25rem',
    fontFamily: 'Arial',
@@ -213,24 +226,28 @@ const StyledPtag = styled('p')(({ theme }) => ({
    paddingTop: '1.813rem',
    paddingBottom: '1.875rem',
 
-   [theme.breakpoints.down('ld')]: {
-      width: '4rem',
-      fontSize: '0.8rem',
+   '@media (max-width: 1200px)': {
+      maxWidth: '40rem',
+      fontSize: '1.1rem',
+      position: 'relative',
+      top: '-2rem',
    },
-}))
+})
 
-const StyledMantieImg = styled(MantieImg)(({ theme }) => ({
+const StyledMantieImg = styled(MantieImg)({
    width: '14rem',
    height: '15rem',
    position: 'absolute',
    top: '1rem',
    right: '8.5rem',
 
-   [theme.breakpoints.down('ld')]: {
-      width: '5rem',
-      height: '5rem',
+   '@media (max-width: 1200px)': {
+      width: '12.5rem',
+      height: '13.5rem',
+      right: '4rem',
+      top: '-0.5rem',
    },
-}))
+})
 
 const StyledPaperOneImg = styled(PaperOneImg)({
    width: '6rem',
@@ -238,6 +255,13 @@ const StyledPaperOneImg = styled(PaperOneImg)({
    position: 'absolute',
    top: '0',
    left: '2.8rem',
+
+   '@media (max-width: 1200px)': {
+      width: '5.5rem',
+      height: '5.5rem',
+      top: '0',
+      left: '8rem',
+   },
 })
 
 const StyledPaperTwoImg = styled(PaperTwoImg)({
@@ -245,6 +269,13 @@ const StyledPaperTwoImg = styled(PaperTwoImg)({
    height: '4rem',
    position: 'absolute',
    left: '-180px',
+
+   '@media (max-width: 1200px)': {
+      width: '6.8rem',
+      height: '2.8rem',
+      top: '-4rem',
+      left: '-100px',
+   },
 })
 
 const StyledPaperThreeImg = styled(PaperThreeImg)({
@@ -253,6 +284,13 @@ const StyledPaperThreeImg = styled(PaperThreeImg)({
    position: 'absolute',
    top: '8rem',
    right: '6.5rem',
+
+   '@media (max-width: 1200px)': {
+      width: '8rem',
+      height: '4rem',
+      top: '6rem',
+      right: '3rem',
+   },
 })
 
 const StyledPaperFourImg = styled(PaperFourImg)({
@@ -261,6 +299,13 @@ const StyledPaperFourImg = styled(PaperFourImg)({
    position: 'absolute',
    top: '0',
    left: '-28rem',
+
+   '@media (max-width: 1200px)': {
+      width: '9.5rem',
+      height: '3.5rem',
+      top: '-5.8rem',
+      left: '-19rem',
+   },
 })
 
 const StyledNoteImg = styled(motion(NoteImg))({
@@ -269,6 +314,13 @@ const StyledNoteImg = styled(motion(NoteImg))({
    position: 'absolute',
    top: '1rem',
    left: '-6rem',
+
+   '@media (max-width: 1200px)': {
+      width: '11rem',
+      height: '11rem',
+      top: '-1rem',
+      left: '-2.5rem',
+   },
 })
 
 const StyledBookOneImg = styled(BookOneImg)({
@@ -277,6 +329,13 @@ const StyledBookOneImg = styled(BookOneImg)({
    position: 'absolute',
    top: '0',
    left: '-13rem',
+
+   '@media (max-width: 1200px)': {
+      width: '16.5rem',
+      height: '4.5rem',
+      top: '-4.4rem',
+      left: '-9rem',
+   },
 })
 
 const StyledBookTwoImg = styled(BookTwoImg)({
@@ -285,6 +344,13 @@ const StyledBookTwoImg = styled(BookTwoImg)({
    position: 'absolute',
    top: '0',
    right: '-6rem',
+
+   '@media (max-width: 1200px)': {
+      width: '17.5rem',
+      height: '3.5rem',
+      top: '-5.5rem',
+      right: '-9.5rem',
+   },
 })
 
 const StyledBookThreeImg = styled(BookThreeImg)({
@@ -293,6 +359,13 @@ const StyledBookThreeImg = styled(BookThreeImg)({
    position: 'absolute',
    top: '0',
    left: '-14rem',
+
+   '@media (max-width: 1200px)': {
+      width: '19.5rem',
+      height: '3.5rem',
+      top: '-6.5rem',
+      left: '-9.4rem',
+   },
 })
 
 const StyledShadowBookImg = styled(ShadowBookImg)({
@@ -301,6 +374,13 @@ const StyledShadowBookImg = styled(ShadowBookImg)({
    position: 'absolute',
    top: '37rem',
    right: '4rem',
+
+   '@media (max-width: 1200px)': {
+      width: '32.5rem',
+      height: '3.5rem',
+      top: '29.9rem',
+      right: '0rem',
+   },
 })
 
 const StyledText = styled(motion.div)({
@@ -309,6 +389,11 @@ const StyledText = styled(motion.div)({
    position: 'absolute',
    top: '7rem',
    left: '1.6rem',
+
+   '@media (max-width: 1200px)': {
+      width: '32.328rem',
+      height: '3.495rem',
+   },
 })
 
 const StyledButton = styled(motion.div)({
@@ -317,4 +402,10 @@ const StyledButton = styled(motion.div)({
    position: 'absolute',
    top: '30.5rem',
    left: '4.6rem',
+
+   '@media (max-width: 1200px)': {
+      width: '32.328rem',
+      height: '3.495rem',
+      top: '21rem',
+   },
 })
