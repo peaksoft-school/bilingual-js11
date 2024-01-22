@@ -3,7 +3,6 @@ import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import PartnersData from '../utils/constants/PartnersData'
-
 const useStyles = styled({
    partner: {
       display: 'flex',
@@ -12,7 +11,6 @@ const useStyles = styled({
 })
 const Partners = () => {
    const classes = useStyles()
-
    const settings = {
       infinite: true,
       speed: 5000,
@@ -26,37 +24,38 @@ const Partners = () => {
    }
 
    return (
-      <Box>
+      <StyledBox>
          <Grid item xs={12}>
             <StyledParners>Partners</StyledParners>
          </Grid>
          <Grid>
             <StyledSlider {...settings}>
-               {PartnersData.map((partner) => (
-                  <div key={partner.id} className={classes.partner}>
-                     {partner.imgSrc && (
+               {PartnersData.map(({ id, imgSrc, name }) => (
+                  <div key={id} className={classes.partner}>
+                     {imgSrc && (
                         <ImgContainer>
-                           <Img
-                              loading="lazy"
-                              src={partner.imgSrc}
-                              alt={partner.name}
-                           />
+                           <Img loading="lazy" src={imgSrc} alt={name} />
                         </ImgContainer>
                      )}
                   </div>
                ))}
             </StyledSlider>
          </Grid>
-      </Box>
+      </StyledBox>
    )
 }
-
 export default Partners
+const StyledBox = styled(Box)({
+   background: '#FEF5E8',
+   width: '100%',
+   paddingBottom: '7.5rem',
+})
 const StyledParners = styled(Typography)({
    color: '#3752B4',
    fontSize: '2.5rem',
    textAlign: 'center',
    padding: '2.5rem',
+   fontFamily: 'Gilroy',
 })
 const ImgContainer = styled('div')({
    margin: '0 0.9375rem',
@@ -68,7 +67,6 @@ const ImgContainer = styled('div')({
    background: '#FFF',
    display: 'inline-flex',
 })
-
 const Img = styled('img')({
    width: '10.9375rem',
    height: '5.375rem',
@@ -77,4 +75,7 @@ const Img = styled('img')({
    margin: 'auto',
    display: 'block',
 })
-const StyledSlider = styled(Slider)({})
+const StyledSlider = styled(Slider)({
+   maxWidth: '1600px',
+   margin: 'auto',
+})
