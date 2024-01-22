@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { Rating, Typography, styled } from '@mui/material'
+import { Box, Rating, Typography, styled } from '@mui/material'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import { DATA_FEEDBACKS } from '../../utils/constants'
+import { FEEDBACKS } from '../../utils/constants'
 import {
    NextArrowIcon,
    Pagination,
@@ -14,6 +14,7 @@ import {
 const PrevArrow = ({ onClick, className }) => (
    <PrevArrowIcon onClick={onClick} className={className} />
 )
+
 const NextArrow = ({ onClick, className }) => (
    <NextArrowIcon onClick={onClick} className={className} />
 )
@@ -21,12 +22,8 @@ const NextArrow = ({ onClick, className }) => (
 const Feedbacks = () => {
    const [index, setIndex] = useState(0)
 
-   const paginatonActive = (i) => {
-      if (i === index) {
-         return <PaginationActive />
-      }
-      return <Pagination />
-   }
+   const paginatonActive = (i) =>
+      i === index ? <PaginationActive /> : <Pagination />
 
    const settings = {
       focusOnSelect: true,
@@ -38,6 +35,7 @@ const Feedbacks = () => {
       speed: 300,
       autoplaySpeed: 3000,
       dots: true,
+      rtlMode: true,
       autoplay: true,
       customPaging: (i) => paginatonActive(i),
       swipeToSlide: true,
@@ -48,125 +46,58 @@ const Feedbacks = () => {
    }
 
    return (
-      <StyledFeedbackPage>
-         <StyledTypography>Why people love Bilingual</StyledTypography>
-         <StyledContainer>
+      <StyledFeedbacksPage>
+         <Typography className="title-text">
+            Why people love Bilingual
+         </Typography>
+         <div className="container">
             <StyledSlide {...settings}>
-               {DATA_FEEDBACKS.map(
-                  ({ id, name, description, rating, avatar }, data) => (
-                     <StyledCard key={id} isActive={data === index}>
+               {FEEDBACKS.map(
+                  ({ id, name, description, rating, avatar }, dataIndex) => (
+                     <StyledCard key={id} isActive={dataIndex === index}>
                         <img src={avatar} alt={name} />
                         <Typography>{description}</Typography>
                         <h4>{name}</h4>
-                        <StyledRating value={rating} readOnly />
+                        <Rating value={rating} readOnly />
                      </StyledCard>
                   )
                )}
             </StyledSlide>
-         </StyledContainer>
-      </StyledFeedbackPage>
+         </div>
+      </StyledFeedbacksPage>
    )
 }
 
 export default Feedbacks
 
-const StyledFeedbackPage = styled('div')({
+const StyledFeedbacksPage = styled(Box)({
    display: 'flex',
    backgroundColor: '#FEF5E8',
    backgroundSize: 'cover',
    backgroundRepeat: 'no-repeat',
    flexDirection: 'column',
-})
 
-const StyledContainer = styled('div')({
-   display: 'flex',
-   justifyContent: 'center',
-   marginBottom: '120px',
-   overflow: 'hidden',
-   maxWidth: '1400px',
-   margin: 'auto',
-})
+   '& .title-text': {
+      color: '#3752B4',
+      fontFamily: 'Gilroy',
+      fontSize: '2.5rem',
+      fontWeight: 700,
+      textAlign: 'center',
+      paddingBottom: '1rem',
 
-const StyledTypography = styled('div')({
-   color: '#3752B4',
-   fontFamily: 'Gilroy',
-   fontSize: '2.5rem',
-   fontWeight: 700,
-   textAlign: 'center',
-   paddingBottom: '1rem',
-
-   '@media screen and (max-width: 1200px)': {
-      fontSize: '2rem',
-      paddingBottom: '0.2rem',
+      '@media screen and (max-width: 1200px)': {
+         fontSize: '2rem',
+         paddingBottom: '0.2rem',
+      },
    },
-})
 
-const StyledCard = styled('div')(({ isActive }) => ({
-   position: 'relative',
-   textAlign: 'center',
-   height: '35.25rem',
-   maxHeight: '38.25rem',
-   maxWidth: '22.875rem',
-   cursor: 'pointer',
-   background: isActive ? '#666CA7' : '#E5E5E5',
-   transition: 'background 0.2s ease, transform 0.5s ease, filter 0.5s ease',
-   borderRadius: '40px',
-
-   '.MuiTypography-root': {
-      width: '19.125rem',
+   '& .container': {
+      display: 'flex',
+      justifyContent: 'center',
+      marginBottom: '120px',
+      overflow: 'hidden',
+      maxWidth: '1400px',
       margin: 'auto',
-      paddingTop: '2.38rem',
-   },
-
-   '& img': {
-      width: isActive ? '16.25rem' : '11.25rem',
-      height: isActive ? '16.25rem' : '11.25rem',
-      borderRadius: '50%',
-      margin: 'auto',
-      marginTop: isActive ? '2rem' : '4.38rem',
-      transition:
-         'width 0.4s ease, height 0.4s ease, margin-top 0.4s ease, filter 0.8s ease',
-      zIndex: 1,
-   },
-
-   '@media screen and (max-width: 1200px)': {
-      maxWidth: '1200px',
-      height: '29rem',
-      transition: 'background 0.2s ease, transform 0.5s ease, filter 0.5s ease',
-      position: 'relative',
-
-      img: {
-         maxWidth: '12rem',
-         maxHeight: '12rem',
-         borderRadius: '50%',
-         margin: 'auto',
-         marginTop: '2rem',
-         transition:
-            'width 0.4s ease, height 0.4s ease, margin-top 0.4s ease, filter 0.8s ease',
-      },
-
-      h4: {
-         fontSize: '0.9rem',
-         marginLeft: '-1rem',
-         top: '21rem',
-      },
-
-      span: {
-         fontSize: '1.2rem',
-         top: '24rem',
-         right: '6rem',
-      },
-
-      p: {
-         fontSize: '0.8rem',
-         maxWidth: '80%',
-      },
-   },
-}))
-
-const StyledRating = styled(Rating)({
-   '& .MuiRating-iconEmpty': {
-      color: 'white',
    },
 })
 
@@ -184,23 +115,20 @@ const StyledSlide = styled(Slider)(({ theme }) => ({
       transition: 'transform 2s ease',
    },
 
-   '& .slick-center ': {
+   '& .slick-center, .slick-center h4': {
       color: 'white',
    },
 
-   '& .slick-center h4': {
-      color: 'white',
-   },
-
-   h4: {
+   '& h4': {
       position: 'absolute',
-      bottom: '5rem',
+      bottom: '4.5rem',
+      left: '50%',
+      transform: 'translateX(-50%)',
       color: theme.palette.primary.main,
       fontSize: '1rem',
       fontWeight: 600,
       paddingTop: '1.5rem',
       paddingBottom: '1.5rem',
-      paddingLeft: '6.3rem',
    },
 
    '& .MuiRating-root': {
@@ -208,7 +136,8 @@ const StyledSlide = styled(Slider)(({ theme }) => ({
       justifyContent: 'center',
       position: 'absolute',
       bottom: '4rem',
-      marginLeft: '7rem',
+      left: '50%',
+      transform: 'translateX(-50%)',
    },
 
    '& .slick-slide:not(.slick-center)': {
@@ -278,12 +207,11 @@ const StyledSlide = styled(Slider)(({ theme }) => ({
       },
    },
 
-   '& .slick-next:hover, .slick-prev:hover': {
+   '& .slick-next:hover,.slick-prev:hover': {
       content: 'none',
       circle: {
          fill: '#3A10E5',
       },
-
       path: {
          fill: '#fff',
       },
@@ -291,6 +219,7 @@ const StyledSlide = styled(Slider)(({ theme }) => ({
 
    '& .slick-dots': {
       bottom: '4.5rem',
+      direction: 'rtl',
    },
 
    '& .slick-dots li': {
@@ -308,6 +237,73 @@ const StyledSlide = styled(Slider)(({ theme }) => ({
          padding: 0,
          margin: 0,
          bottom: '7.8rem',
+      },
+   },
+}))
+
+const StyledCard = styled('div')(({ isActive }) => ({
+   position: 'relative',
+   textAlign: 'center',
+   height: '35.25rem',
+   maxHeight: '38.25rem',
+   maxWidth: '22.875rem',
+   cursor: 'pointer',
+   background: isActive ? '#666CA7' : '#E5E5E5',
+   transition: 'background 0.2s ease, transform 0.5s ease, filter 0.5s ease',
+   borderRadius: '40px',
+
+   '.MuiTypography-root': {
+      width: '19.125rem',
+      margin: 'auto',
+      paddingTop: '2.38rem',
+   },
+
+   '& .MuiRating-iconEmpty': {
+      color: isActive ? 'white' : '#9A9A9A',
+   },
+
+   '& img': {
+      width: isActive ? '16.25rem' : '11.25rem',
+      height: isActive ? '16.25rem' : '11.25rem',
+      borderRadius: '50%',
+      margin: 'auto',
+      marginTop: isActive ? '2rem' : '4.38rem',
+      transition:
+         'width 0.4s ease, height 0.4s ease, margin-top 0.4s ease, filter 0.8s ease',
+      zIndex: 1,
+   },
+
+   '@media screen and (max-width: 1200px)': {
+      maxWidth: '1200px',
+      height: '29rem',
+      transition: 'background 0.2s ease, transform 0.5s ease, filter 0.5s ease',
+      position: 'relative',
+
+      '& img': {
+         maxWidth: '12rem',
+         maxHeight: '12rem',
+         borderRadius: '50%',
+         margin: 'auto',
+         marginTop: '2rem',
+         transition:
+            'width 0.4s ease, height 0.4s ease, margin-top 0.4s ease, filter 0.8s ease',
+      },
+
+      '& h4': {
+         fontSize: '0.9rem',
+         marginLeft: '-1rem',
+         top: '21rem',
+      },
+
+      '& span': {
+         fontSize: '1.2rem',
+         top: '24rem',
+         right: '6rem',
+      },
+
+      '& p': {
+         fontSize: '0.8rem',
+         maxWidth: '80%',
       },
    },
 }))

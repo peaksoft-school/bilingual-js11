@@ -49,7 +49,7 @@ const VIDEOS = [
    },
 ]
 
-const DATA_FEEDBACKS = [
+const FEEDBACKS = [
    {
       id: 1,
       description:
@@ -109,4 +109,4 @@ const DATA_FEEDBACKS = [
    },
 ]
 
-export { VIDEOS, CHECKBOX_IMAGE, textAnimation, DATA_FEEDBACKS }
+export { VIDEOS, CHECKBOX_IMAGE, textAnimation, FEEDBACKS }
