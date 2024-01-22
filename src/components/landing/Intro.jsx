@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Typography, styled } from '@mui/material'
 import { motion } from 'framer-motion'
 import LandingHeader from '../../layout/LandingHeader'
-import BackgroundImage from '../../assets/icons/svgs/background-image.svg'
 import LandingButton from '../UI/buttons/LandingButton'
 import {
    BookOneImg,
@@ -16,6 +15,7 @@ import {
    PaperTwoImg,
    ShadowBookImg,
 } from '../../assets/icons'
+import { BackgroundImageIntro } from '../../assets/images'
 
 const Intro = () => {
    const [isVisible, setIsVisible] = useState(false)
@@ -32,7 +32,7 @@ const Intro = () => {
       <>
          <LandingHeader />
          <StyledContainer>
-            <StyledIntroPage>
+            <div className="container">
                <motion.div
                   animate={{ y: 50, opacity: isVisible ? 1 : 0 }}
                   initial={{ opacity: 0 }}
@@ -126,20 +126,21 @@ const Intro = () => {
                   initial={{ opacity: 0 }}
                   transition={{ ease: 'easeOut', duration: 1 }}
                >
-                  <StyledTypography>
+                  <Typography className="title-text">
                      Prove your English proficiency today with
-                  </StyledTypography>
+                  </Typography>
 
-                  <StyledTypographyTwo>BILINGUAL</StyledTypographyTwo>
+                  <Typography className="title-text-two">BILINGUAL</Typography>
 
-                  <StyledPtag>
+                  <p className="text">
                      For nearly 30 years, learners have turned to Rosetta Stone
                      to build the fluency and confidence they need to speak new
                      languages.
-                  </StyledPtag>
+                  </p>
                </StyledText>
 
-               <StyledButton
+               <motion.div
+                  className="button"
                   animate={{
                      scale: [0.95, 1, 0.95, 1],
                   }}
@@ -150,8 +151,8 @@ const Intro = () => {
                   }}
                >
                   <LandingButton isStart={false} />
-               </StyledButton>
-            </StyledIntroPage>
+               </motion.div>
+            </div>
          </StyledContainer>
       </>
    )
@@ -160,7 +161,7 @@ const Intro = () => {
 export default Intro
 
 const StyledContainer = styled('div')({
-   backgroundImage: `url(${BackgroundImage})`,
+   backgroundImage: `url(${BackgroundImageIntro})`,
    backgroundSize: 'cover',
    backgroundRepeat: 'no-repeat',
 
@@ -173,64 +174,91 @@ const StyledContainer = styled('div')({
       fontSize: '9rem',
       gap: '10rem',
    },
-})
 
-const StyledIntroPage = styled('div')({
-   margin: 'auto',
-   display: 'flex',
-   flexDirection: 'column',
-   alignItems: 'end',
-   justifyContent: 'flex-start',
-   paddingRight: '15rem',
-   maxWidth: '1600px',
-   width: '100%',
-   height: '42rem',
-   position: 'relative',
-})
-
-const StyledTypography = styled(Typography)({
-   width: '40rem',
-   fontSize: '3.75rem',
-   fontFamily: 'Gilroy',
-   color: '#43404E',
-   fontWeight: '900',
-
-   '@media (max-width: 1200px)': {
-      maxWidth: '40rem',
-      fontSize: '3rem',
+   '& .container': {
+      margin: 'auto',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'end',
+      justifyContent: 'flex-start',
+      paddingRight: '15rem',
+      maxWidth: '1600px',
+      width: '100%',
+      height: '42rem',
       position: 'relative',
-      top: '-1.5rem',
+   },
+
+   '& .button': {
+      width: '33.328rem',
+      height: '4.495rem',
+      position: 'absolute',
+      top: '30.5rem',
+      left: '4.6rem',
+
+      '@media (max-width: 1200px)': {
+         width: '32.328rem',
+         height: '3.495rem',
+         top: '21rem',
+      },
    },
 })
 
-const StyledTypographyTwo = styled(Typography)({
-   color: '#C93D7D',
-   fontFamily: 'Gilroy',
-   fontSize: '3.75rem',
-   paddingTop: '0px',
+const StyledText = styled(motion.div)({
+   width: '33.328rem',
+   height: '4.495rem',
+   position: 'absolute',
+   top: '7rem',
+   left: '1.6rem',
 
    '@media (max-width: 1200px)': {
-      maxWidth: '40rem',
-      fontSize: '3rem',
-      position: 'relative',
-      top: '-1.5rem',
+      width: '32.328rem',
+      height: '3.495rem',
    },
-})
 
-const StyledPtag = styled('p')({
-   color: '#47454e',
-   width: '48.25rem',
-   fontFamily: 'Arial',
-   fontWeight: 100,
-   fontSize: '1.25rem',
-   paddingTop: '1.813rem',
-   paddingBottom: '1.875rem',
+   '& .title-text': {
+      width: '40rem',
+      fontSize: '3.75rem',
+      fontFamily: 'Gilroy',
+      color: '#43404E',
+      fontWeight: '900',
 
-   '@media (max-width: 1200px)': {
-      maxWidth: '40rem',
-      fontSize: '1.1rem',
-      position: 'relative',
-      top: '-2rem',
+      '@media (max-width: 1200px)': {
+         maxWidth: '40rem',
+         fontSize: '3rem',
+         position: 'relative',
+         top: '-1.5rem',
+      },
+   },
+
+   '& .title-text-two': {
+      color: '#C93D7D',
+      fontFamily: 'Gilroy',
+      fontSize: '3.75rem',
+      paddingTop: '0px',
+
+      '@media (max-width: 1200px)': {
+         maxWidth: '40rem',
+         fontSize: '3rem',
+         position: 'relative',
+         top: '-1.5rem',
+      },
+   },
+
+   '& .text': {
+      color: '#47454e',
+      width: '48.25rem',
+      fontFamily: 'Arial',
+      fontWeight: 100,
+      fontSize: '1.25rem',
+      paddingTop: '1.813rem',
+      paddingBottom: '1.875rem',
+
+      '@media (max-width: 1200px)': {
+         maxWidth: '40rem',
+         fontSize: '1.1rem',
+         position: 'relative',
+         top: '-2rem',
+      },
    },
 })
 
@@ -308,7 +336,7 @@ const StyledPaperFourImg = styled(PaperFourImg)({
    },
 })
 
-const StyledNoteImg = styled(motion(NoteImg))({
+const StyledNoteImg = styled(NoteImg)({
    width: '13.23088rem',
    height: '13.99494rem',
    position: 'absolute',
@@ -380,32 +408,5 @@ const StyledShadowBookImg = styled(ShadowBookImg)({
       height: '3.5rem',
       top: '29.9rem',
       right: '0rem',
-   },
-})
-
-const StyledText = styled(motion.div)({
-   width: '33.328rem',
-   height: '4.495rem',
-   position: 'absolute',
-   top: '7rem',
-   left: '1.6rem',
-
-   '@media (max-width: 1200px)': {
-      width: '32.328rem',
-      height: '3.495rem',
-   },
-})
-
-const StyledButton = styled(motion.div)({
-   width: '33.328rem',
-   height: '4.495rem',
-   position: 'absolute',
-   top: '30.5rem',
-   left: '4.6rem',
-
-   '@media (max-width: 1200px)': {
-      width: '32.328rem',
-      height: '3.495rem',
-      top: '21rem',
    },
 })

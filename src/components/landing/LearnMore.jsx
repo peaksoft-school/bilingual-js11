@@ -1,17 +1,17 @@
 import { useEffect } from 'react'
-import { Typography, keyframes, styled } from '@mui/material'
+import { Box, Typography, keyframes, styled } from '@mui/material'
 import { motion } from 'framer-motion'
 import Aos from 'aos'
 import 'aos/dist/aos.css'
 
 import {
-   BackgroundImageGlobe,
-   GlobeImage,
-   ImageFour,
-   ImageOne,
-   ImageThree,
-   ImageTwo,
+   BackgroundImgFirstLearnMoreIcon,
+   FifthLearnMoreIcon,
+   FirstLearnMoreIcon,
+   FourthLearnMoreIcon,
    RoadmapImage,
+   SecondLearnMoreIcon,
+   ThirdLearnMoreIcon,
 } from '../../assets/icons'
 import LandingButton from '../UI/buttons/LandingButton'
 
@@ -33,12 +33,12 @@ const LearnMore = () => {
    }, [])
 
    return (
-      <StyledLearnMorePage>
-         <StyledContainer>
-            <StyledTypography>Learn More</StyledTypography>
-            <StyledAnimationDiv>
+      <StyledContainer>
+         <div className="container">
+            <Typography className="title-text">Learn More</Typography>
+            <motion.div className="roadmap">
                <StyledRoadmapImage />
-            </StyledAnimationDiv>
+            </motion.div>
 
             <StyledRow>
                <div data-aos="fade-right">
@@ -125,7 +125,8 @@ const LearnMore = () => {
                   <StyledImageFour />
                </div>
             </StyledRow>
-            <StyledButton
+            <motion.div
+               className="button"
                animate={{
                   scale: [0.95, 1, 0.95, 1],
                }}
@@ -136,37 +137,72 @@ const LearnMore = () => {
                }}
             >
                <LandingButton />
-            </StyledButton>
-         </StyledContainer>
-      </StyledLearnMorePage>
+            </motion.div>
+         </div>
+      </StyledContainer>
    )
 }
 
 export default LearnMore
 
-const StyledLearnMorePage = styled('div')({
+const StyledContainer = styled('div')(({ theme }) => ({
    backgroundColor: '#FEF5E8',
    width: '100%',
    overflow: 'hidden',
-})
 
-const StyledContainer = styled('div')(({ theme }) => ({
-   margin: 'auto',
-   display: 'flex',
-   flexDirection: 'column',
-   alignItems: 'center',
-   justifyContent: 'center',
-   padding: '2rem',
-   position: 'relative',
-   maxWidth: '1440px',
-   width: '100%',
+   '& .container': {
+      margin: 'auto',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '2rem',
+      position: 'relative',
+      maxWidth: '1440px',
+      width: '100%',
 
-   [theme.breakpoints.down('lg')]: {
-      maxWidth: '1200px',
+      [theme.breakpoints.down('lg')]: {
+         maxWidth: '1200px',
+      },
+   },
+
+   '& .title-text': {
+      color: '#3752B4',
+      fontFamily: 'Gilroy',
+      fontSize: '2.5rem',
+
+      [theme.breakpoints.down('lg')]: {
+         fontSize: '2rem',
+         textAlign: 'center',
+      },
+   },
+
+   '& .roadmap': {
+      opacity: 1,
+      position: 'absolute',
+      top: '10rem',
+      left: '32.94rem',
+      width: '24.375rem',
+      overflow: 'hidden',
+
+      [theme.breakpoints.down('lg')]: {
+         top: 'adjust-top-value',
+         left: 'adjust-left-value',
+         width: 'adjust-width-value',
+      },
+   },
+
+   '& .button': {
+      marginTop: '7rem',
+
+      [theme.breakpoints.down('lg')]: {
+         maxWidth: '1200px',
+         marginTop: '4rem',
+      },
    },
 }))
 
-const StyledRow = styled('div')(({ theme }) => ({
+const StyledRow = styled(Box)(({ theme }) => ({
    display: 'flex',
    flexDirection: 'row',
    alignItems: 'center',
@@ -179,17 +215,6 @@ const StyledRow = styled('div')(({ theme }) => ({
    [theme.breakpoints.down('lg')]: {
       maxWidth: '1180px',
       paddingTop: '5.5rem',
-   },
-}))
-
-const StyledTypography = styled(Typography)(({ theme }) => ({
-   color: '#3752B4',
-   fontFamily: 'Gilroy',
-   fontSize: '2.5rem',
-
-   [theme.breakpoints.down('lg')]: {
-      fontSize: '2rem',
-      textAlign: 'center',
    },
 }))
 
@@ -219,28 +244,6 @@ const StyledTypographyMoreText = styled(Typography)(({ theme }) => ({
    },
 }))
 
-const StyledButton = styled(motion.div)(({ theme }) => ({
-   marginTop: '7rem',
-
-   [theme.breakpoints.down('lg')]: {
-      maxWidth: '1200px',
-      marginTop: '4rem',
-   },
-}))
-
-const StyledAnimationDiv = styled(motion.div)(({ theme }) => ({
-   opacity: 1,
-   position: 'absolute',
-   top: '10rem',
-   left: '32.94rem',
-   width: '24.375rem',
-   overflow: 'hidden',
-
-   [theme.breakpoints.down('lg')]: {
-      maxWidth: '1100px',
-   },
-}))
-
 const StyledRoadmapImage = styled(RoadmapImage)(({ theme }) => ({
    width: '100%',
    height: '78rem',
@@ -260,33 +263,42 @@ const StyledRoadmapImage = styled(RoadmapImage)(({ theme }) => ({
    },
 }))
 
-const StyledGlobeImage = styled(GlobeImage)(({ theme }) => ({
+const StyledGlobeImage = styled(FirstLearnMoreIcon)(({ theme }) => ({
    position: 'absolute',
    top: '11.2rem',
    left: '41.8rem',
    zIndex: 2,
 
    [theme.breakpoints.down('lg')]: {
-      width: '16.5rem',
-      height: '16.5rem',
-      left: '28rem',
-      top: '7rem',
+      width: '8.5rem',
+      height: '8.5rem',
+      left: '32rem',
+      top: '11rem',
    },
 }))
 
-const StyledBackgroundImageGlobe = styled(BackgroundImageGlobe)({
-   position: 'absolute',
-   top: '11.2rem',
-   left: '37rem',
-   zIndex: 2,
+const StyledBackgroundImageGlobe = styled(BackgroundImgFirstLearnMoreIcon)(
+   ({ theme }) => ({
+      position: 'absolute',
+      top: '11.2rem',
+      left: '37rem',
+      zIndex: 2,
 
-   path: {
-      strokeDasharray: '40',
-      animation: `${dash} 7.5s infinite linear forwards`,
-   },
-})
+      path: {
+         strokeDasharray: '40',
+         animation: `${dash} 7.5s infinite linear forwards`,
+      },
 
-const StyledImageOne = styled(ImageOne)(({ theme }) => ({
+      [theme.breakpoints.down('lg')]: {
+         width: '16.5rem',
+         height: '16.5rem',
+         left: '28rem',
+         top: '7rem',
+      },
+   })
+)
+
+const StyledImageOne = styled(SecondLearnMoreIcon)(({ theme }) => ({
    position: 'absolute',
    top: '28.8rem',
    left: '22rem',
@@ -305,7 +317,7 @@ const StyledImageOne = styled(ImageOne)(({ theme }) => ({
    },
 }))
 
-const StyledImageTwo = styled(ImageTwo)(({ theme }) => ({
+const StyledImageTwo = styled(ThirdLearnMoreIcon)(({ theme }) => ({
    position: 'absolute',
    top: '43.5rem',
    right: '26rem',
@@ -325,7 +337,7 @@ const StyledImageTwo = styled(ImageTwo)(({ theme }) => ({
    },
 }))
 
-const StyledImageThree = styled(ImageThree)(({ theme }) => ({
+const StyledImageThree = styled(FourthLearnMoreIcon)(({ theme }) => ({
    position: 'absolute',
    top: '60rem',
    left: 365,
@@ -345,7 +357,7 @@ const StyledImageThree = styled(ImageThree)(({ theme }) => ({
    },
 }))
 
-const StyledImageFour = styled(ImageFour)(({ theme }) => ({
+const StyledImageFour = styled(FifthLearnMoreIcon)(({ theme }) => ({
    position: 'absolute',
    top: '76rem',
    right: '24rem',
