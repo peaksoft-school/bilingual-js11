@@ -5,6 +5,7 @@ import Aos from 'aos'
 import 'aos/dist/aos.css'
 
 import {
+   BackgroundImageGlobe,
    GlobeImage,
    ImageFour,
    ImageOne,
@@ -51,6 +52,7 @@ const LearnMore = () => {
                   </StyledTypographyMoreText>
                </div>
                <StyledGlobeImage />
+               <StyledBackgroundImageGlobe />
             </StyledRow>
 
             <StyledRow>
@@ -261,13 +263,8 @@ const StyledRoadmapImage = styled(RoadmapImage)(({ theme }) => ({
 const StyledGlobeImage = styled(GlobeImage)(({ theme }) => ({
    position: 'absolute',
    top: '11.2rem',
-   left: '37rem',
+   left: '41.8rem',
    zIndex: 2,
-
-   path: {
-      strokeDasharray: '90',
-      animation: `${dash} 7.5s infinite linear forwards`,
-   },
 
    [theme.breakpoints.down('lg')]: {
       width: '16.5rem',
@@ -276,6 +273,18 @@ const StyledGlobeImage = styled(GlobeImage)(({ theme }) => ({
       top: '7rem',
    },
 }))
+
+const StyledBackgroundImageGlobe = styled(BackgroundImageGlobe)({
+   position: 'absolute',
+   top: '11.2rem',
+   left: '37rem',
+   zIndex: 2,
+
+   path: {
+      strokeDasharray: '40',
+      animation: `${dash} 7.5s infinite linear forwards`,
+   },
+})
 
 const StyledImageOne = styled(ImageOne)(({ theme }) => ({
    position: 'absolute',
