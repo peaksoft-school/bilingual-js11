@@ -71,7 +71,6 @@ export default CheckOut
 const StyledContainer = styled('div')(() => ({
    display: 'flex',
    flexDirection: 'column',
-   backgroundColor: '#FEF5E8',
    margin: 'auto',
 }))
 
@@ -100,6 +99,7 @@ const StyledCard = styled('div')(({ background, theme }) => ({
    borderRadius: '4.375rem 4.375rem 4.375rem 0rem',
    backgroundColor: background,
    padding: '2.88rem 2.75rem',
+   boxShadow: '16px 16px 20px 0px rgba(0, 0, 0, 0.30)',
 
    [theme.breakpoints.down('lg')]: {
       width: '30rem',
@@ -156,9 +156,21 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
       display: 'flex',
       gap: '3rem',
    },
+
+   '& .slick-slide:not(.slick-center)': {
+      transition: 'transform 0.3s ease-in-out, opacity 0.3s ease-in-out',
+
+      transform: 'scale(0.8)',
+      opacity: '0.8',
+   },
+   '& .slick-slide.slick-center': {
+      transform: 'scale(1) ease-in-out',
+      opacity: '1',
+   },
+
    '& .slick-list': {
       width: '65.625rem',
-      borderRadius: '4.375rem 4.375rem 4.375rem 0rem',
+      overflow: 'visible',
 
       [theme.breakpoints.down('lg')]: {
          width: '60.625rem',
