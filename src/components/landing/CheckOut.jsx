@@ -1,15 +1,9 @@
-import { useState } from 'react'
 import { styled } from '@mui/material'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { INFO } from '../../utils/constants'
-import {
-   Pagination,
-   PaginationActive,
-   SlickNext,
-   SlickPrev,
-} from '../../assets/icons'
+import { SlickNext, SlickPrev } from '../../assets/icons'
 
 const PrevArrow = ({ onClick, className }) => (
    <SlickPrev onClick={onClick} className={className} />
@@ -19,15 +13,6 @@ const NextArrow = ({ onClick, className }) => (
 )
 
 const CheckOut = () => {
-   const [imageIndex, setImageIndex] = useState(0)
-
-   const paginatonActive = (i) => {
-      if (i === imageIndex) {
-         return <PaginationActive />
-      }
-      return <Pagination />
-   }
-
    const settings = {
       dots: true,
       infinite: true,
@@ -37,14 +22,14 @@ const CheckOut = () => {
       slidesToScroll: 1,
       centerMode: true,
       centerPadding: 0,
-      customPaging: (i) => paginatonActive(i),
       nextArrow: <NextArrow />,
       prevArrow: <PrevArrow />,
-      beforeChange: (current, next) => setImageIndex(next),
    }
+
    return (
       <StyledContainer>
          <StyledHeading>Check out each question type</StyledHeading>
+
          <StyledContent>
             <StyledSlider {...settings}>
                {INFO.map(({ id, background, titleColor, title, text, img }) => (
@@ -99,7 +84,7 @@ const StyledCard = styled('div')(({ background, theme }) => ({
    borderRadius: '4.375rem 4.375rem 4.375rem 0rem',
    backgroundColor: background,
    padding: '2.88rem 2.75rem',
-   boxShadow: '16px 16px 20px 0px rgba(0, 0, 0, 0.30)',
+   boxShadow: '11px 16px 20px 0px rgba(0, 0, 0, 0.30)',
 
    [theme.breakpoints.down('lg')]: {
       width: '30rem',
@@ -136,7 +121,7 @@ const StyledDescription = styled('p')(({ theme }) => ({
 
    [theme.breakpoints.down('lg')]: {
       fontSize: '1.4rem',
-      width: '35rem',
+      width: '34rem',
    },
 }))
 
@@ -154,34 +139,37 @@ const StyledImage = styled('img')(() => ({
 const StyledSlider = styled(Slider)(({ theme }) => ({
    '& .slick-track': {
       display: 'flex',
-      gap: '3rem',
+      gap: '7rem',
+      padding: '0 0 35px 0',
    },
 
    '& .slick-slide:not(.slick-center)': {
       transition: 'transform 0.3s ease-in-out, opacity 0.3s ease-in-out',
-
       transform: 'scale(0.8)',
       opacity: '0.8',
    },
+
    '& .slick-slide.slick-center': {
       transform: 'scale(1) ease-in-out',
       opacity: '1',
    },
 
    '& .slick-list': {
-      width: '65.625rem',
-      overflow: 'visible',
+      width: '72rem',
+      borderRadius: '1rem',
 
       [theme.breakpoints.down('lg')]: {
-         width: '60.625rem',
+         width: '62.625rem',
       },
    },
+
    '& .slick-arrow': {
       cursor: 'pointer',
       zIndex: 11,
       position: 'relative',
       top: '200px',
    },
+
    '& .slick-next': {
       position: 'relative',
       left: '40rem',
@@ -193,13 +181,19 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
          left: '35rem',
       },
    },
+
    '& .slick-prev': {
       position: 'relative',
-      left: '20rem',
-      top: '34rem',
+      left: '26rem',
+      top: '36.200rem',
       width: '3.75rem',
       height: '3.75rem',
+
+      [theme.breakpoints.down('lg')]: {
+         left: '21.8rem',
+      },
    },
+
    '& .slick-next:hover, .slick-prev:hover': {
       content: 'none',
       circle: {
@@ -210,8 +204,37 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
          fill: '#fff',
       },
    },
+
    '& .slick-dots': {
       bottom: '0rem',
       right: '1rem',
+      display: 'flex !important',
+      justifyContent: 'center',
+      alignItems: 'flex-end',
+
+      '& li': {
+         width: '7px',
+         transition: 'all 500ms',
+      },
+
+      '& li > button': {
+         height: '20px',
+         background: '#d7c7e8',
+         borderRadius: '5px',
+         width: '100%',
+         transition: 'all 1s',
+      },
+      '& li > button:before': {
+         color: 'transparent',
+      },
+
+      '& .slick-active': {
+         height: '50px',
+      },
+
+      '& .slick-active > button': {
+         background: '#3A10E5',
+         height: '100%',
+      },
    },
 }))

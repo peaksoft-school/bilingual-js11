@@ -1,14 +1,7 @@
 import './App.css'
-import CheckOut from './components/landing/CheckOut'
 
 const App = () => {
-   return (
-      <div>
-         {/* Bilingual
-         <br /> */}
-         <CheckOut />
-      </div>
-   )
+   return <div>Bilingual</div>
 }
 
 export default App
