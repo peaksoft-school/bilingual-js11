@@ -9,7 +9,7 @@ import {
    PiggyBank,
    Coins,
    BorderAiroplane,
-} from '../../assets/images/statistics'
+} from '../../assets/images/svg'
 
 const dash = keyframes`
         to  {
@@ -150,15 +150,21 @@ const Statistics = () => {
 
 export default Statistics
 
-const StyledContainer = styled('div')(() => ({
+const StyledContainer = styled('div')(({ theme }) => ({
    display: 'flex',
    justifyContent: 'center',
+   alignItems: 'center',
    gap: '9vw',
-   margin: '7.5rem 0 7.5rem 0',
    backgroundColor: '#FEF5E8',
+   margin: 'auto',
+
+   [theme.breakpoints.down('lg')]: {
+      gap: '0.3rem',
+   },
 }))
 
 const StyledCard = styled('div')(() => ({
+   margin: '7.5rem 0 7.5rem 0',
    padding: '1.5rem 1.06rem 1.5rem 1.06rem',
 }))
 
