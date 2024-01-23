@@ -1,7 +1,12 @@
 import './App.css'
+import UserExperience from './layout/UserExperience'
 
 const App = () => {
-   return <div>Bilingual</div>
+   return (
+      <div className="App">
+         <UserExperience />
+      </div>
+   )
 }
 
 export default App
