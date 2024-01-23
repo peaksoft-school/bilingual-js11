@@ -186,9 +186,7 @@ const StyledContainer = styled('div')(({ theme }) => ({
       overflow: 'hidden',
 
       [theme.breakpoints.down('lg')]: {
-         top: 'adjust-top-value',
-         left: 'adjust-left-value',
-         width: 'adjust-width-value',
+         left: '10rem',
       },
    },
 
