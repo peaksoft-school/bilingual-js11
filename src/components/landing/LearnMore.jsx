@@ -5,11 +5,11 @@ import Aos from 'aos'
 import 'aos/dist/aos.css'
 
 import {
-   BackgroundImgFirstLearnMoreIcon,
+   BackgroundFirstLearnMoreIcon,
    FifthLearnMoreIcon,
    FirstLearnMoreIcon,
    FourthLearnMoreIcon,
-   RoadmapImage,
+   RoadmapIcon,
    SecondLearnMoreIcon,
    ThirdLearnMoreIcon,
 } from '../../assets/icons'
@@ -52,7 +52,7 @@ const LearnMore = () => {
                   </StyledTypographyMoreText>
                </div>
                <StyledGlobeImage />
-               <StyledBackgroundImageGlobe />
+               <StyledBackgroundFirstLearnMoreIcon />
             </StyledRow>
 
             <StyledRow>
@@ -181,8 +181,8 @@ const StyledContainer = styled('div')(({ theme }) => ({
       opacity: 1,
       position: 'absolute',
       top: '10rem',
-      left: '32.94rem',
-      width: '24.375rem',
+      left: '0',
+      width: '100%',
       overflow: 'hidden',
 
       [theme.breakpoints.down('lg')]: {
@@ -244,7 +244,7 @@ const StyledTypographyMoreText = styled(Typography)(({ theme }) => ({
    },
 }))
 
-const StyledRoadmapImage = styled(RoadmapImage)(({ theme }) => ({
+const StyledRoadmapImage = styled(RoadmapIcon)(({ theme }) => ({
    width: '100%',
    height: '78rem',
    objectFit: 'cover',
@@ -277,7 +277,7 @@ const StyledGlobeImage = styled(FirstLearnMoreIcon)(({ theme }) => ({
    },
 }))
 
-const StyledBackgroundImageGlobe = styled(BackgroundImgFirstLearnMoreIcon)(
+const StyledBackgroundFirstLearnMoreIcon = styled(BackgroundFirstLearnMoreIcon)(
    ({ theme }) => ({
       position: 'absolute',
       top: '11.2rem',

@@ -4,16 +4,16 @@ import { motion } from 'framer-motion'
 import LandingHeader from '../../layout/LandingHeader'
 import LandingButton from '../UI/buttons/LandingButton'
 import {
-   BookOneImg,
-   BookThreeImg,
-   BookTwoImg,
-   MantieImg,
-   NoteImg,
-   PaperFourImg,
-   PaperOneImg,
-   PaperThreeImg,
-   PaperTwoImg,
-   ShadowBookImg,
+   FirstBookIcon,
+   FirstPaperIcon,
+   FourthPaperIcon,
+   MantieIcon,
+   NoteIcon,
+   SecondBookIcon,
+   SecondPaperIcon,
+   ShadowBookIcon,
+   ThirdBookIcon,
+   ThirdPaperIcon,
 } from '../../assets/icons'
 import { BackgroundImageIntro } from '../../assets/images'
 
@@ -46,7 +46,7 @@ const Intro = () => {
                   initial={{ opacity: 0 }}
                   transition={{ ease: 'easeOut', duration: 2 }}
                >
-                  <StyledPaperOneImg />
+                  <StyledFirstPaperIcon />
                </motion.div>
 
                <motion.div
@@ -54,7 +54,7 @@ const Intro = () => {
                   initial={{ opacity: 0 }}
                   transition={{ ease: 'easeOut', duration: 2 }}
                >
-                  <StyledPaperThreeImg />
+                  <StyledThirdPaperIcon />
                </motion.div>
 
                <motion.div
@@ -66,7 +66,7 @@ const Intro = () => {
                   initial={{ opacity: 0 }}
                   transition={{ ease: 'easeOut', duration: 2 }}
                >
-                  <StyledPaperTwoImg />
+                  <StyledSecondPaperIcon />
                </motion.div>
 
                <motion.div
@@ -74,7 +74,7 @@ const Intro = () => {
                   initial={{ opacity: 0 }}
                   transition={{ ease: 'easeOut', duration: 2 }}
                >
-                  <StyledPaperFourImg />
+                  <StyledFourthPaperIcon />
                </motion.div>
 
                <motion.div
@@ -247,8 +247,8 @@ const StyledText = styled(motion.div)({
    '& .text': {
       color: '#47454e',
       width: '48.25rem',
-      fontFamily: 'Arial',
-      fontWeight: 100,
+      fontFamily: 'Poppins',
+      fontWeight: 400,
       fontSize: '1.25rem',
       paddingTop: '1.813rem',
       paddingBottom: '1.875rem',
@@ -262,7 +262,7 @@ const StyledText = styled(motion.div)({
    },
 })
 
-const StyledMantieImg = styled(MantieImg)({
+const StyledMantieImg = styled(MantieIcon)({
    width: '14rem',
    height: '15rem',
    position: 'absolute',
@@ -277,7 +277,7 @@ const StyledMantieImg = styled(MantieImg)({
    },
 })
 
-const StyledPaperOneImg = styled(PaperOneImg)({
+const StyledFirstPaperIcon = styled(FirstPaperIcon)({
    width: '6rem',
    height: '6rem',
    position: 'absolute',
@@ -292,7 +292,7 @@ const StyledPaperOneImg = styled(PaperOneImg)({
    },
 })
 
-const StyledPaperTwoImg = styled(PaperTwoImg)({
+const StyledSecondPaperIcon = styled(SecondPaperIcon)({
    width: '8rem',
    height: '4rem',
    position: 'absolute',
@@ -306,7 +306,7 @@ const StyledPaperTwoImg = styled(PaperTwoImg)({
    },
 })
 
-const StyledPaperThreeImg = styled(PaperThreeImg)({
+const StyledThirdPaperIcon = styled(ThirdPaperIcon)({
    width: '9.5rem',
    height: '5rem',
    position: 'absolute',
@@ -321,7 +321,7 @@ const StyledPaperThreeImg = styled(PaperThreeImg)({
    },
 })
 
-const StyledPaperFourImg = styled(PaperFourImg)({
+const StyledFourthPaperIcon = styled(FourthPaperIcon)({
    width: '10rem',
    height: '4.5rem',
    position: 'absolute',
@@ -336,7 +336,7 @@ const StyledPaperFourImg = styled(PaperFourImg)({
    },
 })
 
-const StyledNoteImg = styled(NoteImg)({
+const StyledNoteImg = styled(NoteIcon)({
    width: '13.23088rem',
    height: '13.99494rem',
    position: 'absolute',
@@ -351,7 +351,7 @@ const StyledNoteImg = styled(NoteImg)({
    },
 })
 
-const StyledBookOneImg = styled(BookOneImg)({
+const StyledBookOneImg = styled(FirstBookIcon)({
    width: '17.273rem',
    height: '5.611rem',
    position: 'absolute',
@@ -366,7 +366,7 @@ const StyledBookOneImg = styled(BookOneImg)({
    },
 })
 
-const StyledBookTwoImg = styled(BookTwoImg)({
+const StyledBookTwoImg = styled(SecondBookIcon)({
    width: '17.688rem',
    height: '4.527rem',
    position: 'absolute',
@@ -381,7 +381,7 @@ const StyledBookTwoImg = styled(BookTwoImg)({
    },
 })
 
-const StyledBookThreeImg = styled(BookThreeImg)({
+const StyledBookThreeImg = styled(ThirdBookIcon)({
    width: '20.809rem',
    height: '4.495rem',
    position: 'absolute',
@@ -396,7 +396,7 @@ const StyledBookThreeImg = styled(BookThreeImg)({
    },
 })
 
-const StyledShadowBookImg = styled(ShadowBookImg)({
+const StyledShadowBookImg = styled(ShadowBookIcon)({
    width: '33.328rem',
    height: '4.495rem',
    position: 'absolute',

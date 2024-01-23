@@ -1,5 +1,5 @@
 import { AppBar, Typography, styled } from '@mui/material'
-import Logo from '../assets/images/bilingual.png'
+import Logo from '../assets/images/pngs/bilingual.png'
 import Button from '../components/UI/buttons/Button'
 
 const Header = () => (

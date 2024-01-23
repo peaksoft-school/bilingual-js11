@@ -8,7 +8,7 @@ const Checkbox = forwardRef(
          disabled={disabled}
          checked={selectedValue}
          onChange={onChange}
-         checkedIcon={<BpCheckedIcon />}
+         checkedIcon={<StyledBpCheckedIcon />}
          icon={<StyledBpIcon />}
          ref={ref}
          {...rest}
@@ -32,7 +32,7 @@ const StyledBpIcon = styled('span')({
    color: '#9A9A9A',
 })
 
-const BpCheckedIcon = styled(StyledBpIcon)({
+const StyledBpCheckedIcon = styled(StyledBpIcon)({
    backgroundColor: '#2AB930',
    border: 'none',
 

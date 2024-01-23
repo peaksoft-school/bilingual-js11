@@ -1,7 +1,7 @@
 import { forwardRef } from 'react'
 import { styled, Button } from '@mui/material'
-import BeginBtnImage from '../../../assets/images/toBegin.png'
-import StartBtnImage from '../../../assets/images/getStarted.png'
+import BeginBtnImage from '../../../assets/images/pngs/toBegin.png'
+import StartBtnImage from '../../../assets/images/pngs/getStarted.png'
 
 const LandingButtons = forwardRef(
    ({ children, onClick, isStart = true, ...rest }, ref) => (
