@@ -84,4 +84,13 @@ const INFO = [
    },
 ]
 
-export { VIDEOS, CHECKBOX_IMAGE, INFO, textAnimation }
+const SELECT = [
+   'Describe image',
+   'Select real English words',
+   'Listen and select word',
+   'Type what you hear',
+   'Record saying statement',
+   'Respond in at least N words',
+]
+
+export { VIDEOS, CHECKBOX_IMAGE, INFO, textAnimation, SELECT }
