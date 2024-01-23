@@ -12,8 +12,13 @@
       "ecmaVersion": "latest",
       "sourceType": "module"
    },
+   "globals": {
+      "Video": true,
+      "DefaultPlayer": true
+   },
    "rules": {
-      "import/no-extraneous-dependencies":"off",
+      "global-require": 0,
+      "import/no-extraneous-dependencies": "off",
       "react/prop-types": "off",
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "react/jsx-props-no-spreading": "off",
