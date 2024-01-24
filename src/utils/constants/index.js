@@ -104,7 +104,7 @@ const Questions = [
       Answer: 'Speak clearly and directly into your microphone.',
    },
    {
-      Question: 'How can I allow a test to record my computer`s screen?',
+      Question: 'How can I allow a test to record my computers screen?',
       Answer: 'You will be prompted during the test to allow screen recording.',
    },
 ]
