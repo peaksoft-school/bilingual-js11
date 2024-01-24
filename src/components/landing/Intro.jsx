@@ -15,7 +15,7 @@ import {
    ThirdBookIcon,
    ThirdPaperIcon,
 } from '../../assets/icons'
-import { BackgroundImageIntro } from '../../assets/images'
+import { BackgroundIntroImage } from '../../assets/images'
 
 const Intro = () => {
    const [isVisible, setIsVisible] = useState(false)
@@ -31,8 +31,9 @@ const Intro = () => {
    return (
       <>
          <LandingHeader />
+
          <StyledContainer>
-            <div className="container">
+            <div className="box">
                <motion.div
                   animate={{ y: 50, opacity: isVisible ? 1 : 0 }}
                   initial={{ opacity: 0 }}
@@ -121,23 +122,23 @@ const Intro = () => {
                   <StyledShadowBookImg />
                </motion.div>
 
-               <StyledText
+               <StyledTextsBox
                   animate={{ x: 50, opacity: isVisible ? 1 : 0 }}
                   initial={{ opacity: 0 }}
                   transition={{ ease: 'easeOut', duration: 1 }}
                >
-                  <Typography className="title-text">
+                  <Typography className="title">
                      Prove your English proficiency today with
                   </Typography>
 
-                  <Typography className="title-text-two">BILINGUAL</Typography>
+                  <Typography className="bilingual">BILINGUAL</Typography>
 
-                  <p className="text">
+                  <p className="description">
                      For nearly 30 years, learners have turned to Rosetta Stone
                      to build the fluency and confidence they need to speak new
                      languages.
                   </p>
-               </StyledText>
+               </StyledTextsBox>
 
                <motion.div
                   className="button"
@@ -161,7 +162,7 @@ const Intro = () => {
 export default Intro
 
 const StyledContainer = styled('div')({
-   backgroundImage: `url(${BackgroundImageIntro})`,
+   backgroundImage: `url(${BackgroundIntroImage})`,
    backgroundSize: 'cover',
    backgroundRepeat: 'no-repeat',
 
@@ -175,7 +176,7 @@ const StyledContainer = styled('div')({
       gap: '10rem',
    },
 
-   '& .container': {
+   '& .box': {
       margin: 'auto',
       display: 'flex',
       flexDirection: 'column',
@@ -203,7 +204,7 @@ const StyledContainer = styled('div')({
    },
 })
 
-const StyledText = styled(motion.div)({
+const StyledTextsBox = styled(motion.div)({
    width: '33.328rem',
    height: '4.495rem',
    position: 'absolute',
@@ -215,7 +216,7 @@ const StyledText = styled(motion.div)({
       height: '3.495rem',
    },
 
-   '& .title-text': {
+   '& .title': {
       width: '40rem',
       fontSize: '3.75rem',
       fontFamily: 'Gilroy',
@@ -230,7 +231,7 @@ const StyledText = styled(motion.div)({
       },
    },
 
-   '& .title-text-two': {
+   '& .bilingual': {
       color: '#C93D7D',
       fontFamily: 'Gilroy',
       fontSize: '3.75rem',
@@ -244,7 +245,7 @@ const StyledText = styled(motion.div)({
       },
    },
 
-   '& .text': {
+   '& .description': {
       color: '#47454e',
       width: '48.25rem',
       fontFamily: 'Poppins',

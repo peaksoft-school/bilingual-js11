@@ -3,7 +3,6 @@ import { Box, Typography, keyframes, styled } from '@mui/material'
 import { motion } from 'framer-motion'
 import Aos from 'aos'
 import 'aos/dist/aos.css'
-
 import {
    BackgroundFirstLearnMoreIcon,
    FifthLearnMoreIcon,
@@ -15,7 +14,7 @@ import {
 } from '../../assets/icons'
 import LandingButton from '../UI/buttons/LandingButton'
 
-const dash = keyframes`
+const ROADMAPE_ANIMATE = keyframes`
         to  {
           stroke-dashoffset: 0;  
         } from {
@@ -34,37 +33,40 @@ const LearnMore = () => {
 
    return (
       <StyledContainer>
-         <div className="container">
-            <Typography className="title-text">Learn More</Typography>
-            <motion.div className="roadmap">
+         <Box className="box">
+            <Typography className="title">Learn More</Typography>
+
+            <motion.div className="roadmap-box">
                <StyledRoadmapImage />
             </motion.div>
 
-            <StyledRow>
-               <div data-aos="fade-right">
-                  <StyledTypographyH3>
-                     Expand your applicant pool
-                  </StyledTypographyH3>
-                  <StyledTypographyMoreText>
+            <StyledTextBox>
+               <Box data-aos="fade-right">
+                  <StyledTitleText>Expand your applicant pool</StyledTitleText>
+
+                  <StyledDescriptionText>
                      Tap into a diverse pool of candidates from 210+ countries
                      and territories of origin, who have taken the Bilingual
                      English Test because of its radical accessibility.
-                  </StyledTypographyMoreText>
-               </div>
+                  </StyledDescriptionText>
+               </Box>
+
                <StyledGlobeImage />
+
                <StyledBackgroundFirstLearnMoreIcon />
-            </StyledRow>
+            </StyledTextBox>
 
-            <StyledRow>
-               <div>
+            <StyledTextBox>
+               <Box>
                   <StyledImageOne />
-               </div>
+               </Box>
 
-               <div data-aos="fade-left">
-                  <StyledTypographyH3>
+               <Box data-aos="fade-left">
+                  <StyledTitleText>
                      Built on the latest assessment sciencee
-                  </StyledTypographyH3>
-                  <StyledTypographyMoreText>
+                  </StyledTitleText>
+
+                  <StyledDescriptionText>
                      The Duolingo English Test is a computer adaptive test
                      backed by rigorous research, with results that are highly
                      correlated
@@ -72,61 +74,65 @@ const LearnMore = () => {
                      with other major assessments such as the TOEFL and the
                      <br />
                      IELTS.
-                  </StyledTypographyMoreText>
-               </div>
-            </StyledRow>
+                  </StyledDescriptionText>
+               </Box>
+            </StyledTextBox>
 
-            <StyledRow>
-               <div data-aos="fade-right">
-                  <StyledTypographyH3>
-                     Innovative test security
-                  </StyledTypographyH3>
-                  <StyledTypographyMoreText>
+            <StyledTextBox>
+               <Box data-aos="fade-right">
+                  <StyledTitleText>Innovative test security</StyledTitleText>
+
+                  <StyledDescriptionText>
                      Industry-leading security protocols, individual test
                      proctoring, and computer adaptive technology help prevent
                      fraud and cheating and ensure results you can trust.
-                  </StyledTypographyMoreText>
-               </div>
-               <div>
+                  </StyledDescriptionText>
+               </Box>
+
+               <Box>
                   <StyledImageTwo />
-               </div>
-            </StyledRow>
+               </Box>
+            </StyledTextBox>
 
-            <StyledRow>
-               <div>
+            <StyledTextBox>
+               <Box>
                   <StyledImageThree />
-               </div>
+               </Box>
 
-               <div data-aos="fade-left">
-                  <StyledTypographyH3>
+               <Box data-aos="fade-left">
+                  <StyledTitleText>
                      Convenient results dashboard
-                  </StyledTypographyH3>
-                  <StyledTypographyMoreText>
+                  </StyledTitleText>
+
+                  <StyledDescriptionText>
                      Access candidates’ certificates, video interviews, and
                      writing samples through a free and secure dashboard.
                      Quickly and easily view applicant data with filtering
                      tools.
-                  </StyledTypographyMoreText>
-               </div>
-            </StyledRow>
+                  </StyledDescriptionText>
+               </Box>
+            </StyledTextBox>
 
-            <StyledRow>
-               <div data-aos="fade-right">
-                  <StyledTypographyH3>Secure Design</StyledTypographyH3>
-                  <StyledTypographyMoreText>
+            <StyledTextBox>
+               <Box data-aos="fade-right">
+                  <StyledTitleText>Secure Design</StyledTitleText>
+
+                  <StyledDescriptionText>
                      Adaptive test engine dynamically administers test questions
                      from a database of hundreds of thousands of items. <br />
                      Someone would have to take the test more than 1,000 times
                      <br />
                      to see a question repeated.
-                  </StyledTypographyMoreText>
-               </div>
-               <div>
+                  </StyledDescriptionText>
+               </Box>
+
+               <Box>
                   <StyledImageFour />
-               </div>
-            </StyledRow>
+               </Box>
+            </StyledTextBox>
+
             <motion.div
-               className="button"
+               className="button-box"
                animate={{
                   scale: [0.95, 1, 0.95, 1],
                }}
@@ -138,7 +144,7 @@ const LearnMore = () => {
             >
                <LandingButton />
             </motion.div>
-         </div>
+         </Box>
       </StyledContainer>
    )
 }
@@ -150,7 +156,7 @@ const StyledContainer = styled('div')(({ theme }) => ({
    width: '100%',
    overflow: 'hidden',
 
-   '& .container': {
+   '& > .box': {
       margin: 'auto',
       display: 'flex',
       flexDirection: 'column',
@@ -164,43 +170,43 @@ const StyledContainer = styled('div')(({ theme }) => ({
       [theme.breakpoints.down('lg')]: {
          maxWidth: '1200px',
       },
-   },
 
-   '& .title-text': {
-      color: '#3752B4',
-      fontFamily: 'Gilroy',
-      fontSize: '2.5rem',
+      '& > .title': {
+         color: '#3752B4',
+         fontFamily: 'Gilroy',
+         fontSize: '2.5rem',
 
-      [theme.breakpoints.down('lg')]: {
-         fontSize: '2rem',
-         textAlign: 'center',
+         [theme.breakpoints.down('lg')]: {
+            fontSize: '2rem',
+            textAlign: 'center',
+         },
       },
-   },
 
-   '& .roadmap': {
-      opacity: 1,
-      position: 'absolute',
-      top: '10rem',
-      left: '0',
-      width: '100%',
-      overflow: 'hidden',
+      '& > .roadmap-box': {
+         opacity: 1,
+         position: 'absolute',
+         top: '10rem',
+         left: '0',
+         width: '100%',
+         overflow: 'hidden',
 
-      [theme.breakpoints.down('lg')]: {
-         left: '10rem',
+         [theme.breakpoints.down('lg')]: {
+            left: '10rem',
+         },
       },
-   },
 
-   '& .button': {
-      marginTop: '7rem',
+      '& > .button-box': {
+         marginTop: '7rem',
 
-      [theme.breakpoints.down('lg')]: {
-         maxWidth: '1200px',
-         marginTop: '4rem',
+         [theme.breakpoints.down('lg')]: {
+            maxWidth: '1200px',
+            marginTop: '4rem',
+         },
       },
    },
 }))
 
-const StyledRow = styled(Box)(({ theme }) => ({
+const StyledTextBox = styled(Box)(({ theme }) => ({
    display: 'flex',
    flexDirection: 'row',
    alignItems: 'center',
@@ -216,7 +222,7 @@ const StyledRow = styled(Box)(({ theme }) => ({
    },
 }))
 
-const StyledTypographyH3 = styled(Typography)(({ theme }) => ({
+const StyledTitleText = styled(Typography)(({ theme }) => ({
    color: '#23212A',
    fontSize: ' 1.5rem',
    fontWeight: '600',
@@ -228,7 +234,7 @@ const StyledTypographyH3 = styled(Typography)(({ theme }) => ({
    },
 }))
 
-const StyledTypographyMoreText = styled(Typography)(({ theme }) => ({
+const StyledDescriptionText = styled(Typography)(({ theme }) => ({
    width: '30.875rem',
    paddingTop: '0.6rem',
    paddingRight: '2rem',
@@ -248,9 +254,9 @@ const StyledRoadmapImage = styled(RoadmapIcon)(({ theme }) => ({
    objectFit: 'cover',
    zIndex: 2,
 
-   path: {
+   '& path': {
       strokeDasharray: '18.56 18.56',
-      animation: `${dash} 3.5s infinite linear forwards`,
+      animation: `${ROADMAPE_ANIMATE} 3.5s infinite linear forwards`,
    },
 
    [theme.breakpoints.down('lg')]: {
@@ -282,9 +288,9 @@ const StyledBackgroundFirstLearnMoreIcon = styled(BackgroundFirstLearnMoreIcon)(
       left: '37rem',
       zIndex: 2,
 
-      path: {
+      '& path': {
          strokeDasharray: '40',
-         animation: `${dash} 7.5s infinite linear forwards`,
+         animation: `${ROADMAPE_ANIMATE} 7.5s infinite linear forwards`,
       },
 
       [theme.breakpoints.down('lg')]: {
@@ -301,9 +307,9 @@ const StyledImageOne = styled(SecondLearnMoreIcon)(({ theme }) => ({
    top: '28.8rem',
    left: '22rem',
 
-   path: {
+   '& path': {
       strokeDasharray: '80',
-      animation: `${dash} 8.5s infinite linear forwards`,
+      animation: `${ROADMAPE_ANIMATE} 8.5s infinite linear forwards`,
    },
 
    [theme.breakpoints.down('lg')]: {
@@ -321,9 +327,9 @@ const StyledImageTwo = styled(ThirdLearnMoreIcon)(({ theme }) => ({
    right: '26rem',
    zIndex: 1,
 
-   path: {
+   '& path': {
       strokeDasharray: '80',
-      animation: `${dash} 8.5s infinite linear forwards`,
+      animation: `${ROADMAPE_ANIMATE} 8.5s infinite linear forwards`,
    },
 
    [theme.breakpoints.down('lg')]: {
@@ -341,9 +347,9 @@ const StyledImageThree = styled(FourthLearnMoreIcon)(({ theme }) => ({
    left: 365,
    zIndex: 1,
 
-   path: {
+   '& path': {
       strokeDasharray: '300',
-      animation: `${dash} 8.5s infinite linear forwards`,
+      animation: `${ROADMAPE_ANIMATE} 8.5s infinite linear forwards`,
    },
 
    [theme.breakpoints.down('lg')]: {
@@ -361,9 +367,9 @@ const StyledImageFour = styled(FifthLearnMoreIcon)(({ theme }) => ({
    right: '24rem',
    zIndex: 1,
 
-   path: {
+   '& path': {
       strokeDasharray: '300',
-      animation: `${dash} 8.5s infinite linear forwards`,
+      animation: `${ROADMAPE_ANIMATE} 8.5s infinite linear forwards`,
    },
 
    [theme.breakpoints.down('lg')]: {
