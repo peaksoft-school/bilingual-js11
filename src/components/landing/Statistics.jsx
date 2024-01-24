@@ -9,7 +9,7 @@ import {
    PiggyBank,
    Coins,
    BorderAiroplane,
-} from '../../assets/images/svg'
+} from '../../assets/images/svgs'
 
 const dash = keyframes`
         to  {

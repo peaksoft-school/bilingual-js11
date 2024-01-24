@@ -2,19 +2,21 @@ import { forwardRef } from 'react'
 import { styled, Checkbox as MuiCheckbox } from '@mui/material'
 import { CHECKBOX_IMAGE } from '../../utils/constants/index'
 
-const CheckBox = forwardRef(({ checked, onChange, disabled, ...rest }, ref) => (
-   <StyledCheckbox
-      disabled={disabled}
-      checked={checked}
-      onChange={onChange}
-      checkedIcon={<BpCheckedIcon />}
-      icon={<BpIcon />}
-      ref={ref}
-      {...rest}
-   />
-))
+const Checkbox = forwardRef(
+   ({ selectedValue, onChange, disabled, ...rest }, ref) => (
+      <StyledCheckbox
+         disabled={disabled}
+         checked={selectedValue}
+         onChange={onChange}
+         checkedIcon={<StyledBpCheckedIcon />}
+         icon={<StyledBpIcon />}
+         ref={ref}
+         {...rest}
+      />
+   )
+)
 
-export default CheckBox
+export default Checkbox
 
 const StyledCheckbox = styled(MuiCheckbox)(() => ({
    '&:hover': {
@@ -22,7 +24,7 @@ const StyledCheckbox = styled(MuiCheckbox)(() => ({
    },
 }))
 
-const BpIconStyles = () => ({
+const StyledBpIcon = styled('span')({
    border: '2px solid',
    borderRadius: '4px',
    width: '18.182px',
@@ -30,9 +32,7 @@ const BpIconStyles = () => ({
    color: '#9A9A9A',
 })
 
-const BpIcon = styled('span')(BpIconStyles)
-
-const BpCheckedIcon = styled(BpIcon)({
+const StyledBpCheckedIcon = styled(StyledBpIcon)({
    backgroundColor: '#2AB930',
    border: 'none',
 

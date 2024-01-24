@@ -1,3 +1,4 @@
+export { default as BackgroundImageIntro } from './pngs/background-image-intro.png'
 export { default as FirstPerson } from './pngs/aijan.png'
 export { default as SecondPerson } from './pngs/nursultan.png'
 export { default as ThirdPerson } from './pngs/dinara.png'

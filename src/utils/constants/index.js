@@ -1,6 +1,8 @@
 import video1 from '../../assets/videos/video1.mp4'
 import video2 from '../../assets/videos/video2.mp4'
 import video3 from '../../assets/videos/video3.mp4'
+import intro from '../../assets/images/pngs/intro.png'
+import Globus from '../../assets/images/pngs/globus.png'
 import intro from '../../assets/images/intro.png'
 import {
    FifthPerson,

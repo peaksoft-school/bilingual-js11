@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { styled } from '@mui/material'
 import Button from '../components/UI/buttons/Button'
-import Logo from '../assets/images/bilingual.png'
+import Logo from '../assets/images/pngs/bilingual.png'
 
 const LandingHeader = () => {
    const [isScrolled, setIsScrolled] = useState(false)
@@ -20,15 +20,15 @@ const LandingHeader = () => {
 
    return (
       <StyledContainer isScrolled={isScrolled}>
-         <StyledHeader>
+         <div className="container">
             <img src={Logo} alt="bilingual-logo" />
-            <StyledButtonsContainer>
-               <StyledButton>to come in</StyledButton>
+            <div className="buttons">
+               <Button>to come in</Button>
                <StyledRegusterBtn variant="secondary">
                   register
                </StyledRegusterBtn>
-            </StyledButtonsContainer>
-         </StyledHeader>
+            </div>
+         </div>
       </StyledContainer>
    )
 }
@@ -41,36 +41,34 @@ const StyledContainer = styled('div')(({ isScrolled }) => ({
    top: 0,
    zIndex: 1000,
    transition: 'background-color 0.5s ease-in-out',
-}))
 
-const StyledHeader = styled('div')({
-   margin: 'auto',
-   display: 'flex',
-   alignItems: 'flex-start',
-   justifyContent: 'space-between',
-   paddingLeft: '5rem',
-   paddingRight: '5rem',
-   paddingTop: '1rem',
-   paddingBottom: '1rem',
-   position: 'sticky',
-   top: 0,
-   maxWidth: '1600px',
-   width: '100%',
+   '& .container': {
+      margin: 'auto',
+      display: 'flex',
+      alignItems: 'flex-start',
+      justifyContent: 'space-between',
+      paddingLeft: '5rem',
+      paddingRight: '5rem',
+      paddingTop: '1rem',
+      paddingBottom: '1rem',
+      position: 'sticky',
+      top: 0,
+      maxWidth: '1600px',
+      width: '100%',
 
-   img: {
-      width: '14.67925rem',
-      height: '3rem',
+      '& img': {
+         width: '14.67925rem',
+         height: '3rem',
+      },
    },
-})
 
-const StyledButtonsContainer = styled('div')({
-   display: 'flex',
-})
+   '& .buttons': {
+      display: 'flex',
 
-const StyledButton = styled(Button)(() => ({
-   '&.MuiButton-root': {
-      fontFamily: 'Gilroy',
-      marginLeft: '1rem',
+      '&.MuiButton-root': {
+         fontFamily: 'Gilroy',
+         marginLeft: '1rem',
+      },
    },
 }))
 
