@@ -1,7 +1,9 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { useEffect, useState } from 'react'
 import { keyframes, styled, Typography } from '@mui/material'
 import { motion } from 'framer-motion'
 import CountUp from 'react-countup'
+
 import {
    Airoplane,
    Lines,

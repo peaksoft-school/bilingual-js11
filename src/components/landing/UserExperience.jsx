@@ -1,43 +1,47 @@
 import { motion } from 'framer-motion'
 import { Typography, styled } from '@mui/material'
-import ExtensiveIcon from '../assets/icons/svgs/extensive.svg'
-import SpeechIcon from '../assets/icons/svgs/speech.svg'
-import TutoringIcon from '../assets/icons/svgs/tutoring.svg'
-import AccessibleIcon from '../assets/icons/svgs/accessible.svg'
-// import Reading from '../assets/icons/svgs/reading.svg'
-import Learn from '../assets/icons/svgs/learn.svg'
-// import Book from '../assets/icons/svgs/book.svg'
-import Background from '../assets/images/backgroundImage.png'
+import Background from '../../assets/images/backgroundImage.png'
+import Book from '../../assets/icons/svgs/book.svg'
+import Learn from '../../assets/icons/svgs/learn.svg'
+import Reading from '../../assets/icons/svgs/reading.svg'
 
-// const animate = {
-//    offscreen: {
-//       opacity: 0,
-//    },
-//    onscreen: {
-//       opacity: 1,
-//       transition: {
-//          duration: 1,
-//          damping: 3,
-//       },
-//    },
-//    animate: {
-//       rotate: [-2, 3, -7, 4, 4],
-//       transition: {
-//          duration: 2,
-//          repeat: Infinity,
-//          repeatType: 'reverse',
-//       },
-//    },
-// }
-// const pulseAnimation = {
-//    animate: {
-//       scale: [0.8, 1, 0.8],
-//       transition: {
-//          duration: 1.5,
-//          repeat: Infinity,
-//       },
-//    },
-// }
+import {
+   AccessibleIcon,
+   ExtensiveIcon,
+   SpeechIcon,
+   TutoringIcon,
+} from '../../assets/icons'
+
+const animate = {
+   offscreen: {
+      opacity: 0,
+   },
+   onscreen: {
+      opacity: 1,
+      transition: {
+         duration: 1,
+         damping: 3,
+      },
+   },
+   animate: {
+      rotate: [-2, 3, -7, 4, 4],
+      transition: {
+         duration: 2,
+         repeat: Infinity,
+         repeatType: 'reverse',
+      },
+   },
+}
+
+const pulseAnimation = {
+   animate: {
+      scale: [0.8, 0.95, 0.8],
+      transition: {
+         duration: 1.5,
+         repeat: Infinity,
+      },
+   },
+}
 
 const UserExperience = () => {
    return (
@@ -58,21 +62,21 @@ const UserExperience = () => {
                <ContainerOfExperience>
                   <StyledBlocks>
                      <Container>
-                        <ImgAccessible src={AccessibleIcon} />
+                        <ImgAccessible />
                         <ImgText>Accessible anytime, anywhere</ImgText>
                      </Container>
                      <Container>
-                        <ImgExtensive src={ExtensiveIcon} />
+                        <ImgExtensive />
                         <ImgText>Extensive business content</ImgText>
                      </Container>
                   </StyledBlocks>
                   <StyledBlocks>
                      <Container>
-                        <ImgSpeech src={SpeechIcon} />
+                        <ImgSpeech />
                         <ImgText>Leading speech recognition</ImgText>
                      </Container>
                      <Container>
-                        <ImgTutoring src={TutoringIcon} />
+                        <ImgTutoring />
                         <ImgText>Unlimited live tutoring</ImgText>
                      </Container>
                   </StyledBlocks>
@@ -81,33 +85,30 @@ const UserExperience = () => {
             <StyledImgCon>
                <ImgBackground src={Background} />
                <ChildContainer>
-                  {/* <ImgBook
+                  <ImgBook
+                     src={Book}
                      variants={pulseAnimation}
                      initial="offscreen"
                      whileInView="onscreen"
                      animate="animate"
-                     src={Book}
                      loading="lazy"
                   />
                   <ImgLearn
+                     src={Learn}
                      variants={animate}
                      initial="offscreen"
                      whileInView="onscreen"
                      animate="animate"
-                     src={Learn}
                      loading="lazy"
                   />
                   <ImgReading
+                     src={Reading}
                      variants={animate}
                      initial="offscreen"
                      whileInView="onscreen"
                      animate="animate"
-                     src={Reading}
                      loading="lazy"
-                  /> */}
-                  <ImgLearn>
-                     <img src={Learn} alt="learn" />
-                  </ImgLearn>
+                  />
                </ChildContainer>
             </StyledImgCon>
          </Description>
@@ -117,12 +118,23 @@ const UserExperience = () => {
 
 export default UserExperience
 
-const StyledImgCon = styled('div')(() => ({}))
+const StyledImgCon = styled('div')(({ theme }) => ({
+   [theme.breakpoints.down('lg')]: {
+      position: 'absolute',
+      left: '30rem',
+   },
+}))
 
-const Description = styled('div')(() => ({
+const Description = styled('div')(({ theme }) => ({
    display: 'flex',
    justifyContent: 'space-between',
    gap: '6.5rem',
+   [theme.breakpoints.down('lg')]: {
+      position: 'relative',
+      top: '1rem',
+      right: '19rem',
+      gap: '0rem',
+   },
 }))
 
 const ContainerOfExperience = styled('div')(() => ({
@@ -142,16 +154,23 @@ const StyledBlocks = styled('div')(({ theme }) => ({
    },
 }))
 
-const StyledCon = styled('div')(() => ({}))
+const StyledCon = styled('div')(({ theme }) => ({
+   [theme.breakpoints.down('lg')]: {
+      position: 'relative',
+      left: '10rem',
+   },
+}))
 
 const MainCon = styled('div')(({ theme }) => ({
    display: 'flex',
    alignItems: 'center',
    justifyContent: 'center',
    maxWidth: '100%',
-   height: '34.9rem',
    backgroundColor: theme.palette.secondary.main,
-   margin: 'auto',
+   [theme.breakpoints.down('lg')]: {
+      width: '100%',
+      paddingBottom: '4rem',
+   },
 }))
 
 const UserExperiencesH3 = styled(Typography)(() => ({
@@ -161,14 +180,17 @@ const UserExperiencesH3 = styled(Typography)(() => ({
    color: '#3752B4',
 }))
 
-const DescriptionText = styled(Typography)(() => ({
+const DescriptionText = styled(Typography)(({ theme }) => ({
    width: '610px',
    color: '#23212A',
    fontWeight: '400',
    marginTop: '34px',
+   [theme.breakpoints.down('lg')]: {
+      width: '15rem',
+   },
 }))
 
-const ImgAccessible = styled('img')(() => ({
+const ImgAccessible = styled(AccessibleIcon)(() => ({
    width: '44.12px',
    height: '50px',
 }))
@@ -180,16 +202,16 @@ const Container = styled('div')(() => ({
    gap: '1.61rem',
 }))
 
-const ImgSpeech = styled('img')(() => ({
+const ImgSpeech = styled(SpeechIcon)(() => ({
    width: '39px',
    height: '50px',
 }))
-const ImgExtensive = styled('img')(() => ({
+const ImgExtensive = styled(ExtensiveIcon)(() => ({
    width: '54.44px',
-   height: ' 50px',
+   height: '50px',
 }))
 
-const ImgTutoring = styled('img')(() => ({
+const ImgTutoring = styled(TutoringIcon)(() => ({
    width: '55.56px',
    height: '50px',
 }))
@@ -202,32 +224,29 @@ const ImgBackground = styled('img')(() => ({
 }))
 
 const ChildContainer = styled(motion.div)(() => ({
-   position: 'absolute',
-   top: '3.5rem',
-   left: '0',
-   right: 0,
-   bottom: 0,
-}))
-
-// const ImgBook = styled(motion.div)(() => ({
-//    position: 'relative',
-//    zIndex: '2',
-//    width: '22.11994rem',
-//    height: '18.65006rem',
-//    left: '52.5rem',
-//    top: '6.5rem',
-// }))
-
-const ImgLearn = styled(motion.div)(() => ({
    position: 'relative',
-   // zIndex: '4',
-   left: '50.5rem',
-   bottom: '-4rem',
+   right: '48rem',
+   bottom: '28rem',
 }))
 
-// const ImgReading = styled(motion.div)(() => ({
-//    position: 'relative',
-//    zIndex: '3',
-//    left: '43.8rem',
-//    bottom: '8rem',
-// }))
+const ImgBook = styled(motion.img)(() => ({
+   position: 'absolute',
+   width: '22.11994rem',
+   height: '18.65006rem',
+   left: '52.5rem',
+   top: '6.5rem',
+   animation: `${pulseAnimation} 1.5s infinite`,
+}))
+
+const ImgLearn = styled(motion.img)(() => ({
+   position: 'relative',
+   left: '52rem',
+   top: '5rem',
+}))
+
+const ImgReading = styled(motion.img)(() => ({
+   position: 'relative',
+   zIndex: '10',
+   left: '66rem',
+   top: '7rem',
+}))
