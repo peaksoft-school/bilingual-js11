@@ -14,7 +14,7 @@ import FacebookIcon from '@mui/icons-material/Facebook'
 import InstagramIcon from '@mui/icons-material/Instagram'
 import PlusIcon from '../assets/icons/svgs/plus.svg'
 import Logo from '../assets/images/bilingual.svg'
-import { Questions } from '../utils/constants/index'
+import { questions } from '../utils/constants/index'
 
 const Footer = () => {
    const [expanded, setExpanded] = useState(null)
@@ -29,12 +29,12 @@ const Footer = () => {
          <StyledTypography>FAQ:</StyledTypography>
 
          <StyledList>
-            {Questions.map((Q, index) => (
-               <Fragment key={Q.Question}>
+            {questions.map((q, index) => (
+               <Fragment key={q.question}>
                   <StyledDivider />
 
                   <ListItemButton onClick={() => handleExpandClick(index)}>
-                     <StyledQuestion>{Q.Question}</StyledQuestion>
+                     <StyledQuestion>{q.question}</StyledQuestion>
                      <StyledPlus
                         src={PlusIcon}
                         alt="Plus Icon"
@@ -47,7 +47,7 @@ const Footer = () => {
                      timeout="auto"
                      unmountOnExit
                   >
-                     <StyledResponse>{Q.Answer}</StyledResponse>
+                     <StyledResponse>{q.answer}</StyledResponse>
                   </Collapse>
                </Fragment>
             ))}
