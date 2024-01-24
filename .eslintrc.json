@@ -12,6 +12,10 @@
       "ecmaVersion": "latest",
       "sourceType": "module"
    },
+   "globals": {
+      "Video": true,
+      "DefaultPlayer": true
+   },
    "rules": {
       "import/no-extraneous-dependencies": "off",
       "import/order": "off",
