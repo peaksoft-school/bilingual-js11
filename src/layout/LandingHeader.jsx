@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { styled } from '@mui/material'
+import { Box, styled } from '@mui/material'
 import Button from '../components/UI/buttons/Button'
-import Logo from '../assets/images/pngs/bilingual.png'
+import { LogoImage } from '../assets/images'
 
 const LandingHeader = () => {
    const [isScrolled, setIsScrolled] = useState(false)
@@ -9,10 +9,12 @@ const LandingHeader = () => {
    useEffect(() => {
       const handleScroll = () => {
          const scrollTop = window.scrollY
+
          setIsScrolled(scrollTop > 0)
       }
 
       window.addEventListener('scroll', handleScroll)
+
       return () => {
          window.removeEventListener('scroll', handleScroll)
       }
@@ -20,15 +22,17 @@ const LandingHeader = () => {
 
    return (
       <StyledContainer isScrolled={isScrolled}>
-         <div className="container">
-            <img src={Logo} alt="bilingual-logo" />
-            <div className="buttons">
-               <Button>to come in</Button>
-               <StyledRegusterBtn variant="secondary">
-                  register
-               </StyledRegusterBtn>
-            </div>
-         </div>
+         <Box className="box">
+            <img src={LogoImage} alt="logo" />
+
+            <Box className="buttons">
+               <Button>TO COME IN</Button>
+
+               <StyledRegisterButton variant="secondary">
+                  REGISTER
+               </StyledRegisterButton>
+            </Box>
+         </Box>
       </StyledContainer>
    )
 }
@@ -42,7 +46,7 @@ const StyledContainer = styled('div')(({ isScrolled }) => ({
    zIndex: 1000,
    transition: 'background-color 0.5s ease-in-out',
 
-   '& .container': {
+   '& > .box': {
       margin: 'auto',
       display: 'flex',
       alignItems: 'flex-start',
@@ -56,27 +60,25 @@ const StyledContainer = styled('div')(({ isScrolled }) => ({
       maxWidth: '1600px',
       width: '100%',
 
-      '& img': {
+      '& > img': {
          width: '14.67925rem',
          height: '3rem',
       },
-   },
 
-   '& .buttons': {
-      display: 'flex',
+      '& > .buttons': {
+         display: 'flex',
 
-      '&.MuiButton-root': {
-         fontFamily: 'Gilroy',
-         marginLeft: '1rem',
+         '& .MuiButton-root': {
+            fontFamily: 'Gilroy',
+            marginLeft: '1rem',
+         },
       },
    },
 }))
 
-const StyledRegusterBtn = styled(Button)(() => ({
+const StyledRegisterButton = styled(Button)(() => ({
    '&.MuiButton-root': {
       color: '#4C4C4C',
       borderColor: 'white',
-      fontFamily: 'Gilroy',
-      marginLeft: '1rem',
    },
 }))
