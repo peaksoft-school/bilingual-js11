@@ -7,14 +7,23 @@ import OurTeam from '../utils/constants/OurTeam'
 
 const settings = {
    infinite: true,
+
    speed: 5000,
+
    autoplay: true,
+
    autoplaySpeed: 0,
+
    cssEase: 'linear',
+
    initialSlide: OurTeam.length,
+
    pauseOnHover: true,
+
    variableWidth: true,
+
    rtl: false,
+
    responsive: [
       {
          breakpoint: 1024,
@@ -22,12 +31,14 @@ const settings = {
             slidesToShow: 3,
          },
       },
+
       {
          breakpoint: 600,
          settings: {
             slidesToShow: 2,
          },
       },
+
       {
          breakpoint: 480,
          settings: {
@@ -42,7 +53,9 @@ const TeamMember = ({ img, name, role, customStyle }) => (
       <StyledAvatarContainer>
          <StyledAvatar src={img} sx={customStyle} />
       </StyledAvatarContainer>
+
       <StyledName>{name}</StyledName>
+
       <StyledRole>{role}</StyledRole>
    </StyledCardContent>
 )
@@ -52,6 +65,7 @@ const TeamList = () => (
       <Grid item xs={12}>
          <StyledOurTeam>Our Team</StyledOurTeam>
       </Grid>
+
       <StyledSlider>
          <Slider {...settings}>
             {OurTeam.map((member) => (
