@@ -3,6 +3,7 @@ import { Box, Typography, keyframes, styled } from '@mui/material'
 import { motion } from 'framer-motion'
 import Aos from 'aos'
 import 'aos/dist/aos.css'
+
 import {
    BackgroundFirstLearnMoreIcon,
    FifthLearnMoreIcon,
@@ -12,6 +13,7 @@ import {
    SecondLearnMoreIcon,
    ThirdLearnMoreIcon,
 } from '../../assets/icons'
+
 import LandingButton from '../UI/buttons/LandingButton'
 
 const ROADMAPE_ANIMATE = keyframes`
@@ -20,7 +22,7 @@ const ROADMAPE_ANIMATE = keyframes`
         } from {
           stroke-dashoffset: 300;
         }
-      `
+`
 
 const LearnMore = () => {
    useEffect(() => {

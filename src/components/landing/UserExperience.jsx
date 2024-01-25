@@ -168,30 +168,29 @@ const MainCon = styled('div')(({ theme }) => ({
    maxWidth: '100%',
    [theme.breakpoints.down('lg')]: {
       width: '100%',
-      paddingBottom: '4rem',
    },
 }))
 
 const UserExperiencesH3 = styled(Typography)(() => ({
-   fontSize: '40px',
+   fontSize: '2.5rem',
    fontWeight: '700',
    width: '21.125rem',
    color: '#3752B4',
 }))
 
 const DescriptionText = styled(Typography)(({ theme }) => ({
-   width: '610px',
+   width: '36rem',
    color: '#23212A',
    fontWeight: '400',
-   marginTop: '34px',
+   marginTop: '2.125rem',
    [theme.breakpoints.down('lg')]: {
       width: '15rem',
    },
 }))
 
 const ImgAccessible = styled(AccessibleIcon)(() => ({
-   width: '44.12px',
-   height: '50px',
+   width: '2.755rem',
+   height: '3.125rem',
 }))
 
 const ImgText = styled(Typography)(() => ({}))
@@ -202,21 +201,21 @@ const Container = styled('div')(() => ({
 }))
 
 const ImgSpeech = styled(SpeechIcon)(() => ({
-   width: '39px',
-   height: '50px',
+   width: '2.4375rem',
+   height: '3.125rem',
 }))
 const ImgExtensive = styled(ExtensiveIcon)(() => ({
-   width: '54.44px',
-   height: '50px',
+   width: '3.4025rem',
+   height: '3.125rem',
 }))
 
 const ImgTutoring = styled(TutoringIcon)(() => ({
-   width: '55.56px',
-   height: '50px',
+   width: '3.475rem',
+   height: '3.125rem',
 }))
 
 const ImgBackground = styled('img')(() => ({
-   marginTop: '17px',
+   marginTop: '1.0625rem',
    width: '27.52988rem',
    height: '26.25rem',
    marginLeft: '3rem',
