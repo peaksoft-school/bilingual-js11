@@ -28,7 +28,9 @@ const settings = {
 
 const CheckOut = () => (
    <StyledContainer>
-      <Typography className="title">Check out each question type</Typography>
+      <Typography className="title" variant="h2">
+         Check out each question type
+      </Typography>
 
       <Box className="slider-box">
          <StyledSlider {...settings}>

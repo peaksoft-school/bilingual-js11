@@ -34,7 +34,9 @@ const LearnMore = () => {
    return (
       <StyledContainer>
          <Box className="box">
-            <Typography className="title">Learn More</Typography>
+            <Typography className="title" variant="h2">
+               Learn More
+            </Typography>
 
             <motion.div className="roadmap-box">
                <StyledRoadmapImage />

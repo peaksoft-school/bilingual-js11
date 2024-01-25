@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react'
-import { keyframes, styled, Typography } from '@mui/material'
+import { Box, keyframes, styled, Typography } from '@mui/material'
 import { motion } from 'framer-motion'
 import CountUp from 'react-countup'
 import {
-   Airoplane,
-   Lines,
-   Earth,
-   PiggyBank,
-   Coins,
-   BorderAiroplane,
-} from '../../assets/images/svgs'
+   AiroplaneIcon,
+   BorderAiroplaneIcon,
+   CoinsIcon,
+   EarthIcon,
+   LinesIcon,
+   PiggyBankIcon,
+} from '../../assets/icons'
 
-const dash = keyframes`
+const ANIMATE_ICONS = keyframes`
         to  {
           stroke-dashoffset: 0;
         } from {
@@ -49,9 +49,9 @@ const Statistics = () => {
 
    return (
       <StyledContainer>
-         <StyledCard>
-            <StyledImage>
-               <StyledMotion
+         <Box className="card">
+            <Box className="image">
+               <motion.div
                   initial={{ opacity: 0 }}
                   animate={{
                      x: 47.03,
@@ -75,30 +75,34 @@ const Statistics = () => {
                   <StyledAiroplaneThirteenth />
                   <StyledAiroplaneFourteenth />
                   <StyledAiroplaneFifteenth />
-               </StyledMotion>
+               </motion.div>
+
                <StyledBorderAiroplane />
-            </StyledImage>
+            </Box>
 
             <StyledCount>
-               <div id="statistics-count">
+               <Box id="statistics-count">
                   {isVisibleCount && (
-                     <div>
+                     <Box>
                         <CountUp duration={1} end={10000} />
-                        <span>+</span>
-                     </div>
+
+                        <Typography variant="span">+</Typography>
+                     </Box>
                   )}
-               </div>
+               </Box>
             </StyledCount>
-            <StyledTypography>
+
+            <StyledText>
                Over 10,000 fee waivers for the
                <br />
                Bilingual English Test are offered annually.
-            </StyledTypography>
-         </StyledCard>
+            </StyledText>
+         </Box>
 
-         <StyledCard>
-            <StyledImage>
+         <Box className="card">
+            <Box className="image">
                <StyledLines />
+
                <motion.div
                   initial={{ opacity: 0 }}
                   animate={{
@@ -109,25 +113,29 @@ const Statistics = () => {
                >
                   <StyledEarth />
                </motion.div>
-            </StyledImage>
-            <StyledCount>
-               <div id="statistics-container">
-                  {isVisibleCount && (
-                     <div>
-                        <CountUp duration={1} end={200} />
-                        <span>+</span>
-                     </div>
-                  )}
-               </div>
-            </StyledCount>
-            <StyledTypography>
-               Students from over 200 countries and territories have benefitted.
-            </StyledTypography>
-         </StyledCard>
+            </Box>
 
-         <StyledCard>
-            <StyledImage>
+            <StyledCount>
+               <Box id="statistics-container">
+                  {isVisibleCount && (
+                     <Box>
+                        <CountUp duration={1} end={200} />
+
+                        <Typography variant="span">+</Typography>
+                     </Box>
+                  )}
+               </Box>
+            </StyledCount>
+
+            <StyledText>
+               Students from over 200 countries and territories have benefitted.
+            </StyledText>
+         </Box>
+
+         <Box className="card">
+            <Box className="image">
                <StyledPiggyBank />
+
                <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ y: 20.96, opacity: isVisible ? 1 : 0 }}
@@ -135,15 +143,17 @@ const Statistics = () => {
                >
                   <StyledCoins />
                </motion.div>
-            </StyledImage>
+            </Box>
+
             <StyledCount>
-               <span>$0</span>
+               <Typography variant="span">$0</Typography>
             </StyledCount>
-            <StyledTypography>
+
+            <StyledText>
                Eligible students can take the test with absolutely zero cost to
                them.
-            </StyledTypography>
-         </StyledCard>
+            </StyledText>
+         </Box>
       </StyledContainer>
    )
 }
@@ -161,21 +171,19 @@ const StyledContainer = styled('div')(({ theme }) => ({
    [theme.breakpoints.down('lg')]: {
       gap: '0.3rem',
    },
+
+   '& > .card': {
+      margin: '7.5rem 0 7.5rem 0',
+      padding: '1.5rem 1.06rem 1.5rem 1.06rem',
+
+      '& > .image': {
+         width: '18.81rem',
+         height: '11rem',
+      },
+   },
 }))
 
-const StyledCard = styled('div')(() => ({
-   margin: '7.5rem 0 7.5rem 0',
-   padding: '1.5rem 1.06rem 1.5rem 1.06rem',
-}))
-
-const StyledImage = styled('div')(() => ({
-   width: '18.81rem',
-   height: '11rem',
-}))
-
-const StyledMotion = styled(motion.div)(() => {})
-
-const StyledTypography = styled(Typography)(() => ({
+const StyledText = styled(Typography)(() => ({
    color: '#23212A',
    textAlign: 'center',
    fontWeight: '400',
@@ -197,56 +205,64 @@ const StyledCount = styled('div')(({ theme }) => ({
    left: '4.6rem',
    padding: '0.9rem 0.5rem',
    backgroundColor: theme.palette.primary.white,
+
+   '& span': {
+      fontFamily: 'Gilroy',
+   },
 }))
 
-const StyledBorderAiroplane = styled(BorderAiroplane)(() => ({
+const StyledBorderAiroplane = styled(BorderAiroplaneIcon)(() => ({
    position: 'relative',
    top: '0.2rem',
    left: '1.4rem',
-   path: {
+
+   '& path': {
       strokeDasharray: '18.56 18.56',
-      animation: `${dash} 3.5s infinite linear forwards`,
-   },
-}))
-const StyledLines = styled(Lines)(() => ({
-   position: 'relative',
-   left: '3rem',
-   top: '0.3rem',
-   path: {
-      strokeDasharray: '18.56 18.56',
-      animation: `${dash} 3.5s infinite linear forwards`,
+      animation: `${ANIMATE_ICONS} 3.5s infinite linear forwards`,
    },
 }))
 
-const StyledEarth = styled(Earth)(() => ({
+const StyledLines = styled(LinesIcon)(() => ({
+   position: 'relative',
+   left: '3rem',
+   top: '0.3rem',
+
+   '& path': {
+      strokeDasharray: '18.56 18.56',
+      animation: `${ANIMATE_ICONS} 3.5s infinite linear forwards`,
+   },
+}))
+
+const StyledEarth = styled(EarthIcon)(() => ({
    position: 'absolute',
    left: '5.3rem',
    bottom: '-0.2rem',
 }))
 
-const StyledPiggyBank = styled(PiggyBank)(() => ({
+const StyledPiggyBank = styled(PiggyBankIcon)(() => ({
    position: 'relative',
    left: '2.6rem',
    top: '0.2rem',
-   path: {
+
+   '& path': {
       strokeDasharray: '18.56 18.56',
-      animation: `${dash} 3.5s infinite linear forwards`,
+      animation: `${ANIMATE_ICONS} 3.5s infinite linear forwards`,
    },
 }))
 
-const StyledCoins = styled(Coins)(() => ({
+const StyledCoins = styled(CoinsIcon)(() => ({
    position: 'absolute',
    bottom: '0.8rem',
    left: '3.5rem',
 }))
 
-const StyledAiroplaneFirst = styled(Airoplane)(() => ({
+const StyledAiroplaneFirst = styled(AiroplaneIcon)(() => ({
    position: 'absolute',
    left: '1rem',
    top: '8.3rem',
 }))
 
-const StyledAiroplaneSecond = styled(Airoplane)(() => ({
+const StyledAiroplaneSecond = styled(AiroplaneIcon)(() => ({
    width: '1.323rem',
    height: '1.128rem',
    position: 'absolute',
@@ -254,7 +270,7 @@ const StyledAiroplaneSecond = styled(Airoplane)(() => ({
    top: '7rem',
 }))
 
-const StyledAiroplaneThird = styled(Airoplane)(() => ({
+const StyledAiroplaneThird = styled(AiroplaneIcon)(() => ({
    width: '0.941rem',
    height: '0.803rem',
    position: 'absolute',
@@ -262,7 +278,7 @@ const StyledAiroplaneThird = styled(Airoplane)(() => ({
    top: '1.9rem',
 }))
 
-const StyledAiroplaneFourth = styled(Airoplane)(() => ({
+const StyledAiroplaneFourth = styled(AiroplaneIcon)(() => ({
    width: '2.145rem',
    height: '1.829rem',
    position: 'absolute',
@@ -270,7 +286,7 @@ const StyledAiroplaneFourth = styled(Airoplane)(() => ({
    top: '2rem',
 }))
 
-const StyledAiroplaneFifth = styled(Airoplane)(() => ({
+const StyledAiroplaneFifth = styled(AiroplaneIcon)(() => ({
    width: '0.941rem',
    height: '0.803rem',
    position: 'absolute',
@@ -278,7 +294,7 @@ const StyledAiroplaneFifth = styled(Airoplane)(() => ({
    top: '2.3rem',
 }))
 
-const StyledAiroplaneSixth = styled(Airoplane)(() => ({
+const StyledAiroplaneSixth = styled(AiroplaneIcon)(() => ({
    width: '0.941rem',
    height: '0.803rem',
    position: 'absolute',
@@ -286,7 +302,7 @@ const StyledAiroplaneSixth = styled(Airoplane)(() => ({
    top: '3.3rem',
 }))
 
-const StyledAiroplaneSeventh = styled(Airoplane)(() => ({
+const StyledAiroplaneSeventh = styled(AiroplaneIcon)(() => ({
    width: '1.195rem',
    height: '1.008rem',
    position: 'absolute',
@@ -294,7 +310,7 @@ const StyledAiroplaneSeventh = styled(Airoplane)(() => ({
    top: '1.5rem',
 }))
 
-const StyledAiroplaneEighth = styled(Airoplane)(() => ({
+const StyledAiroplaneEighth = styled(AiroplaneIcon)(() => ({
    width: '1.745rem',
    height: '1.488rem',
    position: 'absolute',
@@ -302,7 +318,7 @@ const StyledAiroplaneEighth = styled(Airoplane)(() => ({
    top: '2rem',
 }))
 
-const StyledAiroplaneNinth = styled(Airoplane)(() => ({
+const StyledAiroplaneNinth = styled(AiroplaneIcon)(() => ({
    width: '0.718rem',
    height: '0.613rem',
    position: 'absolute',
@@ -310,7 +326,7 @@ const StyledAiroplaneNinth = styled(Airoplane)(() => ({
    top: '11rem',
 }))
 
-const StyledAiroplaneTenth = styled(Airoplane)(() => ({
+const StyledAiroplaneTenth = styled(AiroplaneIcon)(() => ({
    width: '1.323rem',
    height: '1.128rem',
    position: 'absolute',
@@ -318,7 +334,7 @@ const StyledAiroplaneTenth = styled(Airoplane)(() => ({
    top: '10.2rem',
 }))
 
-const StyledAiroplaneEleventh = styled(Airoplane)(() => ({
+const StyledAiroplaneEleventh = styled(AiroplaneIcon)(() => ({
    width: '1.745rem',
    height: '1.488rem',
    position: 'absolute',
@@ -326,7 +342,7 @@ const StyledAiroplaneEleventh = styled(Airoplane)(() => ({
    top: '9.4rem',
 }))
 
-const StyledAiroplaneTwelfth = styled(Airoplane)(() => ({
+const StyledAiroplaneTwelfth = styled(AiroplaneIcon)(() => ({
    width: '0.941rem',
    height: '0.803rem',
    position: 'absolute',
@@ -334,7 +350,7 @@ const StyledAiroplaneTwelfth = styled(Airoplane)(() => ({
    top: '4rem',
 }))
 
-const StyledAiroplaneThirteenth = styled(Airoplane)(() => ({
+const StyledAiroplaneThirteenth = styled(AiroplaneIcon)(() => ({
    width: '0.718rem',
    height: '0.613rem',
    position: 'absolute',
@@ -342,7 +358,7 @@ const StyledAiroplaneThirteenth = styled(Airoplane)(() => ({
    top: '4rem',
 }))
 
-const StyledAiroplaneFourteenth = styled(Airoplane)(() => ({
+const StyledAiroplaneFourteenth = styled(AiroplaneIcon)(() => ({
    width: '0.941rem',
    height: '0.803rem',
    position: 'absolute',
@@ -350,7 +366,7 @@ const StyledAiroplaneFourteenth = styled(Airoplane)(() => ({
    top: '7rem',
 }))
 
-const StyledAiroplaneFifteenth = styled(Airoplane)(() => ({
+const StyledAiroplaneFifteenth = styled(AiroplaneIcon)(() => ({
    width: '1.745rem',
    height: '0.961rem',
    position: 'absolute',

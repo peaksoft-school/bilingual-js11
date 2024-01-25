@@ -47,7 +47,9 @@ const Feedbacks = () => {
 
    return (
       <StyledContainer>
-         <Typography className="title">Why people love Bilingual</Typography>
+         <Typography className="title" variant="h2">
+            Why people love Bilingual
+         </Typography>
 
          <Box className="slider-box">
             <StyledSlider {...settings}>
