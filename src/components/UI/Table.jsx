@@ -80,6 +80,11 @@ const MainContainer = styled(TableContainer)(({ theme }) => ({
    backgroundColor: theme.palette.primary.white,
    borderRadius: '20px',
    filter: 'drop-shadow(0px 4px 39px rgba(196, 196, 196, 0.60))',
+
+   [theme.breakpoints.down('lg')]: {
+      width: '60rem',
+      padding: '1.13rem 3.13rem',
+   },
 }))
 
 const StyledTable = styled(MuiTable)(() => ({
