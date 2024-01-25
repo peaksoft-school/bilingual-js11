@@ -42,3 +42,7 @@ export { ReactComponent as PaginationActive } from './svgs/pagination-active.svg
 export { ReactComponent as Pagination } from './svgs/pagination.svg'
 export { ReactComponent as SlickPrev } from './svgs/slick-prev.svg'
 export { ReactComponent as SlickNext } from './svgs/slick-next.svg'
+export { ReactComponent as TutoringIcon } from './svgs/tutoring.svg'
+export { ReactComponent as SpeechIcon } from './svgs/speech.svg'
+export { ReactComponent as ExtensiveIcon } from './svgs/extensive.svg'
+export { ReactComponent as AccessibleIcon } from './svgs/accessible.svg'

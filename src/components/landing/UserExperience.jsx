@@ -166,7 +166,6 @@ const MainCon = styled('div')(({ theme }) => ({
    alignItems: 'center',
    justifyContent: 'center',
    maxWidth: '100%',
-   backgroundColor: theme.palette.secondary.main,
    [theme.breakpoints.down('lg')]: {
       width: '100%',
       paddingBottom: '4rem',
