@@ -57,6 +57,8 @@ const StyledContainer = styled('div')(() => ({
    display: 'flex',
    flexDirection: 'column',
    margin: 'auto',
+   background: '#fef5e8',
+   padding: '2rem',
 }))
 
 const StyledContent = styled('div')(() => ({
