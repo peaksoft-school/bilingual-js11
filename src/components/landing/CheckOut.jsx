@@ -3,13 +3,13 @@ import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { INFO } from '../../utils/constants'
-import { SlickNext, SlickPrev } from '../../assets/icons'
+import { SlickNextIcon, SlickPrevIcon } from '../../assets/icons'
 
 const PrevArrow = ({ onClick, className }) => (
-   <SlickPrev onClick={onClick} className={className} />
+   <SlickPrevIcon onClick={onClick} className={className} />
 )
 const NextArrow = ({ onClick, className }) => (
-   <SlickNext onClick={onClick} className={className} />
+   <SlickNextIcon onClick={onClick} className={className} />
 )
 
 const CheckOut = () => {
