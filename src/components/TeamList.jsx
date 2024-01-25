@@ -6,14 +6,15 @@ import { OURTEAM } from '../utils/constants/index'
 
 const settings = {
    infinite: true,
+   arrows: false,
    speed: 5000,
    autoplay: true,
    autoplaySpeed: 0,
    cssEase: 'linear',
-   initialSlide: OURTEAM.length,
+   // initialSlide: OURTEAM.length,
    pauseOnHover: true,
    variableWidth: true,
-   rtl: false,
+
    responsive: [
       {
          breakpoint: 1024,
@@ -44,20 +45,18 @@ const TeamList = () => (
          <StyledOurTeam>Our Team</StyledOurTeam>
       </Grid>
 
-      <StyledSlider>
-         <Slider {...settings}>
-            {OURTEAM.map(({ img, name, role, customStyle, id }) => (
-               <StyledCardContent key={id}>
-                  <StyledAvatarContainer>
-                     <StyledAvatar src={img} sx={customStyle} />
-                  </StyledAvatarContainer>
+      <StyledSlider {...settings}>
+         {OURTEAM.map(({ img, name, role, customStyle, id }) => (
+            <StyledCardContent key={id}>
+               <StyledAvatarContainer>
+                  <StyledAvatar src={img} sx={customStyle} />
+               </StyledAvatarContainer>
 
-                  <StyledName>{name}</StyledName>
+               <StyledName>{name}</StyledName>
 
-                  <StyledRole>{role}</StyledRole>
-               </StyledCardContent>
-            ))}
-         </Slider>
+               <StyledRole>{role}</StyledRole>
+            </StyledCardContent>
+         ))}
       </StyledSlider>
    </Grid>
 )
@@ -83,10 +82,10 @@ const StyledCardContent = styled(CardContent)({
 })
 
 const StyledAvatarContainer = styled('div')({
-   position: 'relative',
+   // position: 'relative',
    width: '11.25rem',
    height: '11.25rem',
-   overflow: 'hidden',
+   // overflow: 'hidden',
 })
 
 const StyledAvatar = styled(Avatar)({
@@ -112,26 +111,24 @@ const StyledRole = styled(Typography)({
    fontWeight: 400,
 })
 
-const StyledSlider = styled(Grid)({
-   minWidth: 'auto',
-   paddingTop: '2.94rem',
+const StyledSlider = styled(Slider)({
+   width: '100%',
+   maxWidth: '1600px',
+   margin: '0 auto',
+   outline: 'none',
    paddingLeft: '5%',
    paddingRight: '5%',
-   margin: 'auto',
-   position: 'relative',
-   '.slick-arrow': {
-      display: 'none !important',
-   },
-   '@media (max-width: 1024px)': {
-      paddingLeft: '5%',
-      paddingRight: '5%',
-   },
-   '@media (max-width: 600px)': {
-      paddingLeft: '5%',
-      paddingRight: '5%',
-   },
-   '@media (max-width: 480px)': {
-      paddingLeft: '5%',
-      paddingRight: '5%',
-   },
+
+   // '@media (max-width: 1024px)': {
+   //    paddingLeft: '5%',
+   //    paddingRight: '5%',
+   // },
+   // '@media (max-width: 600px)': {
+   //    paddingLeft: '5%',
+   //    paddingRight: '5%',
+   // },
+   // '@media (max-width: 480px)': {
+   //    paddingLeft: '5%',
+   //    paddingRight: '5%',
+   // },
 })

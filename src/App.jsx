@@ -1,7 +1,8 @@
 import './App.css'
+import TeamList from './components/TeamList'
 
 const App = () => {
-   return <div>Bilingual</div>
+   return <TeamList />
 }
 
 export default App
