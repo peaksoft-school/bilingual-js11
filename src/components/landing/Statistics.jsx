@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { useEffect, useState } from 'react'
 import { Box, keyframes, styled, Typography } from '@mui/material'
 import { motion } from 'framer-motion'
