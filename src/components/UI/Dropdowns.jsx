@@ -1,23 +1,79 @@
-import { MenuItem, Select, styled } from '@mui/material'
-import { SELECT } from '../../utils/constants'
+import { MenuItem, InputLabel, Select, styled } from '@mui/material'
 
-const Dropdowns = () => {
-   return (
-      <StyledList>
-         {SELECT.map((item) => (
-            <MenuItem value={item}>{item}</MenuItem>
-         ))}
-      </StyledList>
-   )
+const ITEM_HEIGHT = 60
+const ITEM_PADDING_TOP = 0
+const MenuProps = {
+   PaperProps: {
+      style: {
+         maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+         width: '100%',
+         marginLeft: -16,
+         boxShadow: '0px 2px 5px -3px rgba(0,0,0,0.2)',
+         borderRadius: '0px 0px 5px 5px',
+      },
+   },
 }
+
+const Dropdowns = ({ arraySelect, value, onChange }) => (
+   <StyledSelect
+      displayEmpty
+      value={value}
+      onChange={onChange}
+      MenuProps={MenuProps}
+      renderValue={(selected) => (
+         <InputLabel shrink={false}>{selected || 'Describe image'}</InputLabel>
+      )}
+   >
+      {arraySelect?.map((item) => (
+         <StyledMenuItem key={item.id} value={item.title}>
+            {item.title}
+         </StyledMenuItem>
+      ))}
+   </StyledSelect>
+)
 
 export default Dropdowns
 
-const StyledList = styled(Select)(() => ({
-   borderRadius: '10px 10px 0 0',
-   width: '51.0625rem',
+const StyledSelect = styled(Select)(({ theme }) => ({
+   borderRadius: '1rem 1rem 0 0',
+   width: '100%',
    fontStyle: 'normal',
-   fontWeight: '400',
-   fontSize: '16px',
-   lineHeight: '18px',
+   fontSize: '1rem',
+   padding: '0.75rem 1.125rem',
+
+   '&.MuiOutlinedInput-root': {
+      padding: '0.3rem',
+      fontFamily: 'Poppins',
+      fontSize: '1rem',
+      backgroundColor: theme.palette.primary.white,
+
+      '& fieldset': {
+         borderRadius: '8px',
+         border: '2px solid #D4D0D0',
+      },
+
+      '&.Mui-focused fieldset': {
+         border: `2px solid ${theme.palette.primary.main}`,
+         borderRadius: '8px 8px 0px 0px',
+      },
+
+      '&:hover fieldset': {
+         border: `2px solid ${theme.palette.primary.main}`,
+      },
+   },
+
+   '& .MuiSelect-icon': {
+      color: 'white',
+   },
+}))
+
+const StyledMenuItem = styled(MenuItem)(() => ({
+   '&.MuiMenuItem-root': {
+      backgroundColor: 'white',
+      color: '#4C4859',
+   },
+
+   '&.MuiMenuItem-root:hover': {
+      backgroundColor: 'rgba(58, 16, 229, 0.16)',
+   },
 }))
