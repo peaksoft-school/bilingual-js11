@@ -6,8 +6,8 @@ import 'slick-carousel/slick/slick-theme.css'
 import { FEEDBACKS } from '../../utils/constants'
 import {
    NextArrowIcon,
-   Pagination,
-   PaginationActive,
+   PaginationActiveIcon,
+   PaginationIcon,
    PrevArrowIcon,
 } from '../../assets/icons'
 
@@ -23,7 +23,7 @@ const Feedbacks = () => {
    const [index, setIndex] = useState(0)
 
    const paginatonActive = (i) =>
-      i === index ? <PaginationActive /> : <Pagination />
+      i === index ? <PaginationActiveIcon /> : <PaginationIcon />
 
    const settings = {
       focusOnSelect: true,
@@ -46,38 +46,42 @@ const Feedbacks = () => {
    }
 
    return (
-      <StyledFeedbacksPage>
-         <Typography className="title-text">
+      <StyledContainer>
+         <Typography className="title" variant="h2">
             Why people love Bilingual
          </Typography>
-         <div className="container">
-            <StyledSlide {...settings}>
+
+         <Box className="slider-box">
+            <StyledSlider {...settings}>
                {FEEDBACKS.map(
                   ({ id, name, description, rating, avatar }, dataIndex) => (
-                     <StyledCard key={id} isActive={dataIndex === index}>
+                     <StyledSlide key={id} isActive={dataIndex === index}>
                         <img src={avatar} alt={name} />
+
                         <Typography>{description}</Typography>
-                        <h4>{name}</h4>
+
+                        <Typography variant="h4">{name}</Typography>
+
                         <Rating value={rating} readOnly />
-                     </StyledCard>
+                     </StyledSlide>
                   )
                )}
-            </StyledSlide>
-         </div>
-      </StyledFeedbacksPage>
+            </StyledSlider>
+         </Box>
+      </StyledContainer>
    )
 }
 
 export default Feedbacks
 
-const StyledFeedbacksPage = styled(Box)({
+const StyledContainer = styled(Box)({
    display: 'flex',
    backgroundColor: '#FEF5E8',
    backgroundSize: 'cover',
    backgroundRepeat: 'no-repeat',
    flexDirection: 'column',
 
-   '& .title-text': {
+   '& > .title': {
       color: '#3752B4',
       fontFamily: 'Gilroy',
       fontSize: '2.5rem',
@@ -91,7 +95,7 @@ const StyledFeedbacksPage = styled(Box)({
       },
    },
 
-   '& .container': {
+   '& .slider-box': {
       display: 'flex',
       justifyContent: 'center',
       marginBottom: '120px',
@@ -101,7 +105,7 @@ const StyledFeedbacksPage = styled(Box)({
    },
 })
 
-const StyledSlide = styled(Slider)(({ theme }) => ({
+const StyledSlider = styled(Slider)(({ theme }) => ({
    padding: '0 30px',
    display: 'grid',
    gridTemplateColumns: 'repeat(3, auto)',
@@ -220,28 +224,28 @@ const StyledSlide = styled(Slider)(({ theme }) => ({
    '& .slick-dots': {
       bottom: '4.5rem',
       direction: 'rtl',
-   },
 
-   '& .slick-dots li': {
-      position: 'relative',
-      display: 'inline-block',
-      width: '20px',
-      height: '20px',
-      padding: 0,
-      margin: '-1rem',
-      cursor: 'pointer',
-
-      '@media screen and (max-width: 1200px)': {
-         width: '10px',
-         height: '10px',
+      '& li': {
+         position: 'relative',
+         display: 'inline-block',
+         width: '20px',
+         height: '20px',
          padding: 0,
-         margin: 0,
-         bottom: '7.8rem',
+         margin: '-1rem',
+         cursor: 'pointer',
+
+         '@media screen and (max-width: 1200px)': {
+            width: '10px',
+            height: '10px',
+            padding: 0,
+            margin: 0,
+            bottom: '7.8rem',
+         },
       },
    },
 }))
 
-const StyledCard = styled('div')(({ isActive }) => ({
+const StyledSlide = styled('div')(({ isActive }) => ({
    position: 'relative',
    textAlign: 'center',
    height: '35.25rem',
@@ -252,7 +256,7 @@ const StyledCard = styled('div')(({ isActive }) => ({
    transition: 'background 0.2s ease, transform 0.5s ease, filter 0.5s ease',
    borderRadius: '40px',
 
-   '.MuiTypography-root': {
+   '& .MuiTypography-root': {
       width: '19.125rem',
       margin: 'auto',
       paddingTop: '2.38rem',

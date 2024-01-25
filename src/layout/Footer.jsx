@@ -14,7 +14,7 @@ import FacebookIcon from '@mui/icons-material/Facebook'
 import InstagramIcon from '@mui/icons-material/Instagram'
 import PlusIcon from '../assets/icons/svgs/plus.svg'
 import Logo from '../assets/images/bilingual.svg'
-import { questions } from '../utils/constants/index'
+import { QUESTIONS } from '../utils/constants/index'
 
 const Footer = () => {
    const [expanded, setExpanded] = useState(null)
@@ -29,7 +29,7 @@ const Footer = () => {
          <StyledTypography>FAQ:</StyledTypography>
 
          <StyledList>
-            {questions.map((q, index) => (
+            {QUESTIONS.map((q, index) => (
                <Fragment key={q.question}>
                   <StyledDivider />
 
