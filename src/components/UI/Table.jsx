@@ -5,67 +5,62 @@ import {
    TableContainer,
    TableHead,
    TableRow,
-   // Paper,
    Table as MuiTable,
 } from '@mui/material'
+import { useTable } from 'react-table'
 
-function createData(date, testName, status, score) {
-   return { date, testName, status, score }
-}
+const Table = ({ columns, data }) => {
+   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+      useTable({
+         columns,
+         data,
+      })
 
-const rows = [
-   createData(
-      new Date(8.64e15 + 1).toString(),
-      'English advanced test',
-      'Evaluated',
-      7
-   ),
-   createData(
-      new Date(8.64e15 + 1).toString(),
-      'English advanced test',
-      'Evaluated',
-      7
-   ),
-   createData(
-      new Date(8.64e15 + 1).toString(),
-      'English advanced test',
-      'Not evaluated',
-      0
-   ),
-   createData(
-      new Date(8.64e15 + 1).toString(),
-      'English advanced test',
-      'Not evaluated',
-      0
-   ),
-]
-
-const Table = () => {
    return (
       <MainContainer>
-         <StyledTable>
+         <StyledTable {...getTableProps()}>
             <TableHead>
-               <TableRow>
-                  <StyledTh> # </StyledTh>
-                  <StyledTh> Date of Submition </StyledTh>
-                  <StyledTh> User Name </StyledTh>
-                  <StyledTh> Test name </StyledTh>
-                  <StyledTh> Status </StyledTh>
-                  <StyledTh> Score </StyledTh>
-               </TableRow>
+               {headerGroups.map((headerGroup, i) => (
+                  <TableRow
+                     {...headerGroup.getHeaderGroupProps()}
+                     key={headerGroup.headers[i].Header}
+                  >
+                     {headerGroup.headers.map((column) => (
+                        <StyledCellTh
+                           {...column.getHeaderProps({
+                              style: { ...column.style },
+                           })}
+                           key={column.id}
+                        >
+                           {column.render('Header')}
+                        </StyledCellTh>
+                     ))}
+                  </TableRow>
+               ))}
             </TableHead>
 
-            <TableBody>
-               {rows.map((row, i) => (
-                  <StyledTr key={row.testName} hover>
-                     <StyledTd>{i + 1} </StyledTd>
-                     <StyledTd>{row.date}</StyledTd>
-                     <StyledTd>{row.testName}</StyledTd>
-                     <StyledTd>{row.status}</StyledTd>
-                     <StyledTd>{row.score}</StyledTd>
-                     <StyledTd>deleteIcon</StyledTd>
-                  </StyledTr>
-               ))}
+            <TableBody {...getTableBodyProps()}>
+               {rows.map((row) => {
+                  prepareRow(row)
+                  return (
+                     <StyledCellTr
+                        {...row.getRowProps()}
+                        key={row.id}
+                        index={row.index}
+                     >
+                        {row.cells.map((cell) => (
+                           <StyledCellTd
+                              {...cell.getCellProps({
+                                 style: { ...cell.column.style },
+                              })}
+                              key={cell.column.id}
+                           >
+                              {cell.render('Cell')}
+                           </StyledCellTd>
+                        ))}
+                     </StyledCellTr>
+                  )
+               })}
             </TableBody>
          </StyledTable>
       </MainContainer>
@@ -77,8 +72,10 @@ export default Table
 const MainContainer = styled(TableContainer)(({ theme }) => ({
    display: 'flex',
    flexDirection: 'column',
+   alignItems: 'center',
+   justifyContent: 'center',
    padding: '3.13rem 6.13rem',
-   margin: 'auto',
+   margin: '5rem auto',
    width: '70.625rem',
    backgroundColor: theme.palette.primary.white,
    borderRadius: '20px',
@@ -90,15 +87,14 @@ const StyledTable = styled(MuiTable)(() => ({
    borderCollapse: 'separate',
 }))
 
-const StyledTr = styled(TableRow)(() => ({
+const StyledCellTr = styled(TableRow)(() => ({
    borderRadius: '0.7rem',
    background: '#FFF',
    boxShadow:
       '0px 4px 10px 0px rgba(0, 0, 0, 0.06), 0px -4px 10px 0px rgba(0, 0, 0, 0.06)',
 }))
 
-const StyledTd = styled(TableCell)(() => ({
-   width: '58.3125rem',
+const StyledCellTd = styled(TableCell)(() => ({
    height: '4.125rem',
    padding: '1.5rem 0',
    color: ' #4C4859',
@@ -108,7 +104,7 @@ const StyledTd = styled(TableCell)(() => ({
    },
 }))
 
-const StyledTh = styled(TableCell)(() => ({
+const StyledCellTh = styled(TableCell)(() => ({
    textAlign: 'start',
    fontWeight: '500',
    fontSize: '1rem',
