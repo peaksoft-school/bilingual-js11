@@ -3,27 +3,21 @@ import video2 from '../../assets/videos/video2.mp4'
 import video3 from '../../assets/videos/video3.mp4'
 
 import {
-   AdamaImg,
-   BasfImg,
-   DekalbImg,
    FifthPersonImage,
    FirstPersonImage,
    FourthPersonImage,
    GlobusImage,
    IntroImage,
-   LideaImg,
    PhotoFifthPartner,
    PhotoFirstPartner,
    PhotoFourthPartner,
    PhotoSecondPartner,
    PhotoSixthPartner,
    PhotoThirdPartner,
-   RodonitImg,
    SecondPersonImage,
    SevenPersonImage,
    SixthPersonImage,
    ThirdPersonImage,
-   lgImg,
 } from '../../assets/images/index'
 
 const CHECKBOX_IMAGE =
