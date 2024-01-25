@@ -2,20 +2,20 @@ import { useEffect, useState } from 'react'
 import { Typography, styled } from '@mui/material'
 import { motion } from 'framer-motion'
 import LandingHeader from '../../layout/LandingHeader'
-import BackgroundImage from '../../assets/images/introPage/background-image.svg'
 import LandingButton from '../UI/buttons/LandingButton'
 import {
-   BookOneImg,
-   BookThreeImg,
-   BookTwoImg,
-   MantieImg,
-   NoteImg,
-   PaperFourImg,
-   PaperOneImg,
-   PaperThreeImg,
-   PaperTwoImg,
-   ShadowBookImg,
-} from '../../assets/images/introPage'
+   FirstBookIcon,
+   FirstPaperIcon,
+   FourthPaperIcon,
+   MantieIcon,
+   NoteIcon,
+   SecondBookIcon,
+   SecondPaperIcon,
+   ShadowBookIcon,
+   ThirdBookIcon,
+   ThirdPaperIcon,
+} from '../../assets/icons'
+import { BackgroundIntroImage } from '../../assets/images'
 
 const Intro = () => {
    const [isVisible, setIsVisible] = useState(false)
@@ -31,8 +31,9 @@ const Intro = () => {
    return (
       <>
          <LandingHeader />
+
          <StyledContainer>
-            <StyledIntroPage>
+            <div className="box">
                <motion.div
                   animate={{ y: 50, opacity: isVisible ? 1 : 0 }}
                   initial={{ opacity: 0 }}
@@ -46,7 +47,7 @@ const Intro = () => {
                   initial={{ opacity: 0 }}
                   transition={{ ease: 'easeOut', duration: 2 }}
                >
-                  <StyledPaperOneImg />
+                  <StyledFirstPaperIcon />
                </motion.div>
 
                <motion.div
@@ -54,7 +55,7 @@ const Intro = () => {
                   initial={{ opacity: 0 }}
                   transition={{ ease: 'easeOut', duration: 2 }}
                >
-                  <StyledPaperThreeImg />
+                  <StyledThirdPaperIcon />
                </motion.div>
 
                <motion.div
@@ -66,7 +67,7 @@ const Intro = () => {
                   initial={{ opacity: 0 }}
                   transition={{ ease: 'easeOut', duration: 2 }}
                >
-                  <StyledPaperTwoImg />
+                  <StyledSecondPaperIcon />
                </motion.div>
 
                <motion.div
@@ -74,7 +75,7 @@ const Intro = () => {
                   initial={{ opacity: 0 }}
                   transition={{ ease: 'easeOut', duration: 2 }}
                >
-                  <StyledPaperFourImg />
+                  <StyledFourthPaperIcon />
                </motion.div>
 
                <motion.div
@@ -121,32 +122,38 @@ const Intro = () => {
                   <StyledShadowBookImg />
                </motion.div>
 
-               <StyledText
+               <StyledTextsBox
                   animate={{ x: 50, opacity: isVisible ? 1 : 0 }}
                   initial={{ opacity: 0 }}
                   transition={{ ease: 'easeOut', duration: 1 }}
                >
-                  <StyledTypography>
+                  <Typography className="title">
                      Prove your English proficiency today with
-                  </StyledTypography>
+                  </Typography>
 
-                  <StyledTypographyTwo>BILINGUAL</StyledTypographyTwo>
+                  <Typography className="bilingual">BILINGUAL</Typography>
 
-                  <StyledPtag>
+                  <p className="description">
                      For nearly 30 years, learners have turned to Rosetta Stone
                      to build the fluency and confidence they need to speak new
                      languages.
-                  </StyledPtag>
-               </StyledText>
+                  </p>
+               </StyledTextsBox>
 
-               <StyledButton
-                  animate={{ opacity: isVisible ? 1 : 0 }}
-                  initial={{ opacity: 0 }}
-                  transition={{ ease: 'easeOut', duration: 2 }}
+               <motion.div
+                  className="button"
+                  animate={{
+                     scale: [0.95, 1, 0.95, 1],
+                  }}
+                  transition={{
+                     ease: 'easeOut',
+                     duration: 4,
+                     repeat: Infinity,
+                  }}
                >
                   <LandingButton isStart={false} />
-               </StyledButton>
-            </StyledIntroPage>
+               </motion.div>
+            </div>
          </StyledContainer>
       </>
    )
@@ -155,140 +162,252 @@ const Intro = () => {
 export default Intro
 
 const StyledContainer = styled('div')({
-   backgroundImage: `url(${BackgroundImage})`,
+   backgroundImage: `url(${BackgroundIntroImage})`,
    backgroundSize: 'cover',
    backgroundRepeat: 'no-repeat',
+
+   '@media (max-width: 1200px)': {
+      maxWidth: '1200px',
+      paddingRight: '1rem',
+      height: '35rem',
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: '9rem',
+      gap: '10rem',
+   },
+
+   '& .box': {
+      margin: 'auto',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'end',
+      justifyContent: 'flex-start',
+      paddingRight: '15rem',
+      maxWidth: '1600px',
+      width: '100%',
+      height: '42rem',
+      position: 'relative',
+   },
+
+   '& .button': {
+      width: '33.328rem',
+      height: '4.495rem',
+      position: 'absolute',
+      top: '30.5rem',
+      left: '4.6rem',
+
+      '@media (max-width: 1200px)': {
+         width: '32.328rem',
+         height: '3.495rem',
+         top: '21rem',
+      },
+   },
 })
 
-const StyledIntroPage = styled('div')({
-   margin: 'auto',
-   display: 'flex',
-   flexDirection: 'column',
-   alignItems: 'end',
-   justifyContent: 'flex-start',
-   paddingRight: '15rem',
-   maxWidth: '1600px',
-   width: '100%',
-   height: '42rem',
-   position: 'relative',
-})
-
-const StyledTypography = styled(Typography)({
-   width: '40rem',
-   fontSize: '3.75rem',
-   fontFamily: 'Gilroy',
-   color: '#43404E',
-   fontWeight: '900',
-})
-
-const StyledTypographyTwo = styled(Typography)({
-   color: '#C93D7D',
-   fontFamily: 'Gilroy',
-   fontSize: '3.75rem',
-   paddingTop: '0px',
-})
-
-const StyledPtag = styled('p')({
-   color: '#47454e',
-   width: '48.25rem',
-   fontFamily: 'Arial',
-   fontWeight: 100,
-   fontSize: '1.25rem',
-   paddingTop: '1.813rem',
-   paaddingBottom: '1.875rem',
-})
-
-const StyledMantieImg = styled(MantieImg)({
-   width: '14rem',
-   height: '15rem',
-   position: 'absolute',
-   top: '1rem',
-   right: '8.5rem',
-})
-
-const StyledPaperOneImg = styled(PaperOneImg)({
-   width: '6rem',
-   height: '6rem',
-   position: 'absolute',
-   top: '0',
-   left: '2.8rem',
-})
-
-const StyledPaperTwoImg = styled(PaperTwoImg)({
-   width: '8rem',
-   height: '4rem',
-   position: 'absolute',
-   left: '-180px',
-})
-
-const StyledPaperThreeImg = styled(PaperThreeImg)({
-   width: '9.5rem',
-   height: '5rem',
-   position: 'absolute',
-   top: '8rem',
-   right: '6.5rem',
-})
-
-const StyledPaperFourImg = styled(PaperFourImg)({
-   width: '10rem',
-   height: '4.5rem',
-   position: 'absolute',
-   top: '0',
-   left: '-28rem',
-})
-
-const StyledNoteImg = styled(motion(NoteImg))({
-   width: '13.23088rem',
-   height: '13.99494rem',
-   position: 'absolute',
-   top: '1rem',
-   left: '-6rem',
-})
-
-const StyledBookOneImg = styled(BookOneImg)({
-   width: '17.273rem',
-   height: '5.611rem',
-   position: 'absolute',
-   top: '0',
-   left: '-13rem',
-})
-
-const StyledBookTwoImg = styled(BookTwoImg)({
-   width: '17.688rem',
-   height: '4.527rem',
-   position: 'absolute',
-   top: '0',
-   right: '-6rem',
-})
-
-const StyledBookThreeImg = styled(BookThreeImg)({
-   width: '20.809rem',
-   height: '4.495rem',
-   position: 'absolute',
-   top: '0',
-   left: '-14rem',
-})
-
-const StyledShadowBookImg = styled(ShadowBookImg)({
-   width: '33.328rem',
-   height: '4.495rem',
-   position: 'absolute',
-   top: '37rem',
-   right: '4rem',
-})
-
-const StyledText = styled(motion.div)({
+const StyledTextsBox = styled(motion.div)({
    width: '33.328rem',
    height: '4.495rem',
    position: 'absolute',
    top: '7rem',
    left: '1.6rem',
+
+   '@media (max-width: 1200px)': {
+      width: '32.328rem',
+      height: '3.495rem',
+   },
+
+   '& .title': {
+      width: '40rem',
+      fontSize: '3.75rem',
+      fontFamily: 'Gilroy',
+      color: '#43404E',
+      fontWeight: '900',
+
+      '@media (max-width: 1200px)': {
+         maxWidth: '40rem',
+         fontSize: '3rem',
+         position: 'relative',
+         top: '-1.5rem',
+      },
+   },
+
+   '& .bilingual': {
+      color: '#C93D7D',
+      fontFamily: 'Gilroy',
+      fontSize: '3.75rem',
+      paddingTop: '0px',
+
+      '@media (max-width: 1200px)': {
+         maxWidth: '40rem',
+         fontSize: '3rem',
+         position: 'relative',
+         top: '-1.5rem',
+      },
+   },
+
+   '& .description': {
+      color: '#47454e',
+      width: '48.25rem',
+      fontFamily: 'Poppins',
+      fontWeight: 400,
+      fontSize: '1.25rem',
+      paddingTop: '1.813rem',
+      paddingBottom: '1.875rem',
+
+      '@media (max-width: 1200px)': {
+         maxWidth: '40rem',
+         fontSize: '1.1rem',
+         position: 'relative',
+         top: '-2rem',
+      },
+   },
 })
 
-const StyledButton = styled(motion.div)({
+const StyledMantieImg = styled(MantieIcon)({
+   width: '14rem',
+   height: '15rem',
+   position: 'absolute',
+   top: '1rem',
+   right: '8.5rem',
+
+   '@media (max-width: 1200px)': {
+      width: '12.5rem',
+      height: '13.5rem',
+      right: '4rem',
+      top: '-0.5rem',
+   },
+})
+
+const StyledFirstPaperIcon = styled(FirstPaperIcon)({
+   width: '6rem',
+   height: '6rem',
+   position: 'absolute',
+   top: '0',
+   left: '2.8rem',
+
+   '@media (max-width: 1200px)': {
+      width: '5.5rem',
+      height: '5.5rem',
+      top: '0',
+      left: '8rem',
+   },
+})
+
+const StyledSecondPaperIcon = styled(SecondPaperIcon)({
+   width: '8rem',
+   height: '4rem',
+   position: 'absolute',
+   left: '-180px',
+
+   '@media (max-width: 1200px)': {
+      width: '6.8rem',
+      height: '2.8rem',
+      top: '-4rem',
+      left: '-100px',
+   },
+})
+
+const StyledThirdPaperIcon = styled(ThirdPaperIcon)({
+   width: '9.5rem',
+   height: '5rem',
+   position: 'absolute',
+   top: '8rem',
+   right: '6.5rem',
+
+   '@media (max-width: 1200px)': {
+      width: '8rem',
+      height: '4rem',
+      top: '6rem',
+      right: '3rem',
+   },
+})
+
+const StyledFourthPaperIcon = styled(FourthPaperIcon)({
+   width: '10rem',
+   height: '4.5rem',
+   position: 'absolute',
+   top: '0',
+   left: '-28rem',
+
+   '@media (max-width: 1200px)': {
+      width: '9.5rem',
+      height: '3.5rem',
+      top: '-5.8rem',
+      left: '-19rem',
+   },
+})
+
+const StyledNoteImg = styled(NoteIcon)({
+   width: '13.23088rem',
+   height: '13.99494rem',
+   position: 'absolute',
+   top: '1rem',
+   left: '-6rem',
+
+   '@media (max-width: 1200px)': {
+      width: '11rem',
+      height: '11rem',
+      top: '-1rem',
+      left: '-2.5rem',
+   },
+})
+
+const StyledBookOneImg = styled(FirstBookIcon)({
+   width: '17.273rem',
+   height: '5.611rem',
+   position: 'absolute',
+   top: '0',
+   left: '-13rem',
+
+   '@media (max-width: 1200px)': {
+      width: '16.5rem',
+      height: '4.5rem',
+      top: '-4.4rem',
+      left: '-9rem',
+   },
+})
+
+const StyledBookTwoImg = styled(SecondBookIcon)({
+   width: '17.688rem',
+   height: '4.527rem',
+   position: 'absolute',
+   top: '0',
+   right: '-6rem',
+
+   '@media (max-width: 1200px)': {
+      width: '17.5rem',
+      height: '3.5rem',
+      top: '-5.5rem',
+      right: '-9.5rem',
+   },
+})
+
+const StyledBookThreeImg = styled(ThirdBookIcon)({
+   width: '20.809rem',
+   height: '4.495rem',
+   position: 'absolute',
+   top: '0',
+   left: '-14rem',
+
+   '@media (max-width: 1200px)': {
+      width: '19.5rem',
+      height: '3.5rem',
+      top: '-6.5rem',
+      left: '-9.4rem',
+   },
+})
+
+const StyledShadowBookImg = styled(ShadowBookIcon)({
    width: '33.328rem',
    height: '4.495rem',
    position: 'absolute',
-   top: '30.5rem',
-   left: '4.6rem',
+   top: '37rem',
+   right: '4rem',
+
+   '@media (max-width: 1200px)': {
+      width: '32.5rem',
+      height: '3.5rem',
+      top: '29.9rem',
+      right: '0rem',
+   },
 })

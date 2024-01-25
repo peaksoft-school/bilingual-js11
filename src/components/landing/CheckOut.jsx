@@ -1,55 +1,64 @@
-import { styled } from '@mui/material'
+import { Box, Typography, styled } from '@mui/material'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import { INFO } from '../../utils/constants'
-import { SlickNext, SlickPrev } from '../../assets/icons'
+import { SlickNextIcon, SlickPrevIcon } from '../../assets/icons'
+import { CHECK_OUT } from '../../utils/constants'
 
 const PrevArrow = ({ onClick, className }) => (
-   <SlickPrev onClick={onClick} className={className} />
+   <SlickPrevIcon onClick={onClick} className={className} />
 )
 const NextArrow = ({ onClick, className }) => (
-   <SlickNext onClick={onClick} className={className} />
+   <SlickNextIcon onClick={onClick} className={className} />
 )
 
-const CheckOut = () => {
-   const settings = {
-      dots: true,
-      infinite: true,
-      lazyLoad: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      centerMode: true,
-      centerPadding: 0,
-      nextArrow: <NextArrow />,
-      prevArrow: <PrevArrow />,
-   }
-
-   return (
-      <StyledContainer>
-         <StyledHeading>Check out each question type</StyledHeading>
-
-         <StyledContent>
-            <StyledSlider {...settings}>
-               {INFO.map(({ id, background, titleColor, title, text, img }) => (
-                  <StyledCard key={id} background={background}>
-                     <StyledText>
-                        <StyledTitle titleColor={titleColor}>
-                           {title}
-                        </StyledTitle>
-                        <StyledDescription>{text}</StyledDescription>
-                     </StyledText>
-                     <StyledImageContent>
-                        <StyledImage src={img} alt="globus" />
-                     </StyledImageContent>
-                  </StyledCard>
-               ))}
-            </StyledSlider>
-         </StyledContent>
-      </StyledContainer>
-   )
+const settings = {
+   dots: true,
+   infinite: true,
+   lazyLoad: true,
+   speed: 500,
+   slidesToShow: 1,
+   slidesToScroll: 1,
+   centerMode: true,
+   centerPadding: 0,
+   autoplay: true,
+   nextArrow: <NextArrow />,
+   prevArrow: <PrevArrow />,
 }
+
+const CheckOut = () => (
+   <StyledContainer>
+      <Typography className="title" variant="h2">
+         Check out each question type
+      </Typography>
+
+      <Box className="slider-box">
+         <StyledSlider {...settings}>
+            {CHECK_OUT.map(
+               ({ id, background, titleColor, title, text, image }) => (
+                  <StyledSlide
+                     key={id}
+                     background={background}
+                     titleColor={titleColor}
+                  >
+                     <Box className="texts-box">
+                        <Typography className="title" variant="h1">
+                           {title}
+                        </Typography>
+
+                        <Typography className="description">{text}</Typography>
+                     </Box>
+
+                     <Box className="image-box">
+                        <img src={image} alt="globus" />
+                     </Box>
+                  </StyledSlide>
+               )
+            )}
+         </StyledSlider>
+      </Box>
+   </StyledContainer>
+)
 
 export default CheckOut
 
@@ -57,83 +66,21 @@ const StyledContainer = styled('div')(() => ({
    display: 'flex',
    flexDirection: 'column',
    margin: 'auto',
-}))
 
-const StyledContent = styled('div')(() => ({
-   display: 'flex',
-   justifyContent: 'center',
-   alignItems: 'center',
-   gap: '3rem',
-}))
-
-const StyledHeading = styled('p')(() => ({
-   color: '#3752B4',
-   fontFamily: 'Gilroy',
-   fontSize: '2.5rem',
-   fontWeight: '700',
-   textAlign: 'center',
-}))
-
-const StyledCard = styled('div')(({ background, theme }) => ({
-   width: ' 64.25rem',
-   height: '27.5rem',
-   display: 'flex',
-   flexDirection: 'row',
-   alignItems: 'center',
-   gap: '1.62rem',
-   borderRadius: '4.375rem 4.375rem 4.375rem 0rem',
-   backgroundColor: background,
-   padding: '2.88rem 2.75rem',
-   boxShadow: '11px 16px 20px 0px rgba(0, 0, 0, 0.30)',
-
-   [theme.breakpoints.down('lg')]: {
-      width: '30rem',
+   '& > .title': {
+      color: '#3752B4',
+      fontFamily: 'Gilroy',
+      fontSize: '2.5rem',
+      fontWeight: '700',
+      textAlign: 'center',
    },
-}))
 
-const StyledText = styled('div')(() => ({
-   display: 'flex',
-   flexDirection: 'column',
-   gap: '1.61rem',
-}))
-
-const StyledTitle = styled('h1')(({ titleColor, theme }) => ({
-   width: '31.75431rem',
-   height: '6.63531rem',
-   color: titleColor,
-   fontFamily: 'Gilroy',
-   fontSize: '2.375rem',
-   fontWeight: '700',
-
-   [theme.breakpoints.down('lg')]: {
-      fontSize: '2.200rem',
-      width: '30rem',
+   '& > .slider-box': {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: '3rem',
    },
-}))
-
-const StyledDescription = styled('p')(({ theme }) => ({
-   width: '36.1875rem',
-   color: theme.palette.primary.white,
-   fontSize: '1.5rem',
-   fontFamily: 'Poppins',
-   fontWeight: '400',
-   marginBottom: '6rem',
-
-   [theme.breakpoints.down('lg')]: {
-      fontSize: '1.4rem',
-      width: '34rem',
-   },
-}))
-
-const StyledImageContent = styled('div')(() => ({
-   display: 'flex',
-   justifyContent: 'flex-end',
-   marginTop: '-21rem',
-}))
-
-const StyledImage = styled('img')(() => ({
-   width: '16.40763rem',
-   height: '19.965rem',
 }))
 
 const StyledSlider = styled(Slider)(({ theme }) => ({
@@ -196,11 +143,12 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
 
    '& .slick-next:hover, .slick-prev:hover': {
       content: 'none',
-      circle: {
+
+      '& circle': {
          fill: '#3A10E5',
       },
 
-      path: {
+      '& path': {
          fill: '#fff',
       },
    },
@@ -215,26 +163,90 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
       '& li': {
          width: '7px',
          transition: 'all 500ms',
-      },
 
-      '& li > button': {
-         height: '20px',
-         background: '#d7c7e8',
-         borderRadius: '5px',
-         width: '100%',
-         transition: 'all 1s',
-      },
-      '& li > button:before': {
-         color: 'transparent',
+         '& > button': {
+            height: '20px',
+            background: '#d7c7e8',
+            borderRadius: '5px',
+            width: '100%',
+            transition: 'all 1s',
+
+            '&:before': {
+               color: 'transparent',
+            },
+         },
       },
 
       '& .slick-active': {
          height: '50px',
+
+         '& > button': {
+            background: '#3A10E5',
+            height: '100%',
+         },
+      },
+   },
+}))
+
+const StyledSlide = styled('div')(({ titleColor, background, theme }) => ({
+   width: ' 64.25rem',
+   height: '27.5rem',
+   display: 'flex',
+   flexDirection: 'row',
+   alignItems: 'center',
+   cursor: 'pointer',
+   gap: '1.62rem',
+   borderRadius: '4.375rem 4.375rem 4.375rem 0rem',
+   backgroundColor: background,
+   padding: '2.88rem 2.75rem',
+   boxShadow: '11px 16px 20px 0px rgba(0, 0, 0, 0.30)',
+
+   [theme.breakpoints.down('lg')]: {
+      width: '30rem',
+   },
+
+   '& .texts-box': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '1.61rem',
+
+      '& > .title': {
+         width: '31.75431rem',
+         height: '6.63531rem',
+         color: titleColor,
+         fontFamily: 'Gilroy',
+         fontSize: '2.375rem',
+         fontWeight: '700',
+
+         [theme.breakpoints.down('lg')]: {
+            fontSize: '2.200rem',
+            width: '30rem',
+         },
       },
 
-      '& .slick-active > button': {
-         background: '#3A10E5',
-         height: '100%',
+      '& > .description': {
+         width: '36.1875rem',
+         color: theme.palette.primary.white,
+         fontSize: '1.5rem',
+         fontFamily: 'Poppins',
+         fontWeight: '400',
+         marginBottom: '6rem',
+
+         [theme.breakpoints.down('lg')]: {
+            fontSize: '1.4rem',
+            width: '34rem',
+         },
+      },
+   },
+
+   '& > .image-box': {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      marginTop: '-21rem',
+
+      '& > img': {
+         width: '16.40763rem',
+         height: '19.965rem',
       },
    },
 }))

@@ -14,7 +14,7 @@ const MenuProps = {
    },
 }
 
-const Dropdowns = ({ arraySelect, value, onChange }) => (
+const Dropdown = ({ arraySelect, value, onChange }) => (
    <StyledSelect
       displayEmpty
       value={value}
@@ -32,7 +32,7 @@ const Dropdowns = ({ arraySelect, value, onChange }) => (
    </StyledSelect>
 )
 
-export default Dropdowns
+export default Dropdown
 
 const StyledSelect = styled(Select)(({ theme }) => ({
    borderRadius: '1rem 1rem 0 0',
