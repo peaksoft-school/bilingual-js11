@@ -1,5 +1,11 @@
+import Partners from './components/landing/Partners'
+
 const App = () => {
-   return <div>Bilingual</div>
+   return (
+      <div>
+         <Partners />
+      </div>
+   )
 }
 
 export default App
