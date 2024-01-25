@@ -1,29 +1,19 @@
-import React from 'react'
 import { Avatar, Typography, CardContent, styled, Grid } from '@mui/material'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import OurTeam from '../utils/constants/OurTeam'
+import { OURTEAM } from '../utils/constants/index'
 
 const settings = {
    infinite: true,
-
    speed: 5000,
-
    autoplay: true,
-
    autoplaySpeed: 0,
-
    cssEase: 'linear',
-
-   initialSlide: OurTeam.length,
-
+   initialSlide: OURTEAM.length,
    pauseOnHover: true,
-
    variableWidth: true,
-
    rtl: false,
-
    responsive: [
       {
          breakpoint: 1024,
@@ -48,18 +38,6 @@ const settings = {
    ],
 }
 
-const TeamMember = ({ img, name, role, customStyle }) => (
-   <StyledCardContent>
-      <StyledAvatarContainer>
-         <StyledAvatar src={img} sx={customStyle} />
-      </StyledAvatarContainer>
-
-      <StyledName>{name}</StyledName>
-
-      <StyledRole>{role}</StyledRole>
-   </StyledCardContent>
-)
-
 const TeamList = () => (
    <Grid>
       <Grid item xs={12}>
@@ -68,8 +46,16 @@ const TeamList = () => (
 
       <StyledSlider>
          <Slider {...settings}>
-            {OurTeam.map((member) => (
-               <TeamMember key={member.id} {...member} />
+            {OURTEAM.map(({ img, name, role, customStyle, id }) => (
+               <StyledCardContent key={id}>
+                  <StyledAvatarContainer>
+                     <StyledAvatar src={img} sx={customStyle} />
+                  </StyledAvatarContainer>
+
+                  <StyledName>{name}</StyledName>
+
+                  <StyledRole>{role}</StyledRole>
+               </StyledCardContent>
             ))}
          </Slider>
       </StyledSlider>
@@ -87,7 +73,7 @@ const StyledOurTeam = styled(Typography)({
    fontSize: '2.5rem',
    color: '#3752B4',
    textAlign: 'center',
-   margin: '2.94rem',
+   margin: '7.69rem 0 2.94rem 0',
 })
 
 const StyledCardContent = styled(CardContent)({
@@ -115,6 +101,7 @@ const StyledName = styled(Typography)({
    fontSize: '1rem',
    fontWeight: 600,
    marginTop: '0.88rem',
+   textAlign: 'center',
 })
 
 const StyledRole = styled(Typography)({
@@ -131,6 +118,10 @@ const StyledSlider = styled(Grid)({
    paddingLeft: '5%',
    paddingRight: '5%',
    margin: 'auto',
+   position: 'relative',
+   '.slick-arrow': {
+      display: 'none !important',
+   },
    '@media (max-width: 1024px)': {
       paddingLeft: '5%',
       paddingRight: '5%',

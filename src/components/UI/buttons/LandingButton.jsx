@@ -1,7 +1,6 @@
 import { forwardRef } from 'react'
 import { styled, Button } from '@mui/material'
-import BeginBtnImage from '../../../assets/images/toBegin.png'
-import StartBtnImage from '../../../assets/images/getStarted.png'
+import { BeginImage, StartImage } from '../../../assets/images'
 
 const LandingButtons = forwardRef(
    ({ children, onClick, isStart = true, ...rest }, ref) => (
@@ -19,9 +18,7 @@ const LandingButtons = forwardRef(
 export default LandingButtons
 
 const StyleStartButton = styled(Button)(({ isstart }) => ({
-   backgroundImage: `url(${
-      isstart !== 'false' ? StartBtnImage : BeginBtnImage
-   })`,
+   backgroundImage: `url(${isstart !== 'false' ? StartImage : BeginImage})`,
 
    backgroundSize: 'cover',
    backgroundRepeat: 'no-repeat',
