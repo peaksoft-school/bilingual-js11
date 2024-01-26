@@ -1,4 +1,5 @@
 import { MenuItem, InputLabel, Select, styled } from '@mui/material'
+import { forwardRef } from 'react'
 
 const ITEM_HEIGHT = 60
 const ITEM_PADDING_TOP = 0
@@ -14,22 +15,28 @@ const MenuProps = {
    },
 }
 
-const Dropdown = ({ arraySelect, value, onChange }) => (
-   <StyledSelect
-      displayEmpty
-      value={value}
-      onChange={onChange}
-      MenuProps={MenuProps}
-      renderValue={(selected) => (
-         <InputLabel shrink={false}>{selected || 'Describe image'}</InputLabel>
-      )}
-   >
-      {arraySelect?.map((item) => (
-         <StyledMenuItem key={item.id} value={item.title}>
-            {item.title}
-         </StyledMenuItem>
-      ))}
-   </StyledSelect>
+const Dropdown = forwardRef(
+   ({ arraySelect, value, onChange, ...rest }, ref) => (
+      <StyledSelect
+         displayEmpty
+         value={value}
+         onChange={onChange}
+         MenuProps={MenuProps}
+         ref={ref}
+         {...rest}
+         renderValue={(selected) => (
+            <InputLabel shrink={false}>
+               {selected || 'Describe image'}
+            </InputLabel>
+         )}
+      >
+         {arraySelect?.map((item) => (
+            <StyledMenuItem key={item.id} value={item.title}>
+               {item.title}
+            </StyledMenuItem>
+         ))}
+      </StyledSelect>
+   )
 )
 
 export default Dropdown
