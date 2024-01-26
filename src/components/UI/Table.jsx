@@ -104,13 +104,14 @@ const StyledCellTd = styled(TableCell)(() => ({
    padding: '1.5rem 0',
    color: ' #4C4859',
    borderBottom: 'none',
+   textAlign: 'center',
    ':first-of-type': {
       paddingLeft: '1rem',
    },
 }))
 
 const StyledCellTh = styled(TableCell)(() => ({
-   textAlign: 'start',
+   textAlign: 'center',
    fontWeight: '500',
    fontSize: '1rem',
    borderBottom: 'none',
