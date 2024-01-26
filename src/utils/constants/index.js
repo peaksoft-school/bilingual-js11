@@ -14,6 +14,13 @@ import {
    SixthPersonImage,
    ThirdPersonImage,
    ThirdPosterVideo,
+   FirstPersonImageOurTeam,
+   SecondPersonImageOurTeam,
+   ThirdPersonImageOurTeam,
+   FourthPersonImageOurTeam,
+   FifthPersonImageOurTeam,
+   SixthPersonImageOurTeam,
+   SeventhPersonImageOurTeam,
 } from '../../assets/images/index'
 import { TrashIcon } from '../../assets/icons'
 
@@ -177,6 +184,7 @@ const FAKE_DATA = [
       score: 7,
    },
 ]
+
 const COLUMNS = [
    {
       Header: '#',
@@ -207,4 +215,76 @@ const COLUMNS = [
    },
 ]
 
-export { VIDEOS, CHECKBOX_IMAGE, CHECK_OUT, FEEDBACKS, COLUMNS, FAKE_DATA }
+const OURTEAM = [
+   {
+      id: 1,
+      img: SeventhPersonImageOurTeam,
+      name: 'Rabiya Aiylchieva',
+      role: 'Frontend developer - Team lider',
+   },
+   {
+      id: 2,
+      img: FourthPersonImageOurTeam,
+      name: 'Meerim Kerkibasheva',
+      role: 'Frontend developer',
+      customStyle: {
+         borderRadius: '2.5rem 0rem',
+      },
+   },
+
+   {
+      id: 3,
+      img: FifthPersonImageOurTeam,
+      name: 'Nurislam Isaev',
+      role: 'Frontend developer',
+      customStyle: {
+         borderRadius: '0rem 0rem 2.5rem 0rem',
+      },
+   },
+   {
+      id: 6,
+      img: ThirdPersonImageOurTeam,
+      name: 'Elaman Janyshbekov',
+      role: 'Frontend developer',
+      customStyle: {
+         borderRadius: '0rem 2.5rem 0rem 0rem',
+      },
+   },
+   {
+      id: 4,
+      img: FirstPersonImageOurTeam,
+      name: 'Adeliia Jyldyzbekova',
+      role: 'Backend developer - Team Lider',
+      customStyle: {
+         borderRadius: '2.5rem 0rem',
+      },
+   },
+   {
+      id: 5,
+      img: SecondPersonImageOurTeam,
+      name: 'Alina Ahunova',
+      role: 'Backend developer',
+      customStyle: {
+         borderRadius: '2.5rem 0rem 0rem 0rem',
+      },
+   },
+   {
+      id: 7,
+      img: SixthPersonImageOurTeam,
+      name: 'Nuriza Zununova',
+      role: 'Backend developer',
+      customStyle: {
+         borderRadius: '2.5rem 0rem',
+      },
+   },
+]
+
+export {
+   VIDEOS,
+   CHECKBOX_IMAGE,
+   CHECK_OUT,
+   FEEDBACKS,
+   OURTEAM,
+   COLUMNS,
+   FAKE_DATA,
+}
