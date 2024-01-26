@@ -12,26 +12,34 @@ const useStyles = styled({
 })
 
 const settings = {
+   dots: false,
+   arrows: false,
    infinite: true,
-   speed: 5000,
-   slidesToShow: 4,
+   slidesToShow: 4.65,
+   slidesToScroll: 1,
+   centerMode: true,
+   centerPadding: '0px',
    autoplay: true,
    autoplaySpeed: 0,
+   speed: 5000,
    cssEase: 'linear',
-   initialSlide: 0,
-   pauseOnHover: true,
-   variableWidth: true,
    responsive: [
       {
-         breakpoint: 600,
+         breakpoint: 1024,
+         settings: {
+            slidesToShow: 3,
+         },
+      },
+      {
+         breakpoint: 768,
          settings: {
             slidesToShow: 2,
          },
       },
       {
-         breakpoint: 960,
+         breakpoint: 480,
          settings: {
-            slidesToShow: 3,
+            slidesToShow: 1,
          },
       },
    ],
@@ -73,7 +81,7 @@ const StyledParners = styled(Typography)({
 })
 
 const ImgContainer = styled('div')({
-   margin: '0 0.9375rem',
+   margin: '0.9375rem',
    width: '15.9375rem',
    height: '7.875rem',
    overflow: 'hidden',
@@ -89,14 +97,12 @@ const Img = styled('img')({
    objectFit: 'contain',
    objectPosition: 'center',
    margin: 'auto',
-   display: 'block',
 })
 
 const StyledSlider = styled(Slider)({
    width: '100%',
    maxWidth: '1440px',
-   paddingLeft: '5%',
-   paddingRight: '5%',
-
+   margin: 'auto',
+   padding: '0 5%',
    '.slick-slide': { outline: 'none' },
 })
