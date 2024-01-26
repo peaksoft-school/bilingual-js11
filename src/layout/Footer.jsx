@@ -9,26 +9,31 @@ import {
    styled,
    IconButton,
 } from '@mui/material'
-import YouTubeIcon from '@mui/icons-material/YouTube'
-import FacebookIcon from '@mui/icons-material/Facebook'
-import InstagramIcon from '@mui/icons-material/Instagram'
-import PlusIcon from '../assets/icons/svgs/plus.svg'
-import Logo from '../assets/images/bilingual.svg'
 import { QUESTIONS } from '../utils/constants/index'
+import {
+   BilingualIcon,
+   FacebookIcon,
+   InstagramIcon,
+   YouTubeIcon,
+   PlusIcon,
+} from '../assets/icons'
 
 const Footer = () => {
    const [expanded, setExpanded] = useState(null)
+
    const [rotated, setRotated] = useState(false)
 
    const handleExpandClick = (index) => {
       setExpanded(expanded === index ? null : index)
+
       setRotated(!rotated)
    }
+
    return (
       <StyledContainer>
-         <StyledTypography>FAQ:</StyledTypography>
-
          <StyledList>
+            <StyledTitle>FAQ:</StyledTitle>
+
             {QUESTIONS.map((q, index) => (
                <Fragment key={q.question}>
                   <StyledDivider />
@@ -36,17 +41,12 @@ const Footer = () => {
                   <ListItemButton onClick={() => handleExpandClick(index)}>
                      <StyledQuestion>{q.question}</StyledQuestion>
                      <StyledPlus
-                        src={PlusIcon}
                         alt="Plus Icon"
                         rotated={rotated && expanded === index}
                      />
                   </ListItemButton>
 
-                  <Collapse
-                     in={expanded === index}
-                     timeout="auto"
-                     unmountOnExit
-                  >
+                  <Collapse in={expanded === index} unmountOnExit>
                      <StyledResponse>{q.answer}</StyledResponse>
                   </Collapse>
                </Fragment>
@@ -55,7 +55,7 @@ const Footer = () => {
          </StyledList>
 
          <StyledFooter>
-            <StyledLogo src={Logo} alt="Logo" />
+            <StyledLogo alt="logo" />
 
             <StyledIconButton
                href="#"
@@ -100,19 +100,19 @@ const StyledContainer = styled(Container)({
    background: '#262626',
 })
 
-const StyledTypography = styled(Typography)({
+const StyledTitle = styled(Typography)({
    color: 'var(--text-00, #FFF)',
    fontSize: '2.5rem',
    fontWeight: 700,
    lineHeight: '3.1875rem',
-   margin: '2% 0 0 -80%',
+   margin: '2%',
 })
 
 const StyledList = styled(List)({
    width: '92%',
 })
 
-const StyledPlus = styled('img')(({ rotated }) => ({
+const StyledPlus = styled(PlusIcon)(({ rotated }) => ({
    cursor: 'pointer',
    transform: `rotate(${rotated ? '45deg' : '0'})`,
    transition: 'transform 0.3s ease',
@@ -159,29 +159,15 @@ const StyledReseved = styled(Divider)({
    fontWeight: '400',
    lineHeight: '1.5rem',
    alignItems: 'center',
+   fontFamily: 'Poppins',
 })
 
 const StyledIconButton = styled(IconButton)({
-   width: '2.5rem',
-   height: '2.5rem',
-
-   '&.youtube-icon:hover': {
-      background: '#FF0000',
-      padding: '1rem',
-   },
-
-   '&.facebook-icon:hover': {
-      background: '#316FF6',
-      padding: '1rem',
-   },
-
-   '&.instagram-icon:hover': {
-      background: 'linear-gradient(45deg, #F9CE34, #EE2A7B, #6228D7)',
-      padding: '1rem',
-   },
+   width: '3.5rem',
+   height: '4.5rem',
 })
 
-const StyledLogo = styled('img')({
+const StyledLogo = styled(BilingualIcon)({
    width: '12.06763rem',
    height: '2.875rem',
    margin: '0 75% 0 -1%',
