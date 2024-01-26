@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Typography, styled } from '@mui/material'
+import { Box, Typography, styled } from '@mui/material'
 import { motion } from 'framer-motion'
 import LandingHeader from '../../layout/LandingHeader'
 import LandingButton from '../UI/buttons/LandingButton'
@@ -33,7 +33,7 @@ const Intro = () => {
          <LandingHeader />
 
          <StyledContainer>
-            <div className="box">
+            <Box className="box">
                <motion.div
                   animate={{ y: 50, opacity: isVisible ? 1 : 0 }}
                   initial={{ opacity: 0 }}
@@ -133,11 +133,11 @@ const Intro = () => {
 
                   <Typography className="bilingual">BILINGUAL</Typography>
 
-                  <p className="description">
+                  <Typography className="description">
                      For nearly 30 years, learners have turned to Rosetta Stone
                      to build the fluency and confidence they need to speak new
                      languages.
-                  </p>
+                  </Typography>
                </StyledTextsBox>
 
                <motion.div
@@ -153,7 +153,7 @@ const Intro = () => {
                >
                   <LandingButton isStart={false} />
                </motion.div>
-            </div>
+            </Box>
          </StyledContainer>
       </>
    )
