@@ -4,14 +4,12 @@ import { BeginImage, StartImage } from '../../../assets/images'
 
 const LandingButtons = forwardRef(
    ({ children, onClick, isStart = true, ...rest }, ref) => (
-      <div>
-         <StyleStartButton
-            onClick={onClick}
-            isstart={isStart.toString()}
-            ref={ref}
-            {...rest}
-         />
-      </div>
+      <StyleStartButton
+         onClick={onClick}
+         isstart={isStart.toString()}
+         ref={ref}
+         {...rest}
+      />
    )
 )
 
