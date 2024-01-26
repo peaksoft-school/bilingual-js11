@@ -23,7 +23,7 @@ const theme = createTheme({
    },
 })
 
-const Themes = ({ children }) => (
+const Themes = ({ children }) => ( 
    <ThemeProvider theme={theme}>{children}</ThemeProvider>
 )
 
