@@ -18,6 +18,13 @@ import {
    SevenPersonImage,
    SixthPersonImage,
    ThirdPersonImage,
+   FirstPersonImageOurTeam,
+   SecondPersonImageOurTeam,
+   ThirdPersonImageOurTeam,
+   FourthPersonImageOurTeam,
+   FifthPersonImageOurTeam,
+   SixthPersonImageOurTeam,
+   SeventhPersonImageOurTeam,
 } from '../../assets/images/index'
 
 const CHECKBOX_IMAGE =
@@ -149,7 +156,72 @@ const CHECK_OUT = [
       background: '#212629',
    },
 ]
-const PARTNERS_DATA = [
+
+const OURTEAM = [
+   {
+      id: 1,
+      img: SeventhPersonImageOurTeam,
+      name: 'Rabiya Aiylchieva',
+      role: 'Frontend developer - Team lider',
+   },
+   {
+      id: 2,
+      img: FourthPersonImageOurTeam,
+      name: 'Meerim Kerkibasheva',
+      role: 'Frontend developer',
+      customStyle: {
+         borderRadius: '2.5rem 0rem',
+      },
+   },
+
+   {
+      id: 3,
+      img: FifthPersonImageOurTeam,
+      name: 'Nurislam Isaev',
+      role: 'Frontend developer',
+      customStyle: {
+         borderRadius: '0rem 0rem 2.5rem 0rem',
+      },
+   },
+   {
+      id: 6,
+      img: ThirdPersonImageOurTeam,
+      name: 'Elaman Janyshbekov',
+      role: 'Frontend developer',
+      customStyle: {
+         borderRadius: '0rem 2.5rem 0rem 0rem',
+      },
+   },
+   {
+      id: 4,
+      img: FirstPersonImageOurTeam,
+      name: 'Adeliia Jyldyzbekova',
+      role: 'Backend developer - Team Lider',
+      customStyle: {
+         borderRadius: '2.5rem 0rem',
+      },
+   },
+   {
+      id: 5,
+      img: SecondPersonImageOurTeam,
+      name: 'Alina Ahunova',
+      role: 'Backend developer',
+      customStyle: {
+         borderRadius: '2.5rem 0rem 0rem 0rem',
+      },
+   },
+   {
+      id: 7,
+      img: SixthPersonImageOurTeam,
+      name: 'Nuriza Zununova',
+      role: 'Backend developer',
+      customStyle: {
+         borderRadius: '2.5rem 0rem',
+      },
+   },
+]
+
+const PARTNERS = [
    {
       id: 1,
       img: PhotoFirstPartner,
@@ -181,5 +253,4 @@ const PARTNERS_DATA = [
       name: 'JG',
    },
 ]
-
-export { VIDEOS, CHECKBOX_IMAGE, CHECK_OUT, FEEDBACKS, PARTNERS_DATA }
+export { VIDEOS, CHECKBOX_IMAGE, CHECK_OUT, FEEDBACKS, OURTEAM, PARTNERS }

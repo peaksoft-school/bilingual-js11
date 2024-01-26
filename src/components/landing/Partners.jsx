@@ -2,68 +2,67 @@ import { styled, Box, Grid, Typography } from '@mui/material'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import { PARTNERS_DATA } from '../../utils/constants/index'
+import { PARTNERS } from '../../utils/constants/index'
+
 const useStyles = styled({
    partner: {
       display: 'flex',
       justifyContent: 'center',
    },
 })
+
+const settings = {
+   infinite: true,
+   speed: 5000,
+   slidesToShow: 4,
+   autoplay: true,
+   autoplaySpeed: 0,
+   cssEase: 'linear',
+   initialSlide: 0,
+   pauseOnHover: true,
+   variableWidth: true,
+   responsive: [
+      {
+         breakpoint: 600,
+         settings: {
+            slidesToShow: 2,
+         },
+      },
+      {
+         breakpoint: 960,
+         settings: {
+            slidesToShow: 3,
+         },
+      },
+   ],
+}
+
 const Partners = () => {
    const classes = useStyles()
-   const settings = {
-      infinite: true,
-      speed: 5000,
-      slidesToShow: 4,
-      autoplay: true,
-      autoplaySpeed: 0,
-      cssEase: 'linear',
-      initialSlide: 0,
-      pauseOnHover: true,
-      variableWidth: true,
-      responsive: [
-         {
-            breakpoint: 600,
-            settings: {
-               slidesToShow: 2,
-            },
-         },
-         {
-            breakpoint: 960,
-            settings: {
-               slidesToShow: 3,
-            },
-         },
-      ],
-   }
 
    return (
-      <StyledBox>
+      <Box>
          <Grid item xs={12}>
             <StyledParners>Partners</StyledParners>
          </Grid>
 
          <Grid>
             <StyledSlider {...settings}>
-               {PARTNERS_DATA.map(({ id, img, name }) => (
-                  <div key={id} className={classes.partner}>
+               {PARTNERS.map(({ id, img, name }) => (
+                  <Box key={id} className={classes.partner}>
                      {img && (
                         <ImgContainer>
                            <Img src={img} alt={name} />
                         </ImgContainer>
                      )}
-                  </div>
+                  </Box>
                ))}
             </StyledSlider>
          </Grid>
-      </StyledBox>
+      </Box>
    )
 }
 export default Partners
-
-const StyledBox = styled(Box)({
-   width: '100%',
-})
 
 const StyledParners = styled(Typography)({
    color: '#3752B4',
