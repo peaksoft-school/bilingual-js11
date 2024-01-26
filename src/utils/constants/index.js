@@ -1,18 +1,28 @@
-import video1 from '../../assets/videos/video1.mp4'
-import video2 from '../../assets/videos/video2.mp4'
-import video3 from '../../assets/videos/video3.mp4'
+import FirstVideo from '../../assets/videos/first-video.mp4'
+import SecondVideo from '../../assets/videos/second-video.mp4'
+import ThirdVideo from '../../assets/videos/third-video.mp4'
 
 import {
    FifthPersonImage,
    FirstPersonImage,
+   FirstPosterVideo,
    FourthPersonImage,
    GlobusImage,
-   IntroImage,
    SecondPersonImage,
+   SecondPosterVideo,
    SevenPersonImage,
    SixthPersonImage,
    ThirdPersonImage,
+   ThirdPosterVideo,
+   FirstPersonImageOurTeam,
+   SecondPersonImageOurTeam,
+   ThirdPersonImageOurTeam,
+   FourthPersonImageOurTeam,
+   FifthPersonImageOurTeam,
+   SixthPersonImageOurTeam,
+   SeventhPersonImageOurTeam,
 } from '../../assets/images/index'
+import { TrashIcon } from '../../assets/icons'
 
 const CHECKBOX_IMAGE =
    "\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12 5c-.28 0-.53.11-.71.29L7 9.59l-2.29-2.3a1.003 1.003 0 00-1.42 1.42l3 3c.18.18.43.29.71.29s.53-.11.71-.29l5-5A1.003 1.003 0 0012 5z' fill='%23fff'/%3E%3C/svg%3E\""
@@ -20,24 +30,24 @@ const CHECKBOX_IMAGE =
 const VIDEOS = [
    {
       id: 1,
-      poster: IntroImage,
-      video: video1,
-      name: 'Test Overview',
+      poster: FirstPosterVideo,
+      video: FirstVideo,
+      name: 'The benefits of a bilingual brain',
       duration: 'Duration 5:03',
    },
    {
       id: 2,
-      poster: IntroImage,
-      video: video2,
+      poster: SecondPosterVideo,
+      video: SecondVideo,
       name: 'Test Walkthrough',
-      duration: 'Duration 2:38',
+      duration: 'Duration 1:02',
    },
    {
       id: 3,
-      poster: IntroImage,
-      video: video3,
-      name: 'Integrated Subscores',
-      duration: 'Duration 5:21',
+      poster: ThirdPosterVideo,
+      video: ThirdVideo,
+      name: 'Understanding Subscores',
+      duration: 'Duration 3:35',
    },
 ]
 
@@ -144,4 +154,137 @@ const CHECK_OUT = [
    },
 ]
 
-export { VIDEOS, CHECKBOX_IMAGE, CHECK_OUT, FEEDBACKS }
+const FAKE_DATA = [
+   {
+      id: 1,
+      date: '11.01.2021',
+      test: 'English advanced test',
+      status: 'Not evaluated',
+      score: 0,
+   },
+   {
+      id: 2,
+      date: '21.01.2021',
+      test: 'English advanced test',
+      status: 'Not evaluated',
+      score: 0,
+   },
+   {
+      id: 3,
+      date: '21.01.2021',
+      test: 'English advanced test',
+      status: 'Evaluated',
+      score: 7,
+   },
+   {
+      id: 4,
+      date: '21.01.2021',
+      test: 'English advanced test',
+      status: 'Evaluated',
+      score: 7,
+   },
+]
+
+const COLUMNS = [
+   {
+      Header: '#',
+      accessor: 'id',
+   },
+   {
+      Header: 'Date of Submition',
+      accessor: 'date',
+   },
+   {
+      Header: 'Test name',
+      accessor: 'test',
+   },
+   {
+      Header: 'Status',
+      accessor: 'status',
+   },
+   {
+      Header: 'Score',
+      accessor: 'score',
+   },
+   {
+      Header: '',
+      accessor: 'action',
+      Cell: ({ row }) => {
+         return <TrashIcon {...row.original.id} />
+      },
+   },
+]
+
+const OURTEAM = [
+   {
+      id: 1,
+      img: SeventhPersonImageOurTeam,
+      name: 'Rabiya Aiylchieva',
+      role: 'Frontend developer - Team lider',
+   },
+   {
+      id: 2,
+      img: FourthPersonImageOurTeam,
+      name: 'Meerim Kerkibasheva',
+      role: 'Frontend developer',
+      customStyle: {
+         borderRadius: '2.5rem 0rem',
+      },
+   },
+
+   {
+      id: 3,
+      img: FifthPersonImageOurTeam,
+      name: 'Nurislam Isaev',
+      role: 'Frontend developer',
+      customStyle: {
+         borderRadius: '0rem 0rem 2.5rem 0rem',
+      },
+   },
+   {
+      id: 6,
+      img: ThirdPersonImageOurTeam,
+      name: 'Elaman Janyshbekov',
+      role: 'Frontend developer',
+      customStyle: {
+         borderRadius: '0rem 2.5rem 0rem 0rem',
+      },
+   },
+   {
+      id: 4,
+      img: FirstPersonImageOurTeam,
+      name: 'Adeliia Jyldyzbekova',
+      role: 'Backend developer - Team Lider',
+      customStyle: {
+         borderRadius: '2.5rem 0rem',
+      },
+   },
+   {
+      id: 5,
+      img: SecondPersonImageOurTeam,
+      name: 'Alina Ahunova',
+      role: 'Backend developer',
+      customStyle: {
+         borderRadius: '2.5rem 0rem 0rem 0rem',
+      },
+   },
+   {
+      id: 7,
+      img: SixthPersonImageOurTeam,
+      name: 'Nuriza Zununova',
+      role: 'Backend developer',
+      customStyle: {
+         borderRadius: '2.5rem 0rem',
+      },
+   },
+]
+
+export {
+   VIDEOS,
+   CHECKBOX_IMAGE,
+   CHECK_OUT,
+   FEEDBACKS,
+   OURTEAM,
+   COLUMNS,
+   FAKE_DATA,
+}
