@@ -72,15 +72,16 @@ const Partners = () => {
 }
 export default Partners
 
-const StyledParners = styled(Typography)({
+const StyledParners = styled(Typography)(() => ({
    color: '#3752B4',
    fontSize: '2.5rem',
    textAlign: 'center',
    padding: '2.5rem',
    fontFamily: 'Gilroy',
-})
+   background: '#FEF5E8',
+}))
 
-const ImgContainer = styled('div')({
+const ImgContainer = styled('div')(() => ({
    margin: '0.9375rem',
    width: '15.9375rem',
    height: '7.875rem',
@@ -89,20 +90,21 @@ const ImgContainer = styled('div')({
    border: '1px solid #E4E4E4',
    background: '#FFF',
    display: 'inline-flex',
-})
+}))
 
-const Img = styled('img')({
+const Img = styled('img')(() => ({
    width: '10.9375rem',
    height: '5.375rem',
    objectFit: 'contain',
    objectPosition: 'center',
    margin: 'auto',
-})
+}))
 
-const StyledSlider = styled(Slider)({
+const StyledSlider = styled(Slider)(() => ({
    width: '100%',
    maxWidth: '1440px',
    margin: 'auto',
    padding: '0 5%',
    '.slick-slide': { outline: 'none' },
-})
+   background: '#FEF5E8',
+}))
