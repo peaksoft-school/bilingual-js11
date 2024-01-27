@@ -7,8 +7,8 @@ import {
    TutoringIcon,
 } from '../../assets/icons'
 import {
-   BackgroundImageUserExperience,
    BookImage,
+   GlobusUserExperienceImage,
    LearnImage,
    ReadingImage,
 } from '../../assets/images'
@@ -17,15 +17,19 @@ const ANIMATE = {
    offscreen: {
       opacity: 0,
    },
+
    onscreen: {
       opacity: 1,
+
       transition: {
          duration: 1,
          damping: 3,
       },
    },
+
    animate: {
       rotate: [-2, 3, -7, 4, 4],
+
       transition: {
          duration: 2,
          repeat: Infinity,
@@ -37,6 +41,7 @@ const ANIMATE = {
 const PULSE_ANIMATION = {
    animate: {
       scale: [0.9, 0.95, 0.9],
+
       transition: {
          duration: 2,
          repeat: Infinity,
@@ -46,13 +51,13 @@ const PULSE_ANIMATION = {
 
 const UserExperience = () => (
    <StyledContainer>
-      <Box className="content">
-         <Box className="description">
-            <Typography variant="h3" className="title">
+      <Box className="box">
+         <Box className="advantages-container">
+            <Typography variant="h2" className="title">
                Unparalleled user experience
             </Typography>
 
-            <Typography className="subtitle">
+            <Typography className="description">
                The most effective way to perfect a language is by immersing
                yourself in it. Rosetta Stone for Enterprise delivers an
                effective end-to-end experience, founded on a wealth of carefully
@@ -61,39 +66,45 @@ const UserExperience = () => (
                fits their schedule and language learning goals.
             </Typography>
 
-            <Box className="blocks">
+            <Box className="advantages-box">
                <Box className="block">
-                  <Box className="element">
+                  <Box className="advantage">
                      <StyledAccessibleIcon />
+
                      <Typography>Accessible anytime, anywhere</Typography>
                   </Box>
 
-                  <Box className="element">
+                  <Box className="advantage">
                      <StyledExtensiveIcon />
+
                      <Typography>Extensive business content</Typography>
                   </Box>
                </Box>
 
                <Box className="block">
-                  <Box className="element">
+                  <Box className="advantage">
                      <StyledSpeechIcon />
+
                      <Typography>Leading speech recognition</Typography>
                   </Box>
 
-                  <Box className="element">
+                  <Box className="advantage">
                      <StyledTutoringIcon />
+
                      <Typography>Unlimited live tutoring</Typography>
                   </Box>
                </Box>
             </Box>
          </Box>
-         <StyledImageList>
+
+         <StyledGlobusBox>
             <img
-               src={BackgroundImageUserExperience}
-               alt="background"
-               className="background-image"
+               src={GlobusUserExperienceImage}
+               alt="globus"
+               className="globus"
             />
-            <StyledAnimationImage>
+
+            <StyledAnimationsImagesBox>
                <StyledBookImage
                   src={BookImage}
                   variants={PULSE_ANIMATION}
@@ -101,7 +112,9 @@ const UserExperience = () => (
                   whileInView="onscreen"
                   animate="animate"
                   loading="lazy"
+                  alt="book"
                />
+
                <StyledLearnImage
                   src={LearnImage}
                   variants={ANIMATE}
@@ -109,7 +122,9 @@ const UserExperience = () => (
                   whileInView="onscreen"
                   animate="animate"
                   loading="lazy"
+                  alt="learn"
                />
+
                <StyledReadingImage
                   src={ReadingImage}
                   variants={ANIMATE}
@@ -117,81 +132,83 @@ const UserExperience = () => (
                   whileInView="onscreen"
                   animate="animate"
                   loading="lazy"
+                  alt="reading"
                />
-            </StyledAnimationImage>
-         </StyledImageList>
+            </StyledAnimationsImagesBox>
+         </StyledGlobusBox>
       </Box>
    </StyledContainer>
 )
 
 export default UserExperience
 
-const StyledContainer = styled('div')(({ theme }) => ({
-   display: 'flex',
-   alignItems: 'center',
-   justifyContent: 'center',
+const StyledContainer = styled(Box)(({ theme }) => ({
    backgroundColor: '#FEF5E8',
-   maxWidth: '100%',
+
    [theme.breakpoints.down('lg')]: {
       width: '100%',
    },
 
-   '& .content': {
+   '& > .box': {
+      margin: '0 auto',
+      maxWidth: '1600px',
+      padding: '0 80px',
       display: 'flex',
       justifyContent: 'space-between',
       gap: '6.5rem',
+
       [theme.breakpoints.down('lg')]: {
          position: 'relative',
          top: '1rem',
          right: '19rem',
          gap: '0rem',
       },
-   },
 
-   '& .description': {
-      [theme.breakpoints.down('lg')]: {
-         position: 'relative',
-         left: '10rem',
-      },
-   },
-
-   '& .title': {
-      fontSize: '2.5rem',
-      fontWeight: '700',
-      width: '21.125rem',
-      color: '#3752B4',
-   },
-
-   '& .subtitle': {
-      width: '36rem',
-      color: '#23212A',
-      fontWeight: '400',
-      marginTop: '2.125rem',
-      [theme.breakpoints.down('lg')]: {
-         width: '15rem',
-      },
-   },
-
-   '& .blocks': {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '3.31rem',
-      marginTop: '2.69rem',
-
-      '& .block': {
-         display: 'flex',
-         gap: '4.24rem',
-
-         '& .MuiTypography-root': {
-            width: '150px',
-            color: theme.palette.primary.blackGrey,
-            fontWeight: '400',
-            lineHeight: '140%',
+      '& > .advantages-container': {
+         [theme.breakpoints.down('lg')]: {
+            position: 'relative',
+            left: '10rem',
          },
 
-         '& .element': {
+         '& > .title': {
+            fontSize: '2.5rem',
+            fontWeight: '700',
+            width: '21.125rem',
+            color: '#3752B4',
+         },
+
+         '& > .description': {
+            width: '36rem',
+            color: '#23212A',
+            fontWeight: '400',
+            marginTop: '2.125rem',
+            [theme.breakpoints.down('lg')]: {
+               width: '15rem',
+            },
+         },
+
+         '& .advantages-box': {
             display: 'flex',
-            gap: '1.61rem',
+            flexDirection: 'column',
+            gap: '3.31rem',
+            marginTop: '2.69rem',
+
+            '& > .block': {
+               display: 'flex',
+               gap: '4.24rem',
+
+               '& > .advantage': {
+                  display: 'flex',
+                  gap: '1.61rem',
+
+                  '& > .MuiTypography-root': {
+                     width: '150px',
+                     color: theme.palette.primary.blackGrey,
+                     fontWeight: '400',
+                     lineHeight: '140%',
+                  },
+               },
+            },
          },
       },
    },
@@ -206,6 +223,7 @@ const StyledSpeechIcon = styled(SpeechIcon)(() => ({
    width: '2.4375rem',
    height: '3.125rem',
 }))
+
 const StyledExtensiveIcon = styled(ExtensiveIcon)(() => ({
    width: '3.4025rem',
    height: '3.125rem',
@@ -216,13 +234,13 @@ const StyledTutoringIcon = styled(TutoringIcon)(() => ({
    height: '3.125rem',
 }))
 
-const StyledImageList = styled('div')(({ theme }) => ({
+const StyledGlobusBox = styled(Box)(({ theme }) => ({
    [theme.breakpoints.down('lg')]: {
       position: 'absolute',
       left: '30rem',
    },
 
-   '& .background-image': {
+   '& > .globus': {
       marginTop: '1.0625rem',
       width: '27.52988rem',
       height: '26.25rem',
@@ -230,7 +248,7 @@ const StyledImageList = styled('div')(({ theme }) => ({
    },
 }))
 
-const StyledAnimationImage = styled(motion.div)(() => ({
+const StyledAnimationsImagesBox = styled(Box)(() => ({
    position: 'relative',
    right: '48rem',
    bottom: '28rem',

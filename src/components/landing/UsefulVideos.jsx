@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { DefaultPlayer } from 'react-html5video'
-import 'react-html5video/dist/styles.css'
 import { motion } from 'framer-motion'
 import { VIDEOS } from '../../utils/constants/index'
+import 'react-html5video/dist/styles.css'
 
 const UsefulVideos = () => {
    const containerRef = useRef(null)
@@ -45,27 +45,24 @@ const UsefulVideos = () => {
             </Typography>
 
             <Box className="videos">
-               {VIDEOS.map(({ id, poster, name, video, duration }, index) => {
+               {VIDEOS.map(({ id, poster, name, video, duration }, i) => {
                   let animationDuration
 
-                  if (index === 0) {
+                  if (i === 0) {
                      animationDuration = 0.5
-                  } else if (index === 1) {
+                  } else if (i === 1) {
                      animationDuration = 1
                   } else {
                      animationDuration = 2
                   }
 
                   return (
-                     <motion.div
+                     <StyledVideoCard
                         key={id}
-                        style={{
-                           opacity: inView ? 1 : 0,
-                           transform: `translateY(${inView ? 0 : 140}px)`,
-                           transition: `opacity ${animationDuration}s ease-out, transform ${animationDuration}s ease-out`,
-                        }}
+                        inview={inView.toString()}
+                        animationduration={animationDuration.toString()}
                      >
-                        <StyledVideoBox key={id} custom={id}>
+                        <Box key={id} className="box">
                            <StyledVideo
                               poster={poster}
                               controle={[
@@ -84,8 +81,8 @@ const UsefulVideos = () => {
                            <Typography className="duration">
                               {duration}
                            </Typography>
-                        </StyledVideoBox>
-                     </motion.div>
+                        </Box>
+                     </StyledVideoCard>
                   )
                })}
             </Box>
@@ -119,42 +116,53 @@ const StyledContainer = styled(Box)(({ theme }) => ({
          display: 'flex',
          justifyContent: 'space-evenly',
          flexWrap: 'wrap',
+         gap: '50px',
          marginBottom: '7.5rem',
          marginTop: '3rem',
       },
    },
 }))
 
-const StyledVideoBox = styled(Box)(({ theme }) => ({
-   background: theme.palette.primary.white,
-   border: '0.0625rem solid #DDDDDD',
-   borderRadius: '1rem',
-   transform: 'matrix(1, 0, 0, 1, 0, 0)',
-   cursor: 'pointer',
+const StyledVideoCard = styled(motion.div)(
+   ({ theme, inview, animationduration }) => ({
+      opacity: inview ? 1 : 0,
+      transform: `translateY(${inview ? 0 : 140}px)`,
+      transition: `opacity ${animationduration}s ease-out, transform ${animationduration}s ease-out`,
 
-   '&:hover': {
-      background: theme.palette.primary.lightGray,
-   },
+      '&:hover': {
+         transform: 'scale(1.1)',
+         boxShadow: '5px 5px 50px black',
+         borderRadius: '1rem',
+      },
 
-   '& .name': {
-      fontWeight: 'bolder',
-      fontSize: '1.25rem',
-      lineHeight: '1.5rem',
-      color: theme.palette.primary.main,
-      marginTop: '1rem',
-      marginLeft: '1.25rem',
-      marginBottom: '0.625rem',
-   },
+      '& > .box': {
+         background: theme.palette.primary.white,
+         border: '0.0625rem solid #DDDDDD',
+         borderRadius: '1rem',
+         transform: 'matrix(1, 0, 0, 1, 0, 0)',
+         cursor: 'pointer',
 
-   '& .duration': {
-      fontWeight: '400',
-      fontSize: '1.125rem',
-      lineHeight: '1.3125rem',
-      color: '#212629',
-      marginLeft: '1.25rem',
-      marginBottom: '1rem',
-   },
-}))
+         '& .name': {
+            fontWeight: 'bolder',
+            fontSize: '1.25rem',
+            lineHeight: '1.5rem',
+            color: theme.palette.primary.main,
+            marginTop: '1rem',
+            marginLeft: '1.25rem',
+            marginBottom: '0.625rem',
+         },
+
+         '& .duration': {
+            fontWeight: '400',
+            fontSize: '1.125rem',
+            lineHeight: '1.3125rem',
+            color: '#212629',
+            marginLeft: '1.25rem',
+            marginBottom: '1rem',
+         },
+      },
+   })
+)
 
 const StyledVideo = styled(DefaultPlayer)(() => ({
    borderRadius: '1rem 1rem 0 0',

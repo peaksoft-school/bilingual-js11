@@ -24,6 +24,9 @@ const Input = forwardRef(
 export default Input
 
 const StyledTextField = styled(TextField)(({ error, disabled }) => ({
+   width: '100%',
+   height: '52px',
+
    '& .MuiOutlinedInput-root': {
       borderRadius: '8px',
       border: '#BDBDBD',
@@ -54,7 +57,4 @@ const StyledTextField = styled(TextField)(({ error, disabled }) => ({
    '& label.Mui-focused': {
       color: `${error ? 'gray' : '#3A10E5'}`,
    },
-
-   width: '100%',
-   height: '52px',
 }))

@@ -194,7 +194,7 @@ const StyledText = styled(Typography)(() => ({
    marginTop: '-4.5rem',
 }))
 
-const StyledCount = styled('div')(({ theme }) => ({
+const StyledCount = styled(Box)(({ theme }) => ({
    border: '1px solid #3785D7',
    borderRadius: '0.6rem',
    boxShadow: '0px 21px 10px -4px rgba(34, 60, 80, 0.09)',

@@ -21,7 +21,7 @@ const LandingHeader = () => {
    }, [])
 
    return (
-      <StyledContainer isScrolled={isScrolled}>
+      <StyledContainer isscrolled={isScrolled.toString()}>
          <Box className="box">
             <img src={LogoImage} alt="logo" />
 
@@ -39,8 +39,8 @@ const LandingHeader = () => {
 
 export default LandingHeader
 
-const StyledContainer = styled(Box)(({ isScrolled }) => ({
-   backgroundColor: isScrolled ? 'white' : '#FCD200',
+const StyledContainer = styled(Box)(({ isscrolled }) => ({
+   backgroundColor: isscrolled ? 'white' : '#FCD200',
    position: 'sticky',
    top: 0,
    zIndex: 1000,
