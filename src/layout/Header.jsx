@@ -1,4 +1,4 @@
-import { AppBar, Box, Typography, styled } from '@mui/material'
+import { Box, Typography, styled } from '@mui/material'
 import Button from '../components/UI/buttons/Button'
 import { LogoImage } from '../assets/images'
 
@@ -18,7 +18,7 @@ const Header = () => (
 
 export default Header
 
-const StyledContainer = styled(AppBar)(({ theme }) => ({
+const StyledContainer = styled(Box)(({ theme }) => ({
    height: '5.875rem',
    width: '100%',
    background: theme.palette.primary.white,

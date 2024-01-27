@@ -2,7 +2,7 @@ import { Avatar, Typography, CardContent, styled, Box } from '@mui/material'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import { OURTEAM } from '../../utils/constants/index'
+import { OUR_TEAM } from '../../utils/constants/index'
 
 const settings = {
    infinite: true,
@@ -43,7 +43,7 @@ const TeamList = () => (
       <Typography className="title">Our Team</Typography>
 
       <StyledSlider {...settings}>
-         {OURTEAM.map(({ img, name, role, customStyle, id }) => (
+         {OUR_TEAM.map(({ img, name, role, customStyle, id }) => (
             <StyledCardContent key={id}>
                <Box className="avatar-container">
                   <StyledAvatar src={img} sx={customStyle} />

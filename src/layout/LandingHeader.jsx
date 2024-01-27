@@ -39,7 +39,7 @@ const LandingHeader = () => {
 
 export default LandingHeader
 
-const StyledContainer = styled('div')(({ isScrolled }) => ({
+const StyledContainer = styled(Box)(({ isScrolled }) => ({
    backgroundColor: isScrolled ? 'white' : '#FCD200',
    position: 'sticky',
    top: 0,

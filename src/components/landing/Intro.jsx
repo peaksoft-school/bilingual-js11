@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { motion } from 'framer-motion'
-import LandingHeader from '../../layout/LandingHeader'
 import LandingButton from '../UI/buttons/LandingButton'
 import {
    FirstBookIcon,
@@ -29,133 +28,129 @@ const Intro = () => {
    }, [])
 
    return (
-      <>
-         <LandingHeader />
+      <StyledContainer>
+         <Box className="box">
+            <motion.div
+               animate={{ y: 50, opacity: isVisible ? 1 : 0 }}
+               initial={{ opacity: 0 }}
+               transition={{ ease: 'easeOut', duration: 2 }}
+            >
+               <StyledMantieImg />
+            </motion.div>
 
-         <StyledContainer>
-            <Box className="box">
-               <motion.div
-                  animate={{ y: 50, opacity: isVisible ? 1 : 0 }}
-                  initial={{ opacity: 0 }}
-                  transition={{ ease: 'easeOut', duration: 2 }}
-               >
-                  <StyledMantieImg />
-               </motion.div>
+            <motion.div
+               animate={{ y: 180, opacity: isVisible ? 1 : 0 }}
+               initial={{ opacity: 0 }}
+               transition={{ ease: 'easeOut', duration: 2 }}
+            >
+               <StyledFirstPaperIcon />
+            </motion.div>
 
-               <motion.div
-                  animate={{ y: 180, opacity: isVisible ? 1 : 0 }}
-                  initial={{ opacity: 0 }}
-                  transition={{ ease: 'easeOut', duration: 2 }}
-               >
-                  <StyledFirstPaperIcon />
-               </motion.div>
+            <motion.div
+               animate={{ y: 110, opacity: isVisible ? 1 : 0 }}
+               initial={{ opacity: 0 }}
+               transition={{ ease: 'easeOut', duration: 2 }}
+            >
+               <StyledThirdPaperIcon />
+            </motion.div>
 
-               <motion.div
-                  animate={{ y: 110, opacity: isVisible ? 1 : 0 }}
-                  initial={{ opacity: 0 }}
-                  transition={{ ease: 'easeOut', duration: 2 }}
-               >
-                  <StyledThirdPaperIcon />
-               </motion.div>
+            <motion.div
+               animate={{
+                  y: 365,
+                  zIndex: isVisible ? 1 : 0,
+                  opacity: isVisible ? 1 : 0,
+               }}
+               initial={{ opacity: 0 }}
+               transition={{ ease: 'easeOut', duration: 2 }}
+            >
+               <StyledSecondPaperIcon />
+            </motion.div>
 
-               <motion.div
-                  animate={{
-                     y: 365,
-                     zIndex: isVisible ? 1 : 0,
-                     opacity: isVisible ? 1 : 0,
-                  }}
-                  initial={{ opacity: 0 }}
-                  transition={{ ease: 'easeOut', duration: 2 }}
-               >
-                  <StyledSecondPaperIcon />
-               </motion.div>
+            <motion.div
+               animate={{ y: 550, opacity: isVisible ? 1 : 0 }}
+               initial={{ opacity: 0 }}
+               transition={{ ease: 'easeOut', duration: 2 }}
+            >
+               <StyledFourthPaperIcon />
+            </motion.div>
 
-               <motion.div
-                  animate={{ y: 550, opacity: isVisible ? 1 : 0 }}
-                  initial={{ opacity: 0 }}
-                  transition={{ ease: 'easeOut', duration: 2 }}
-               >
-                  <StyledFourthPaperIcon />
-               </motion.div>
+            <motion.div
+               animate={{
+                  y: 200,
+                  zIndex: isVisible ? 1 : 0,
+                  opacity: isVisible ? 1 : 0,
+               }}
+               initial={{ opacity: 0 }}
+               transition={{ ease: 'easeOut', duration: 1.8 }}
+            >
+               <StyledNoteImg />
+            </motion.div>
 
-               <motion.div
-                  animate={{
-                     y: 200,
-                     zIndex: isVisible ? 1 : 0,
-                     opacity: isVisible ? 1 : 0,
-                  }}
-                  initial={{ opacity: 0 }}
-                  transition={{ ease: 'easeOut', duration: 1.8 }}
-               >
-                  <StyledNoteImg />
-               </motion.div>
+            <motion.div
+               animate={{ y: 386, opacity: isVisible ? 1 : 0 }}
+               initial={{ opacity: 0 }}
+               transition={{ ease: 'easeOut', duration: 1.2 }}
+            >
+               <StyledBookOneImg />
+            </motion.div>
 
-               <motion.div
-                  animate={{ y: 386, opacity: isVisible ? 1 : 0 }}
-                  initial={{ opacity: 0 }}
-                  transition={{ ease: 'easeOut', duration: 1.2 }}
-               >
-                  <StyledBookOneImg />
-               </motion.div>
+            <motion.div
+               animate={{ y: 475, opacity: isVisible ? 1 : 0 }}
+               initial={{ opacity: 0 }}
+               transition={{ ease: 'easeOut', duration: 1 }}
+            >
+               <StyledBookTwoImg />
+            </motion.div>
 
-               <motion.div
-                  animate={{ y: 475, opacity: isVisible ? 1 : 0 }}
-                  initial={{ opacity: 0 }}
-                  transition={{ ease: 'easeOut', duration: 1 }}
-               >
-                  <StyledBookTwoImg />
-               </motion.div>
+            <motion.div
+               animate={{ y: 545, opacity: isVisible ? 1 : 0 }}
+               initial={{ opacity: 0 }}
+               transition={{ ease: 'easeOut', duration: 0.8 }}
+            >
+               <StyledBookThreeImg />
+            </motion.div>
 
-               <motion.div
-                  animate={{ y: 545, opacity: isVisible ? 1 : 0 }}
-                  initial={{ opacity: 0 }}
-                  transition={{ ease: 'easeOut', duration: 0.8 }}
-               >
-                  <StyledBookThreeImg />
-               </motion.div>
+            <motion.div
+               animate={{ opacity: isVisible ? 1 : 0 }}
+               initial={{ opacity: 0 }}
+               transition={{ ease: 'easeOut', duration: 0.6 }}
+            >
+               <StyledShadowBookImg />
+            </motion.div>
 
-               <motion.div
-                  animate={{ opacity: isVisible ? 1 : 0 }}
-                  initial={{ opacity: 0 }}
-                  transition={{ ease: 'easeOut', duration: 0.6 }}
-               >
-                  <StyledShadowBookImg />
-               </motion.div>
+            <StyledTextsBox
+               animate={{ x: 50, opacity: isVisible ? 1 : 0 }}
+               initial={{ opacity: 0 }}
+               transition={{ ease: 'easeOut', duration: 1 }}
+            >
+               <Typography className="title">
+                  Prove your English proficiency today with
+               </Typography>
 
-               <StyledTextsBox
-                  animate={{ x: 50, opacity: isVisible ? 1 : 0 }}
-                  initial={{ opacity: 0 }}
-                  transition={{ ease: 'easeOut', duration: 1 }}
-               >
-                  <Typography className="title">
-                     Prove your English proficiency today with
-                  </Typography>
+               <Typography className="bilingual">BILINGUAL</Typography>
 
-                  <Typography className="bilingual">BILINGUAL</Typography>
+               <Typography className="description">
+                  For nearly 30 years, learners have turned to Rosetta Stone to
+                  build the fluency and confidence they need to speak new
+                  languages.
+               </Typography>
+            </StyledTextsBox>
 
-                  <Typography className="description">
-                     For nearly 30 years, learners have turned to Rosetta Stone
-                     to build the fluency and confidence they need to speak new
-                     languages.
-                  </Typography>
-               </StyledTextsBox>
-
-               <motion.div
-                  className="button"
-                  animate={{
-                     scale: [0.95, 1, 0.95, 1],
-                  }}
-                  transition={{
-                     ease: 'easeOut',
-                     duration: 4,
-                     repeat: Infinity,
-                  }}
-               >
-                  <LandingButton isStart={false} />
-               </motion.div>
-            </Box>
-         </StyledContainer>
-      </>
+            <motion.div
+               className="button"
+               animate={{
+                  scale: [0.95, 1, 0.95, 1],
+               }}
+               transition={{
+                  ease: 'easeOut',
+                  duration: 4,
+                  repeat: Infinity,
+               }}
+            >
+               <LandingButton isStart={false} />
+            </motion.div>
+         </Box>
+      </StyledContainer>
    )
 }
 
