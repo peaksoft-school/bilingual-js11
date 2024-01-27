@@ -8,6 +8,7 @@ import {
    Divider,
    styled,
    IconButton,
+   Box,
 } from '@mui/material'
 import { QUESTIONS } from '../utils/constants/index'
 import {
@@ -21,65 +22,55 @@ import {
 const Footer = () => {
    const [expanded, setExpanded] = useState(null)
 
-   const [rotated, setRotated] = useState(false)
+   const [rotated, setRotated] = useState(true)
 
    const handleExpandClick = (index) => {
-      setExpanded(expanded === index ? null : index)
+      setExpanded((prev) => (prev === index ? null : index))
 
       setRotated(!rotated)
    }
 
    return (
       <StyledContainer>
-         <StyledList>
-            <StyledTitle>FAQ:</StyledTitle>
+         <List className="list">
+            <Typography className="title">FAQ:</Typography>
 
-            {QUESTIONS.map((q, index) => (
-               <Fragment key={q.question}>
-                  <StyledDivider />
+            {QUESTIONS.map(({ question, answer }, index) => (
+               <Fragment key={question}>
+                  <Divider className="divider" />
 
                   <ListItemButton onClick={() => handleExpandClick(index)}>
-                     <StyledQuestion>{q.question}</StyledQuestion>
+                     <Typography className="question">{question}</Typography>
+
                      <StyledPlus
-                        alt="Plus Icon"
-                        rotated={rotated && expanded === index}
+                        alt="plus"
+                        rotated={expanded === index ? index : null}
+                        index={index}
                      />
                   </ListItemButton>
 
                   <Collapse in={expanded === index} unmountOnExit>
-                     <StyledResponse>{q.answer}</StyledResponse>
+                     <Typography className="answer">{answer}</Typography>
                   </Collapse>
                </Fragment>
             ))}
-            <StyledDivider />
-         </StyledList>
+            <Divider className="divider" />
+         </List>
 
          <StyledFooter>
-            <StyledLogo alt="logo" />
+            <BilingualIcon className="logo" />
 
-            <StyledIconButton
-               href="#"
-               className="youtube-icon"
-               aria-label="YouTube"
-            >
+            <IconButton href="https://www.youtube.com/@peaksofthouse2429">
                <YouTubeIcon />
-            </StyledIconButton>
+            </IconButton>
 
-            <StyledIconButton
-               href="#"
-               className="facebook-icon"
-               aria-label="Facebook"
-            >
+            <IconButton href="https://ru-ru.facebook.com/">
                <FacebookIcon />
-            </StyledIconButton>
+            </IconButton>
 
-            <StyledIconButton
-               href="#"
-               className="instagram-icon"
-               aria-label="Instagram"
-            >
+            <IconButton href="https://www.instagram.com/peaksoft.house/">
                <InstagramIcon />
-            </StyledIconButton>
+            </IconButton>
          </StyledFooter>
 
          <StyledReseved>
@@ -91,59 +82,59 @@ const Footer = () => {
 
 export default Footer
 
-const StyledContainer = styled(Container)({
+const StyledContainer = styled(Container)(({ theme }) => ({
    display: 'flex',
    flexDirection: 'column',
    alignItems: 'center',
    minWidth: '100%',
-   width: 'auto',
+   width: '100%',
    background: '#262626',
-})
 
-const StyledTitle = styled(Typography)({
-   color: 'var(--text-00, #FFF)',
-   fontSize: '2.5rem',
-   fontWeight: 700,
-   lineHeight: '3.1875rem',
-   margin: '2%',
-})
+   '& .list': {
+      width: '92%',
+   },
 
-const StyledList = styled(List)({
-   width: '92%',
-})
+   '& .title': {
+      color: theme.palette.primary.white,
+      fontSize: '2.5rem',
+      fontWeight: 700,
+      lineHeight: '3.1875rem',
+      margin: '2%',
+   },
 
-const StyledPlus = styled(PlusIcon)(({ rotated }) => ({
-   cursor: 'pointer',
-   transform: `rotate(${rotated ? '45deg' : '0'})`,
-   transition: 'transform 0.3s ease',
-   marginLeft: 'auto',
-   marginRight: '16px',
+   '& .divider': {
+      background: '#4A4A4A',
+      margin: '2.12rem',
+   },
+
+   '& .question': {
+      color: theme.palette.primary.white,
+      fontSize: '1.25rem',
+      fontWeight: '600',
+      margin: '1rem',
+      width: 'auto',
+      flexGrow: 1,
+   },
+
+   '& .answer': {
+      color: theme.palette.primary.white,
+      fontSize: '1.125rem',
+      fontWeight: '300',
+      width: 'auto',
+      margin: '0 2rem',
+      fontFamily: 'Poppins',
+   },
 }))
 
-const StyledQuestion = styled(Typography)({
-   color: 'var(--text-00, #FFF)',
-   fontSize: '1.25rem',
-   fontWeight: '600',
-   margin: '1rem',
-   width: 'auto',
-   flexGrow: 1,
-})
+const StyledPlus = styled(PlusIcon)(({ rotated, index }) => ({
+   cursor: 'pointer',
+   transform: `rotate(${rotated === index ? '45deg' : '0'})`,
+   transition: 'transform 0.3s ease',
+   marginLeft: 'auto',
+   marginRight: '1rem',
+}))
 
-const StyledResponse = styled(Typography)({
-   color: '#FFF',
-   fontSize: '1.125rem',
-   fontWeight: '300',
-   width: 'auto',
-   margin: '0 2rem',
-   fontFamily: 'Poppins',
-})
-
-const StyledDivider = styled(Divider)({
-   background: 'var(--lines-02, #4A4A4A)',
-   margin: '2.12rem',
-})
-
-const StyledFooter = styled('div')({
+const StyledFooter = styled(Box)(() => ({
    display: 'flex',
    color: '#FFF',
    fontSize: '1rem',
@@ -151,24 +142,23 @@ const StyledFooter = styled('div')({
    textAlign: 'center',
    alignItems: 'center',
    width: '87%',
-})
 
-const StyledReseved = styled(Divider)({
-   color: ' var(--Gray-400, #98A2B3)',
+   '& .logo': {
+      width: '12.06763rem',
+      height: '2.875rem',
+      margin: '0 75% 0 -1%',
+   },
+
+   '& .icon-button': {
+      width: '3.5rem',
+      height: '4.5rem',
+   },
+}))
+
+const StyledReseved = styled(Typography)({
+   color: '#98A2B3',
    fontSize: '0.875rem',
-   fontWeight: '400',
    lineHeight: '1.5rem',
-   alignItems: 'center',
+   fontWeight: '400',
    fontFamily: 'Poppins',
-})
-
-const StyledIconButton = styled(IconButton)({
-   width: '3.5rem',
-   height: '4.5rem',
-})
-
-const StyledLogo = styled(BilingualIcon)({
-   width: '12.06763rem',
-   height: '2.875rem',
-   margin: '0 75% 0 -1%',
 })
