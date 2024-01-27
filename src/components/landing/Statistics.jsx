@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Box, keyframes, styled, Typography } from '@mui/material'
 import { motion } from 'framer-motion'
 import CountUp from 'react-countup'
+
 import {
    AiroplaneIcon,
    BorderAiroplaneIcon,
