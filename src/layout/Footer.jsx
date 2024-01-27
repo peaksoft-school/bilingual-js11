@@ -1,152 +1,77 @@
-import { useState, Fragment } from 'react'
-import {
-   Container,
-   Typography,
-   List,
-   ListItemButton,
-   Collapse,
-   Divider,
-   styled,
-   IconButton,
-   Box,
-} from '@mui/material'
-import { QUESTIONS } from '../utils/constants/index'
-import {
-   BilingualIcon,
-   FacebookIcon,
-   InstagramIcon,
-   YouTubeIcon,
-   PlusIcon,
-} from '../assets/icons'
+import { Typography, styled, IconButton, Box } from '@mui/material'
+import { FacebookIcon, InstagramIcon, YouTubeIcon } from '../assets/icons'
+import { FooterLogoImage } from '../assets/images'
+import FAQ from '../components/landing/FAQ'
 
 const Footer = () => {
-   const [expanded, setExpanded] = useState(null)
-
-   const [rotated, setRotated] = useState(true)
-
-   const handleExpandClick = (index) => {
-      setExpanded((prev) => (prev === index ? null : index))
-
-      setRotated(!rotated)
-   }
-
    return (
       <StyledContainer>
-         <List className="list">
-            <Typography className="title">FAQ:</Typography>
+         <Box className="box">
+            <FAQ />
 
-            {QUESTIONS.map(({ question, answer }, index) => (
-               <Fragment key={question}>
-                  <Divider className="divider" />
+            <StyledFooter>
+               <img src={FooterLogoImage} alt="logo" className="logo" />
 
-                  <ListItemButton onClick={() => handleExpandClick(index)}>
-                     <Typography className="question">{question}</Typography>
+               <Box>
+                  <IconButton href="https://www.youtube.com/@peaksofthouse2429">
+                     <YouTubeIcon />
+                  </IconButton>
 
-                     <StyledPlus
-                        alt="plus"
-                        rotated={expanded === index ? index : null}
-                        index={index}
-                     />
-                  </ListItemButton>
+                  <IconButton href="https://ru-ru.facebook.com/">
+                     <FacebookIcon />
+                  </IconButton>
 
-                  <Collapse in={expanded === index} unmountOnExit>
-                     <Typography className="answer">{answer}</Typography>
-                  </Collapse>
-               </Fragment>
-            ))}
-            <Divider className="divider" />
-         </List>
+                  <IconButton href="https://www.instagram.com/peaksoft.house/">
+                     <InstagramIcon />
+                  </IconButton>
+               </Box>
+            </StyledFooter>
 
-         <StyledFooter>
-            <BilingualIcon className="logo" />
-
-            <IconButton href="https://www.youtube.com/@peaksofthouse2429">
-               <YouTubeIcon />
-            </IconButton>
-
-            <IconButton href="https://ru-ru.facebook.com/">
-               <FacebookIcon />
-            </IconButton>
-
-            <IconButton href="https://www.instagram.com/peaksoft.house/">
-               <InstagramIcon />
-            </IconButton>
-         </StyledFooter>
-
-         <StyledReseved>
-            © Copyright PeakSoft. All Rights Reserved
-         </StyledReseved>
+            <Typography className="reserved">
+               © Copyright PeakSoft. All Rights Reserved
+            </Typography>
+         </Box>
       </StyledContainer>
    )
 }
 
 export default Footer
 
-const StyledContainer = styled(Container)(({ theme }) => ({
-   display: 'flex',
-   flexDirection: 'column',
-   alignItems: 'center',
-   minWidth: '100%',
-   width: '100%',
+const StyledContainer = styled(Box)(() => ({
    background: '#262626',
 
-   '& .list': {
-      width: '92%',
-   },
+   '& > .box': {
+      maxWidth: '1600px',
+      margin: '0 auto',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      width: '100%',
+      padding: '120px 0 12px 0',
 
-   '& .title': {
-      color: theme.palette.primary.white,
-      fontSize: '2.5rem',
-      fontWeight: 700,
-      lineHeight: '3.1875rem',
-      margin: '2%',
+      '& > .reserved': {
+         color: '#98A2B3',
+         fontSize: '0.875rem',
+         lineHeight: '1.5rem',
+         fontWeight: '400',
+         fontFamily: 'Poppins',
+      },
    },
-
-   '& .divider': {
-      background: '#4A4A4A',
-      margin: '2.12rem',
-   },
-
-   '& .question': {
-      color: theme.palette.primary.white,
-      fontSize: '1.25rem',
-      fontWeight: '600',
-      margin: '1rem',
-      width: 'auto',
-      flexGrow: 1,
-   },
-
-   '& .answer': {
-      color: theme.palette.primary.white,
-      fontSize: '1.125rem',
-      fontWeight: '300',
-      width: 'auto',
-      margin: '0 2rem',
-      fontFamily: 'Poppins',
-   },
-}))
-
-const StyledPlus = styled(PlusIcon)(({ rotated, index }) => ({
-   cursor: 'pointer',
-   transform: `rotate(${rotated === index ? '45deg' : '0'})`,
-   transition: 'transform 0.3s ease',
-   marginLeft: 'auto',
-   marginRight: '1rem',
 }))
 
 const StyledFooter = styled(Box)(() => ({
    display: 'flex',
+   alignItems: 'center',
+   justifyContent: 'space-between',
    color: '#FFF',
    fontSize: '1rem',
-   padding: '2rem 0',
+   padding: '2rem 30px',
    textAlign: 'center',
-   alignItems: 'center',
-   width: '87%',
+   width: '100%',
 
    '& .logo': {
       width: '12.06763rem',
       height: '2.875rem',
-      margin: '0 75% 0 -1%',
    },
 
    '& .icon-button': {
@@ -154,11 +79,3 @@ const StyledFooter = styled(Box)(() => ({
       height: '4.5rem',
    },
 }))
-
-const StyledReseved = styled(Typography)({
-   color: '#98A2B3',
-   fontSize: '0.875rem',
-   lineHeight: '1.5rem',
-   fontWeight: '400',
-   fontFamily: 'Poppins',
-})

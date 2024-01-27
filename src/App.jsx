@@ -1,8 +1,7 @@
 import './App.css'
-import Footer from './layout/Footer'
 
 const App = () => {
-   return <Footer />
+   return <h1>bilingual-js11</h1>
 }
 
 export default App

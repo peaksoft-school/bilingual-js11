@@ -221,7 +221,7 @@ const COLUMNS = [
    },
 ]
 
-const OURTEAM = [
+const OUR_TEAM = [
    {
       id: 1,
       img: SeventhPersonImageOurTeam,
@@ -347,7 +347,7 @@ export {
    CHECKBOX_IMAGE,
    CHECK_OUT,
    FEEDBACKS,
-   OURTEAM,
+   OUR_TEAM,
    QUESTIONS,
    COLUMNS,
    FAKE_DATA,
