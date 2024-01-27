@@ -8,6 +8,12 @@ import {
    FirstPosterVideo,
    FourthPersonImage,
    GlobusImage,
+   PhotoFifthPartner,
+   PhotoFirstPartner,
+   PhotoFourthPartner,
+   PhotoSecondPartner,
+   PhotoSixthPartner,
+   PhotoThirdPartner,
    SecondPersonImage,
    SecondPosterVideo,
    SevenPersonImage,
@@ -279,6 +285,38 @@ const OURTEAM = [
    },
 ]
 
+const PARTNERS = [
+   {
+      id: 1,
+      img: PhotoFirstPartner,
+      name: 'Rodonit',
+   },
+   {
+      id: 2,
+      img: PhotoSecondPartner,
+      name: 'BASF',
+   },
+   {
+      id: 3,
+      img: PhotoThirdPartner,
+      name: 'Lidea',
+   },
+   {
+      id: 4,
+      img: PhotoFourthPartner,
+      name: 'Adama',
+   },
+   {
+      id: 5,
+      img: PhotoFifthPartner,
+      name: 'Dekalb',
+   },
+   {
+      id: 6,
+      img: PhotoSixthPartner,
+      name: 'JG',
+   },
+]
 export {
    VIDEOS,
    CHECKBOX_IMAGE,
@@ -287,4 +325,5 @@ export {
    OURTEAM,
    COLUMNS,
    FAKE_DATA,
+   PARTNERS,
 }
