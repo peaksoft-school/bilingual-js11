@@ -4,12 +4,7 @@ import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { FEEDBACKS } from '../../utils/constants'
-import {
-   NextArrowIcon,
-   PaginationActiveIcon,
-   PaginationIcon,
-   PrevArrowIcon,
-} from '../../assets/icons'
+import { NextArrowIcon, PrevArrowIcon } from '../../assets/icons'
 
 const PrevArrow = ({ onClick, className }) => (
    <PrevArrowIcon onClick={onClick} className={className} />
@@ -21,9 +16,6 @@ const NextArrow = ({ onClick, className }) => (
 
 const Feedbacks = () => {
    const [index, setIndex] = useState(0)
-
-   const paginatonActive = (i) =>
-      i === index ? <PaginationActiveIcon /> : <PaginationIcon />
 
    const settings = {
       focusOnSelect: true,
@@ -37,7 +29,6 @@ const Feedbacks = () => {
       dots: true,
       rtlMode: true,
       autoplay: true,
-      customPaging: (i) => paginatonActive(i),
       swipeToSlide: true,
       nextArrow: <NextArrow />,
       prevArrow: <PrevArrow />,
@@ -213,34 +204,53 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
 
    '& .slick-next:hover,.slick-prev:hover': {
       content: 'none',
-      circle: {
+
+      '& circle': {
          fill: '#3A10E5',
       },
-      path: {
+
+      '& path': {
          fill: '#fff',
       },
    },
 
    '& .slick-dots': {
-      bottom: '4.5rem',
-      direction: 'rtl',
+      bottom: '5.5rem',
+      display: 'flex !important',
+      justifyContent: 'center',
+      alignItems: 'flex-end',
 
       '& li': {
-         position: 'relative',
-         display: 'inline-block',
-         width: '20px',
-         height: '20px',
-         padding: 0,
-         margin: '-1rem',
-         cursor: 'pointer',
+         width: '4px',
+         transition: 'all 500ms',
 
-         '@media screen and (max-width: 1200px)': {
-            width: '10px',
-            height: '10px',
-            padding: 0,
-            margin: 0,
-            bottom: '7.8rem',
+         '& > button': {
+            height: '20px',
+            background: '#d7c7e8',
+            borderRadius: '5px',
+            width: '100%',
+            transition: 'all 1s',
+
+            '&:before': {
+               color: 'transparent',
+            },
          },
+      },
+
+      '& .slick-active': {
+         height: '40px',
+
+         '& > button': {
+            background: '#3A10E5',
+            height: '100%',
+         },
+      },
+      '@media screen and (max-width: 1200px)': {
+         width: '10px',
+         height: '10px',
+         padding: 0,
+         margin: 0,
+         bottom: '7.8rem',
       },
    },
 }))
