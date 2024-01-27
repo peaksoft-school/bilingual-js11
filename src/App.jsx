@@ -1,14 +1,7 @@
 import './App.css'
-import Partners from './components/landing/Partners'
 
 const App = () => {
-   return (
-      <div>
-         Bilingual
-         <br />
-         <Partners />
-      </div>
-   )
+   return <div>Bilingual</div>
 }
 
 export default App
