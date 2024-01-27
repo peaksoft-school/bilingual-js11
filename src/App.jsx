@@ -1,7 +1,12 @@
 import './App.css'
+import ModalDelete from './components/UI/modals/ModalDelete'
 
 const App = () => {
-   return <div>Bilingual</div>
+   return (
+      <div>
+         <ModalDelete />
+      </div>
+   )
 }
 
 export default App
