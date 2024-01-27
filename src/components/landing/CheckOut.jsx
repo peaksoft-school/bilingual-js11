@@ -1,18 +1,19 @@
 import { Box, Typography, styled } from '@mui/material'
 import Slider from 'react-slick'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
 import { SlickNextIcon, SlickPrevIcon } from '../../assets/icons'
 import { CHECK_OUT } from '../../utils/constants'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
 const PrevArrow = ({ onClick, className }) => (
    <SlickPrevIcon onClick={onClick} className={className} />
 )
+
 const NextArrow = ({ onClick, className }) => (
    <SlickNextIcon onClick={onClick} className={className} />
 )
 
-const settings = {
+const SETTINGS = {
    dots: true,
    infinite: true,
    lazyLoad: true,
@@ -33,13 +34,13 @@ const CheckOut = () => (
       </Typography>
 
       <Box className="slider-box">
-         <StyledSlider {...settings}>
+         <StyledSlider {...SETTINGS}>
             {CHECK_OUT.map(
                ({ id, background, titleColor, title, text, image }) => (
                   <StyledSlide
                      key={id}
                      background={background}
-                     titleColor={titleColor}
+                     titlecolor={titleColor.toString()}
                   >
                      <Box className="texts-box">
                         <Typography className="title" variant="h1">
@@ -62,7 +63,7 @@ const CheckOut = () => (
 
 export default CheckOut
 
-const StyledContainer = styled('div')(() => ({
+const StyledContainer = styled(Box)(() => ({
    display: 'flex',
    flexDirection: 'column',
    margin: 'auto',
@@ -175,6 +176,7 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
 
             '&:before': {
                color: 'transparent',
+               content: "''",
             },
          },
       },
@@ -190,7 +192,7 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
    },
 }))
 
-const StyledSlide = styled('div')(({ titleColor, background, theme }) => ({
+const StyledSlide = styled(Box)(({ titlecolor, background, theme }) => ({
    width: ' 64.25rem',
    height: '27.5rem',
    display: 'flex',
@@ -215,7 +217,7 @@ const StyledSlide = styled('div')(({ titleColor, background, theme }) => ({
       '& > .title': {
          width: '31.75431rem',
          height: '6.63531rem',
-         color: titleColor,
+         color: titlecolor,
          fontFamily: 'Gilroy',
          fontSize: '2.375rem',
          fontWeight: '700',

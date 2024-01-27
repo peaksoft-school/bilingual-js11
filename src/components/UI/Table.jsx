@@ -7,9 +7,12 @@ import {
    TableRow,
    Table as MuiTable,
 } from '@mui/material'
+import { memo, useMemo } from 'react'
 import { useTable } from 'react-table'
 
-const Table = ({ columns, data }) => {
+const Table = ({ columns: headers, data }) => {
+   const columns = useMemo(() => headers, [])
+
    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
       useTable({
          columns,
@@ -17,7 +20,7 @@ const Table = ({ columns, data }) => {
       })
 
    return (
-      <MainContainer>
+      <StyledTableContainer>
          <StyledTable {...getTableProps()}>
             <TableHead>
                {headerGroups.map((headerGroup, i) => (
@@ -63,13 +66,13 @@ const Table = ({ columns, data }) => {
                })}
             </TableBody>
          </StyledTable>
-      </MainContainer>
+      </StyledTableContainer>
    )
 }
 
-export default Table
+export default memo(Table)
 
-const MainContainer = styled(TableContainer)(({ theme }) => ({
+const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
    display: 'flex',
    flexDirection: 'column',
    alignItems: 'center',
@@ -105,7 +108,8 @@ const StyledCellTd = styled(TableCell)(() => ({
    color: ' #4C4859',
    borderBottom: 'none',
    textAlign: 'center',
-   ':first-of-type': {
+
+   '&:first-of-type': {
       paddingLeft: '1rem',
    },
 }))
