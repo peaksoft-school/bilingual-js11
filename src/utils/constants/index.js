@@ -221,7 +221,7 @@ const COLUMNS = [
    },
 ]
 
-const OURTEAM = [
+const OUR_TEAM = [
    {
       id: 1,
       img: SeventhPersonImageOurTeam,
@@ -285,6 +285,31 @@ const OURTEAM = [
    },
 ]
 
+const QUESTIONS = [
+   {
+      question: 'What is Bilingual?',
+      answer: 'Bilingual is a language testing service.',
+   },
+   {
+      question: 'How can I show what I am typing during the test?',
+      answer:
+         'Please take the test in a separate, quiet room. Close all other windows and close all other programs before starting the test. An external USB keyboard or mouse can be used during the test. However, when answering test questions, you should only type on one keyboard and use one mouse. Dont switch between multiple keyboards or mice.',
+   },
+   {
+      question: 'Why should I take the Bilingual English Test?',
+      answer:
+         'The Bilingual English Test is a reliable and accurate way to assess your English proficiency.',
+   },
+   {
+      question: 'How can I make sure my microphone picks up my voice clearly?',
+      answer: 'Speak clearly and directly into your microphone.',
+   },
+   {
+      question: 'How can I allow a test to record my computers screen?',
+      answer: 'You will be prompted during the test to allow screen recording.',
+   },
+]
+
 const PARTNERS = [
    {
       id: 1,
@@ -322,7 +347,8 @@ export {
    CHECKBOX_IMAGE,
    CHECK_OUT,
    FEEDBACKS,
-   OURTEAM,
+   OUR_TEAM,
+   QUESTIONS,
    COLUMNS,
    FAKE_DATA,
    PARTNERS,

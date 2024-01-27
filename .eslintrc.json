@@ -17,6 +17,7 @@
       "DefaultPlayer": true
    },
    "rules": {
+      "import/no-unresolved": "off",
       "import/no-extraneous-dependencies": "off",
       "react/prop-types": "off",
       "import/no-extraneous-dependencies": "off",
