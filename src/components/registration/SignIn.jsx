@@ -83,9 +83,12 @@ const SignIn = () => {
 export default SignIn
 
 const StyledContainer = styled(Box)(() => ({
+   background: 'linear-gradient(91deg, #6B0FA9 0.74%, #520FB6 88.41%)',
    display: 'flex',
    justifyContent: 'center',
-   marginTop: '4.62rem',
+   alignItems: 'center',
+   width: '100%',
+   height: '100vh',
 }))
 
 const StyledFormControl = styled(FormControl)(({ theme }) => ({
