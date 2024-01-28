@@ -1,10 +1,10 @@
 import './App.css'
-import ModalDelete from './components/UI/modals/ModalDelete'
+import ModalSave from './components/UI/modals/ModalSave'
 
 const App = () => {
    return (
       <div>
-         <ModalDelete />
+         <ModalSave />
       </div>
    )
 }

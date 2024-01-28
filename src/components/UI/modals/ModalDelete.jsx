@@ -4,19 +4,18 @@ import { CancelIcon, FalseIcon } from '../../../assets/icons'
 import Button from '../buttons/Button'
 
 const style = {
-   borderRadius: '20px',
+   borderRadius: '1.25rem',
    borderStyle: 'none',
    alignItems: 'center',
 }
 
 const ModalDelete = ({ onDelete }) => {
    const [isVisible, setIsVisidle] = useState(false)
-
    const handleIsVisible = () => setIsVisidle((prev) => !prev)
 
    return (
       <Container>
-         <StyledOpenButton onClick={handleIsVisible}>Delete</StyledOpenButton>
+         <StyledOpenButton onClick={handleIsVisible}>DELETE</StyledOpenButton>
          <Modal open={isVisible} onClose={handleIsVisible} style={style}>
             <StyledModal>
                <StyledCloseIcon onClick={handleIsVisible} />
@@ -57,7 +56,7 @@ const StyledModal = styled(Box)(() => ({
    transform: 'translate(-50%, -50%)',
    backgroundColor: '#fff',
    borderRadius: '1.25rem',
-   boxShadow: '0px 4px 39px -5px rgba(196, 196, 196, 0.6)',
+   boxShadow: '0rem 0.25rem 2.4375rem -0.3125rem rgba(196, 196, 196, 0.6)',
    width: '32.4375rem',
    height: '23rem',
    display: 'flex',
@@ -65,6 +64,7 @@ const StyledModal = styled(Box)(() => ({
    flexDirection: 'column',
    alignItems: 'center',
    textAlign: 'center',
+
    '& .Title': {
       fontFamily: 'Gilroy',
       fontSize: '1.25rem',
@@ -93,8 +93,8 @@ const StyledModal = styled(Box)(() => ({
    '& .redCrossImage': {
       display: 'flex',
       justifyContent: 'center',
-      marginTop: '15px',
-      marginBottom: '51px',
+      marginTop: '0.9375rem',
+      marginBottom: '3.1875rem',
    },
    '& .containerBtns': {
       borderRadius: '0rem 0rem 1.25rem 1.25rem',
@@ -111,7 +111,6 @@ const StyledOpenButton = styled('button')(() => ({
    color: '#FFF',
    fontSize: '1.125rem',
    fontWeight: '500',
-   textTransform: 'uppercase',
    fontFamily: 'Poppins',
    display: 'flex',
    textAlign: 'left',
@@ -122,13 +121,12 @@ const StyledOpenButton = styled('button')(() => ({
 }))
 
 const StyledCloseIcon = styled(CancelIcon)(() => ({
-   marginLeft: '455px',
-   marginTop: '22px',
+   marginLeft: '28.4375rem',
+   marginTop: '1.375rem',
    cursor: 'pointer',
    transition: '0.3s',
    ':hover': {
       transform: 'scale(1.1)',
-      borderRadius: '300px',
       textColor: '#fff',
    },
 }))
