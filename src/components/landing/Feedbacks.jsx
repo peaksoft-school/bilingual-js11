@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Box, Rating, Typography, styled } from '@mui/material'
 import Slider from 'react-slick'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
 import { FEEDBACKS } from '../../utils/constants'
 import { NextArrowIcon, PrevArrowIcon } from '../../assets/icons'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
 const PrevArrow = ({ onClick, className }) => (
    <PrevArrowIcon onClick={onClick} className={className} />
@@ -46,7 +46,10 @@ const Feedbacks = () => {
             <StyledSlider {...settings}>
                {FEEDBACKS.map(
                   ({ id, name, description, rating, avatar }, dataIndex) => (
-                     <StyledSlide key={id} isActive={dataIndex === index}>
+                     <StyledSlide
+                        key={id}
+                        isactive={String(dataIndex === index)}
+                     >
                         <img src={avatar} alt={name} />
 
                         <Typography>{description}</Typography>
@@ -71,6 +74,7 @@ const StyledContainer = styled(Box)({
    backgroundSize: 'cover',
    backgroundRepeat: 'no-repeat',
    flexDirection: 'column',
+   paddingTop: '120px',
 
    '& > .title': {
       color: '#3752B4',
@@ -255,14 +259,14 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
    },
 }))
 
-const StyledSlide = styled('div')(({ isActive }) => ({
+const StyledSlide = styled(Box)(({ isactive }) => ({
    position: 'relative',
    textAlign: 'center',
    height: '35.25rem',
    maxHeight: '38.25rem',
    maxWidth: '22.875rem',
    cursor: 'pointer',
-   background: isActive ? '#666CA7' : '#E5E5E5',
+   background: isactive ? '#666CA7' : '#E5E5E5',
    transition: 'background 0.2s ease, transform 0.5s ease, filter 0.5s ease',
    borderRadius: '40px',
 
@@ -273,15 +277,15 @@ const StyledSlide = styled('div')(({ isActive }) => ({
    },
 
    '& .MuiRating-iconEmpty': {
-      color: isActive ? 'white' : '#9A9A9A',
+      color: isactive ? 'white' : '#9A9A9A',
    },
 
    '& img': {
-      width: isActive ? '16.25rem' : '11.25rem',
-      height: isActive ? '16.25rem' : '11.25rem',
+      width: isactive ? '16.25rem' : '11.25rem',
+      height: isactive ? '16.25rem' : '11.25rem',
       borderRadius: '50%',
       margin: 'auto',
-      marginTop: isActive ? '2rem' : '4.38rem',
+      marginTop: isactive ? '2rem' : '4.38rem',
       transition:
          'width 0.4s ease, height 0.4s ease, margin-top 0.4s ease, filter 0.8s ease',
       zIndex: 1,

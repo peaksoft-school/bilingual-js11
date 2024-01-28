@@ -5,52 +5,160 @@ import ThirdVideo from '../../assets/videos/third-video.mp4'
 import {
    FifthPersonImage,
    FirstPersonImage,
-   FirstPosterVideo,
    FourthPersonImage,
    GlobusImage,
-   PhotoFifthPartner,
-   PhotoFirstPartner,
-   PhotoFourthPartner,
-   PhotoSecondPartner,
-   PhotoSixthPartner,
-   PhotoThirdPartner,
    SecondPersonImage,
-   SecondPosterVideo,
    SevenPersonImage,
    SixthPersonImage,
    ThirdPersonImage,
-   ThirdPosterVideo,
-   FirstPersonImageOurTeam,
-   SecondPersonImageOurTeam,
-   ThirdPersonImageOurTeam,
-   FourthPersonImageOurTeam,
-   FifthPersonImageOurTeam,
-   SixthPersonImageOurTeam,
-   SeventhPersonImageOurTeam,
+   SeventhMemberImage,
+   FourthMemberImage,
+   FifthMemberImage,
+   ThirdMemberImage,
+   FirstMemberImage,
+   SecondMemberImage,
+   SixthMemberImage,
+   FirstPosterVideoImage,
+   SecondPosterVideoImage,
+   ThirdPosterVideoImage,
+   FirstPartnerImage,
+   SecondPartnerImage,
+   ThirdPartnerImage,
+   FourthPartnerImage,
+   FifthPartnerImage,
+   SixthPartnerImage,
 } from '../../assets/images/index'
-import { TrashIcon } from '../../assets/icons'
 
-const CHECKBOX_IMAGE =
-   "\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12 5c-.28 0-.53.11-.71.29L7 9.59l-2.29-2.3a1.003 1.003 0 00-1.42 1.42l3 3c.18.18.43.29.71.29s.53-.11.71-.29l5-5A1.003 1.003 0 0012 5z' fill='%23fff'/%3E%3C/svg%3E\""
+const OUR_TEAM = [
+   {
+      id: 1,
+      img: FirstMemberImage,
+      name: 'Adeliia Jyldyzbekova',
+      role: 'Backend developer - Leader',
+
+      customStyle: {
+         borderRadius: '2.5rem 0rem',
+      },
+   },
+   {
+      id: 2,
+      img: SecondMemberImage,
+      name: 'Alina Ahunova',
+      role: 'Backend developer',
+
+      customStyle: {
+         borderRadius: '2.5rem 0rem 0rem 0rem',
+      },
+   },
+   {
+      id: 3,
+      img: ThirdMemberImage,
+      name: 'Elaman Janyshbekov',
+      role: 'Frontend developer',
+
+      customStyle: {
+         borderRadius: '0rem 2.5rem 0rem 0rem',
+      },
+   },
+   {
+      id: 4,
+      img: FourthMemberImage,
+      name: 'Meerim Kerkibasheva',
+      role: 'Frontend developer',
+
+      customStyle: {
+         borderRadius: '2.5rem 0rem',
+      },
+   },
+   {
+      id: 5,
+      img: FifthMemberImage,
+      name: 'Nurislam Isaev',
+      role: 'Frontend developer',
+
+      customStyle: {
+         borderRadius: '0rem 0rem 2.5rem 0rem',
+      },
+   },
+   {
+      id: 6,
+      img: SixthMemberImage,
+      name: 'Nuriza Zununova',
+      role: 'Backend developer',
+
+      customStyle: {
+         borderRadius: '2.5rem 0rem',
+      },
+   },
+   {
+      id: 7,
+      img: SeventhMemberImage,
+      name: 'Rabiya Aiylchieva',
+      role: 'Frontend developer - Leader',
+   },
+]
+
+const CHECK_OUT = [
+   {
+      id: 1,
+      title: 'Confirm your English proficiency today!',
+      text: 'For nearly 30 years, lea rners have turned to Rosetta Stone to build the fluency and confidence they need to speak new languages.',
+      image: GlobusImage,
+      titleColor: '#FE9102',
+      background: '#212629',
+   },
+   {
+      id: 2,
+      title: 'Confirm your English proficiency today!',
+      text: 'For nearly 30 years, lea rners have turned to Rosetta Stone    to build the fluency and confidence they need to speak new languages.',
+      image: GlobusImage,
+      titleColor: '#FFFFFF',
+      background: '#FE9102',
+   },
+   {
+      id: 3,
+      title: 'Confirm your English proficiency today!',
+      text: 'For nearly 30 years, lea rners have turned to Rosetta Stoneto build the fluency and confidence they need to speak new languages.',
+      image: GlobusImage,
+      titleColor: '#FE9102',
+      background: '#212629',
+   },
+   {
+      id: 4,
+      title: 'Confirm your English proficiency today!',
+      text: 'For nearly 30 years, lea rners have turned to Rosetta Stoneto build the fluency and confidence they need to speak new languages.',
+      image: GlobusImage,
+      titleColor: '#FFFFFF',
+      background: '#FE9102',
+   },
+   {
+      id: 5,
+      title: 'Confirm your English proficiency today!',
+      text: 'For nearly 30 years, lea rners have turned to Rosetta Stoneto build the fluency and confidence they need to speak new languages.',
+      image: GlobusImage,
+      titleColor: '#FE9102',
+      background: '#212629',
+   },
+]
 
 const VIDEOS = [
    {
       id: 1,
-      poster: FirstPosterVideo,
+      poster: FirstPosterVideoImage,
       video: FirstVideo,
       name: 'The benefits of a bilingual brain',
       duration: 'Duration 5:03',
    },
    {
       id: 2,
-      poster: SecondPosterVideo,
+      poster: SecondPosterVideoImage,
       video: SecondVideo,
       name: 'Test Walkthrough',
       duration: 'Duration 1:02',
    },
    {
       id: 3,
-      poster: ThirdPosterVideo,
+      poster: ThirdPosterVideoImage,
       video: ThirdVideo,
       name: 'Understanding Subscores',
       duration: 'Duration 3:35',
@@ -117,46 +225,61 @@ const FEEDBACKS = [
    },
 ]
 
-const CHECK_OUT = [
+const PARTNERS = [
    {
       id: 1,
-      title: 'Confirm your English proficiency today!',
-      text: 'For nearly 30 years, lea rners have turned to Rosetta Stone to build the fluency and confidence they need to speak new languages.',
-      image: GlobusImage,
-      titleColor: '#FE9102',
-      background: '#212629',
+      partner: FirstPartnerImage,
+      name: 'Rodonit',
    },
    {
       id: 2,
-      title: 'Confirm your English proficiency today!',
-      text: 'For nearly 30 years, lea rners have turned to Rosetta Stone    to build the fluency and confidence they need to speak new languages.',
-      image: GlobusImage,
-      titleColor: '#FFFFFF',
-      background: '#FE9102',
+      partner: SecondPartnerImage,
+      name: 'BASF',
    },
    {
       id: 3,
-      title: 'Confirm your English proficiency today!',
-      text: 'For nearly 30 years, lea rners have turned to Rosetta Stoneto build the fluency and confidence they need to speak new languages.',
-      image: GlobusImage,
-      titleColor: '#FE9102',
-      background: '#212629',
+      partner: ThirdPartnerImage,
+      name: 'Lidea',
    },
    {
       id: 4,
-      title: 'Confirm your English proficiency today!',
-      text: 'For nearly 30 years, lea rners have turned to Rosetta Stoneto build the fluency and confidence they need to speak new languages.',
-      image: GlobusImage,
-      titleColor: '#FFFFFF',
-      background: '#FE9102',
+      partner: FourthPartnerImage,
+      name: 'Adama',
    },
    {
       id: 5,
-      title: 'Confirm your English proficiency today!',
-      text: 'For nearly 30 years, lea rners have turned to Rosetta Stoneto build the fluency and confidence they need to speak new languages.',
-      image: GlobusImage,
-      titleColor: '#FE9102',
-      background: '#212629',
+      partner: FifthPartnerImage,
+      name: 'Dekalb',
+   },
+   {
+      id: 6,
+      partner: SixthPartnerImage,
+      name: 'LG',
+   },
+]
+
+const QUESTIONS = [
+   {
+      question: 'What is Bilingual?',
+      answer: 'Bilingual is a language testing service.',
+   },
+   {
+      question: 'How can I show what I am typing during the test?',
+      answer:
+         'Please take the test in a separate, quiet room. Close all other windows and close all other programs before starting the test. An external USB keyboard or mouse can be used during the test. However, when answering test questions, you should only type on one keyboard and use one mouse. Dont switch between multiple keyboards or mice.',
+   },
+   {
+      question: 'Why should I take the Bilingual English Test?',
+      answer:
+         'The Bilingual English Test is a reliable and accurate way to assess your English proficiency.',
+   },
+   {
+      question: 'How can I make sure my microphone picks up my voice clearly?',
+      answer: 'Speak clearly and directly into your microphone.',
+   },
+   {
+      question: 'How can I allow a test to record my computers screen?',
+      answer: 'You will be prompted during the test to allow screen recording.',
    },
 ]
 
@@ -215,133 +338,12 @@ const COLUMNS = [
    {
       Header: '',
       accessor: 'action',
-      Cell: ({ row }) => {
-         return <TrashIcon {...row.original.id} />
-      },
    },
 ]
 
-const OUR_TEAM = [
-   {
-      id: 1,
-      img: SeventhPersonImageOurTeam,
-      name: 'Rabiya Aiylchieva',
-      role: 'Frontend developer - Team lider',
-   },
-   {
-      id: 2,
-      img: FourthPersonImageOurTeam,
-      name: 'Meerim Kerkibasheva',
-      role: 'Frontend developer',
-      customStyle: {
-         borderRadius: '2.5rem 0rem',
-      },
-   },
+const CHECKBOX_IMAGE =
+   "\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12 5c-.28 0-.53.11-.71.29L7 9.59l-2.29-2.3a1.003 1.003 0 00-1.42 1.42l3 3c.18.18.43.29.71.29s.53-.11.71-.29l5-5A1.003 1.003 0 0012 5z' fill='%23fff'/%3E%3C/svg%3E\""
 
-   {
-      id: 3,
-      img: FifthPersonImageOurTeam,
-      name: 'Nurislam Isaev',
-      role: 'Frontend developer',
-      customStyle: {
-         borderRadius: '0rem 0rem 2.5rem 0rem',
-      },
-   },
-   {
-      id: 6,
-      img: ThirdPersonImageOurTeam,
-      name: 'Elaman Janyshbekov',
-      role: 'Frontend developer',
-      customStyle: {
-         borderRadius: '0rem 2.5rem 0rem 0rem',
-      },
-   },
-   {
-      id: 4,
-      img: FirstPersonImageOurTeam,
-      name: 'Adeliia Jyldyzbekova',
-      role: 'Backend developer - Team Lider',
-      customStyle: {
-         borderRadius: '2.5rem 0rem',
-      },
-   },
-   {
-      id: 5,
-      img: SecondPersonImageOurTeam,
-      name: 'Alina Ahunova',
-      role: 'Backend developer',
-      customStyle: {
-         borderRadius: '2.5rem 0rem 0rem 0rem',
-      },
-   },
-   {
-      id: 7,
-      img: SixthPersonImageOurTeam,
-      name: 'Nuriza Zununova',
-      role: 'Backend developer',
-      customStyle: {
-         borderRadius: '2.5rem 0rem',
-      },
-   },
-]
-
-const QUESTIONS = [
-   {
-      question: 'What is Bilingual?',
-      answer: 'Bilingual is a language testing service.',
-   },
-   {
-      question: 'How can I show what I am typing during the test?',
-      answer:
-         'Please take the test in a separate, quiet room. Close all other windows and close all other programs before starting the test. An external USB keyboard or mouse can be used during the test. However, when answering test questions, you should only type on one keyboard and use one mouse. Dont switch between multiple keyboards or mice.',
-   },
-   {
-      question: 'Why should I take the Bilingual English Test?',
-      answer:
-         'The Bilingual English Test is a reliable and accurate way to assess your English proficiency.',
-   },
-   {
-      question: 'How can I make sure my microphone picks up my voice clearly?',
-      answer: 'Speak clearly and directly into your microphone.',
-   },
-   {
-      question: 'How can I allow a test to record my computers screen?',
-      answer: 'You will be prompted during the test to allow screen recording.',
-   },
-]
-
-const PARTNERS = [
-   {
-      id: 1,
-      img: PhotoFirstPartner,
-      name: 'Rodonit',
-   },
-   {
-      id: 2,
-      img: PhotoSecondPartner,
-      name: 'BASF',
-   },
-   {
-      id: 3,
-      img: PhotoThirdPartner,
-      name: 'Lidea',
-   },
-   {
-      id: 4,
-      img: PhotoFourthPartner,
-      name: 'Adama',
-   },
-   {
-      id: 5,
-      img: PhotoFifthPartner,
-      name: 'Dekalb',
-   },
-   {
-      id: 6,
-      img: PhotoSixthPartner,
-      name: 'JG',
-   },
-]
 export {
    VIDEOS,
    CHECKBOX_IMAGE,

@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css'
 const Notification = () => (
    <StyledToastContainer hideProgressBar={false} icon={false} limit={1} />
 )
+
 export default Notification
 
 const StyledToastContainer = styled(ToastContainer)(() => ({

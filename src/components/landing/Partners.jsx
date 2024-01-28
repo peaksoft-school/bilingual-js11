@@ -1,17 +1,10 @@
-import { styled, Box, Grid, Typography } from '@mui/material'
+import { styled, Box, Typography } from '@mui/material'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { PARTNERS } from '../../utils/constants/index'
 
-const useStyles = styled({
-   partner: {
-      display: 'flex',
-      justifyContent: 'center',
-   },
-})
-
-const settings = {
+const SETTINGS = {
    dots: false,
    arrows: false,
    infinite: true,
@@ -26,18 +19,23 @@ const settings = {
    responsive: [
       {
          breakpoint: 1024,
+
          settings: {
             slidesToShow: 3,
          },
       },
+
       {
          breakpoint: 768,
+
          settings: {
             slidesToShow: 2,
          },
       },
+
       {
          breakpoint: 480,
+
          settings: {
             slidesToShow: 1,
          },
@@ -45,66 +43,75 @@ const settings = {
    ],
 }
 
-const Partners = () => {
-   const classes = useStyles()
+const Partners = () => (
+   <StyledContainer>
+      <Box className="box">
+         <Typography className="title" variant="h2">
+            Partners
+         </Typography>
 
-   return (
-      <Box>
-         <Grid item xs={12}>
-            <StyledParners>Partners</StyledParners>
-         </Grid>
-
-         <Grid>
-            <StyledSlider {...settings}>
-               {PARTNERS.map(({ id, img, name }) => (
-                  <Box key={id} className={classes.partner}>
-                     {img && (
-                        <ImgContainer>
-                           <Img src={img} alt={name} />
-                        </ImgContainer>
-                     )}
+         <StyledSlider {...SETTINGS}>
+            {PARTNERS.map(({ id, partner, name }) => (
+               <Box key={id} className="slide">
+                  <Box className="image-box">
+                     <img src={partner} alt={name} />
                   </Box>
-               ))}
-            </StyledSlider>
-         </Grid>
+               </Box>
+            ))}
+         </StyledSlider>
       </Box>
-   )
-}
+   </StyledContainer>
+)
+
 export default Partners
 
-const StyledParners = styled(Typography)(() => ({
-   color: '#3752B4',
-   fontSize: '2.5rem',
-   textAlign: 'center',
-   padding: '2.5rem',
-   fontFamily: 'Gilroy',
-   background: '#FEF5E8',
-}))
+const StyledContainer = styled(Box)(() => ({
+   backgroundColor: '#FEF5E8',
+   padding: '30px 0 120px',
 
-const ImgContainer = styled('div')(() => ({
-   margin: '0.9375rem',
-   width: '15.9375rem',
-   height: '7.875rem',
-   overflow: 'hidden',
-   borderRadius: '1.25rem',
-   border: '1px solid #E4E4E4',
-   background: '#FFF',
-   display: 'inline-flex',
-}))
+   '& > .box': {
+      maxWidth: '1600px',
+      margin: '0 auto',
 
-const Img = styled('img')(() => ({
-   width: '10.9375rem',
-   height: '5.375rem',
-   objectFit: 'contain',
-   objectPosition: 'center',
-   margin: 'auto',
+      '& > .title': {
+         color: '#3752B4',
+         fontSize: '2.5rem',
+         textAlign: 'center',
+         padding: '2.5rem',
+         fontFamily: 'Gilroy',
+         background: '#FEF5E8',
+      },
+   },
 }))
 
 const StyledSlider = styled(Slider)(() => ({
-   width: '100%',
-   maxWidth: '1440px',
-   margin: 'auto',
-   padding: '0 5%',
-   '.slick-slide': { outline: 'none' },
    background: '#FEF5E8',
+
+   '& .slick-slide': {
+      outline: 'none',
+   },
+
+   '& .slide': {
+      display: 'flex',
+      justifyContent: 'center',
+   },
+
+   '& .image-box': {
+      margin: '0.9375rem',
+      width: '15.9375rem',
+      height: '7.875rem',
+      overflow: 'hidden',
+      borderRadius: '1.25rem',
+      border: '1px solid #E4E4E4',
+      background: '#FFF',
+      display: 'inline-flex',
+
+      '& > img': {
+         width: '10.9375rem',
+         height: '5.375rem',
+         objectFit: 'contain',
+         objectPosition: 'center',
+         margin: 'auto',
+      },
+   },
 }))

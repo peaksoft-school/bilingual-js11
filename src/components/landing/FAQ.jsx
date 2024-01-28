@@ -18,7 +18,9 @@ const FAQ = () => {
 
    return (
       <StyledList className="list">
-         <Typography className="title">FAQ:</Typography>
+         <Typography variant="h2" className="title">
+            FAQ:
+         </Typography>
 
          {QUESTIONS.map(({ question, answer }, index) => (
             <Fragment key={question}>

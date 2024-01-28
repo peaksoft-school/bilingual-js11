@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { Box, Typography, keyframes, styled } from '@mui/material'
 import { motion } from 'framer-motion'
 import Aos from 'aos'
-import 'aos/dist/aos.css'
 import {
    BackgroundFirstLearnMoreIcon,
    FifthLearnMoreIcon,
@@ -13,6 +12,7 @@ import {
    ThirdLearnMoreIcon,
 } from '../../assets/icons'
 import LandingButton from '../UI/buttons/LandingButton'
+import 'aos/dist/aos.css'
 
 const ROADMAPE_ANIMATE = keyframes`
         to  {
@@ -20,7 +20,7 @@ const ROADMAPE_ANIMATE = keyframes`
         } from {
           stroke-dashoffset: 300;
         }
-      `
+`
 
 const LearnMore = () => {
    useEffect(() => {
@@ -153,7 +153,7 @@ const LearnMore = () => {
 
 export default LearnMore
 
-const StyledContainer = styled('div')(({ theme }) => ({
+const StyledContainer = styled(Box)(({ theme }) => ({
    backgroundColor: '#FEF5E8',
    width: '100%',
    overflow: 'hidden',
