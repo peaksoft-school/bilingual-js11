@@ -49,7 +49,7 @@ const StyledModal = styled(Box)(() => ({
    justifyContent: 'center',
    flexDirection: 'column',
    textAlign: 'center',
-   '& .Text': {
+   '& .text': {
       fontWeight: '400',
       fontSize: '1rem',
       color: '#4C4859',

@@ -1,12 +1,7 @@
 import './App.css'
-import ModalSave from './components/UI/modals/ModalSave'
 
 const App = () => {
-   return (
-      <div>
-         <ModalSave />
-      </div>
-   )
+   return <div>Bilingual</div>
 }
 
 export default App

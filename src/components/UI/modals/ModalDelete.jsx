@@ -65,14 +65,14 @@ const StyledModal = styled(Box)(() => ({
    alignItems: 'center',
    textAlign: 'center',
 
-   '& .Title': {
+   '& .title': {
       fontFamily: 'Gilroy',
       fontSize: '1.25rem',
       display: 'flex',
       textAlign: 'center',
       color: '#4C4859',
    },
-   '& .Text': {
+   '& .text': {
       fontWeight: '400',
       fontSize: '1rem',
       color: '#4C4859',
