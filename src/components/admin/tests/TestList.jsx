@@ -4,17 +4,21 @@ import { EditIcon, TrashIcon } from '../../../assets/icons'
 
 const TestList = () => (
    <StyledContainer>
-      {[].map(({ id, title, enable }) => (
-         <Box key={id} className="test">
-            <Typography>{title}</Typography>
+      {[].length > 0 ? (
+         [].map(({ id, title, enable }) => (
+            <Box key={id} className="test">
+               <Typography>{title}</Typography>
 
-            <Box className="icons">
-               <Switcher className="switcher" checked={enable} />
-               <EditIcon className="edit" />
-               <TrashIcon className="delete" />
+               <Box className="icons">
+                  <Switcher className="switcher" checked={enable} />
+                  <EditIcon className="edit" />
+                  <TrashIcon className="delete" />
+               </Box>
             </Box>
-         </Box>
-      ))}
+         ))
+      ) : (
+         <Typography>You haven`t added any tests yet.</Typography>
+      )}
    </StyledContainer>
 )
 

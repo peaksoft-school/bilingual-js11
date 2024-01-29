@@ -8,6 +8,7 @@ export default TestContainer
 
 const StyledContainer = styled(Box)(() => ({
    margin: 'auto',
+   marginTop: '4.25rem',
    maxWidth: '66.25rem',
    display: 'flex',
    flexDirection: 'column',
