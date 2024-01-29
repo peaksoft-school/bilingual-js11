@@ -1,4 +1,4 @@
-import { Box, Button, Typography, styled } from '@mui/material'
+import { Box, Typography, styled } from '@mui/material'
 import Switcher from '../../UI/Switcher'
 import { EditIcon, TrashIcon } from '../../../assets/icons'
 
@@ -6,7 +6,7 @@ const TestList = () => (
    <StyledContainer>
       {[].length > 0 ? (
          [].map(({ id, title, enable }) => (
-            <Button key={id} className="test">
+            <Box key={id} className="test">
                <Typography>{title}</Typography>
 
                <Box className="icons">
@@ -14,7 +14,7 @@ const TestList = () => (
                   <EditIcon className="edit" />
                   <TrashIcon className="delete" />
                </Box>
-            </Button>
+            </Box>
          ))
       ) : (
          <Typography>You haven`t added any tests yet.</Typography>
@@ -36,6 +36,7 @@ const StyledContainer = styled(Box)(() => ({
       boxShadow:
          '0px 4px 10px 0px rgba(0, 0, 0, 0.06), 0px -4px 10px 0px rgba(0, 0, 0, 0.06)',
       marginBottom: '0.94rem',
+      cursor: 'pointer',
 
       '&:hover': {
          backgroundColor: '#f6f6f6',
