@@ -1,40 +1,23 @@
-import { useState } from 'react'
 import { useFormik } from 'formik'
 import { Box, FormControl, Typography, styled } from '@mui/material'
-import {
-   ExitIcon,
-   EyeIcon,
-   EyeOffIcon,
-   GoogleIcon,
-   LogoIcon,
-   WarningIcon,
-} from '../assets/icons'
+import { ExitIcon, GoogleIcon, LogoIcon } from '../assets/icons'
+import { validationSignIn } from '../utils/helpers/validate'
 import Button from '../components/UI/buttons/Button'
+import Checkbox from '../components/UI/Checkbox'
 import Input from '../components/UI/Input'
-import { SIGNUPINPUT } from '../utils/constants'
-import { validationSignUp } from '../utils/helpers/validate'
 
-const SignUpPage = () => {
-   const [passwordShow, setPasswordShow] = useState(false)
-   const [focusedInput, setFocusedInput] = useState(null)
-
-   const handlePasswordShow = () => setPasswordShow((prev) => !prev)
-
-   const handleInputFocus = (name) => setFocusedInput(name)
-
+const SignInPage = () => {
    const { values, errors, handleChange, handleSubmit } = useFormik({
       initialValues: {
-         firstName: '',
-         lastName: '',
          email: '',
          password: '',
          rememberMe: false,
       },
 
-      validationSchema: validationSignUp,
+      validationSchema: validationSignIn,
 
       onSubmit: (values) => {
-         console.log(values)
+         alert(values)
       },
    })
 
@@ -47,39 +30,38 @@ const SignUpPage = () => {
 
             <StyledLogoContainer>
                <LogoIcon />
-               <Typography className="create">Create an Account</Typography>
+               <Typography className="sign-in">Sign in</Typography>
             </StyledLogoContainer>
 
             <StyledContent>
-               {SIGNUPINPUT.map(({ name, label, type }) => (
-                  <Input
-                     key={name}
-                     label={label}
-                     name={name}
-                     value={values[name]}
+               <Input
+                  type="email"
+                  placeholder="Email"
+                  name="email"
+                  value={values.email}
+                  onChange={handleChange}
+                  error={errors.email}
+               />
+               <Input
+                  type="password"
+                  placeholder="Password"
+                  name="password"
+                  value={values.password}
+                  onChange={handleChange}
+                  error={errors.password}
+               />
+
+               <Box>
+                  <Checkbox
+                     name="rememberMe"
+                     checked={values.rememberMe}
                      onChange={handleChange}
-                     type={passwordShow ? 'text' : type}
-                     error={Boolean(errors[name])}
-                     onFocus={() => handleInputFocus(name)}
                   />
-               ))}
 
-               {focusedInput === 'password' && (
-                  <Typography
-                     variant="span"
-                     className="eye-container"
-                     onClick={handlePasswordShow}
-                  >
-                     {passwordShow ? <EyeIcon /> : <EyeOffIcon />}
+                  <Typography variant="span" className="text-checkbox">
+                     To remember me
                   </Typography>
-               )}
-
-               {focusedInput && Boolean(errors[focusedInput]) && (
-                  <Box color="error" className="validate">
-                     Incorrect {errors[focusedInput]}
-                     <WarningIcon />
-                  </Box>
-               )}
+               </Box>
 
                <Button onClick={handleSubmit}>Sing in</Button>
 
@@ -88,9 +70,9 @@ const SignUpPage = () => {
                </Button>
 
                <Box className="text-account">
-                  <Typography>Already have an account?</Typography>
+                  <Typography>Dont have an account?</Typography>
 
-                  <Typography className="log-in">Log in</Typography>
+                  <Typography className="register">Register</Typography>
                </Box>
             </StyledContent>
          </StyledFormControl>
@@ -98,7 +80,7 @@ const SignUpPage = () => {
    )
 }
 
-export default SignUpPage
+export default SignInPage
 
 const StyledContainer = styled(Box)(() => ({
    background: 'linear-gradient(91deg, #6B0FA9 0.74%, #520FB6 88.41%)',
@@ -111,8 +93,8 @@ const StyledContainer = styled(Box)(() => ({
 
 const StyledFormControl = styled(FormControl)(({ theme }) => ({
    backgroundColor: theme.palette.primary.white,
-   width: '41.25rem',
-   height: 'auto',
+   width: '38.5rem',
+   height: '38.75rem',
    borderRadius: '0.625rem',
    padding: '1.25rem',
 
@@ -150,6 +132,8 @@ const StyledFormControl = styled(FormControl)(({ theme }) => ({
    '& .text-account': {
       display: 'flex',
       justifyContent: 'center',
+      marginTop: '-1rem',
+      marginBottom: '4rem',
       color: '#757575',
       fontFamily: 'Poppins',
       fontSize: '0.875rem',
@@ -158,8 +142,9 @@ const StyledFormControl = styled(FormControl)(({ theme }) => ({
       textTransform: 'uppercase',
       cursor: 'pointer',
 
-      '& .log-in': {
+      '& .register': {
          color: '#3A10E5',
+         fontWeight: '600',
       },
    },
 }))
@@ -170,11 +155,11 @@ const StyledLogoContainer = styled(Box)(() => ({
    alignItems: 'center',
    gap: '0.75rem',
 
-   '& > .create': {
+   '& > .sign-in': {
       color: '#4C4859',
       fontFamily: 'Poppins',
       fontSize: '1.5rem',
-      fontWeight: '400',
+      fontWeight: '500',
       marginBottom: '2rem',
    },
 }))
@@ -182,26 +167,15 @@ const StyledLogoContainer = styled(Box)(() => ({
 const StyledContent = styled(Box)(() => ({
    display: 'flex',
    flexDirection: 'column',
-   gap: '1.5rem',
+   gap: '2rem',
    width: '31.25rem',
    margin: 'auto',
 
-   '& > .eye-container': {
-      position: 'absolute',
-      display: 'flex',
-      marginTop: '15.4rem',
-      marginLeft: '29rem',
-      cursor: 'pointer',
-   },
-
-   '& > .validate': {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: '0.5rem',
+   '& .text-checkbox': {
+      color: '#757575',
+      fontFeatureSettings: 'clig off, liga off',
       fontFamily: 'Poppins',
       fontSize: '0.875rem',
       fontWeight: '400',
-      color: 'red',
    },
 }))

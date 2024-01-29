@@ -1,5 +1,6 @@
 import './App.css'
 import SignUpPage from './containers/SignUpPage'
+import SignInPage from './containers/SingInPage'
 
 const App = () => {
    return (
@@ -7,6 +8,7 @@ const App = () => {
          {/* bilingual-js11 */}
          {/* <br /> */}
          <SignUpPage />
+         <SignInPage />
       </h1>
    )
 }
