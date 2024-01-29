@@ -20,8 +20,8 @@ const ModalDelete = ({ onDelete }) => {
             <StyledModal>
                <StyledCloseIcon onClick={handleIsVisible} />
                <FalseIcon className="redCrossImage" />
-               <Typography className="Title">Do you want to delete?</Typography>
-               <Typography className="Text">
+               <Typography className="title">Do you want to delete?</Typography>
+               <Typography className="text">
                   You can’t restore this file
                </Typography>
                <Box className="containerBtns">

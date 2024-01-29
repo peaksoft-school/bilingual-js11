@@ -15,7 +15,7 @@ const ModalLogOut = ({ onLogOut }) => {
    return (
       <Modal open={isVisible} onClose={handleIsVisible} style={style}>
          <StyledModal>
-            <Typography className="Text">
+            <Typography className="text">
                Are you sure you want to log out?
             </Typography>
             <Box className="buttons">
