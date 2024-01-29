@@ -157,6 +157,7 @@ const StyledFormControl = styled(FormControl)(({ theme }) => ({
       letterSpacing: '0.0175rem',
       textTransform: 'uppercase',
       cursor: 'pointer',
+      marginBottom: '2rem',
 
       '& .log-in': {
          color: '#3A10E5',
