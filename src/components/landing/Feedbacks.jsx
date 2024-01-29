@@ -1,15 +1,10 @@
 import { useState } from 'react'
 import { Box, Rating, Typography, styled } from '@mui/material'
 import Slider from 'react-slick'
+import { FEEDBACKS } from '../../utils/constants'
+import { NextArrowIcon, PrevArrowIcon } from '../../assets/icons'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import { FEEDBACKS } from '../../utils/constants'
-import {
-   NextArrowIcon,
-   PaginationActiveIcon,
-   PaginationIcon,
-   PrevArrowIcon,
-} from '../../assets/icons'
 
 const PrevArrow = ({ onClick, className }) => (
    <PrevArrowIcon onClick={onClick} className={className} />
@@ -21,9 +16,6 @@ const NextArrow = ({ onClick, className }) => (
 
 const Feedbacks = () => {
    const [index, setIndex] = useState(0)
-
-   const paginatonActive = (i) =>
-      i === index ? <PaginationActiveIcon /> : <PaginationIcon />
 
    const settings = {
       focusOnSelect: true,
@@ -37,7 +29,6 @@ const Feedbacks = () => {
       dots: true,
       rtlMode: true,
       autoplay: true,
-      customPaging: (i) => paginatonActive(i),
       swipeToSlide: true,
       nextArrow: <NextArrow />,
       prevArrow: <PrevArrow />,
@@ -55,7 +46,10 @@ const Feedbacks = () => {
             <StyledSlider {...settings}>
                {FEEDBACKS.map(
                   ({ id, name, description, rating, avatar }, dataIndex) => (
-                     <StyledSlide key={id} isActive={dataIndex === index}>
+                     <StyledSlide
+                        key={id}
+                        isactive={String(dataIndex === index)}
+                     >
                         <img src={avatar} alt={name} />
 
                         <Typography>{description}</Typography>
@@ -80,6 +74,7 @@ const StyledContainer = styled(Box)({
    backgroundSize: 'cover',
    backgroundRepeat: 'no-repeat',
    flexDirection: 'column',
+   paddingTop: '120px',
 
    '& > .title': {
       color: '#3752B4',
@@ -213,46 +208,65 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
 
    '& .slick-next:hover,.slick-prev:hover': {
       content: 'none',
-      circle: {
+
+      '& circle': {
          fill: '#3A10E5',
       },
-      path: {
+
+      '& path': {
          fill: '#fff',
       },
    },
 
    '& .slick-dots': {
-      bottom: '4.5rem',
-      direction: 'rtl',
+      bottom: '5.5rem',
+      display: 'flex !important',
+      justifyContent: 'center',
+      alignItems: 'flex-end',
 
       '& li': {
-         position: 'relative',
-         display: 'inline-block',
-         width: '20px',
-         height: '20px',
-         padding: 0,
-         margin: '-1rem',
-         cursor: 'pointer',
+         width: '4px',
+         transition: 'all 500ms',
 
-         '@media screen and (max-width: 1200px)': {
-            width: '10px',
-            height: '10px',
-            padding: 0,
-            margin: 0,
-            bottom: '7.8rem',
+         '& > button': {
+            height: '20px',
+            background: '#d7c7e8',
+            borderRadius: '5px',
+            width: '100%',
+            transition: 'all 1s',
+
+            '&:before': {
+               color: 'transparent',
+            },
          },
+      },
+
+      '& .slick-active': {
+         height: '40px',
+
+         '& > button': {
+            background: '#3A10E5',
+            height: '100%',
+         },
+      },
+      '@media screen and (max-width: 1200px)': {
+         width: '10px',
+         height: '10px',
+         padding: 0,
+         margin: 0,
+         bottom: '7.8rem',
       },
    },
 }))
 
-const StyledSlide = styled('div')(({ isActive }) => ({
+const StyledSlide = styled(Box)(({ isactive }) => ({
    position: 'relative',
    textAlign: 'center',
    height: '35.25rem',
    maxHeight: '38.25rem',
    maxWidth: '22.875rem',
    cursor: 'pointer',
-   background: isActive ? '#666CA7' : '#E5E5E5',
+   background: isactive ? '#666CA7' : '#E5E5E5',
    transition: 'background 0.2s ease, transform 0.5s ease, filter 0.5s ease',
    borderRadius: '40px',
 
@@ -263,15 +277,15 @@ const StyledSlide = styled('div')(({ isActive }) => ({
    },
 
    '& .MuiRating-iconEmpty': {
-      color: isActive ? 'white' : '#9A9A9A',
+      color: isactive ? 'white' : '#9A9A9A',
    },
 
    '& img': {
-      width: isActive ? '16.25rem' : '11.25rem',
-      height: isActive ? '16.25rem' : '11.25rem',
+      width: isactive ? '16.25rem' : '11.25rem',
+      height: isactive ? '16.25rem' : '11.25rem',
       borderRadius: '50%',
       margin: 'auto',
-      marginTop: isActive ? '2rem' : '4.38rem',
+      marginTop: isactive ? '2rem' : '4.38rem',
       transition:
          'width 0.4s ease, height 0.4s ease, margin-top 0.4s ease, filter 0.8s ease',
       zIndex: 1,

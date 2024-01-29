@@ -3,23 +3,27 @@
       "browser": true,
       "es2021": true
    },
+
    "extends": [
       "plugin:react/recommended",
       "airbnb",
       "plugin:prettier/recommended"
    ],
+
    "parserOptions": {
       "ecmaVersion": "latest",
       "sourceType": "module"
    },
+
    "globals": {
       "Video": true,
       "DefaultPlayer": true
    },
+
    "rules": {
+      "global-require": 0,
       "react/prop-types": "off",
       "import/no-extraneous-dependencies": "off",
-      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "react/jsx-props-no-spreading": "off",
       "react/react-in-jsx-scope": "off",
       "import/prefer-default-export": "off",
@@ -27,6 +31,7 @@
       "react-hooks/exhaustive-deps": "off",
       "react-hooks/rules-of-hooks": "off",
       "react/function-component-definition": "off",
+
       "max-len": [
          "error",
          {
@@ -36,9 +41,12 @@
             "ignoreRegExpLiterals": true
          }
       ],
+
       "no-console": ["warn", { "allow": ["warn", "error"] }],
+
       "jsx-a11y/label-has-associated-control": [
          "error",
+
          {
             "required": {
                "some": ["nesting", "id"]

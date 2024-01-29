@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { Box, Modal, styled, Typography } from '@mui/material'
 import Button from '../buttons/Button'
-import Input from '../Input'
 import { CancelIcon } from '../../../assets/icons'
 import Checkbox from '../Checkbox'
+import Input from '../Input'
 
 const ModalSave = () => {
    const [isVisible, setIsVisidle] = useState(false)
    const handleIsVisible = () => setIsVisidle((prev) => !prev)
+
    return (
       <Container>
          <StyledOpenButton onClick={handleIsVisible}>SAVE</StyledOpenButton>
@@ -18,7 +19,9 @@ const ModalSave = () => {
                   <Typography className="title" variant="label">
                      Title
                   </Typography>
-                  <Input placeholder="Select real English words" type="text" />
+
+                  <Input type="text" placeholder="Select real English words" />
+
                   <Box className="checkCon">
                      <Typography className="trueOption">
                         Is true option?
@@ -73,7 +76,7 @@ const StyledModal = styled(Box)(() => ({
    },
    '& .checkCon': {
       display: 'flex',
-      gap: '0.88rem',
+      gap: '0.44rem',
       alignItems: 'center',
    },
    '& .btns-GoBack-Save': {
@@ -99,12 +102,11 @@ const StyledModal = styled(Box)(() => ({
    '& .conForm': {
       width: '32.3125rem',
       marginTop: '2.5rem',
-      marginBottom: '5.7rem',
+      marginBottom: '3.4rem',
       display: 'flex',
       flexDirection: 'column',
       gap: '1.25rem',
    },
-   '& .checkedIcon': {},
 }))
 
 const StyledCloseIcon = styled(CancelIcon)(() => ({
