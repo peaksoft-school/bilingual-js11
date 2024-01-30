@@ -31,7 +31,7 @@ const InnerPage = ({ title, shortDescription, duration }) => (
                <Typography className="span-empty-fifth">{duration}</Typography>
             </Box>
 
-            <Button className="button-frame">
+            <Button className="frame-button">
                <Typography className="add-new-test">
                   + ADD MORE QUESTIONS
                </Typography>
@@ -50,17 +50,17 @@ const InnerPage = ({ title, shortDescription, duration }) => (
             </Box>
 
             {[].length > 0 ? (
-               [].map((test, index, enable) => (
+               [].map((number, enable) => (
                   <Box className="rectangle-six">
-                     <Typography className="hash">{index + 1}</Typography>
-                     <Typography className="name-props">{test.Name}</Typography>
+                     <Typography className="hash">{number + 1}</Typography>
+                     <Typography className="name-props">{[].title}</Typography>
 
                      <Typography className="duration-props">
-                        {test.Duration}
+                        {[].duration}
                      </Typography>
 
                      <Typography className="question-type-props">
-                        {test.QuestionType}
+                        {[].questionType}
                      </Typography>
 
                      <Box className="icons">
@@ -74,7 +74,7 @@ const InnerPage = ({ title, shortDescription, duration }) => (
                <Typography>You haven`t added any questions yet.</Typography>
             )}
 
-            <Button className="frame-button">
+            <Button className="frame-button-second">
                <Typography className="go-back">GO BACK</Typography>
             </Button>
          </TestContainer>
@@ -109,7 +109,7 @@ const StyledContainer = styled(Box)(() => ({
       margin: '0  0 -0.8rem',
    },
 
-   '& .button-frame': {
+   '& .frame-button': {
       letterSpacing: '0.0175rem',
       padding: '0.75rem 1.5rem 0.75rem 1rem',
       width: 'auto',
@@ -122,7 +122,7 @@ const StyledContainer = styled(Box)(() => ({
       fontWeight: '400',
    },
 
-   '& .frame-button': {
+   '& .frame-button-second': {
       borderRadius: '0.5rem',
       fontSize: '0.875rem',
       color: '#3A10E5',
