@@ -4,91 +4,83 @@ import { EditIcon, TrashIcon } from '../../../assets/icons'
 import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
 
-function InnerPage({ title, shortDescription, duration }) {
-   return (
-      <StyledContainer className="main-container">
-         <Box className="rectangle">
-            <TestContainer>
-               <Box className="frame">
-                  <Box className="text">
-                     <Typography className="span-title">Title:</Typography>
-                     <Typography className="span-practice-test">
-                        {title}
+const InnerPage = ({ title, shortDescription, duration }) => (
+   <StyledContainer className="main-container">
+      <Box className="rectangle">
+         <TestContainer>
+            <Box className="frame">
+               <Box className="text">
+                  <Typography className="span-title">Title:</Typography>
+                  <Typography className="span-practice-test">
+                     {title}
+                  </Typography>
+               </Box>
+            </Box>
+
+            <Box className="text-four">
+               <Typography className="span-short-description">
+                  Short Description:
+               </Typography>
+               <Typography className="span-empty">
+                  {shortDescription}
+               </Typography>
+            </Box>
+
+            <Box className="div-telephone">
+               <Typography className="span-duration">Duration:</Typography>
+               <Typography className="span-empty-fifth">{duration}</Typography>
+            </Box>
+
+            <Button className="button-frame">
+               <Typography className="add-new-test">
+                  + ADD MORE QUESTIONS
+               </Typography>
+            </Button>
+
+            <Box className="divider" />
+
+            <Box className="flex-row-bd">
+               <Typography className="hash">#</Typography>
+
+               <Typography className="name">Name</Typography>
+
+               <Typography className="duration">Duration</Typography>
+
+               <Typography className="question-type">Question Type</Typography>
+            </Box>
+
+            {[].length > 0 ? (
+               [].map((test, index, enable) => (
+                  <Box className="rectangle-six">
+                     <Typography className="hash">{index + 1}</Typography>
+                     <Typography className="name-props">{test.Name}</Typography>
+
+                     <Typography className="duration-props">
+                        {test.Duration}
                      </Typography>
-                  </Box>
-               </Box>
 
-               <Box className="text-four">
-                  <Typography className="span-short-description">
-                     Short Description:
-                  </Typography>
-                  <Typography className="span-empty">
-                     {shortDescription}
-                  </Typography>
-               </Box>
+                     <Typography className="question-type-props">
+                        {test.QuestionType}
+                     </Typography>
 
-               <Box className="div-telephone">
-                  <Typography className="span-duration">Duration:</Typography>
-                  <Typography className="span-empty-fifth">
-                     {duration}
-                  </Typography>
-               </Box>
-
-               <Button className="button-frame">
-                  <Typography className="add-new-test">
-                     + ADD MORE QUESTIONS
-                  </Typography>
-               </Button>
-
-               <Box className="divider" />
-
-               <Box className="flex-row-bd">
-                  <Typography className="hash">#</Typography>
-
-                  <Typography className="name">Name</Typography>
-
-                  <Typography className="duration">Duration</Typography>
-
-                  <Typography className="question-type">
-                     Question Type
-                  </Typography>
-               </Box>
-
-               {[].length > 0 ? (
-                  [].map((test, index, enable) => (
-                     <Box className="rectangle-six">
-                        <Typography className="hash">{index + 1}</Typography>
-                        <Typography className="name-props">
-                           {test.Name}
-                        </Typography>
-
-                        <Typography className="duration-props">
-                           {test.Duration}
-                        </Typography>
-
-                        <Typography className="question-type-props">
-                           {test.QuestionType}
-                        </Typography>
-
-                        <Box className="icons">
-                           <Switcher className="switcher" checked={enable} />
-                           <EditIcon className="edit" />
-                           <TrashIcon className="delete" />
-                        </Box>
+                     <Box className="icons">
+                        <Switcher className="switcher" checked={enable} />
+                        <EditIcon className="edit" />
+                        <TrashIcon className="delete" />
                      </Box>
-                  ))
-               ) : (
-                  <Typography>You haven`t added any questions yet.</Typography>
-               )}
+                  </Box>
+               ))
+            ) : (
+               <Typography>You haven`t added any questions yet.</Typography>
+            )}
 
-               <Button className="frame-button">
-                  <Typography className="go-back">GO BACK</Typography>
-               </Button>
-            </TestContainer>
-         </Box>
-      </StyledContainer>
-   )
-}
+            <Button className="frame-button">
+               <Typography className="go-back">GO BACK</Typography>
+            </Button>
+         </TestContainer>
+      </Box>
+   </StyledContainer>
+)
 
 export default InnerPage
 
