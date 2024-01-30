@@ -8,17 +8,17 @@ import {
    GoogleIcon,
    LogoIcon,
    WarningIcon,
-} from '../assets/icons'
-import Button from '../components/UI/buttons/Button'
-import Input from '../components/UI/Input'
-import { SIGNUPINPUT } from '../utils/constants'
-import { validationSignUp } from '../utils/helpers/validate'
+} from '../../assets/icons'
+import Button from '../../components/UI/buttons/Button'
+import Input from '../../components/UI/Input'
+import { SIGNUPINPUT } from '../../utils/constants'
+import { VALIDATION_SIGN_UP } from '../../utils/helpers/validate'
 
 const SignUpPage = () => {
-   const [passwordShow, setPasswordShow] = useState(false)
+   const [showPassword, setShowPassword] = useState(false)
    const [focusedInput, setFocusedInput] = useState(null)
 
-   const handlePasswordShow = () => setPasswordShow((prev) => !prev)
+   const handlePasswordShow = () => setShowPassword((prev) => !prev)
 
    const handleInputFocus = (name) => setFocusedInput(name)
 
@@ -31,23 +31,21 @@ const SignUpPage = () => {
          rememberMe: false,
       },
 
-      validationSchema: validationSignUp,
+      validationSchema: VALIDATION_SIGN_UP,
 
-      onSubmit: (values) => {
-         console.log(values)
-      },
+      onSubmit: handleSubmit,
    })
 
    return (
       <StyledContainer>
-         <StyledFormControl>
-            <Box className="exit-container">
+         <StyledFormControl onSubmit={handleSubmit}>
+            <Box className="exit">
                <ExitIcon />
             </Box>
 
             <StyledLogoContainer>
                <LogoIcon />
-               <Typography className="create">Create an Account</Typography>
+               <Typography className="title">Create an Account</Typography>
             </StyledLogoContainer>
 
             <StyledContent>
@@ -67,10 +65,10 @@ const SignUpPage = () => {
                {focusedInput === 'password' && (
                   <Typography
                      variant="span"
-                     className="eye-container"
+                     className="eye"
                      onClick={handlePasswordShow}
                   >
-                     {passwordShow ? <EyeIcon /> : <EyeOffIcon />}
+                     {showPassword ? <EyeIcon /> : <EyeOffIcon />}
                   </Typography>
                )}
 
@@ -81,7 +79,7 @@ const SignUpPage = () => {
                   </Box>
                )}
 
-               <Button onClick={handleSubmit}>Sing in</Button>
+               <Button>Sing in</Button>
 
                <Button icon={<GoogleIcon />} className="btn-google">
                   Sing up with google
@@ -116,7 +114,7 @@ const StyledFormControl = styled(FormControl)(({ theme }) => ({
    borderRadius: '0.625rem',
    padding: '1.25rem',
 
-   '& > .exit-container': {
+   '& > .exit': {
       display: 'flex',
       justifyContent: 'flex-end',
    },
@@ -171,7 +169,7 @@ const StyledLogoContainer = styled(Box)(() => ({
    alignItems: 'center',
    gap: '0.75rem',
 
-   '& > .create': {
+   '& > .title': {
       color: '#4C4859',
       fontFamily: 'Poppins',
       fontSize: '1.5rem',
@@ -187,7 +185,7 @@ const StyledContent = styled(Box)(() => ({
    width: '31.25rem',
    margin: 'auto',
 
-   '& > .eye-container': {
+   '& > .eye': {
       position: 'absolute',
       display: 'flex',
       marginTop: '15.4rem',

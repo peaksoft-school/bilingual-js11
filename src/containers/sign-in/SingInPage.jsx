@@ -1,10 +1,10 @@
 import { useFormik } from 'formik'
 import { Box, FormControl, Typography, styled } from '@mui/material'
-import { ExitIcon, GoogleIcon, LogoIcon } from '../assets/icons'
-import { validationSignIn } from '../utils/helpers/validate'
-import Button from '../components/UI/buttons/Button'
-import Checkbox from '../components/UI/Checkbox'
-import Input from '../components/UI/Input'
+import { ExitIcon, GoogleIcon, LogoIcon } from '../../assets/icons'
+import { VALIDATION_SIGN_IN } from '../../utils/helpers/validate'
+import Button from '../../components/UI/buttons/Button'
+import Checkbox from '../../components/UI/Checkbox'
+import Input from '../../components/UI/Input'
 
 const SignInPage = () => {
    const { values, errors, handleChange, handleSubmit } = useFormik({
@@ -14,23 +14,21 @@ const SignInPage = () => {
          rememberMe: false,
       },
 
-      validationSchema: validationSignIn,
+      validationSchema: VALIDATION_SIGN_IN,
 
-      onSubmit: (values) => {
-         alert(values)
-      },
+      onSubmit: handleSubmit,
    })
 
    return (
       <StyledContainer>
-         <StyledFormControl>
-            <Box className="exit-container">
+         <StyledFormControl onSubmit={handleSubmit}>
+            <Box className="exit">
                <ExitIcon />
             </Box>
 
             <StyledLogoContainer>
                <LogoIcon />
-               <Typography className="sign-in">Sign in</Typography>
+               <Typography className="title">Sign in</Typography>
             </StyledLogoContainer>
 
             <StyledContent>
@@ -63,7 +61,7 @@ const SignInPage = () => {
                   </Typography>
                </Box>
 
-               <Button onClick={handleSubmit}>Sing in</Button>
+               <Button>Sing in</Button>
 
                <Button icon={<GoogleIcon />} className="btn-google">
                   Sing up with google
@@ -98,7 +96,7 @@ const StyledFormControl = styled(FormControl)(({ theme }) => ({
    borderRadius: '0.625rem',
    padding: '1.25rem',
 
-   '& > .exit-container': {
+   '& > .exit': {
       display: 'flex',
       justifyContent: 'flex-end',
    },
@@ -155,7 +153,7 @@ const StyledLogoContainer = styled(Box)(() => ({
    alignItems: 'center',
    gap: '0.75rem',
 
-   '& > .sign-in': {
+   '& > .title': {
       color: '#4C4859',
       fontFamily: 'Poppins',
       fontSize: '1.5rem',
