@@ -13,24 +13,25 @@ function InnerPage({ title, shortDescription, duration }) {
                   <Box className="text">
                      <Typography className="span-title">Title:</Typography>
                      <Typography className="span-practice-test">
-                        {title}{' '}
+                        {title}
                      </Typography>
                   </Box>
                </Box>
 
-               <Box className="text-4">
+               <Box className="text-four">
                   <Typography className="span-short-description">
                      Short Description:
                   </Typography>
                   <Typography className="span-empty">
-                     {shortDescription}{' '}
+                     {shortDescription}
                   </Typography>
-                  <Typography className="span-select-words"> </Typography>
                </Box>
 
                <Box className="div-telephone">
                   <Typography className="span-duration">Duration:</Typography>
-                  <Typography className="span-empty-5"> {duration}</Typography>
+                  <Typography className="span-empty-fifth">
+                     {duration}
+                  </Typography>
                </Box>
 
                <Button className="button-frame">
@@ -52,9 +53,10 @@ function InnerPage({ title, shortDescription, duration }) {
                      Question Type
                   </Typography>
                </Box>
+
                {[].length > 0 ? (
                   [].map((test, index, enable) => (
-                     <Box className="rectangle-6">
+                     <Box className="rectangle-six">
                         <Typography className="hash">{index + 1}</Typography>
                         <Typography className="name-props">
                            {test.Name}
@@ -79,8 +81,8 @@ function InnerPage({ title, shortDescription, duration }) {
                   <Typography>You haven`t added any questions yet.</Typography>
                )}
 
-               <Button className="frame-14">
-                  <Typography className="go-back-15">GO BACK</Typography>
+               <Button className="frame-button">
+                  <Typography className="go-back">GO BACK</Typography>
                </Button>
             </TestContainer>
          </Box>
@@ -128,7 +130,7 @@ const StyledContainer = styled(Box)(() => ({
       fontWeight: '400',
    },
 
-   '& .frame-14': {
+   '& .frame-button': {
       borderRadius: '0.5rem',
       fontSize: '0.875rem',
       color: '#3A10E5',
@@ -142,6 +144,14 @@ const StyledContainer = styled(Box)(() => ({
          color: '#FFF',
          backgroundColor: '#3A10E5',
       },
+   },
+
+   '& .divider': {
+      width: '56.25rem',
+      height: '0.0625rem',
+      margin: '1.5rem',
+      border: '1 solid  #D4D0D0',
+      background: '#C4C4C4',
    },
 
    '& .flex-row-bd': {
@@ -165,7 +175,7 @@ const StyledContainer = styled(Box)(() => ({
       },
    },
 
-   '& .rectangle-6': {
+   '& .rectangle-six': {
       width: '100%',
       height: ' 4.125rem',
       display: 'flex',
