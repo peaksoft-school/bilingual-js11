@@ -21,7 +21,6 @@
    },
 
    "rules": {
-      "no-dupe-keys": "off",
       "global-require": 0,
       "react/prop-types": "off",
       "import/no-extraneous-dependencies": "off",

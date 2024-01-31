@@ -4,63 +4,70 @@ import { EditIcon, TrashIcon } from '../../../assets/icons'
 import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
 
+const testData = [
+   {
+      title: 'Select the real Englisg word in the list...',
+      duration: '1 min',
+      questionType: 'Multiple Choice',
+   },
+   {
+      title: 'Select the real Englisg word in the list...',
+      duration: '1 min',
+      questionType: 'Essay',
+   },
+]
+
 const InnerPage = ({ title, shortDescription, duration }) => (
-   <StyledContainer className="main-container">
+   <StyledContainer>
       <Box className="rectangle">
          <TestContainer>
-            <Box className="frame">
-               <Box className="text">
-                  <Typography className="span-title">Title:</Typography>
-                  <Typography className="span-practice-test">
-                     {title}
-                  </Typography>
-               </Box>
+            <Box className="text">
+               <Typography className="title">Title:</Typography>
+               <Typography className="title-props">{title}</Typography>
             </Box>
 
-            <Box className="text-four">
-               <Typography className="span-short-description">
+            <Box className="description">
+               <Typography className="short-description">
                   Short Description:
                </Typography>
-               <Typography className="span-empty">
+               <Typography className="empty-short-description">
                   {shortDescription}
                </Typography>
             </Box>
 
-            <Box className="div-telephone">
-               <Typography className="span-duration">Duration:</Typography>
-               <Typography className="span-empty-fifth">{duration}</Typography>
+            <Box className="time">
+               <Typography className="duration">Duration:</Typography>
+               <Typography className="empty-duration">{duration}</Typography>
             </Box>
 
-            <Button className="frame-button">
-               <Typography className="add-new-test">
-                  + ADD MORE QUESTIONS
-               </Typography>
-            </Button>
+            <Button className="frame-button">+ ADD MORE QUESTIONS</Button>
 
             <Box className="divider" />
 
-            <Box className="flex-row-bd">
-               <Typography className="hash">#</Typography>
+            <Box className="table-header">
+               <Typography>#</Typography>
 
                <Typography className="name">Name</Typography>
 
-               <Typography className="duration">Duration</Typography>
+               <Typography className="duration-time">Duration</Typography>
 
                <Typography className="question-type">Question Type</Typography>
             </Box>
 
-            {[].length > 0 ? (
-               [].map((number, enable) => (
-                  <Box className="rectangle-six">
-                     <Typography className="hash">{number + 1}</Typography>
-                     <Typography className="name-props">{[].title}</Typography>
+            {testData.length > 0 ? (
+               testData.map((test, number, enable) => (
+                  <Box className="rectangle-questons">
+                     <Typography>{number + 1}</Typography>
+                     <Typography className="name-props">
+                        {test.title}
+                     </Typography>
 
                      <Typography className="duration-props">
-                        {[].duration}
+                        {test.duration}
                      </Typography>
 
                      <Typography className="question-type-props">
-                        {[].questionType}
+                        {test.questionType}
                      </Typography>
 
                      <Box className="icons">
@@ -74,9 +81,7 @@ const InnerPage = ({ title, shortDescription, duration }) => (
                <Typography>You haven`t added any questions yet.</Typography>
             )}
 
-            <Button className="frame-button-second">
-               <Typography className="go-back">GO BACK</Typography>
-            </Button>
+            <Button className="button-go-back">GO BACK</Button>
          </TestContainer>
       </Box>
    </StyledContainer>
@@ -94,17 +99,17 @@ const StyledContainer = styled(Box)(() => ({
    margin: 'auto',
    padding: '3.25rem 0',
 
-   '& .span-title ': {
+   '& .title ': {
       color: '#3752B4',
       margin: '0  0 -0.8rem',
    },
 
-   '& .span-short-description': {
+   '& .short-description': {
       color: '#3752B4',
       margin: '0  0 -0.8rem',
    },
 
-   '& .span-duration': {
+   '& .duration': {
       color: '#3752B4',
       margin: '0  0 -0.8rem',
    },
@@ -122,16 +127,16 @@ const StyledContainer = styled(Box)(() => ({
       fontWeight: '400',
    },
 
-   '& .frame-button-second': {
+   '& .button-go-back': {
       borderRadius: '0.5rem',
       fontSize: '0.875rem',
       color: '#3A10E5',
       border: '2px solid  #3A10E5',
-      background: '#FFF',
+      background: '#FFFF',
       padding: '0.8125rem 1.5rem',
       height: '2.625rem',
       margin: '2.75rem 0 0 48rem',
-      fontSize: '0.875rem',
+
       '&:hover': {
          color: '#FFF',
          backgroundColor: '#3A10E5',
@@ -146,7 +151,7 @@ const StyledContainer = styled(Box)(() => ({
       background: '#C4C4C4',
    },
 
-   '& .flex-row-bd': {
+   '& .table-header': {
       display: 'flex',
       justifyContent: 'space-around',
       margin: '0 1.5rem',
@@ -156,7 +161,7 @@ const StyledContainer = styled(Box)(() => ({
          marginLeft: '1.23rem',
       },
 
-      '& > .duration': {
+      '& > .duration-time': {
          margin: 'auto',
          marginLeft: '7.4rem',
       },
@@ -167,7 +172,7 @@ const StyledContainer = styled(Box)(() => ({
       },
    },
 
-   '& .rectangle-six': {
+   '& .rectangle-questons': {
       width: '100%',
       height: ' 4.125rem',
       display: 'flex',
