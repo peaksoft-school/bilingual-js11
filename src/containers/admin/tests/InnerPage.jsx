@@ -4,7 +4,7 @@ import { EditIcon, TrashIcon } from '../../../assets/icons'
 import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
 
-const testData = [
+const TEST_DATA = [
    {
       title: 'Select the real Englisg word in the list...',
       duration: '1 min',
@@ -54,8 +54,8 @@ const InnerPage = ({ title, shortDescription, duration }) => (
                <Typography className="question-type">Question Type</Typography>
             </StyledTable>
 
-            {testData.length > 0 ? (
-               testData.map((test, number, enable) => (
+            {TEST_DATA.length > 0 ? (
+               TEST_DATA.map((test, number, enable) => (
                   <StyledBox>
                      <Typography>{number + 1}</Typography>
                      <Typography className="name-props">
