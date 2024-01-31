@@ -44,7 +44,7 @@ const InnerPage = ({ title, shortDescription, duration }) => (
 
             <Box className="divider" />
 
-            <Box className="table-header">
+            <StyledTable>
                <Typography>#</Typography>
 
                <Typography className="name">Name</Typography>
@@ -52,11 +52,11 @@ const InnerPage = ({ title, shortDescription, duration }) => (
                <Typography className="duration-time">Duration</Typography>
 
                <Typography className="question-type">Question Type</Typography>
-            </Box>
+            </StyledTable>
 
             {testData.length > 0 ? (
                testData.map((test, number, enable) => (
-                  <Box className="rectangle-questons">
+                  <StyledBox>
                      <Typography>{number + 1}</Typography>
                      <Typography className="name-props">
                         {test.title}
@@ -75,7 +75,7 @@ const InnerPage = ({ title, shortDescription, duration }) => (
                         <EditIcon className="edit" />
                         <TrashIcon className="delete" />
                      </Box>
-                  </Box>
+                  </StyledBox>
                ))
             ) : (
                <Typography>You haven`t added any questions yet.</Typography>
@@ -150,73 +150,73 @@ const StyledContainer = styled(Box)(() => ({
       border: '1 solid  #D4D0D0',
       background: '#C4C4C4',
    },
+}))
 
-   '& .table-header': {
-      display: 'flex',
-      justifyContent: 'space-around',
-      margin: '0 1.5rem',
+const StyledTable = styled(Box)(() => ({
+   display: 'flex',
+   justifyContent: 'space-around',
+   margin: '0 1.5rem',
 
-      '& > .name': {
-         margin: 'auto',
-         marginLeft: '1.23rem',
-      },
-
-      '& > .duration-time': {
-         margin: 'auto',
-         marginLeft: '7.4rem',
-      },
-
-      '& > .question-type': {
-         margin: 'auto',
-         marginLeft: '-9rem',
-      },
+   '& > .name': {
+      margin: 'auto',
+      marginLeft: '1.23rem',
    },
 
-   '& .rectangle-questons': {
-      width: '100%',
-      height: ' 4.125rem',
+   '& > .duration-time': {
+      margin: 'auto',
+      marginLeft: '7.4rem',
+   },
+
+   '& > .question-type': {
+      margin: 'auto',
+      marginLeft: '-9rem',
+   },
+}))
+
+const StyledBox = styled(Box)(() => ({
+   width: '100%',
+   height: ' 4.125rem',
+   display: 'flex',
+   backgroundColor: '#fff',
+   color: '#4C4859',
+   padding: '20px 25px',
+   borderRadius: '0.5rem',
+   boxShadow:
+      '0px 4px 10px 0px rgba(0, 0, 0, 0.06), 0px -4px 10px 0px rgba(0, 0, 0, 0.06)',
+   marginBottom: '0.94rem',
+
+   '& > .name-props': {
+      margin: '0 1.2rem',
+   },
+
+   '& > .duration-props': {
+      margin: '0 4.4rem',
+   },
+
+   '& > .question-type-props': {
+      margin: '0 1.2rem',
+   },
+
+   '&:hover': {
+      backgroundColor: '#f6f6f6',
+   },
+
+   '& > .icons': {
       display: 'flex',
-      backgroundColor: '#fff',
-      color: '#4C4859',
-      padding: '20px 25px',
-      borderRadius: '0.5rem',
-      boxShadow:
-         '0px 4px 10px 0px rgba(0, 0, 0, 0.06), 0px -4px 10px 0px rgba(0, 0, 0, 0.06)',
-      marginBottom: '0.94rem',
+      justifyContent: 'flex-end',
+      gap: '1.4rem',
+      marginLeft: 'auto',
+      cursor: 'pointer',
 
-      '& > .name-props': {
-         margin: '0 1.2rem',
-      },
-
-      '& > .duration-props': {
-         margin: '0 4.4rem',
-      },
-
-      '& > .question-type-props': {
-         margin: '0 1.2rem',
-      },
-
-      '&:hover': {
-         backgroundColor: '#f6f6f6',
-      },
-
-      '& > .icons': {
-         display: 'flex',
-         justifyContent: 'flex-end',
-         gap: '1.4rem',
-         marginLeft: 'auto',
-         cursor: 'pointer',
-
-         '&  > .edit:hover': {
-            '& > path': {
-               stroke: '#0F85F1',
-            },
+      '&  > .edit:hover': {
+         '& > path': {
+            stroke: '#0F85F1',
          },
+      },
 
-         '& > .delete:hover': {
-            '& > path': {
-               stroke: '#F61414',
-            },
+      '& > .delete:hover': {
+         '& > path': {
+            stroke: '#F61414',
          },
       },
    },
