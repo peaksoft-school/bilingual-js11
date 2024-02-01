@@ -25,6 +25,7 @@
       "no-param-reassign": "off",
       "no-undef": "off",
       "no-unused-vars": "off",
+      "func-names": "off",
       "react/prop-types": "off",
       "import/no-extraneous-dependencies": "off",
       "react/jsx-props-no-spreading": "off",
