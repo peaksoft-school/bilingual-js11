@@ -1,6 +1,6 @@
 import { Box, Typography, styled } from '@mui/material'
 import Switcher from '../../../components/UI/Switcher'
-import { EditIcon, TrashIcon } from '../../../assets/icons'
+import { EditIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
 import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
 
@@ -21,26 +21,27 @@ const InnerPage = ({ title, shortDescription, duration }) => (
    <StyledContainer>
       <Box className="rectangle">
          <TestContainer>
-            <Box className="text">
-               <Typography className="title">Title:</Typography>
-               <Typography className="title-props">{title}</Typography>
+            <Box className="title-container">
+               <Box className="text">
+                  <Typography className="title">Title:</Typography>
+                  <Typography>{title}</Typography>
+               </Box>
+
+               <Box className="text">
+                  <Typography className="title">Short Description:</Typography>
+                  <Typography>{shortDescription}</Typography>
+               </Box>
+
+               <Box className="text">
+                  <Typography className="title">Duration:</Typography>
+                  <Typography>{duration}</Typography>
+               </Box>
             </Box>
 
-            <Box className="description">
-               <Typography className="short-description">
-                  Short Description:
-               </Typography>
-               <Typography className="empty-short-description">
-                  {shortDescription}
-               </Typography>
-            </Box>
-
-            <Box className="time">
-               <Typography className="duration">Duration:</Typography>
-               <Typography className="empty-duration">{duration}</Typography>
-            </Box>
-
-            <Button className="frame-button">+ ADD MORE QUESTIONS</Button>
+            <Button className="frame-button">
+               <PlusIcon className="plus-icon" />
+               ADD MORE QUESTIONS
+            </Button>
 
             <Box className="divider" />
 
@@ -94,37 +95,42 @@ const StyledContainer = styled(Box)(() => ({
    flexDirection: 'column',
    backgroundColor: '#fff',
    borderRadius: '8px',
-   width: '66.25rem',
+   width: '100%',
    height: '39.6875rem',
    margin: 'auto',
    padding: '3.25rem 0',
 
-   '& .title ': {
-      color: '#3752B4',
-      margin: '0  0 -0.8rem',
+   '@media (max-width: 768px)': {
+      padding: '1.5rem',
    },
 
-   '& .short-description': {
-      color: '#3752B4',
-      margin: '0  0 -0.8rem',
-   },
+   '& .title-container': {
+      '& > .text': {
+         display: 'flex',
 
-   '& .duration': {
-      color: '#3752B4',
-      margin: '0  0 -0.8rem',
+         '& > .title ': {
+            color: '#3752B4',
+            marginBottom: '0.1rem',
+         },
+      },
    },
 
    '& .frame-button': {
-      letterSpacing: '0.0175rem',
       padding: '0.75rem 1.5rem 0.75rem 1rem',
       width: 'auto',
-      alignItems: 'center',
       gap: '0.5rem',
-      height: '2.625rem',
       margin: '2.75rem 0 0 40rem',
-      marginLeft: 'auto',
       fontFamily: 'Poppins',
-      fontWeight: '400',
+      fontSize: '14px',
+
+      '& .plus-icon': {
+         width: '18px',
+         height: '18px',
+      },
+
+      '@media (max-width: 768px)': {
+         margin: '2.75rem 0 0 0',
+      },
    },
 
    '& .button-go-back': {
@@ -141,10 +147,14 @@ const StyledContainer = styled(Box)(() => ({
          color: '#FFF',
          backgroundColor: '#3A10E5',
       },
+
+      '@media (max-width: 800px)': {
+         margin: '2.75rem 0 0 0',
+      },
    },
 
    '& .divider': {
-      width: '56.25rem',
+      width: 'auto',
       height: '0.0625rem',
       margin: '1.5rem',
       border: '1 solid  #D4D0D0',
@@ -187,6 +197,7 @@ const StyledBox = styled(Box)(() => ({
 
    '& > .name-props': {
       margin: '0 1.2rem',
+      whiteSpace: 'nowrap',
    },
 
    '& > .duration-props': {
@@ -218,6 +229,24 @@ const StyledBox = styled(Box)(() => ({
          '& > path': {
             stroke: '#F61414',
          },
+      },
+   },
+
+   '@media (max-width: 768px)': {
+      '& .name-props': {
+         display: 'none',
+      },
+
+      '& .duration-props': {
+         display: 'none',
+      },
+
+      '& .question-type-props': {
+         display: 'none',
+      },
+
+      '& .icons': {
+         justifyContent: 'center',
       },
    },
 }))
