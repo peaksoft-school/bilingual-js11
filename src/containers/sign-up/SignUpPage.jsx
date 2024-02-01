@@ -23,7 +23,7 @@ import {
    ThreeClosedBooksImage,
 } from '../../assets/images'
 import { VALIDATION_SIGN_UP } from '../../utils/helpers/validate'
-import { SHOW_ERRORS_SIGN_UP } from '../../utils/helpers'
+import { showErrors } from '../../utils/helpers'
 import { SIGN_UP_INPUTS } from '../../utils/constants'
 import Button from '../../components/UI/buttons/Button'
 import Input from '../../components/UI/Input'
@@ -98,27 +98,23 @@ const SignUpPage = () => {
                ))}
 
                {focusedInput === 'password' && (
-                  <Typography
-                     variant="div"
-                     className="eye"
-                     onClick={handlePasswordShow}
-                  >
+                  <Box className="eye" onClick={handlePasswordShow}>
                      {showPassword ? <EyeIcon /> : <EyeOffIcon />}
-                  </Typography>
+                  </Box>
                )}
 
-               {SHOW_ERRORS_SIGN_UP(errors) ? (
+               {showErrors(errors) ? (
                   <Typography className="validate">
-                     {SHOW_ERRORS_SIGN_UP(errors)} <WarningIcon />
+                     {showErrors(errors)} <WarningIcon />
                   </Typography>
                ) : (
                   <Typography> </Typography>
                )}
 
-               <Button>Sing up</Button>
+               <Button>Sign up</Button>
 
                <Button icon={<GoogleIcon />} className="btn-google">
-                  Sing up with google
+                  Sign up with google
                </Button>
 
                <Box className="text-account">
@@ -214,7 +210,7 @@ const StyledContainer = styled(Box)(() => ({
 const StyledForm = styled('form')(({ theme }) => ({
    backgroundColor: theme.palette.primary.white,
    maxWidth: '45.375rem',
-   maxHeight: '43.25rem',
+   maxHeight: '43rem',
    margin: '1.4rem',
    borderRadius: '0.625rem',
 
@@ -226,6 +222,7 @@ const StyledForm = styled('form')(({ theme }) => ({
    '& > .exit': {
       display: 'flex',
       justifyContent: 'flex-end',
+      cursor: 'pointer',
    },
 }))
 
@@ -318,8 +315,8 @@ const StyledContent = styled(Box)(({ theme }) => ({
          fontSize: '0.875rem',
          fontWeight: '500',
          letterSpacing: '0.00875rem',
-         padding: '0.875rem 1.25rem',
          gap: '0.5rem',
+         alignItems: 'center',
          border: '1px solid #BDBDBD',
          boxShadow: '0px 1px 2px 0px rgba(0, 0, 0, 0.20)',
          maxWidth: '13.85rem',

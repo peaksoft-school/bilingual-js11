@@ -1,8 +1,7 @@
 import { useFormik } from 'formik'
 import { motion } from 'framer-motion'
 import { Box, Typography, styled } from '@mui/material'
-import { ExitIcon, GoogleIcon, LogoIcon, WarningIcon } from '../../assets/icons'
-import { SHOW_ERRORS_SIGN_IN } from '../../utils/helpers'
+import { ExitIcon, GoogleIcon, LogoIcon } from '../../assets/icons'
 import { VALIDATION_SIGN_IN } from '../../utils/helpers/validate'
 import {
    FifthOpenBookImage,
@@ -58,12 +57,12 @@ const SignInPage = () => {
                <ExitIcon />
             </Box>
 
-            <StyledLogoContainer>
-               <LogoIcon />
-               <Typography className="title">Sign in</Typography>
-            </StyledLogoContainer>
-
             <StyledContent>
+               <StyledLogoContainer>
+                  <LogoIcon />
+                  <Typography className="title">Sign in</Typography>
+               </StyledLogoContainer>
+
                <Input
                   type="email"
                   placeholder="Email"
@@ -98,16 +97,10 @@ const SignInPage = () => {
                   </Typography>
                </Box>
 
-               {SHOW_ERRORS_SIGN_IN(errors) && (
-                  <Typography className="validate">
-                     {SHOW_ERRORS_SIGN_IN(errors)} <WarningIcon />
-                  </Typography>
-               )}
-
-               <Button>Sing in</Button>
+               <Button>Sign in</Button>
 
                <Button icon={<GoogleIcon />} className="btn-google">
-                  Sing up with google
+                  Sign up with google
                </Button>
 
                <Box className="text-account">
@@ -202,15 +195,16 @@ const StyledContainer = styled(Box)(() => ({
 
 const StyledForm = styled('form')(({ theme }) => ({
    backgroundColor: theme.palette.primary.white,
-   maxWidth: '45.375rem',
-   maxHeight: '43.25rem',
+   maxWidth: '38.5rem',
+   maxHeight: '38.7rem',
    margin: '2.5rem',
    borderRadius: '0.625rem',
-   padding: '0.5rem',
+   padding: '1rem 1rem 0 1rem',
 
    '& > .exit': {
       display: 'flex',
       justifyContent: 'flex-end',
+      cursor: 'pointer',
    },
 }))
 
@@ -243,7 +237,7 @@ const StyledContent = styled(Box)(({ theme }) => ({
    flexDirection: 'column',
    gap: '2rem',
    margin: 'auto',
-   padding: '0 5rem 1.89rem 5rem',
+   padding: '1rem 3rem',
 
    '& .input': {
       width: '31.25rem',
@@ -256,23 +250,6 @@ const StyledContent = styled(Box)(({ theme }) => ({
       '@media screen and (max-width: 1300px)': {
          width: '30rem',
          height: '2.5rem',
-      },
-   },
-
-   '& > .validate': {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: '0.5rem',
-      fontFamily: 'Poppins',
-      fontSize: '0.875rem',
-      fontWeight: '400',
-      color: 'red',
-      margin: '-1rem 0rem',
-
-      '@media screen and (max-width: 1300px)': {
-         fontSize: '0.7rem',
-         margin: '-0.5rem 0 -1.5rem 0',
       },
    },
 
@@ -327,14 +304,11 @@ const StyledContent = styled(Box)(({ theme }) => ({
       letterSpacing: '0.0175rem',
       textTransform: 'uppercase',
       cursor: 'pointer',
+      marginTop: '-1.5rem',
 
       '& .register': {
          color: '#3A10E5',
          fontWeight: '500',
-      },
-
-      '@media screen and (max-width: 1400px)': {
-         marginTop: '-1rem',
       },
    },
 }))

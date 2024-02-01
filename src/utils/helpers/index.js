@@ -1,4 +1,4 @@
-const SHOW_ERRORS_SIGN_UP = (errors) => {
+const showErrors = (errors) => {
    let errorMessage = null
 
    if (Object.keys(errors).length > 1) {
@@ -16,18 +16,4 @@ const SHOW_ERRORS_SIGN_UP = (errors) => {
    return errorMessage
 }
 
-const SHOW_ERRORS_SIGN_IN = (errors) => {
-   let errorMessage = null
-
-   if (Object.keys(errors).length > 1) {
-      errorMessage = 'Please fill in all fields'
-   } else if (errors?.email) {
-      errorMessage = `Incorrect ${errors.email}`
-   } else if (errors?.password) {
-      errorMessage = `Incorrect ${errors.password}`
-   }
-
-   return errorMessage
-}
-
-export { SHOW_ERRORS_SIGN_UP, SHOW_ERRORS_SIGN_IN }
+export { showErrors }

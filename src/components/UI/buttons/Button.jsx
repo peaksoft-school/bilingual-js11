@@ -56,7 +56,7 @@ const StyledButton = styled(MuiButton)(({ theme, variant }) => {
          '& .icon': {
             marginRight: '0.063rem',
             marginLeft: '-0.625rem',
-            paddingTop: '0.438rem',
+            paddingTop: '0.34rem',
          },
       },
    }

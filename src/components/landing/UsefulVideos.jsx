@@ -125,8 +125,8 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 
 const StyledVideoCard = styled(motion.div)(
    ({ theme, inview, animationduration }) => ({
-      opacity: inview ? 1 : 0,
-      transform: `translateY(${inview ? 0 : 140}px)`,
+      opacity: inview === 'true' ? 1 : 0,
+      transform: `translateY(${inview === 'true' ? 0 : 140}px)`,
       transition: `opacity ${animationduration}s ease-out, transform ${animationduration}s ease-out`,
 
       '&:hover': {
