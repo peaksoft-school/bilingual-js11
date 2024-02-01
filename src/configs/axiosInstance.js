@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { BASE_URL } from '../utils/constants'
 import { store } from '../store/store'
-import { logoutAction } from '../store/authSlice'
 
 export const axiosInstance = axios.create({
    baseURL: BASE_URL,
@@ -41,7 +40,7 @@ axios.interceptors.response.use(
 
    (error) => {
       if (error.response.status === 401) {
-         store.dispatch(logoutAction())
+         store.dispatch()
       }
       return Promise.reject(error)
    }
