@@ -19,12 +19,12 @@ const ModalDelete = ({ onDelete }) => {
          <Modal open={isVisible} onClose={handleIsVisible} style={style}>
             <StyledModal>
                <StyledCloseIcon onClick={handleIsVisible} />
-               <FalseIcon className="redCrossImage" />
+               <FalseIcon className="red-cross-image" />
                <Typography className="title">Do you want to delete?</Typography>
                <Typography className="text">
                   You can’t restore this file
                </Typography>
-               <Box className="containerBtns">
+               <Box className="container-btns">
                   <Box className="buttons">
                      <Button
                         variant="secondary"
@@ -90,13 +90,13 @@ const StyledModal = styled(Box)(() => ({
       padding: '0.8125rem 1.5rem',
       borderRadius: '0.5rem',
    },
-   '& .redCrossImage': {
+   '& .red-cross-image': {
       display: 'flex',
       justifyContent: 'center',
       marginTop: '0.9375rem',
       marginBottom: '3.1875rem',
    },
-   '& .containerBtns': {
+   '& .container-btns': {
       borderRadius: '0rem 0rem 1.25rem 1.25rem',
       background: '#F0F1F1',
       width: '32.5rem',

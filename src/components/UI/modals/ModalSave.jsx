@@ -15,22 +15,22 @@ const ModalSave = () => {
          <Modal open={isVisible} onClose={handleIsVisible}>
             <StyledModal>
                <StyledCloseIcon onClick={handleIsVisible} />
-               <Box className="conForm">
+               <Box className="con-form">
                   <Typography className="title" variant="label">
                      Title
                   </Typography>
 
                   <Input type="text" placeholder="Select real English words" />
 
-                  <Box className="checkCon">
-                     <Typography className="trueOption">
+                  <Box className="check-con">
+                     <Typography className="true-option">
                         Is true option?
                      </Typography>
                      <Checkbox />
                   </Box>
                </Box>
-               <Box className="btns-GoBack-Save">
-                  <Box className="conOfBtns">
+               <Box className="buttons">
+                  <Box className="con-of-btns">
                      <Button variant="secondary" onClick={handleIsVisible}>
                         Go back
                      </Button>
@@ -64,22 +64,22 @@ const StyledModal = styled(Box)(() => ({
    justifyContent: 'center',
    flexDirection: 'column',
    alignItems: 'center',
-   '& .conOfBtns': {
+   '& .con-of-btns': {
       width: '13.75rem',
       height: '2.625rem',
       marginLeft: '23.4rem',
       display: 'flex',
       gap: '1rem',
    },
-   '& .trueOption': {
+   '& .true-option': {
       fontFamily: 'Poppins',
    },
-   '& .checkCon': {
+   '& .check-con': {
       display: 'flex',
       gap: '0.44rem',
       alignItems: 'center',
    },
-   '& .btns-GoBack-Save': {
+   '& .buttons': {
       width: '39.8125rem',
       height: '5.875rem',
       borderRadius: '0rem 0rem 1.25rem 1.25rem',
@@ -99,7 +99,7 @@ const StyledModal = styled(Box)(() => ({
       alignItems: 'center',
       color: '#4B4759',
    },
-   '& .conForm': {
+   '& .con-form': {
       width: '32.3125rem',
       marginTop: '2.5rem',
       marginBottom: '3.4rem',
