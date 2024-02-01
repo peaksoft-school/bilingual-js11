@@ -17,7 +17,7 @@ export const injectStore = (store) => {
 }
 
 axios.interceptors.request.use(
-   function (config) {
+   (config) => {
       const updateConfig = { ...config }
 
       const token = storee.getState().login.accessToken
@@ -29,17 +29,17 @@ axios.interceptors.request.use(
       return config
    },
 
-   function (error) {
+   (error) => {
       return Promise.reject(error)
    }
 )
 
 axios.interceptors.response.use(
-   function (response) {
-      return Promise.reject(response)
+   (response) => {
+      Promise.reject(response)
    },
 
-   function (error) {
+   (error) => {
       if (error.response.status === 401) {
          store.dispatch(logoutAction())
       }
