@@ -10,7 +10,7 @@ const ModalSave = () => {
    const handleIsVisible = () => setIsVisidle((prev) => !prev)
 
    return (
-      <Container>
+      <StyledContainer>
          <StyledOpenButton onClick={handleIsVisible}>SAVE</StyledOpenButton>
          <Modal open={isVisible} onClose={handleIsVisible}>
             <StyledModal>
@@ -39,13 +39,13 @@ const ModalSave = () => {
                </Box>
             </StyledModal>
          </Modal>
-      </Container>
+      </StyledContainer>
    )
 }
 
 export default ModalSave
 
-const Container = styled(Box)(() => ({
+const StyledContainer = styled(Box)(() => ({
    display: 'flex',
    justifyContent: 'center',
 }))

@@ -14,7 +14,7 @@ const ModalDelete = ({ onDelete }) => {
    const handleIsVisible = () => setIsVisidle((prev) => !prev)
 
    return (
-      <Container>
+      <StyledContainer>
          <StyledOpenButton onClick={handleIsVisible}>DELETE</StyledOpenButton>
          <Modal open={isVisible} onClose={handleIsVisible} style={style}>
             <StyledModal>
@@ -38,13 +38,13 @@ const ModalDelete = ({ onDelete }) => {
                </Box>
             </StyledModal>
          </Modal>
-      </Container>
+      </StyledContainer>
    )
 }
 
 export default ModalDelete
 
-const Container = styled(Box)(() => ({
+const StyledContainer = styled(Box)(() => ({
    display: 'flex',
    justifyContent: 'center',
 }))
