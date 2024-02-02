@@ -201,6 +201,7 @@ const StyledContent = styled(Box)(({ theme }) => ({
    '& .MuiOutlinedInput-root': {
       width: '31.25rem',
       height: '3.25rem',
+      caretColor: 'blue',
    },
 
    '& > .eye': {
