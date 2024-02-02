@@ -16,7 +16,7 @@ import { SIGN_UP_INPUTS } from '../../utils/constants'
 import Button from '../../components/UI/buttons/Button'
 import Input from '../../components/UI/Input'
 
-const SignUpPage = () => {
+const SignUp = () => {
    const [showPassword, setShowPassword] = useState(false)
 
    const [focusedInput, setFocusedInput] = useState(null)
@@ -115,7 +115,7 @@ const SignUpPage = () => {
    )
 }
 
-export default SignUpPage
+export default SignUp
 
 const StyledContainer = styled(Box)(({ theme }) => ({
    background: 'linear-gradient(180deg, #833fac, #3b10e5d8)',

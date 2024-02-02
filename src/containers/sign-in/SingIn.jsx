@@ -16,7 +16,7 @@ import Button from '../../components/UI/buttons/Button'
 import Checkbox from '../../components/UI/Checkbox'
 import Input from '../../components/UI/Input'
 
-const SignInPage = () => {
+const SignIn = () => {
    const [showPassword, setShowPassword] = useState(false)
 
    const [isPasswordFieldActive, setIsPasswordFieldActive] = useState(false)
@@ -133,7 +133,7 @@ const SignInPage = () => {
    )
 }
 
-export default SignInPage
+export default SignIn
 
 const StyledContainer = styled(Box)(({ theme }) => ({
    background: 'linear-gradient(180deg, #833fac, #3b10e5d8)',
