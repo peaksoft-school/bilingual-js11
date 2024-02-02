@@ -1,4 +1,4 @@
-const showErrors = (errors) => {
+const showErrorsSignUp = (errors) => {
    let errorMessage = null
 
    if (Object.keys(errors).length > 1) {
@@ -16,4 +16,14 @@ const showErrors = (errors) => {
    return errorMessage
 }
 
-export { showErrors }
+const showErrorSignIn = (errors) => {
+   let errorMessage = null
+
+   if (Object.keys(errors).length > 1) {
+      errorMessage = 'Please fill in all fields'
+   }
+
+   return errorMessage
+}
+
+export { showErrorsSignUp, showErrorSignIn }

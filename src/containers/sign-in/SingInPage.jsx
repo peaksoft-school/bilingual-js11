@@ -1,41 +1,35 @@
+import { useState } from 'react'
 import { useFormik } from 'formik'
-import { motion } from 'framer-motion'
 import { Box, Typography, styled } from '@mui/material'
-import { ExitIcon, GoogleIcon, LogoIcon } from '../../assets/icons'
-import { VALIDATION_SIGN_IN } from '../../utils/helpers/validate'
 import {
-   FifthOpenBookImage,
-   FirstClosedBookImage,
-   FirstOpenBookImage,
-   FourthOpenBookImage,
-   SecondClosedBookImage,
-   SecondOpenBookImage,
-   ThirdClosedBookImage,
-   ThirdOpenBookImage,
-   ThreeBooksImage,
-   ThreeClosedBooksImage,
-} from '../../assets/images'
-import Input from '../../components/UI/Input'
-import Checkbox from '../../components/UI/Checkbox'
+   ExitIcon,
+   GoogleIcon,
+   LogoIcon,
+   EyeIcon,
+   EyeOffIcon,
+   WarningIcon,
+} from '../../assets/icons'
+import { VALIDATION_SIGN_IN } from '../../utils/helpers/validate'
+import { showErrorSignIn } from '../../utils/helpers'
+import { PhoneImage, SignInListImage } from '../../assets/images'
 import Button from '../../components/UI/buttons/Button'
-
-const PULSE_ANIMATION = {
-   animate: {
-      initial: { opacity: 0 },
-      scale: [0.9, 0.95, 0.9],
-
-      transition: {
-         duration: 5,
-         repeat: Infinity,
-      },
-   },
-}
+import Checkbox from '../../components/UI/Checkbox'
+import Input from '../../components/UI/Input'
 
 const SignInPage = () => {
-   const onSubmit = ({ resetForm }) => resetForm()
+   const [showPassword, setShowPassword] = useState(false)
 
-   const { values, errors, handleChange, handleSubmit, handleBlur } = useFormik(
-      {
+   const [isPasswordFieldActive, setIsPasswordFieldActive] = useState(false)
+
+   const handleShowPassword = () => setShowPassword((prev) => !prev)
+
+   const handlePasswordFieldFocus = () =>
+      setIsPasswordFieldActive((prev) => !prev)
+
+   const onSubmit = (values, { resetForm }) => resetForm()
+
+   const { values, errors, touched, handleChange, handleSubmit, handleBlur } =
+      useFormik({
          initialValues: {
             email: '',
             password: '',
@@ -47,12 +41,11 @@ const SignInPage = () => {
          validationSchema: VALIDATION_SIGN_IN,
 
          onSubmit,
-      }
-   )
+      })
 
    return (
       <StyledContainer>
-         <StyledForm onSubmit={handleSubmit}>
+         <form className="form" onSubmit={handleSubmit}>
             <Box className="exit">
                <ExitIcon />
             </Box>
@@ -60,30 +53,38 @@ const SignInPage = () => {
             <StyledContent>
                <StyledLogoContainer>
                   <LogoIcon />
-                  <Typography className="title">Sign in</Typography>
+
+                  <Typography className="title" variant="h2">
+                     Sign in
+                  </Typography>
                </StyledLogoContainer>
 
                <Input
                   type="email"
-                  placeholder="Email"
+                  label="Email"
                   name="email"
-                  className="input"
                   value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  errors={errors.email}
+                  error={errors.email && touched.email}
                />
 
                <Input
-                  type="password"
-                  placeholder="Password"
-                  className="input"
+                  type={showPassword ? 'text' : 'password'}
+                  label="Password"
                   name="password"
                   value={values.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  errors={errors.password}
+                  onFocus={handlePasswordFieldFocus}
+                  error={errors.password && touched.password}
                />
+
+               {isPasswordFieldActive && (
+                  <Box className="eye" onClick={handleShowPassword}>
+                     {showPassword ? <EyeIcon /> : <EyeOffIcon />}
+                  </Box>
+               )}
 
                <Box>
                   <Checkbox
@@ -97,9 +98,21 @@ const SignInPage = () => {
                   </Typography>
                </Box>
 
-               <Button>Sign in</Button>
+               {showErrorSignIn(errors) ? (
+                  <Typography className="validate">
+                     {showErrorSignIn(errors)} <WarningIcon />
+                  </Typography>
+               ) : (
+                  <Typography> </Typography>
+               )}
 
-               <Button icon={<GoogleIcon />} className="btn-google">
+               <Button type="submit">Sign in</Button>
+
+               <Button
+                  type="button"
+                  icon={<GoogleIcon />}
+                  className="google-button"
+               >
                   Sign up with google
                </Button>
 
@@ -109,74 +122,12 @@ const SignInPage = () => {
                   <Typography className="register">Register</Typography>
                </Box>
             </StyledContent>
-         </StyledForm>
+         </form>
 
-         <StyledMotionImages
-            variants={PULSE_ANIMATION}
-            initial="offscreen"
-            whileInView="onscreen"
-            animate="animate"
-            loading="lazy"
-         >
-            <StyledImage
-               className="three-books"
-               src={ThreeBooksImage}
-               alt="book"
-            />
+         <StyledMotionImages>
+            <img src={SignInListImage} alt="list-img" className="list" />
 
-            <StyledImage
-               className="three-closed-books"
-               src={ThreeClosedBooksImage}
-               alt="book"
-            />
-
-            <StyledImage
-               className="first-open-book"
-               src={FirstOpenBookImage}
-               alt="book"
-            />
-
-            <StyledImage
-               className="second-open-book"
-               src={SecondOpenBookImage}
-               alt="book"
-            />
-
-            <StyledImage
-               className="third-open-book"
-               src={ThirdOpenBookImage}
-               alt="book"
-            />
-
-            <StyledImage
-               className="fourth-open-book"
-               src={FourthOpenBookImage}
-               alt="book"
-            />
-
-            <StyledImage
-               className="fifth-open-book"
-               src={FifthOpenBookImage}
-               alt="book"
-            />
-
-            <StyledImage
-               className="first-closed-book"
-               src={FirstClosedBookImage}
-               alt="book"
-            />
-
-            <StyledImage
-               className="second-closed-book"
-               src={SecondClosedBookImage}
-               alt="book"
-            />
-
-            <StyledImage
-               className="third-closed-book"
-               src={ThirdClosedBookImage}
-               alt="book"
-            />
+            <img src={PhoneImage} alt="phone-img" className="phone" />
          </StyledMotionImages>
       </StyledContainer>
    )
@@ -184,27 +135,32 @@ const SignInPage = () => {
 
 export default SignInPage
 
-const StyledContainer = styled(Box)(() => ({
-   background: 'linear-gradient(91deg, #6B0FA9 0.74%, #520FB6 88.41%)',
+const StyledContainer = styled(Box)(({ theme }) => ({
+   background: 'linear-gradient(180deg, #833fac, #3b10e5d8)',
    display: 'flex',
    justifyContent: 'center',
    width: '100%',
    height: '100vh',
    fontFamily: 'Poppins',
-}))
 
-const StyledForm = styled('form')(({ theme }) => ({
-   backgroundColor: theme.palette.primary.white,
-   maxWidth: '38.5rem',
-   maxHeight: '38.7rem',
-   margin: '2.5rem',
-   borderRadius: '0.625rem',
-   padding: '1rem 1rem 0 1rem',
+   '& .form': {
+      backgroundColor: theme.palette.primary.white,
+      boxShadow: '0px 5px 10px 2px rgba(34, 60, 80, 0.2)',
+      maxWidth: '38.5rem',
+      maxHeight: '38.7rem',
+      margin: '2.5rem',
+      borderRadius: '0.625rem',
+      padding: '1rem 1rem 0 1rem',
 
-   '& > .exit': {
-      display: 'flex',
-      justifyContent: 'flex-end',
-      cursor: 'pointer',
+      '& > .exit': {
+         display: 'flex',
+         justifyContent: 'flex-end',
+         cursor: 'pointer',
+      },
+
+      '@media (max-width:1200px)': {
+         overflow: 'scroll',
+      },
    },
 }))
 
@@ -226,8 +182,7 @@ const StyledLogoContainer = styled(Box)(() => ({
       },
 
       '@media screen and (max-width: 1300px)': {
-         marginBottom: '0.5rem',
-         fontSize: '1rem',
+         marginBottom: '0rem',
       },
    },
 }))
@@ -235,40 +190,69 @@ const StyledLogoContainer = styled(Box)(() => ({
 const StyledContent = styled(Box)(({ theme }) => ({
    display: 'flex',
    flexDirection: 'column',
-   gap: '2rem',
+   gap: '1.6rem',
    margin: 'auto',
    padding: '1rem 3rem',
 
-   '& .input': {
+   '@media screen and (max-width: 1300px)': {
+      gap: '1rem',
+   },
+
+   '& .MuiOutlinedInput-root': {
       width: '31.25rem',
       height: '3.25rem',
+   },
+
+   '& > .eye': {
+      position: 'absolute',
+      display: 'flex',
+      margin: '14.5rem 0 0 29rem',
+      cursor: 'pointer',
 
       '@media screen and (max-width: 1400px)': {
-         height: '3rem',
+         marginTop: '13.3rem',
       },
 
       '@media screen and (max-width: 1300px)': {
-         width: '30rem',
-         height: '2.5rem',
+         margin: '11rem 0 0 28rem',
+      },
+   },
+
+   '& > .validate': {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: '0.5rem',
+      fontFamily: 'Poppins',
+      fontWeight: '400',
+      color: 'red',
+      margin: '-0.699rem 0rem',
+
+      '@media screen and (max-width: 1400px)': {
+         fontSize: '0.8rem',
+         margin: '-0.2rem 0 -0.9rem 0',
+      },
+
+      '@media screen and (max-width: 1300px)': {
+         fontSize: '0.7rem',
+         margin: '-0.3rem 0 -0.9rem 0',
       },
    },
 
    '& .text-checkbox': {
       color: '#757575',
-      fontFeatureSettings: 'clig off, liga off',
       fontFamily: 'Poppins',
       fontSize: '0.875rem',
       fontWeight: '400',
    },
 
-   '& .btn-google': {
+   '& .google-button': {
       '&.MuiButton-root': {
          backgroundColor: theme.palette.primary.white,
          color: '#757575',
          textAlign: 'center',
          fontSize: '0.875rem',
          fontWeight: '500',
-         letterSpacing: '0.00875rem',
          padding: '0.875rem 1.25rem',
          gap: '0.5rem',
          border: '1px solid #BDBDBD',
@@ -283,14 +267,6 @@ const StyledContent = styled(Box)(({ theme }) => ({
          '&:active': {
             backgroundColor: theme.palette.primary.white,
          },
-
-         '@media screen and (max-width: 1400px)': {
-            marginTop: '-1rem',
-         },
-
-         '@media screen and (max-width: 1300px)': {
-            height: '2.5rem',
-         },
       },
    },
 
@@ -301,10 +277,8 @@ const StyledContent = styled(Box)(({ theme }) => ({
       color: '#757575',
       fontSize: '0.875rem',
       fontWeight: '500',
-      letterSpacing: '0.0175rem',
       textTransform: 'uppercase',
       cursor: 'pointer',
-      marginTop: '-1.5rem',
 
       '& .register': {
          color: '#3A10E5',
@@ -313,73 +287,31 @@ const StyledContent = styled(Box)(({ theme }) => ({
    },
 }))
 
-const StyledMotionImages = styled(motion.div)(({ PULSE_ANIMATION }) => ({
-   '& path': {
-      animation: { PULSE_ANIMATION },
-   },
-
-   '& .three-books': {
+const StyledMotionImages = styled(Box)(() => ({
+   '& img': {
       position: 'absolute',
-      top: '19rem',
-      left: '13rem',
+      top: '8rem',
+      width: '30rem',
+      height: 'auto',
+
+      '@media (max-width:1400px)': {
+         width: '25rem',
+      },
+
+      '@media (max-width:1300px)': {
+         width: '20rem',
+      },
+
+      '@media (max-width:1200px)': {
+         display: 'none',
+      },
    },
 
-   '& .three-closed-books': {
-      position: 'absolute',
-      top: '37rem',
-      right: '63rem',
+   '& .phone': {
+      left: '0rem',
    },
 
-   '& .first-open-book': {
-      position: 'absolute',
-      top: '30rem',
-      left: '5rem',
+   '& .list': {
+      right: '0rem',
    },
-
-   '& .second-open-book': {
-      position: 'absolute',
-      top: '27rem',
-      right: '55rem',
-   },
-
-   '& .third-open-book': {
-      position: 'absolute',
-      top: '9rem',
-      right: '54rem',
-   },
-
-   '& .fourth-open-book': {
-      position: 'absolute',
-      top: '2rem',
-      right: '65rem',
-   },
-
-   '& .fifth-open-book': {
-      position: 'absolute',
-      top: '1rem',
-      left: '12rem',
-   },
-
-   '& .first-closed-book': {
-      position: 'absolute',
-      top: '37rem',
-      left: '12rem',
-   },
-
-   '& .second-closed-book': {
-      position: 'absolute',
-      top: '19rem',
-      right: '65rem',
-   },
-
-   '& .third-closed-book': {
-      position: 'absolute',
-      top: '10rem',
-      left: '2rem',
-   },
-}))
-
-const StyledImage = styled('img')(() => ({
-   width: '7rem',
-   height: '5rem',
 }))

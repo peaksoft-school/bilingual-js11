@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useFormik } from 'formik'
-import { motion } from 'framer-motion'
 import { Box, Typography, styled } from '@mui/material'
 import {
    ExitIcon,
@@ -10,35 +9,12 @@ import {
    LogoIcon,
    WarningIcon,
 } from '../../assets/icons'
-import {
-   FifthOpenBookImage,
-   FirstClosedBookImage,
-   FirstOpenBookImage,
-   FourthOpenBookImage,
-   SecondClosedBookImage,
-   SecondOpenBookImage,
-   ThirdClosedBookImage,
-   ThirdOpenBookImage,
-   ThreeBooksImage,
-   ThreeClosedBooksImage,
-} from '../../assets/images'
+import { LockImage, UserImage } from '../../assets/images'
 import { VALIDATION_SIGN_UP } from '../../utils/helpers/validate'
-import { showErrors } from '../../utils/helpers'
+import { showErrorsSignUp } from '../../utils/helpers'
 import { SIGN_UP_INPUTS } from '../../utils/constants'
 import Button from '../../components/UI/buttons/Button'
 import Input from '../../components/UI/Input'
-
-const PULSE_ANIMATION = {
-   animate: {
-      initial: { opacity: 0 },
-      scale: [0.9, 0.95, 0.9],
-
-      transition: {
-         duration: 5,
-         repeat: Infinity,
-      },
-   },
-}
 
 const SignUpPage = () => {
    const [showPassword, setShowPassword] = useState(false)
@@ -49,10 +25,10 @@ const SignUpPage = () => {
 
    const handleInputFocus = (name) => setFocusedInput(name)
 
-   const onSubmit = ({ resetForm }) => resetForm()
+   const onSubmit = (values, { resetForm }) => resetForm()
 
-   const { values, errors, handleChange, handleSubmit, handleBlur } = useFormik(
-      {
+   const { values, errors, touched, handleChange, handleSubmit, handleBlur } =
+      useFormik({
          initialValues: {
             firstName: '',
             lastName: '',
@@ -66,19 +42,21 @@ const SignUpPage = () => {
          validationSchema: VALIDATION_SIGN_UP,
 
          onSubmit,
-      }
-   )
+      })
 
    return (
       <StyledContainer>
-         <StyledForm onSubmit={handleSubmit}>
+         <form className="form" onSubmit={handleSubmit}>
             <Box className="exit">
                <ExitIcon />
             </Box>
 
             <StyledLogoContainer>
                <LogoIcon />
-               <Typography className="title">Create an Account</Typography>
+
+               <Typography className="title" variant="h2">
+                  Create an Account
+               </Typography>
             </StyledLogoContainer>
 
             <StyledContent>
@@ -87,12 +65,11 @@ const SignUpPage = () => {
                      key={name}
                      label={label}
                      name={name}
-                     className="input"
-                     value={values.name}
+                     value={values[name]}
                      onChange={handleChange}
                      onBlur={handleBlur}
                      type={showPassword ? 'text' : type}
-                     error={errors.name}
+                     error={errors[name] && touched[name]}
                      onFocus={() => handleInputFocus(name)}
                   />
                ))}
@@ -103,9 +80,9 @@ const SignUpPage = () => {
                   </Box>
                )}
 
-               {showErrors(errors) ? (
+               {showErrorsSignUp(errors) ? (
                   <Typography className="validate">
-                     {showErrors(errors)} <WarningIcon />
+                     {showErrorsSignUp(errors)} <WarningIcon />
                   </Typography>
                ) : (
                   <Typography> </Typography>
@@ -113,7 +90,11 @@ const SignUpPage = () => {
 
                <Button>Sign up</Button>
 
-               <Button icon={<GoogleIcon />} className="btn-google">
+               <Button
+                  type="button"
+                  icon={<GoogleIcon />}
+                  className="google-button"
+               >
                   Sign up with google
                </Button>
 
@@ -123,106 +104,44 @@ const SignUpPage = () => {
                   <Typography className="log-in">Log in</Typography>
                </Box>
             </StyledContent>
-         </StyledForm>
+         </form>
 
-         <StyledMotionImages
-            variants={PULSE_ANIMATION}
-            initial="offscreen"
-            whileInView="onscreen"
-            animate="animate"
-            loading="lazy"
-         >
-            <StyledImage
-               className="three-books"
-               src={ThreeBooksImage}
-               alt="book"
-            />
+         <StyledImages>
+            <img src={LockImage} alt="lock-img" className="lock" />
 
-            <StyledImage
-               className="three-closed-books"
-               src={ThreeClosedBooksImage}
-               alt="book"
-            />
-
-            <StyledImage
-               className="first-open-book"
-               src={FirstOpenBookImage}
-               alt="book"
-            />
-
-            <StyledImage
-               className="second-open-book"
-               src={SecondOpenBookImage}
-               alt="book"
-            />
-
-            <StyledImage
-               className="third-open-book"
-               src={ThirdOpenBookImage}
-               alt="book"
-            />
-
-            <StyledImage
-               className="fourth-open-book"
-               src={FourthOpenBookImage}
-               alt="book"
-            />
-
-            <StyledImage
-               className="fifth-open-book"
-               src={FifthOpenBookImage}
-               alt="book"
-            />
-
-            <StyledImage
-               className="first-closed-book"
-               src={FirstClosedBookImage}
-               alt="book"
-            />
-
-            <StyledImage
-               className="second-closed-book"
-               src={SecondClosedBookImage}
-               alt="book"
-            />
-
-            <StyledImage
-               className="third-closed-book"
-               src={ThirdClosedBookImage}
-               alt="book"
-            />
-         </StyledMotionImages>
+            <img src={UserImage} alt="user-img" className="user" />
+         </StyledImages>
       </StyledContainer>
    )
 }
 
 export default SignUpPage
 
-const StyledContainer = styled(Box)(() => ({
-   background: 'linear-gradient(91deg, #6B0FA9 0.74%, #520FB6 88.41%)',
+const StyledContainer = styled(Box)(({ theme }) => ({
+   background: 'linear-gradient(180deg, #833fac, #3b10e5d8)',
    display: 'flex',
    justifyContent: 'center',
    width: '100%',
    height: '100vh',
    fontFamily: 'Poppins',
-}))
 
-const StyledForm = styled('form')(({ theme }) => ({
-   backgroundColor: theme.palette.primary.white,
-   maxWidth: '45.375rem',
-   maxHeight: '43rem',
-   margin: '1.4rem',
-   borderRadius: '0.625rem',
-
-   '@media screen and (max-width:1300px)': {
-      height: '34rem',
+   '& .form': {
       backgroundColor: theme.palette.primary.white,
-   },
+      boxShadow: '0px 5px 10px 2px rgba(34, 60, 80, 0.2)',
+      maxWidth: '45.375rem',
+      maxHeight: '40rem',
+      margin: '1.4rem',
+      borderRadius: '0.625rem',
 
-   '& > .exit': {
-      display: 'flex',
-      justifyContent: 'flex-end',
-      cursor: 'pointer',
+      '& > .exit': {
+         display: 'flex',
+         justifyContent: 'flex-end',
+         cursor: 'pointer',
+      },
+
+      '@media (max-width:1200px)': {
+         overflow: 'scroll',
+      },
    },
 }))
 
@@ -257,18 +176,13 @@ const StyledContent = styled(Box)(({ theme }) => ({
    margin: 'auto',
    padding: '0 5rem 1.89rem 5rem',
 
-   '& .input': {
+   '@media screen and (max-width: 1300px)': {
+      gap: '1rem',
+   },
+
+   '& .MuiOutlinedInput-root': {
       width: '31.25rem',
       height: '3.25rem',
-
-      '@media screen and (max-width: 1400px)': {
-         height: '2.5rem',
-      },
-
-      '@media screen and (max-width: 1300px)': {
-         width: '30rem',
-         height: '2.5rem',
-      },
    },
 
    '& > .eye': {
@@ -278,11 +192,11 @@ const StyledContent = styled(Box)(({ theme }) => ({
       cursor: 'pointer',
 
       '@media screen and (max-width: 1400px)': {
-         marginTop: '14.7rem',
+         marginTop: '15.3rem',
       },
 
       '@media screen and (max-width: 1300px)': {
-         margin: '13.2rem 0 0 28rem',
+         marginTop: '13.5rem',
       },
    },
 
@@ -307,7 +221,7 @@ const StyledContent = styled(Box)(({ theme }) => ({
       },
    },
 
-   '& .btn-google': {
+   '& .google-button': {
       '&.MuiButton-root': {
          backgroundColor: theme.palette.primary.white,
          color: '#757575',
@@ -357,71 +271,39 @@ const StyledContent = styled(Box)(({ theme }) => ({
    },
 }))
 
-const StyledMotionImages = styled(motion.div)(({ PULSE_ANIMATION }) => ({
-   animation: { PULSE_ANIMATION },
+const StyledImages = styled(Box)(() => ({
+   maxWidth: '1600px',
 
-   '& .three-books': {
-      position: 'absolute',
-      top: '20rem',
-      left: '14rem',
-   },
-
-   '& .three-closed-books': {
-      position: 'absolute',
-      top: '37rem',
-      right: '60rem',
-   },
-
-   '& .first-open-book': {
-      position: 'absolute',
-      top: '30rem',
-      left: '5rem',
-   },
-
-   '& .second-open-book': {
-      position: 'absolute',
-      top: '27rem',
-      right: '50rem',
-   },
-
-   '& .third-open-book': {
-      position: 'absolute',
-      top: '9rem',
-      right: '50rem',
-   },
-
-   '& .fourth-open-book': {
-      position: 'absolute',
-      top: '2rem',
-      right: '60rem',
-   },
-
-   '& .fifth-open-book': {
-      position: 'absolute',
-      top: '1rem',
-      left: '15rem',
-   },
-
-   '& .first-closed-book': {
-      position: 'absolute',
-      top: '37rem',
-      left: '14rem',
-   },
-
-   '& .second-closed-book': {
-      position: 'absolute',
-      top: '19rem',
-      right: '60rem',
-   },
-
-   '& .third-closed-book': {
+   '& img': {
       position: 'absolute',
       top: '10rem',
-      left: '3rem',
-   },
-}))
+      width: '30rem',
+      height: 'auto',
 
-const StyledImage = styled('img')(() => ({
-   width: '7rem',
-   height: '5rem',
+      '@media (max-width:1400px)': {
+         width: '25rem',
+      },
+
+      '@media (max-width:1300px)': {
+         width: '20rem',
+      },
+
+      '@media (max-width:1200px)': {
+         display: 'none',
+      },
+   },
+
+   '& .lock': {
+      left: '-1rem',
+      top: '15rem',
+   },
+
+   '& .user': {
+      right: '0rem',
+
+      '@media (max-width:1300px)': {
+         width: '18rem',
+         top: '12rem',
+      },
+   },
 }))
