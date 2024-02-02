@@ -366,6 +366,7 @@ const SIGN_UP_INPUTS = [
       type: 'password',
    },
 ]
+const BASE_URL = 'http://18.208.146.212'
 
 export {
    VIDEOS,
@@ -378,4 +379,5 @@ export {
    FAKE_DATA,
    PARTNERS,
    SIGN_UP_INPUTS,
+   BASE_URL,
 }
