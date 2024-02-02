@@ -11,7 +11,7 @@ import {
 } from '../../assets/icons'
 import { VALIDATION_SIGN_IN } from '../../utils/helpers/validate'
 import { showErrorSignIn } from '../../utils/helpers'
-import { PhoneImage, SignInListImage } from '../../assets/images'
+import { PhoneImage, WebImage } from '../../assets/images'
 import Button from '../../components/UI/buttons/Button'
 import Checkbox from '../../components/UI/Checkbox'
 import Input from '../../components/UI/Input'
@@ -26,7 +26,7 @@ const SignIn = () => {
    const handlePasswordFieldFocus = () =>
       setIsPasswordFieldActive((prev) => !prev)
 
-   const onSubmit = (values, { resetForm }) => resetForm()
+   const onSubmit = (_, { resetForm }) => resetForm()
 
    const { values, errors, touched, handleChange, handleSubmit, handleBlur } =
       useFormik({
@@ -37,9 +37,7 @@ const SignIn = () => {
          },
 
          validateOnChange: false,
-
          validationSchema: VALIDATION_SIGN_IN,
-
          onSubmit,
       })
 
@@ -50,14 +48,14 @@ const SignIn = () => {
                <ExitIcon />
             </Box>
 
-            <StyledContent>
-               <StyledLogoContainer>
+            <Box className="content">
+               <Box className="title-box">
                   <LogoIcon />
 
                   <Typography className="title" variant="h2">
                      Sign in
                   </Typography>
-               </StyledLogoContainer>
+               </Box>
 
                <Input
                   type="email"
@@ -121,14 +119,14 @@ const SignIn = () => {
 
                   <Typography className="register">Register</Typography>
                </Box>
-            </StyledContent>
+            </Box>
          </form>
 
-         <StyledMotionImages>
-            <img src={SignInListImage} alt="list-img" className="list" />
+         <Box className="images">
+            <img src={WebImage} alt="web" className="web" />
 
-            <img src={PhoneImage} alt="phone-img" className="phone" />
-         </StyledMotionImages>
+            <img src={PhoneImage} alt="phone" className="phone" />
+         </Box>
       </StyledContainer>
    )
 }
@@ -143,176 +141,178 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    height: '100vh',
    fontFamily: 'Poppins',
 
-   '& .form': {
+   '& > .form': {
       backgroundColor: theme.palette.primary.white,
       boxShadow: '0px 5px 10px 2px rgba(34, 60, 80, 0.2)',
       maxWidth: '38.5rem',
       maxHeight: '38.7rem',
       margin: '2.5rem',
       borderRadius: '0.625rem',
-      padding: '1rem 1rem 0 1rem',
+      padding: '1rem',
 
       '& > .exit': {
          display: 'flex',
          justifyContent: 'flex-end',
-         cursor: 'pointer',
+
+         '& > svg': {
+            cursor: 'pointer',
+         },
       },
 
       '@media (max-width:1200px)': {
          overflow: 'scroll',
       },
-   },
-}))
 
-const StyledLogoContainer = styled(Box)(() => ({
-   display: 'flex',
-   flexDirection: 'column',
-   alignItems: 'center',
-   gap: '0.75rem',
-
-   '& > .title': {
-      color: '#4C4859',
-      fontSize: '1.5rem',
-      fontWeight: '500',
-      marginBottom: '2rem',
-
-      '@media screen and (max-width: 1400px)': {
-         marginBottom: '1rem',
-         fontSize: '1.3rem',
-      },
-
-      '@media screen and (max-width: 1300px)': {
-         marginBottom: '0rem',
-      },
-   },
-}))
-
-const StyledContent = styled(Box)(({ theme }) => ({
-   display: 'flex',
-   flexDirection: 'column',
-   gap: '1.6rem',
-   margin: 'auto',
-   padding: '1rem 3rem',
-
-   '@media screen and (max-width: 1300px)': {
-      gap: '1rem',
-   },
-
-   '& .MuiOutlinedInput-root': {
-      width: '31.25rem',
-      height: '3.25rem',
-      caretColor: 'blue',
-   },
-
-   '& > .eye': {
-      position: 'absolute',
-      display: 'flex',
-      margin: '14.5rem 0 0 29rem',
-      cursor: 'pointer',
-
-      '@media screen and (max-width: 1400px)': {
-         marginTop: '13.3rem',
-      },
-
-      '@media screen and (max-width: 1300px)': {
-         margin: '11rem 0 0 28rem',
-      },
-   },
-
-   '& > .validate': {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: '0.5rem',
-      fontFamily: 'Poppins',
-      fontWeight: '400',
-      color: 'red',
-      margin: '-0.699rem 0rem',
-
-      '@media screen and (max-width: 1400px)': {
-         fontSize: '0.8rem',
-         margin: '-0.2rem 0 -0.9rem 0',
-      },
-
-      '@media screen and (max-width: 1300px)': {
-         fontSize: '0.7rem',
-         margin: '-0.3rem 0 -0.9rem 0',
-      },
-   },
-
-   '& .text-checkbox': {
-      color: '#757575',
-      fontFamily: 'Poppins',
-      fontSize: '0.875rem',
-      fontWeight: '400',
-   },
-
-   '& .google-button': {
-      '&.MuiButton-root': {
-         backgroundColor: theme.palette.primary.white,
-         color: '#757575',
-         textAlign: 'center',
-         fontSize: '0.875rem',
-         fontWeight: '500',
-         padding: '0.875rem 1.25rem',
-         gap: '0.5rem',
-         border: '1px solid #BDBDBD',
-         boxShadow: '0px 1px 2px 0px rgba(0, 0, 0, 0.20)',
-         width: '13.85rem',
+      '& > .content': {
+         display: 'flex',
+         flexDirection: 'column',
+         gap: '1.6rem',
          margin: 'auto',
+         padding: '1rem 3rem',
 
-         '&:hover': {
-            backgroundColor: '#EFEDED',
+         '@media screen and (max-width: 1300px)': {
+            gap: '1rem',
          },
 
-         '&:active': {
-            backgroundColor: theme.palette.primary.white,
+         '& > .title-box': {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '0.75rem',
+
+            '& > .title': {
+               color: '#4C4859',
+               fontSize: '1.5rem',
+               fontWeight: '500',
+               marginBottom: '2rem',
+
+               '@media screen and (max-width: 1400px)': {
+                  marginBottom: '1rem',
+                  fontSize: '1.3rem',
+               },
+
+               '@media screen and (max-width: 1300px)': {
+                  marginBottom: '0rem',
+               },
+            },
+         },
+
+         '& .MuiOutlinedInput-root': {
+            width: '31.25rem',
+            height: '3.25rem',
+         },
+
+         '& > .eye': {
+            position: 'absolute',
+            display: 'flex',
+            margin: '14.5rem 0 0 29rem',
+            cursor: 'pointer',
+
+            '@media screen and (max-width: 1400px)': {
+               marginTop: '13.3rem',
+            },
+
+            '@media screen and (max-width: 1300px)': {
+               margin: '11rem 0 0 28rem',
+            },
+         },
+
+         '& > .validate': {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '0.5rem',
+            fontFamily: 'Poppins',
+            fontWeight: '400',
+            color: 'red',
+            margin: '-0.699rem 0rem',
+
+            '@media screen and (max-width: 1400px)': {
+               fontSize: '0.8rem',
+               margin: '-0.2rem 0 -0.9rem 0',
+            },
+
+            '@media screen and (max-width: 1300px)': {
+               fontSize: '0.7rem',
+               margin: '-0.3rem 0 -0.9rem 0',
+            },
+         },
+
+         '& .text-checkbox': {
+            color: '#757575',
+            fontFamily: 'Poppins',
+            fontSize: '0.875rem',
+            fontWeight: '400',
+         },
+
+         '& .google-button': {
+            '&.MuiButton-root': {
+               backgroundColor: theme.palette.primary.white,
+               color: '#757575',
+               textAlign: 'center',
+               fontSize: '0.875rem',
+               fontWeight: '500',
+               padding: '0.875rem 1.25rem',
+               gap: '0.5rem',
+               border: '1px solid #BDBDBD',
+               boxShadow: '0px 1px 2px 0px rgba(0, 0, 0, 0.20)',
+               width: '13.85rem',
+               margin: 'auto',
+
+               '&:hover': {
+                  backgroundColor: '#EFEDED',
+               },
+
+               '&:active': {
+                  backgroundColor: theme.palette.primary.white,
+               },
+            },
+         },
+
+         '& .text-account': {
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '0.5rem',
+            color: '#757575',
+            fontSize: '0.875rem',
+            fontWeight: '500',
+            textTransform: 'uppercase',
+            cursor: 'pointer',
+
+            '& .register': {
+               color: '#3A10E5',
+               fontWeight: '500',
+            },
          },
       },
    },
 
-   '& .text-account': {
-      display: 'flex',
-      justifyContent: 'center',
-      gap: '0.5rem',
-      color: '#757575',
-      fontSize: '0.875rem',
-      fontWeight: '500',
-      textTransform: 'uppercase',
-      cursor: 'pointer',
+   '& > .images': {
+      '& > img': {
+         position: 'absolute',
+         top: '8rem',
+         width: '30rem',
+         height: 'auto',
 
-      '& .register': {
-         color: '#3A10E5',
-         fontWeight: '500',
-      },
-   },
-}))
+         '@media (max-width:1400px)': {
+            width: '25rem',
+         },
 
-const StyledMotionImages = styled(Box)(() => ({
-   '& img': {
-      position: 'absolute',
-      top: '8rem',
-      width: '30rem',
-      height: 'auto',
+         '@media (max-width:1300px)': {
+            width: '20rem',
+         },
 
-      '@media (max-width:1400px)': {
-         width: '25rem',
+         '@media (max-width:1200px)': {
+            display: 'none',
+         },
       },
 
-      '@media (max-width:1300px)': {
-         width: '20rem',
+      '& > .phone': {
+         left: '0rem',
       },
 
-      '@media (max-width:1200px)': {
-         display: 'none',
+      '& > .web': {
+         right: '0rem',
       },
-   },
-
-   '& .phone': {
-      left: '0rem',
-   },
-
-   '& .list': {
-      right: '0rem',
    },
 }))

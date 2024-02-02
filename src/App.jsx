@@ -1,7 +1,8 @@
 import './App.css'
+import SignUp from './containers/sign-up/SignUp'
 
 const App = () => {
-   return <h1>bilingual-js11</h1>
+   return <SignUp />
 }
 
 export default App

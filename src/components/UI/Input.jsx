@@ -31,10 +31,11 @@ const StyledTextField = styled(TextField)(({ error, disabled }) => ({
       borderRadius: '8px',
       border: '#BDBDBD',
       color: '#757575',
+      caretColor: error ? '#F61414' : '#3A10E5',
 
       '&:hover': {
          '& fieldset': {
-            border: `1px solid ${error ? '#F61414' : '#3A10E5'}`,
+            border: `1px solid ${error ? '#151010' : '#3A10E5'}`,
             borderRadius: '8px',
          },
       },

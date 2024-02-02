@@ -51,15 +51,15 @@ const SignUp = () => {
                <ExitIcon />
             </Box>
 
-            <StyledLogoContainer>
+            <Box className="title-box">
                <LogoIcon />
 
                <Typography className="title" variant="h2">
                   Create an Account
                </Typography>
-            </StyledLogoContainer>
+            </Box>
 
-            <StyledContent>
+            <Box className="content">
                {SIGN_UP_INPUTS.map(({ name, label, type }) => (
                   <Input
                      key={name}
@@ -103,14 +103,14 @@ const SignUp = () => {
 
                   <Typography className="log-in">Log in</Typography>
                </Box>
-            </StyledContent>
+            </Box>
          </form>
 
-         <StyledImages>
+         <Box className="images">
             <img src={LockImage} alt="lock-img" className="lock" />
 
             <img src={UserImage} alt="user-img" className="user" />
-         </StyledImages>
+         </Box>
       </StyledContainer>
    )
 }
@@ -125,7 +125,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    height: '100vh',
    fontFamily: 'Poppins',
 
-   '& .form': {
+   '& > .form': {
       backgroundColor: theme.palette.primary.white,
       boxShadow: '0px 5px 10px 2px rgba(34, 60, 80, 0.2)',
       maxWidth: '45.375rem',
@@ -136,174 +136,177 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       '& > .exit': {
          display: 'flex',
          justifyContent: 'flex-end',
-         cursor: 'pointer',
+
+         '& > svg': {
+            cursor: 'pointer',
+         },
+      },
+
+      '& > .title-box': {
+         display: 'flex',
+         flexDirection: 'column',
+         alignItems: 'center',
+         gap: '0.75rem',
+
+         '& > .title': {
+            color: '#4C4859',
+            fontSize: '1.5rem',
+            fontWeight: '400',
+            marginBottom: '2rem',
+
+            '@media screen and (max-width: 1400px)': {
+               marginBottom: '1rem',
+               fontSize: '1.3rem',
+            },
+
+            '@media screen and (max-width: 1300px)': {
+               marginBottom: '0.5rem',
+               fontSize: '1rem',
+            },
+         },
+      },
+
+      '& > .content': {
+         display: 'flex',
+         flexDirection: 'column',
+         gap: '1.5rem',
+         margin: 'auto',
+         padding: '0 5rem 1.89rem 5rem',
+
+         '@media screen and (max-width: 1300px)': {
+            gap: '1rem',
+         },
+
+         '& .MuiOutlinedInput-root': {
+            width: '31.25rem',
+            height: '3.25rem',
+         },
+
+         '& > .eye': {
+            position: 'absolute',
+            display: 'flex',
+            margin: '15.4rem 0 0 29rem',
+            cursor: 'pointer',
+
+            '@media screen and (max-width: 1400px)': {
+               marginTop: '15.3rem',
+            },
+
+            '@media screen and (max-width: 1300px)': {
+               marginTop: '13.5rem',
+            },
+         },
+
+         '& > .validate': {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '0.5rem',
+            fontFamily: 'Poppins',
+            fontWeight: '400',
+            color: 'red',
+            margin: '-0.699rem 0rem',
+
+            '@media screen and (max-width: 1400px)': {
+               fontSize: '0.8rem',
+               margin: '-0.2rem 0 -0.9rem 0',
+            },
+
+            '@media screen and (max-width: 1300px)': {
+               fontSize: '0.7rem',
+               margin: '-0.3rem 0 -0.9rem 0',
+            },
+         },
+
+         '& .google-button': {
+            '&.MuiButton-root': {
+               backgroundColor: theme.palette.primary.white,
+               color: '#757575',
+               textAlign: 'center',
+               fontSize: '0.875rem',
+               fontWeight: '500',
+               letterSpacing: '0.00875rem',
+               gap: '0.5rem',
+               alignItems: 'center',
+               border: '1px solid #BDBDBD',
+               boxShadow: '0px 1px 2px 0px rgba(0, 0, 0, 0.20)',
+               maxWidth: '13.85rem',
+               margin: 'auto',
+
+               '&:hover': {
+                  backgroundColor: '#EFEDED',
+               },
+
+               '&:active': {
+                  backgroundColor: theme.palette.primary.white,
+               },
+
+               '@media screen and (max-width: 1300px)': {
+                  height: '2.5rem',
+               },
+            },
+         },
+
+         '& .text-account': {
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '0.5rem',
+            color: '#757575',
+            fontSize: '0.875rem',
+            fontWeight: '500',
+            letterSpacing: '0.0175rem',
+            textTransform: 'uppercase',
+            cursor: 'pointer',
+
+            '& .log-in': {
+               color: '#3A10E5',
+            },
+
+            '@media screen and (max-width: 1400px)': {
+               marginTop: '-1rem',
+            },
+         },
       },
 
       '@media (max-width:1200px)': {
          overflow: 'scroll',
       },
    },
-}))
 
-const StyledLogoContainer = styled(Box)(() => ({
-   display: 'flex',
-   flexDirection: 'column',
-   alignItems: 'center',
-   gap: '0.75rem',
+   '& > .images': {
+      maxWidth: '1600px',
 
-   '& > .title': {
-      color: '#4C4859',
-      fontSize: '1.5rem',
-      fontWeight: '400',
-      marginBottom: '2rem',
+      '& > img': {
+         position: 'absolute',
+         top: '10rem',
+         width: '30rem',
+         height: 'auto',
 
-      '@media screen and (max-width: 1400px)': {
-         marginBottom: '1rem',
-         fontSize: '1.3rem',
-      },
-
-      '@media screen and (max-width: 1300px)': {
-         marginBottom: '0.5rem',
-         fontSize: '1rem',
-      },
-   },
-}))
-
-const StyledContent = styled(Box)(({ theme }) => ({
-   display: 'flex',
-   flexDirection: 'column',
-   gap: '1.5rem',
-   margin: 'auto',
-   padding: '0 5rem 1.89rem 5rem',
-
-   '@media screen and (max-width: 1300px)': {
-      gap: '1rem',
-   },
-
-   '& .MuiOutlinedInput-root': {
-      width: '31.25rem',
-      height: '3.25rem',
-   },
-
-   '& > .eye': {
-      position: 'absolute',
-      display: 'flex',
-      margin: '15.4rem 0 0 29rem',
-      cursor: 'pointer',
-
-      '@media screen and (max-width: 1400px)': {
-         marginTop: '15.3rem',
-      },
-
-      '@media screen and (max-width: 1300px)': {
-         marginTop: '13.5rem',
-      },
-   },
-
-   '& > .validate': {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: '0.5rem',
-      fontFamily: 'Poppins',
-      fontWeight: '400',
-      color: 'red',
-      margin: '-0.699rem 0rem',
-
-      '@media screen and (max-width: 1400px)': {
-         fontSize: '0.8rem',
-         margin: '-0.2rem 0 -0.9rem 0',
-      },
-
-      '@media screen and (max-width: 1300px)': {
-         fontSize: '0.7rem',
-         margin: '-0.3rem 0 -0.9rem 0',
-      },
-   },
-
-   '& .google-button': {
-      '&.MuiButton-root': {
-         backgroundColor: theme.palette.primary.white,
-         color: '#757575',
-         textAlign: 'center',
-         fontSize: '0.875rem',
-         fontWeight: '500',
-         letterSpacing: '0.00875rem',
-         gap: '0.5rem',
-         alignItems: 'center',
-         border: '1px solid #BDBDBD',
-         boxShadow: '0px 1px 2px 0px rgba(0, 0, 0, 0.20)',
-         maxWidth: '13.85rem',
-         margin: 'auto',
-
-         '&:hover': {
-            backgroundColor: '#EFEDED',
+         '@media (max-width:1400px)': {
+            width: '25rem',
          },
 
-         '&:active': {
-            backgroundColor: theme.palette.primary.white,
+         '@media (max-width:1300px)': {
+            width: '20rem',
          },
 
-         '@media screen and (max-width: 1300px)': {
-            height: '2.5rem',
+         '@media (max-width:1200px)': {
+            display: 'none',
          },
       },
-   },
 
-   '& .text-account': {
-      display: 'flex',
-      justifyContent: 'center',
-      gap: '0.5rem',
-      color: '#757575',
-      fontSize: '0.875rem',
-      fontWeight: '500',
-      letterSpacing: '0.0175rem',
-      textTransform: 'uppercase',
-      cursor: 'pointer',
-
-      '& .log-in': {
-         color: '#3A10E5',
+      '& > .lock': {
+         left: '-1rem',
+         top: '15rem',
       },
 
-      '@media screen and (max-width: 1400px)': {
-         marginTop: '-1rem',
-      },
-   },
-}))
+      '& > .user': {
+         right: '0rem',
 
-const StyledImages = styled(Box)(() => ({
-   maxWidth: '1600px',
-
-   '& img': {
-      position: 'absolute',
-      top: '10rem',
-      width: '30rem',
-      height: 'auto',
-
-      '@media (max-width:1400px)': {
-         width: '25rem',
-      },
-
-      '@media (max-width:1300px)': {
-         width: '20rem',
-      },
-
-      '@media (max-width:1200px)': {
-         display: 'none',
-      },
-   },
-
-   '& .lock': {
-      left: '-1rem',
-      top: '15rem',
-   },
-
-   '& .user': {
-      right: '0rem',
-
-      '@media (max-width:1300px)': {
-         width: '18rem',
-         top: '12rem',
+         '@media (max-width:1300px)': {
+            width: '18rem',
+            top: '12rem',
+         },
       },
    },
 }))
