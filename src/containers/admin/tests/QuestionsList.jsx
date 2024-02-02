@@ -80,24 +80,15 @@ export default InnerPage
 const StyledContainer = styled(Box)(() => ({
    display: 'flex',
    flexDirection: 'column',
-   backgroundColor: '#fff',
-   borderRadius: '8px',
-   width: '100%',
-   height: '39.6875rem',
-   margin: 'auto',
-   padding: '3.25rem 0',
-
-   '@media (max-width: 768px)': {
-      padding: '1.5rem',
-   },
+   width: 'auto',
 
    '& .title-container': {
+      paddingLeft: '1rem   ',
       '& > .text': {
          display: 'flex',
 
          '& > .title ': {
             color: '#3752B4',
-            marginBottom: '0.1rem',
          },
       },
    },
@@ -106,7 +97,7 @@ const StyledContainer = styled(Box)(() => ({
       padding: '0.75rem 1.5rem 0.75rem 1rem',
       width: 'auto',
       gap: '1rem',
-      margin: '2.75rem 0 0 40rem',
+      margin: ' 0 1.75rem 0 40rem',
       fontFamily: 'Poppins',
       fontSize: '14px',
 
@@ -129,7 +120,8 @@ const StyledContainer = styled(Box)(() => ({
       background: '#FFFF',
       padding: '0.8125rem 1.5rem',
       height: '2.625rem',
-      margin: '2.75rem 0 0 48rem',
+      margin: 'auto',
+      marginLeft: '47rem',
 
       '&:hover': {
          color: '#FFF',
@@ -181,7 +173,7 @@ const StyledBox = styled(Box)(() => ({
    borderRadius: '0.5rem',
    boxShadow:
       '0px 4px 10px 0px rgba(0, 0, 0, 0.06), 0px -4px 10px 0px rgba(0, 0, 0, 0.06)',
-   marginBottom: '0.94rem',
+   margin: 'auto',
 
    '& > .name-props': {
       margin: '0 1.2rem',
