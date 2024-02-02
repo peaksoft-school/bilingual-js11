@@ -3,19 +3,7 @@ import Switcher from '../../../components/UI/Switcher'
 import { EditIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
 import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
-
-const TEST_DATA = [
-   {
-      title: 'Select the real Englisg word in the list...',
-      duration: '1 min',
-      questionType: 'Multiple Choice',
-   },
-   {
-      title: 'Select the real Englisg word in the list...',
-      duration: '1 min',
-      questionType: 'Essay',
-   },
-]
+import { TEST_DATA } from '../../../utils/constants'
 
 const InnerPage = ({ title, shortDescription, duration }) => (
    <StyledContainer>
@@ -38,8 +26,7 @@ const InnerPage = ({ title, shortDescription, duration }) => (
                </Box>
             </Box>
 
-            <Button className="frame-button">
-               <PlusIcon className="plus-icon" />
+            <Button icon={<PlusIcon className="plus" />} className="button">
                ADD MORE QUESTIONS
             </Button>
 
@@ -82,7 +69,7 @@ const InnerPage = ({ title, shortDescription, duration }) => (
                <Typography>You haven`t added any questions yet.</Typography>
             )}
 
-            <Button className="button-go-back">GO BACK</Button>
+            <Button className="go-back-button">GO BACK</Button>
          </TestContainer>
       </Box>
    </StyledContainer>
@@ -115,17 +102,18 @@ const StyledContainer = styled(Box)(() => ({
       },
    },
 
-   '& .frame-button': {
+   '& .button': {
       padding: '0.75rem 1.5rem 0.75rem 1rem',
       width: 'auto',
-      gap: '0.5rem',
+      gap: '1rem',
       margin: '2.75rem 0 0 40rem',
       fontFamily: 'Poppins',
       fontSize: '14px',
 
-      '& .plus-icon': {
+      '& .plus': {
          width: '18px',
          height: '18px',
+         marginTop: '-1rem',
       },
 
       '@media (max-width: 768px)': {
@@ -133,7 +121,7 @@ const StyledContainer = styled(Box)(() => ({
       },
    },
 
-   '& .button-go-back': {
+   '& .go-back-button': {
       borderRadius: '0.5rem',
       fontSize: '0.875rem',
       color: '#3A10E5',
