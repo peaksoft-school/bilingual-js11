@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { BASE_URL } from '../utils/constants'
-import { store } from '../store/store'
+import store from '../store/store'
 
 export const axiosInstance = axios.create({
    baseURL: BASE_URL,
@@ -35,7 +35,7 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
    (response) => {
-      Promise.reject(response)
+      Promise.resolve(response)
    },
 
    (error) => {

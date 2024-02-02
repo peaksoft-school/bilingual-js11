@@ -1,12 +1,13 @@
 import ReactDOM from 'react-dom/client'
-import { Provider } from '@reduxjs/toolkit'
 import { StrictMode } from 'react'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 import App from './App'
 import Themes from './components/Themes'
 import Notification from './components/Notification'
 import './index.css'
 import { injectStore } from './configs/axiosInstance'
-import { store } from './store/store'
+import store, { persistor } from './store/store'
 
 injectStore(store)
 
@@ -15,11 +16,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
    <StrictMode>
       <Provider store={store}>
-         <Themes>
-            <Notification />
+         <PersistGate loading={null} persistor={persistor}>
+            <Themes>
+               <Notification />
 
-            <App />
-         </Themes>
+               <App />
+            </Themes>
+         </PersistGate>
       </Provider>
    </StrictMode>
 )
