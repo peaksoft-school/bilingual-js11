@@ -9,17 +9,17 @@ export const axiosInstance = axios.create({
    },
 })
 
-let storee
+let customStore
 
 export const injectStore = (store) => {
-   storee = store
+   customStore = store
 }
 
 axios.interceptors.request.use(
    (config) => {
       const updateConfig = { ...config }
 
-      const token = storee.getState().login.accessToken
+      const token = customStore.getState().login.accessToken
 
       if (token) {
          updateConfig.headers.Authorization = `Bearer ${token}`
