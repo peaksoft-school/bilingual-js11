@@ -25,9 +25,9 @@ const Dropdown = forwardRef(({ options, value, onChange, ...rest }, ref) => (
          <InputLabel shrink={false}>{selected || 'Describe image'}</InputLabel>
       )}
    >
-      {options?.map((item) => (
-         <StyledMenuItem key={item.id} value={item.title}>
-            {item.title}
+      {options?.map(({ id, title }) => (
+         <StyledMenuItem key={id} value={title}>
+            {title}
          </StyledMenuItem>
       ))}
    </StyledSelect>
