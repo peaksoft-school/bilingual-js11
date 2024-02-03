@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { Typography, styled, Modal, Box } from '@mui/material'
+import { Typography, styled, Modal as Modalka, Box } from '@mui/material'
 import Button from '../buttons/Button'
 
 const style = {
@@ -8,32 +7,27 @@ const style = {
    alignItems: 'center',
 }
 
-const ModalLogOut = ({ onLogOut }) => {
-   const [isVisible, setIsVisidle] = useState(false)
-   const handleIsVisible = () => setIsVisidle((prev) => !prev)
-
+const Modal = ({ onLogOut, children, isVisible, handleIsVisible }) => {
    return (
-      <Modal open={isVisible} onClose={handleIsVisible} style={style}>
+      <Modalka open={isVisible} onClose={handleIsVisible} style={style}>
          <StyledModal>
-            <Typography className="text">
-               Are you sure you want to log out?
-            </Typography>
+            <Typography className="text">{children}</Typography>
             <Box className="buttons">
                <Button
                   variant="secondary"
                   onClick={handleIsVisible}
                   className="button"
                >
-                  Cancel
+                  {children}
                </Button>
-               <Button onClick={onLogOut}>Yes</Button>
+               <Button onClick={onLogOut}>{children}</Button>
             </Box>
          </StyledModal>
-      </Modal>
+      </Modalka>
    )
 }
 
-export default ModalLogOut
+export default Modal
 
 const StyledModal = styled(Box)(() => ({
    position: 'absolute',

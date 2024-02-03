@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Typography, styled, Modal, Box } from '@mui/material'
 import { CancelIcon, FalseIcon } from '../../../assets/icons'
 import Button from '../buttons/Button'
@@ -9,10 +8,7 @@ const style = {
    alignItems: 'center',
 }
 
-const ModalDelete = ({ onDelete }) => {
-   const [isVisible, setIsVisidle] = useState(false)
-   const handleIsVisible = () => setIsVisidle((prev) => !prev)
-
+const ModalDelete = ({ onDelete, children, isVisible, handleIsVisible }) => {
    return (
       <StyledContainer>
          <StyledOpenButton onClick={handleIsVisible}>DELETE</StyledOpenButton>
@@ -20,10 +16,8 @@ const ModalDelete = ({ onDelete }) => {
             <StyledModal>
                <StyledCloseIcon onClick={handleIsVisible} />
                <FalseIcon className="red-cross-image" />
-               <Typography className="title">Do you want to delete?</Typography>
-               <Typography className="text">
-                  You can’t restore this file
-               </Typography>
+               <Typography className="title">{children}</Typography>
+               <Typography className="text">{children}</Typography>
                <Box className="container-btns">
                   <Box className="buttons">
                      <Button
@@ -31,9 +25,9 @@ const ModalDelete = ({ onDelete }) => {
                         onClick={handleIsVisible}
                         className="button"
                      >
-                        Cancel
+                        {children}
                      </Button>
-                     <Button onClick={onDelete}>Delete</Button>
+                     <Button onClick={onDelete}>{children}</Button>
                   </Box>
                </Box>
             </StyledModal>

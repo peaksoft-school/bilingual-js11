@@ -1,14 +1,10 @@
-import { useState } from 'react'
 import { Box, Modal, styled, Typography } from '@mui/material'
 import Button from '../buttons/Button'
 import { CancelIcon } from '../../../assets/icons'
 import Checkbox from '../Checkbox'
 import Input from '../Input'
 
-const ModalSave = () => {
-   const [isVisible, setIsVisidle] = useState(false)
-   const handleIsVisible = () => setIsVisidle((prev) => !prev)
-
+const ModalSave = ({ onSave, children, isVisible, handleIsVisible }) => {
    return (
       <StyledContainer>
          <StyledOpenButton onClick={handleIsVisible}>SAVE</StyledOpenButton>
@@ -17,24 +13,24 @@ const ModalSave = () => {
                <StyledCloseIcon onClick={handleIsVisible} />
                <Box className="con-form">
                   <Typography className="title" variant="label">
-                     Title
+                     {children}
                   </Typography>
 
                   <Input type="text" placeholder="Select real English words" />
 
                   <Box className="check-con">
-                     <Typography className="true-option">
-                        Is true option?
-                     </Typography>
+                     <Typography className="true-option">{children}</Typography>
                      <Checkbox />
                   </Box>
                </Box>
                <Box className="buttons">
                   <Box className="con-of-btns">
                      <Button variant="secondary" onClick={handleIsVisible}>
-                        Go back
+                        {children}
                      </Button>
-                     <Button variant="primary">Save</Button>
+                     <Button variant="primary" onClick={onSave}>
+                        {children}
+                     </Button>
                   </Box>
                </Box>
             </StyledModal>
