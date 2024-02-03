@@ -70,20 +70,20 @@ const baseTypographyStyles = {
    lineHeight: '130%',
 }
 
-const StyledContainer = styled(Box)(() => ({
-   backgroundColor: '#FEF5E8',
+const StyledContainer = styled(Box)(({ theme }) => ({
+   backgroundColor: theme.palette.secondary.main,
    padding: '7.60rem 0',
 
    '& .title': {
       fontSize: '2.5rem',
-      color: '#3752B4',
+      color: theme.palette.primary.dullBlue,
       textAlign: 'center',
       fontFamily: 'Gilroy',
       paddingBottom: '2.94rem',
    },
 }))
 
-const StyledSlider = styled(Slider)(() => ({
+const StyledSlider = styled(Slider)(({ theme }) => ({
    width: '100%',
    maxWidth: '1600px',
    margin: '0 auto',
@@ -108,7 +108,7 @@ const StyledSlider = styled(Slider)(() => ({
 
    '& .name': {
       ...baseTypographyStyles,
-      color: '#3A10E5',
+      color: theme.palette.primary.main,
       fontSize: '1rem',
       fontWeight: 600,
       marginTop: '0.88rem',

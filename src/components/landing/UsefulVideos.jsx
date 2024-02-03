@@ -94,7 +94,7 @@ const UsefulVideos = () => {
 export default UsefulVideos
 
 const StyledContainer = styled(Box)(({ theme }) => ({
-   background: '#FEF5E8',
+   background: theme.palette.secondary.main,
 
    '& > .box': {
       display: 'flex',

@@ -294,7 +294,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 
             '& .register': {
                cursor: 'pointer',
-               color: '#3A10E5',
+               color: theme.palette.primary.main,
                fontWeight: '500',
             },
          },

@@ -166,7 +166,7 @@ const StyledContainer = styled('div')(({ theme }) => ({
    justifyContent: 'center',
    alignItems: 'center',
    gap: '9vw',
-   backgroundColor: '#FEF5E8',
+   backgroundColor: theme.palette.secondary.main,
    margin: 'auto',
 
    [theme.breakpoints.down('lg')]: {
@@ -184,8 +184,8 @@ const StyledContainer = styled('div')(({ theme }) => ({
    },
 }))
 
-const StyledText = styled(Typography)(() => ({
-   color: '#23212A',
+const StyledText = styled(Typography)(({ theme }) => ({
+   color: theme.palette.primary.blackGrey,
    textAlign: 'center',
    fontWeight: '400',
    lineHeight: 'normal',

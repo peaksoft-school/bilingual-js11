@@ -63,15 +63,15 @@ const CheckOut = () => (
 
 export default CheckOut
 
-const StyledContainer = styled(Box)(() => ({
+const StyledContainer = styled(Box)(({ theme }) => ({
    display: 'flex',
    flexDirection: 'column',
    margin: 'auto',
-   background: '#fef5e8',
+   background: theme.palette.secondary.main,
    padding: '2rem',
 
    '& > .title': {
-      color: '#3752B4',
+      color: theme.palette.primary.dullBlue,
       fontFamily: 'Gilroy',
       fontSize: '2.5rem',
       fontWeight: '700',
@@ -148,11 +148,11 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
       content: 'none',
 
       '& circle': {
-         fill: '#3A10E5',
+         fill: theme.palette.primary.main,
       },
 
       '& path': {
-         fill: '#fff',
+         fill: theme.palette.primary.white,
       },
    },
 
@@ -185,7 +185,7 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
          height: '50px',
 
          '& > button': {
-            background: '#3A10E5',
+            background: theme.palette.primary.main,
             height: '100%',
          },
       },

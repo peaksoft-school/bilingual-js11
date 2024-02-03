@@ -143,7 +143,7 @@ const UserExperience = () => (
 export default UserExperience
 
 const StyledContainer = styled(Box)(({ theme }) => ({
-   backgroundColor: '#FEF5E8',
+   backgroundColor: theme.palette.secondary.main,
 
    [theme.breakpoints.down('lg')]: {
       width: '100%',
@@ -174,12 +174,12 @@ const StyledContainer = styled(Box)(({ theme }) => ({
             fontSize: '2.5rem',
             fontWeight: '700',
             width: '21.125rem',
-            color: '#3752B4',
+            color: theme.palette.primary.dullBlue,
          },
 
          '& > .description': {
             width: '36rem',
-            color: '#23212A',
+            color: theme.palette.primary.blackGrey,
             fontWeight: '400',
             marginTop: '2.125rem',
             [theme.breakpoints.down('lg')]: {

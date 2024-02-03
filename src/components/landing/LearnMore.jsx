@@ -154,7 +154,7 @@ const LearnMore = () => {
 export default LearnMore
 
 const StyledContainer = styled(Box)(({ theme }) => ({
-   backgroundColor: '#FEF5E8',
+   backgroundColor: theme.palette.secondary.main,
    width: '100%',
    overflow: 'hidden',
 
@@ -174,7 +174,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       },
 
       '& > .title': {
-         color: '#3752B4',
+         color: theme.palette.primary.dullBlue,
          fontFamily: 'Gilroy',
          fontSize: '2.5rem',
 
@@ -225,7 +225,7 @@ const StyledTextBox = styled(Box)(({ theme }) => ({
 }))
 
 const StyledTitleText = styled(Typography)(({ theme }) => ({
-   color: '#23212A',
+   color: theme.palette.primary.blackGray,
    fontSize: ' 1.5rem',
    fontWeight: '600',
    paddingTop: '6rem',

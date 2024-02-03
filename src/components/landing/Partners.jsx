@@ -65,7 +65,7 @@ const Partners = () => (
 
 export default Partners
 
-const StyledContainer = styled(Box)(() => ({
+const StyledContainer = styled(Box)(({ theme }) => ({
    backgroundColor: '#FEF5E8',
    padding: '30px 0 120px',
 
@@ -74,18 +74,18 @@ const StyledContainer = styled(Box)(() => ({
       margin: '0 auto',
 
       '& > .title': {
-         color: '#3752B4',
+         color: theme.palette.primary.dullBlue,
          fontSize: '2.5rem',
          textAlign: 'center',
          padding: '2.5rem',
          fontFamily: 'Gilroy',
-         background: '#FEF5E8',
+         background: theme.palette.secondary.main,
       },
    },
 }))
 
-const StyledSlider = styled(Slider)(() => ({
-   background: '#FEF5E8',
+const StyledSlider = styled(Slider)(({ theme }) => ({
+   background: theme.palette.secondary.main,
 
    '& .slick-slide': {
       outline: 'none',
@@ -103,7 +103,7 @@ const StyledSlider = styled(Slider)(() => ({
       overflow: 'hidden',
       borderRadius: '1.25rem',
       border: '1px solid #E4E4E4',
-      background: '#FFF',
+      background: theme.palette.primary.white,
       display: 'inline-flex',
 
       '& > img': {

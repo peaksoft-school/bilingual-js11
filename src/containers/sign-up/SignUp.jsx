@@ -277,7 +277,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 
             '& .log-in': {
                cursor: 'pointer',
-               color: '#3A10E5',
+               color: theme.palette.primary.main,
             },
 
             '@media screen and (max-width: 1400px)': {
