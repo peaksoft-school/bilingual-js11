@@ -1,7 +1,7 @@
 import './App.css'
 
 const App = () => {
-   return <h1>bilingual-js11</h1>
+   return <div>Bilingual</div>
 }
 
 export default App
