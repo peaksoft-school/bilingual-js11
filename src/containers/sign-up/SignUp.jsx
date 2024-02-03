@@ -27,22 +27,28 @@ const SignUp = () => {
 
    const onSubmit = (values, { resetForm }) => resetForm()
 
-   const { values, errors, touched, handleChange, handleSubmit, handleBlur } =
-      useFormik({
-         initialValues: {
-            firstName: '',
-            lastName: '',
-            email: '',
-            password: '',
-            rememberMe: false,
-         },
+   const {
+      values,
+      errors,
+      touched,
+      isValid,
+      handleChange,
+      handleSubmit,
+      handleBlur,
+   } = useFormik({
+      initialValues: {
+         firstName: '',
+         lastName: '',
+         email: '',
+         password: '',
+         rememberMe: false,
+      },
 
-         validateOnChange: false,
+      validateOnChange: false,
+      validationSchema: VALIDATION_SIGN_UP,
 
-         validationSchema: VALIDATION_SIGN_UP,
-
-         onSubmit,
-      })
+      onSubmit,
+   })
 
    return (
       <StyledContainer>
@@ -88,7 +94,7 @@ const SignUp = () => {
                   <Typography> </Typography>
                )}
 
-               <Button>Sign up</Button>
+               <Button disabled={!isValid}>Sign up</Button>
 
                <Button
                   type="button"
@@ -132,6 +138,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       maxHeight: '40rem',
       margin: '1.4rem',
       borderRadius: '0.625rem',
+      padding: '0.5rem',
 
       '& > .exit': {
          display: 'flex',
@@ -140,6 +147,12 @@ const StyledContainer = styled(Box)(({ theme }) => ({
          '& > svg': {
             cursor: 'pointer',
          },
+      },
+
+      '@media (max-width:1200px)': {
+         overflow: 'scroll',
+         borderRadius: '1rem',
+         maxWidth: '40rem',
       },
 
       '& > .title-box': {
@@ -181,6 +194,11 @@ const StyledContainer = styled(Box)(({ theme }) => ({
             width: '31.25rem',
             height: '3.25rem',
          },
+
+         '& .MuiOutlinedInput-root.Mui-error:hover .MuiOutlinedInput-notchedOutline':
+            {
+               borderColor: 'red',
+            },
 
          '& > .eye': {
             position: 'absolute',
@@ -256,9 +274,9 @@ const StyledContainer = styled(Box)(({ theme }) => ({
             fontWeight: '500',
             letterSpacing: '0.0175rem',
             textTransform: 'uppercase',
-            cursor: 'pointer',
 
             '& .log-in': {
+               cursor: 'pointer',
                color: '#3A10E5',
             },
 
@@ -266,10 +284,6 @@ const StyledContainer = styled(Box)(({ theme }) => ({
                marginTop: '-1rem',
             },
          },
-      },
-
-      '@media (max-width:1200px)': {
-         overflow: 'scroll',
       },
    },
 
@@ -295,18 +309,21 @@ const StyledContainer = styled(Box)(({ theme }) => ({
          },
       },
 
-      '& > .lock': {
-         left: '-1rem',
-         top: '15rem',
-      },
-
       '& > .user': {
-         right: '0rem',
+         left: '0rem',
+         width: '28rem',
+
+         '@media (max-width:1400px)': {
+            width: '23rem',
+         },
 
          '@media (max-width:1300px)': {
             width: '18rem',
-            top: '12rem',
          },
+      },
+
+      '& > .lock': {
+         right: '0rem',
       },
    },
 }))

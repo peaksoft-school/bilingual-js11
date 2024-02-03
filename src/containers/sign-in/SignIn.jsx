@@ -28,18 +28,25 @@ const SignIn = () => {
 
    const onSubmit = (_, { resetForm }) => resetForm()
 
-   const { values, errors, touched, handleChange, handleSubmit, handleBlur } =
-      useFormik({
-         initialValues: {
-            email: '',
-            password: '',
-            rememberMe: false,
-         },
+   const {
+      values,
+      errors,
+      touched,
+      isValid,
+      handleChange,
+      handleSubmit,
+      handleBlur,
+   } = useFormik({
+      initialValues: {
+         email: '',
+         password: '',
+         rememberMe: false,
+      },
 
-         validateOnChange: false,
-         validationSchema: VALIDATION_SIGN_IN,
-         onSubmit,
-      })
+      validateOnChange: false,
+      validationSchema: VALIDATION_SIGN_IN,
+      onSubmit,
+   })
 
    return (
       <StyledContainer>
@@ -104,7 +111,7 @@ const SignIn = () => {
                   <Typography> </Typography>
                )}
 
-               <Button type="submit">Sign in</Button>
+               <Button disabled={!isValid}>Sign in</Button>
 
                <Button
                   type="button"
@@ -161,6 +168,8 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 
       '@media (max-width:1200px)': {
          overflow: 'scroll',
+         borderRadius: '1rem',
+         maxWidth: '40rem',
       },
 
       '& > .content': {
@@ -201,6 +210,11 @@ const StyledContainer = styled(Box)(({ theme }) => ({
             width: '31.25rem',
             height: '3.25rem',
          },
+
+         '& .MuiOutlinedInput-root.Mui-error:hover .MuiOutlinedInput-notchedOutline':
+            {
+               borderColor: 'red',
+            },
 
          '& > .eye': {
             position: 'absolute',
@@ -277,9 +291,9 @@ const StyledContainer = styled(Box)(({ theme }) => ({
             fontSize: '0.875rem',
             fontWeight: '500',
             textTransform: 'uppercase',
-            cursor: 'pointer',
 
             '& .register': {
+               cursor: 'pointer',
                color: '#3A10E5',
                fontWeight: '500',
             },
