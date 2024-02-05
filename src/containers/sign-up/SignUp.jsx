@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useFormik } from 'formik'
-import { Box, Typography, styled } from '@mui/material'
+import { Box, Typography, styled, InputAdornment } from '@mui/material'
 import {
    ExitIcon,
    EyeIcon,
@@ -9,7 +9,6 @@ import {
    LogoIcon,
    WarningIcon,
 } from '../../assets/icons'
-import { LockImage, UserImage } from '../../assets/images'
 import { VALIDATION_SIGN_UP } from '../../utils/helpers/validate'
 import { showErrorsSignUp } from '../../utils/helpers'
 import { SIGN_UP_INPUTS } from '../../utils/constants'
@@ -77,14 +76,26 @@ const SignUp = () => {
                      type={showPassword ? 'text' : type}
                      error={errors[name] && touched[name]}
                      onFocus={() => handleInputFocus(name)}
+                     InputProps={{
+                        endAdornment: (
+                           <InputAdornment>
+                              {focusedInput === 'password' && (
+                                 <Box
+                                    className="eye"
+                                    onClick={handlePasswordShow}
+                                 >
+                                    {showPassword ? (
+                                       <EyeIcon />
+                                    ) : (
+                                       <EyeOffIcon />
+                                    )}
+                                 </Box>
+                              )}
+                           </InputAdornment>
+                        ),
+                     }}
                   />
                ))}
-
-               {focusedInput === 'password' && (
-                  <Box className="eye" onClick={handlePasswordShow}>
-                     {showPassword ? <EyeIcon /> : <EyeOffIcon />}
-                  </Box>
-               )}
 
                {showErrorsSignUp(errors) ? (
                   <Typography className="validate">
@@ -111,12 +122,6 @@ const SignUp = () => {
                </Box>
             </Box>
          </form>
-
-         <Box className="images">
-            <img src={LockImage} alt="lock-img" className="lock" />
-
-            <img src={UserImage} alt="user-img" className="user" />
-         </Box>
       </StyledContainer>
    )
 }
@@ -135,10 +140,11 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       backgroundColor: theme.palette.primary.white,
       boxShadow: '0px 5px 10px 2px rgba(34, 60, 80, 0.2)',
       maxWidth: '45.375rem',
-      maxHeight: '40rem',
+      maxHeight: '43rem',
       margin: '1.4rem',
       borderRadius: '0.625rem',
       padding: '0.5rem',
+      overflow: 'auto',
 
       '& > .exit': {
          display: 'flex',
@@ -147,12 +153,6 @@ const StyledContainer = styled(Box)(({ theme }) => ({
          '& > svg': {
             cursor: 'pointer',
          },
-      },
-
-      '@media (max-width:1200px)': {
-         overflow: 'scroll',
-         borderRadius: '1rem',
-         maxWidth: '40rem',
       },
 
       '& > .title-box': {
@@ -287,43 +287,12 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       },
    },
 
-   '& > .images': {
-      maxWidth: '1600px',
+   '& > .form::-webkit-scrollbar': {
+      width: '0.3rem',
+   },
 
-      '& > img': {
-         position: 'absolute',
-         top: '10rem',
-         width: '30rem',
-         height: 'auto',
-
-         '@media (max-width:1400px)': {
-            width: '25rem',
-         },
-
-         '@media (max-width:1300px)': {
-            width: '20rem',
-         },
-
-         '@media (max-width:1200px)': {
-            display: 'none',
-         },
-      },
-
-      '& > .user': {
-         left: '0rem',
-         width: '28rem',
-
-         '@media (max-width:1400px)': {
-            width: '23rem',
-         },
-
-         '@media (max-width:1300px)': {
-            width: '18rem',
-         },
-      },
-
-      '& > .lock': {
-         right: '0rem',
-      },
+   '& > .form::-webkit-scrollbar-thumb': {
+      borderRadius: '1rem',
+      backgroundColor: '   #3b10e5d8',
    },
 }))

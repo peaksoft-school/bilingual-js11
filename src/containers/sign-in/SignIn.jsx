@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useFormik } from 'formik'
-import { Box, Typography, styled } from '@mui/material'
+import { Box, Typography, styled, InputAdornment } from '@mui/material'
 import {
    ExitIcon,
    GoogleIcon,
@@ -11,7 +11,6 @@ import {
 } from '../../assets/icons'
 import { VALIDATION_SIGN_IN } from '../../utils/helpers/validate'
 import { showErrorSignIn } from '../../utils/helpers'
-import { PhoneImage, WebImage } from '../../assets/images'
 import Button from '../../components/UI/buttons/Button'
 import Checkbox from '../../components/UI/Checkbox'
 import Input from '../../components/UI/Input'
@@ -23,8 +22,7 @@ const SignIn = () => {
 
    const handleShowPassword = () => setShowPassword((prev) => !prev)
 
-   const handlePasswordFieldFocus = () =>
-      setIsPasswordFieldActive((prev) => !prev)
+   const handlePasswordFieldFocus = () => setIsPasswordFieldActive(true)
 
    const onSubmit = (_, { resetForm }) => resetForm()
 
@@ -75,21 +73,26 @@ const SignIn = () => {
                />
 
                <Input
-                  type={showPassword ? 'text' : 'password'}
                   label="Password"
                   name="password"
                   value={values.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   onFocus={handlePasswordFieldFocus}
+                  type={showPassword ? 'text' : 'password'}
                   error={errors.password && touched.password}
+                  InputProps={{
+                     endAdornment: (
+                        <InputAdornment position="end">
+                           {isPasswordFieldActive && (
+                              <Box onClick={handleShowPassword}>
+                                 {showPassword ? <EyeIcon /> : <EyeOffIcon />}
+                              </Box>
+                           )}
+                        </InputAdornment>
+                     ),
+                  }}
                />
-
-               {isPasswordFieldActive && (
-                  <Box className="eye" onClick={handleShowPassword}>
-                     {showPassword ? <EyeIcon /> : <EyeOffIcon />}
-                  </Box>
-               )}
 
                <Box>
                   <Checkbox
@@ -128,12 +131,6 @@ const SignIn = () => {
                </Box>
             </Box>
          </form>
-
-         <Box className="images">
-            <img src={WebImage} alt="web" className="web" />
-
-            <img src={PhoneImage} alt="phone" className="phone" />
-         </Box>
       </StyledContainer>
    )
 }
@@ -152,10 +149,11 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       backgroundColor: theme.palette.primary.white,
       boxShadow: '0px 5px 10px 2px rgba(34, 60, 80, 0.2)',
       maxWidth: '38.5rem',
-      maxHeight: '38.7rem',
+      maxHeight: '40rem',
       margin: '2.5rem',
       borderRadius: '0.625rem',
       padding: '1rem',
+      overflow: 'auto',
 
       '& > .exit': {
          display: 'flex',
@@ -164,12 +162,6 @@ const StyledContainer = styled(Box)(({ theme }) => ({
          '& > svg': {
             cursor: 'pointer',
          },
-      },
-
-      '@media (max-width:1200px)': {
-         overflow: 'scroll',
-         borderRadius: '1rem',
-         maxWidth: '40rem',
       },
 
       '& > .content': {
@@ -215,21 +207,6 @@ const StyledContainer = styled(Box)(({ theme }) => ({
             {
                borderColor: 'red',
             },
-
-         '& > .eye': {
-            position: 'absolute',
-            display: 'flex',
-            margin: '14.5rem 0 0 29rem',
-            cursor: 'pointer',
-
-            '@media screen and (max-width: 1400px)': {
-               marginTop: '13.3rem',
-            },
-
-            '@media screen and (max-width: 1300px)': {
-               margin: '11rem 0 0 28rem',
-            },
-         },
 
          '& > .validate': {
             display: 'flex',
@@ -301,32 +278,13 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       },
    },
 
-   '& > .images': {
-      '& > img': {
-         position: 'absolute',
-         top: '8rem',
-         width: '30rem',
-         height: 'auto',
+   '& > .form::-webkit-scrollbar': {
+      width: '0.3rem',
+      height: '0.3rem',
+   },
 
-         '@media (max-width:1400px)': {
-            width: '25rem',
-         },
-
-         '@media (max-width:1300px)': {
-            width: '20rem',
-         },
-
-         '@media (max-width:1200px)': {
-            display: 'none',
-         },
-      },
-
-      '& > .phone': {
-         left: '0rem',
-      },
-
-      '& > .web': {
-         right: '0rem',
-      },
+   '& > .form::-webkit-scrollbar-thumb': {
+      borderRadius: '1rem',
+      backgroundColor: '   #3b10e5d8',
    },
 }))

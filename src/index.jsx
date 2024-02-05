@@ -24,6 +24,5 @@ root.render(
             </Themes>
          </PersistGate>
       </Provider>
-
    </StrictMode>
 )
