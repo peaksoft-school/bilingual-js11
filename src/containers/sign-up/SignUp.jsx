@@ -24,7 +24,7 @@ const SignUp = () => {
 
    const handleInputFocus = (name) => setFocusedInput(name)
 
-   const onSubmit = (values, { resetForm }) => resetForm()
+   const onSubmit = (_, { resetForm }) => resetForm()
 
    const {
       values,
