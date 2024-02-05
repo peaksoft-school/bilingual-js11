@@ -346,6 +346,17 @@ const CHECKBOX_IMAGE =
 
 const BASE_URL = 'http://18.208.146.212'
 
+const ROUTES = {
+   SIGN_IN: '/signin',
+   SIGN_UP: '/signup',
+   ADMIN: {
+      index: '/admin',
+   },
+   USER: {
+      index: '/user',
+   },
+}
+
 export {
    VIDEOS,
    CHECKBOX_IMAGE,
@@ -357,4 +368,5 @@ export {
    FAKE_DATA,
    PARTNERS,
    BASE_URL,
+   ROUTES,
 }
