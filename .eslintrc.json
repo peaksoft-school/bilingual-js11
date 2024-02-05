@@ -22,8 +22,6 @@
 
    "rules": {
       "global-require": 0,
-      "no-param-reassign": "off",
-      "no-undef": "off",
       "no-unused-vars": "off",
       "react/prop-types": "off",
       "import/no-extraneous-dependencies": "off",

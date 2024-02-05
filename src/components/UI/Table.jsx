@@ -95,9 +95,9 @@ const StyledTable = styled(MuiTable)(() => ({
    borderCollapse: 'separate',
 }))
 
-const StyledCellTr = styled(TableRow)(() => ({
+const StyledCellTr = styled(TableRow)(({ theme }) => ({
    borderRadius: '0.7rem',
-   background: '#FFF',
+   background: theme.palette.primary.white,
    boxShadow:
       '0px 4px 10px 0px rgba(0, 0, 0, 0.06), 0px -4px 10px 0px rgba(0, 0, 0, 0.06)',
 }))

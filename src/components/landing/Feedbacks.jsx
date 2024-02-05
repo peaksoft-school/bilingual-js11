@@ -68,16 +68,16 @@ const Feedbacks = () => {
 
 export default Feedbacks
 
-const StyledContainer = styled(Box)({
+const StyledContainer = styled(Box)(({ theme }) => ({
    display: 'flex',
-   backgroundColor: '#FEF5E8',
+   backgroundColor: theme.palette.secondary.main,
    backgroundSize: 'cover',
    backgroundRepeat: 'no-repeat',
    flexDirection: 'column',
    paddingTop: '120px',
 
    '& > .title': {
-      color: '#3752B4',
+      color: theme.palette.primary.dullBlue,
       fontFamily: 'Gilroy',
       fontSize: '2.5rem',
       fontWeight: 700,
@@ -98,7 +98,7 @@ const StyledContainer = styled(Box)({
       maxWidth: '1400px',
       margin: 'auto',
    },
-})
+}))
 
 const StyledSlider = styled(Slider)(({ theme }) => ({
    padding: '0 30px',
@@ -210,11 +210,11 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
       content: 'none',
 
       '& circle': {
-         fill: '#3A10E5',
+         fill: theme.palette.primary.main,
       },
 
       '& path': {
-         fill: '#fff',
+         fill: theme.palette.primary.white,
       },
    },
 
@@ -245,7 +245,7 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
          height: '40px',
 
          '& > button': {
-            background: '#3A10E5',
+            background: theme.palette.primary.main,
             height: '100%',
          },
       },
@@ -259,14 +259,15 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
    },
 }))
 
-const StyledSlide = styled(Box)(({ isactive }) => ({
+const StyledSlide = styled(Box)(({ isactive, theme }) => ({
    position: 'relative',
    textAlign: 'center',
    height: '35.25rem',
    maxHeight: '38.25rem',
    maxWidth: '22.875rem',
    cursor: 'pointer',
-   background: isactive ? '#666CA7' : '#E5E5E5',
+   background:
+      isactive === 'true' ? theme.palette.secondary.mediumGray : '#E5E5E5',
    transition: 'background 0.2s ease, transform 0.5s ease, filter 0.5s ease',
    borderRadius: '40px',
 
@@ -277,15 +278,15 @@ const StyledSlide = styled(Box)(({ isactive }) => ({
    },
 
    '& .MuiRating-iconEmpty': {
-      color: isactive ? 'white' : '#9A9A9A',
+      color: isactive === 'true' ? 'white' : '#9A9A9A',
    },
 
    '& img': {
-      width: isactive ? '16.25rem' : '11.25rem',
-      height: isactive ? '16.25rem' : '11.25rem',
+      width: isactive === 'true' ? '16.25rem' : '11.25rem',
+      height: isactive === 'true' ? '16.25rem' : '11.25rem',
       borderRadius: '50%',
       margin: 'auto',
-      marginTop: isactive ? '2rem' : '4.38rem',
+      marginTop: isactive === 'true' ? '2rem' : '4.38rem',
       transition:
          'width 0.4s ease, height 0.4s ease, margin-top 0.4s ease, filter 0.8s ease',
       zIndex: 1,
