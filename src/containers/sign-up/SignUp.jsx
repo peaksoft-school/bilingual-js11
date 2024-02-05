@@ -26,28 +26,21 @@ const SignUp = () => {
 
    const onSubmit = (_, { resetForm }) => resetForm()
 
-   const {
-      values,
-      errors,
-      touched,
-      isValid,
-      handleChange,
-      handleSubmit,
-      handleBlur,
-   } = useFormik({
-      initialValues: {
-         firstName: '',
-         lastName: '',
-         email: '',
-         password: '',
-         rememberMe: false,
-      },
+   const { values, errors, isValid, handleChange, handleSubmit, handleBlur } =
+      useFormik({
+         initialValues: {
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            rememberMe: false,
+         },
 
-      validateOnChange: false,
-      validationSchema: VALIDATION_SIGN_UP,
+         validateOnChange: false,
+         validationSchema: VALIDATION_SIGN_UP,
 
-      onSubmit,
-   })
+         onSubmit,
+      })
 
    return (
       <StyledContainer>
@@ -74,23 +67,21 @@ const SignUp = () => {
                      onChange={handleChange}
                      onBlur={handleBlur}
                      type={showPassword ? 'text' : type}
-                     error={errors[name] && touched[name]}
+                     error={errors[name]}
                      onFocus={() => handleInputFocus(name)}
                      InputProps={{
                         endAdornment: (
-                           <InputAdornment>
-                              {focusedInput === 'password' && (
-                                 <Box
-                                    className="eye"
-                                    onClick={handlePasswordShow}
-                                 >
-                                    {showPassword ? (
-                                       <EyeIcon />
-                                    ) : (
-                                       <EyeOffIcon />
-                                    )}
-                                 </Box>
-                              )}
+                           <InputAdornment className="adornment" position="end">
+                              {name === 'password' &&
+                                 focusedInput === 'password' && (
+                                    <Box onClick={handlePasswordShow}>
+                                       {showPassword ? (
+                                          <EyeIcon />
+                                       ) : (
+                                          <EyeOffIcon />
+                                       )}
+                                    </Box>
+                                 )}
                            </InputAdornment>
                         ),
                      }}
@@ -166,16 +157,6 @@ const StyledContainer = styled(Box)(({ theme }) => ({
             fontSize: '1.5rem',
             fontWeight: '400',
             marginBottom: '2rem',
-
-            '@media screen and (max-width: 1400px)': {
-               marginBottom: '1rem',
-               fontSize: '1.3rem',
-            },
-
-            '@media screen and (max-width: 1300px)': {
-               marginBottom: '0.5rem',
-               fontSize: '1rem',
-            },
          },
       },
 
@@ -193,27 +174,17 @@ const StyledContainer = styled(Box)(({ theme }) => ({
          '& .MuiOutlinedInput-root': {
             width: '31.25rem',
             height: '3.25rem',
+
+            '& > .adornment': {
+               cursor: 'pointer',
+               paddingTop: '0.3rem',
+            },
          },
 
          '& .MuiOutlinedInput-root.Mui-error:hover .MuiOutlinedInput-notchedOutline':
             {
                borderColor: 'red',
             },
-
-         '& > .eye': {
-            position: 'absolute',
-            display: 'flex',
-            margin: '15.4rem 0 0 29rem',
-            cursor: 'pointer',
-
-            '@media screen and (max-width: 1400px)': {
-               marginTop: '15.3rem',
-            },
-
-            '@media screen and (max-width: 1300px)': {
-               marginTop: '13.5rem',
-            },
-         },
 
          '& > .validate': {
             display: 'flex',
@@ -258,10 +229,6 @@ const StyledContainer = styled(Box)(({ theme }) => ({
                '&:active': {
                   backgroundColor: theme.palette.primary.white,
                },
-
-               '@media screen and (max-width: 1300px)': {
-                  height: '2.5rem',
-               },
             },
          },
 
@@ -279,10 +246,6 @@ const StyledContainer = styled(Box)(({ theme }) => ({
                cursor: 'pointer',
                color: theme.palette.primary.main,
             },
-
-            '@media screen and (max-width: 1400px)': {
-               marginTop: '-1rem',
-            },
          },
       },
    },
@@ -293,6 +256,6 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 
    '& > .form::-webkit-scrollbar-thumb': {
       borderRadius: '1rem',
-      backgroundColor: '   #3b10e5d8',
+      backgroundColor: '#3b10e5d8',
    },
 }))

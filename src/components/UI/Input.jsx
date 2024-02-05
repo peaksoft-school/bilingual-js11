@@ -60,6 +60,7 @@ const StyledTextField = styled(TextField)(({ error, disabled, theme }) => ({
    },
 
    '& label.Mui-focused': {
-      color: `${error ? 'gray' : theme.palette.primary.main}`,
+      color: `${error ? 'red' : theme.palette.primary.main}`,
+      fontSize: '0.9rem',
    },
 }))

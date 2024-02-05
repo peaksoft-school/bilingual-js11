@@ -26,25 +26,18 @@ const SignIn = () => {
 
    const onSubmit = (_, { resetForm }) => resetForm()
 
-   const {
-      values,
-      errors,
-      touched,
-      isValid,
-      handleChange,
-      handleSubmit,
-      handleBlur,
-   } = useFormik({
-      initialValues: {
-         email: '',
-         password: '',
-         rememberMe: false,
-      },
+   const { values, errors, isValid, handleChange, handleSubmit, handleBlur } =
+      useFormik({
+         initialValues: {
+            email: '',
+            password: '',
+            rememberMe: false,
+         },
 
-      validateOnChange: false,
-      validationSchema: VALIDATION_SIGN_IN,
-      onSubmit,
-   })
+         validateOnChange: false,
+         validationSchema: VALIDATION_SIGN_IN,
+         onSubmit,
+      })
 
    return (
       <StyledContainer>
@@ -69,7 +62,7 @@ const SignIn = () => {
                   value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={errors.email && touched.email}
+                  error={errors.email}
                />
 
                <Input
@@ -80,10 +73,10 @@ const SignIn = () => {
                   onBlur={handleBlur}
                   onFocus={handlePasswordFieldFocus}
                   type={showPassword ? 'text' : 'password'}
-                  error={errors.password && touched.password}
+                  error={errors.password}
                   InputProps={{
                      endAdornment: (
-                        <InputAdornment position="end">
+                        <InputAdornment className="adornment" position="end">
                            {isPasswordFieldActive && (
                               <Box onClick={handleShowPassword}>
                                  {showPassword ? <EyeIcon /> : <EyeOffIcon />}
@@ -186,21 +179,17 @@ const StyledContainer = styled(Box)(({ theme }) => ({
                fontSize: '1.5rem',
                fontWeight: '500',
                marginBottom: '2rem',
-
-               '@media screen and (max-width: 1400px)': {
-                  marginBottom: '1rem',
-                  fontSize: '1.3rem',
-               },
-
-               '@media screen and (max-width: 1300px)': {
-                  marginBottom: '0rem',
-               },
             },
          },
 
          '& .MuiOutlinedInput-root': {
             width: '31.25rem',
             height: '3.25rem',
+
+            '& > .adornment': {
+               cursor: 'pointer',
+               paddingTop: '0.3rem',
+            },
          },
 
          '& .MuiOutlinedInput-root.Mui-error:hover .MuiOutlinedInput-notchedOutline':
