@@ -19,4 +19,20 @@ const StyledToastContainer = styled(ToastContainer)(() => ({
    '& .Toastify__progress-bar--success': {
       background: '#eafbe7',
    },
+
+   '& .Toastify__close-button': {
+      width: '1.5rem',
+      height: '1.5rem',
+      position: 'absolute',
+      top: '0.4rem',
+      right: '0.3rem',
+
+      '&:hover > path': {
+         fill: 'black',
+      },
+
+      '& > path': {
+         fill: '#828282',
+      },
+   },
 }))

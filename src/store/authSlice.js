@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { ROUTES } from '../utils/constants/index'
 
 const initialState = {
    accessToken: null,
@@ -17,7 +18,7 @@ export const authSlice = createSlice({
          state.role = data.role
          state.accessToken = data.token
          state.email = data.email
-         navigate(routes[data.role].index)
+         navigate(ROUTES[data.role].index)
       },
 
       logoutAction(state) {

@@ -10,7 +10,7 @@ const TestList = () => (
                <Typography>{title}</Typography>
 
                <Box className="icons">
-                  <Switcher className="switcher" checked={enable} />
+                  <Switcher checked={enable} />
                   <EditIcon className="edit" />
                   <TrashIcon className="delete" />
                </Box>
@@ -37,6 +37,7 @@ const StyledContainer = styled(Box)(() => ({
          '0px 4px 10px 0px rgba(0, 0, 0, 0.06), 0px -4px 10px 0px rgba(0, 0, 0, 0.06)',
       marginBottom: '0.94rem',
       cursor: 'pointer',
+      textTransform: 'capitalize',
 
       '&:hover': {
          backgroundColor: '#f6f6f6',
@@ -47,10 +48,9 @@ const StyledContainer = styled(Box)(() => ({
          justifyContent: 'flex-end',
          gap: '1.4rem',
          marginLeft: 'auto',
-         cursor: 'pointer',
 
          '&  > .edit:hover': {
-            '& > path': {
+            '& > g > path': {
                stroke: '#0F85F1',
             },
          },

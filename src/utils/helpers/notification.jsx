@@ -1,7 +1,7 @@
 import { Box, Typography, styled } from '@mui/material'
 import { toast } from 'react-toastify'
 import {
-   FalseIcon,
+   ExitIcon,
    NotificationErrorIcon,
    NotificationSuccessIcon,
 } from '../../assets/icons'
@@ -10,7 +10,7 @@ export const showNotification = ({
    title = 'Success',
    message = 'Successfully',
    type = 'success',
-   duration = 3000,
+   duration = 300000,
 }) => {
    const icon =
       type === 'success' ? (
@@ -29,7 +29,7 @@ export const showNotification = ({
       {
          autoClose: duration,
          closeOnClick: true,
-         closeButton: <StyledCloseIcon />,
+         closeToast: <ExitIcon />,
 
          style: {
             padding: '1.5rem 0.5rem 1.5rem 0.5rem ',
@@ -70,20 +70,4 @@ const StyledMessage = styled(Typography)(() => ({
    fontWeight: 400,
    paddingLeft: '2rem',
    fontFamily: 'Poppins',
-}))
-
-const StyledCloseIcon = styled(FalseIcon)(() => ({
-   width: '1.5rem',
-   height: '1.5rem',
-   position: 'absolute',
-   right: '0.75rem',
-   top: '0.75rem',
-
-   '&:hover > path': {
-      fill: 'black',
-   },
-
-   '& > path': {
-      fill: '#828282',
-   },
 }))
