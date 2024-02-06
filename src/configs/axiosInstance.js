@@ -1,6 +1,7 @@
 import axios from 'axios'
-import { BASE_URL } from '../utils/constants'
 import store from '../store/store'
+
+const BASE_URL = process.env.API_URL
 
 export const axiosInstance = axios.create({
    baseURL: BASE_URL,

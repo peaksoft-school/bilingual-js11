@@ -383,17 +383,22 @@ const SIGN_UP_INPUTS = [
       type: 'password',
    },
 ]
-const BASE_URL = 'http://18.208.146.212'
 
 const ROUTES = {
-   SIGN_IN: '/signin',
-   SIGN_UP: '/signup',
+   SIGN_IN: '/signIn',
+   SIGN_UP: '/signUp',
    ADMIN: {
       index: '/admin',
    },
    USER: {
       index: '/user',
    },
+}
+
+const ROLES = {
+   ADMIN: 'ADMIN',
+   USER: 'USER',
+   GUEST: 'GUEST',
 }
 
 export {
@@ -408,6 +413,6 @@ export {
    PARTNERS,
    SIGN_UP_INPUTS,
    TEST_DATA,
-   BASE_URL,
    ROUTES,
+   ROLES,
 }

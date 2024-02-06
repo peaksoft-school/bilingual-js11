@@ -1,5 +1,6 @@
 import './App.css'
+import AppRoutes from './routes/AppRoutes'
 
-const App = () => <h1>Bilingual-js11</h1>
+const App = () => <AppRoutes />
 
 export default App

@@ -1,54 +1,67 @@
-import { useSelector } from 'react-redux'
-import { createBrowserRouter, Navigate } from 'react-router-dom'
-import { ROUTES } from '../utils/constants/index'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
+import { ROLES, ROUTES } from '../utils/constants/index'
+import { ADMIN_ROUTES } from './AdminRoutes'
+import { USER_ROUTES } from './UserRoutes'
+import ProtectedRoutes from './ProtectedRoutes'
+import AdminLayout from '../layout/admin/AdminLayout'
+import UserLayout from '../layout/user/UserLayout'
 import LandingPage from '../containers/LandingPage'
-import ProtectedRoutes from './protected/ProtectedRoutes'
-import AdminRoutes from './admin/AdminRoutes'
-import UserRoutes from './user/UserRoutes'
 import SignIn from '../containers/sign-in/SignIn'
 import SignUp from '../containers/sign-up/SignUp'
 
 const AppRoutes = () => {
-   const { role, isAuth } = useSelector((state) => state.isAuth)
-
-   createBrowserRouter([
+   const router = createBrowserRouter([
       {
          path: '/',
-         element: role !== 'ADMIN' ? <LandingPage /> : <Navigate to="/admin" />,
+         element: (
+            <ProtectedRoutes
+               roles={[ROLES.USER, ROLES.GUEST]}
+               fallbackPath={ROUTES.SIGN_IN}
+               component={<LandingPage />}
+            />
+         ),
       },
 
       {
-         path: '/sign-in',
+         path: ROUTES.SIGN_IN,
          element: <SignIn />,
       },
 
       {
-         path: '/sign-up',
+         path: ROUTES.SIGN_UP,
          element: <SignUp />,
-      },
-
-      {
-         path: ROUTES.USER.index,
-         element: (
-            <ProtectedRoutes
-               isAuth={isAuth}
-               component={<UserRoutes />}
-               fallbackPath={ROUTES.SIGN_IN}
-            />
-         ),
       },
 
       {
          path: ROUTES.ADMIN.index,
          element: (
             <ProtectedRoutes
-               isAuth={isAuth}
-               component={<AdminRoutes />}
+               roles={[ROLES.ADMIN]}
                fallbackPath={ROUTES.SIGN_IN}
+               component={<AdminLayout />}
             />
          ),
+         children: ADMIN_ROUTES,
+      },
+
+      {
+         path: ROUTES.USER.index,
+         element: (
+            <ProtectedRoutes
+               roles={[ROLES.USER, ROLES.GUEST]}
+               fallbackPath={ROUTES.ADMIN.index}
+               component={<UserLayout />}
+            />
+         ),
+         children: USER_ROUTES,
+      },
+      {
+         path: '*',
+         element: <Navigate to="/" />,
       },
    ])
+
+   return <RouterProvider router={router} />
 }
 
 export default AppRoutes

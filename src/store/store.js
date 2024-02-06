@@ -13,7 +13,7 @@ import storage from 'redux-persist/lib/storage'
 import { authSlice } from './authSlice'
 
 const rootReducer = combineReducers({
-   tests: authSlice.reducer,
+   [authSlice.name]: authSlice.reducer,
 })
 
 const persistConfig = {

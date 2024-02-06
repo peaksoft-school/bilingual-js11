@@ -9,7 +9,7 @@ import {
    EyeOffIcon,
    WarningIcon,
 } from '../../assets/icons'
-import { VALIDATION_SIGN_IN } from '../../utils/helpers/validate'
+import { VALIDATION_SIGN_IN } from '../../utils/helpers/validation'
 import { showErrorSignIn } from '../../utils/helpers'
 import Button from '../../components/UI/buttons/Button'
 import Checkbox from '../../components/UI/Checkbox'
