@@ -1,11 +1,11 @@
 import { Navigate } from 'react-router-dom'
-import { ROUTES } from '../../utils/constants'
 
-const ProtectedRoutes = ({ component, isAuth }) => {
-   if (isAuth) {
+const ProtectedRoutes = ({ fallbackPath, isAuth, roles, role, component }) => {
+   if (isAuth && roles?.includes(role)) {
       return component
+   } else {
+      return <Navigate to={fallbackPath} replace />
    }
-   return <Navigate to={ROUTES.LOGIN} />
 }
 
 export default ProtectedRoutes
