@@ -3,7 +3,7 @@ import { Box, styled } from '@mui/material'
 import { Link } from 'react-router-dom'
 import Button from '../components/UI/buttons/Button'
 import { LogoImage } from '../assets/images'
-import { ROUTES } from '../utils/constants'
+import { ROUTES } from '../routes/routes'
 
 const LandingHeader = () => {
    const [isScrolled, setIsScrolled] = useState(false)

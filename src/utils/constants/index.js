@@ -384,25 +384,6 @@ const SIGN_UP_INPUTS = [
    },
 ]
 
-const ROUTES = {
-   SIGN_IN: '/sign-in',
-   SIGN_UP: '/sign-up',
-
-   ADMIN: {
-      index: '/admin',
-   },
-
-   USER: {
-      index: '/user',
-   },
-}
-
-const ROLES = {
-   ADMIN: 'ADMIN',
-   USER: 'USER',
-   GUEST: 'GUEST',
-}
-
 export {
    VIDEOS,
    CHECKBOX_IMAGE,
@@ -415,6 +396,4 @@ export {
    PARTNERS,
    SIGN_UP_INPUTS,
    TEST_DATA,
-   ROUTES,
-   ROLES,
 }

@@ -5,7 +5,7 @@ import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
 import { TEST_DATA } from '../../../utils/constants'
 
-const QuestionsList = ({ title, shortDescription, duration }) => (
+const Questions = ({ title, shortDescription, duration }) => (
    <StyledContainer>
       <Box className="rectangle">
          <TestContainer>
@@ -75,7 +75,7 @@ const QuestionsList = ({ title, shortDescription, duration }) => (
    </StyledContainer>
 )
 
-export default QuestionsList
+export default Questions
 
 const StyledContainer = styled(Box)(() => ({
    display: 'flex',

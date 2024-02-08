@@ -158,7 +158,7 @@ const LearnMore = () => {
                   repeat: Infinity,
                }}
             >
-               <LandingButton onClick={() => handleStarted()} />
+               <LandingButton onClick={handleStarted} />
             </motion.div>
          </Box>
       </StyledContainer>

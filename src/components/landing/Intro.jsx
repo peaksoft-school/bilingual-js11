@@ -27,9 +27,9 @@ const Intro = () => {
 
    const handleBegin = () => {
       if (isAuth) {
-         navigate('/user/tests')
+         navigate('/user/tests', { replace: true })
       } else {
-         navigate('/sign-in')
+         navigate('/sign-in', { replace: true })
       }
    }
 
@@ -161,7 +161,7 @@ const Intro = () => {
                   repeat: Infinity,
                }}
             >
-               <LandingButton isStart={false} onClick={() => handleBegin()} />
+               <LandingButton isStart={false} onClick={handleBegin} />
             </motion.div>
          </Box>
       </StyledContainer>

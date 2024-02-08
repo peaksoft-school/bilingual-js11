@@ -9,11 +9,8 @@ const AdminLayout = () => {
 
    return (
       <>
-         <Header
-            title="SUBMITTED"
-            endpoint="/admin/tests"
-            resultEndpoint="/admin/results"
-         />
+         <Header />
+
          <Outlet />
       </>
    )

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useFormik } from 'formik'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { Box, Typography, styled, InputAdornment } from '@mui/material'
 import {
    ExitIcon,
@@ -12,7 +12,7 @@ import {
 } from '../../assets/icons'
 import { VALIDATION_SIGN_IN } from '../../utils/helpers/validation'
 import { showErrorSignIn } from '../../utils/helpers'
-import { ROUTES } from '../../utils/constants'
+import { ROUTES } from '../../routes/routes'
 import Button from '../../components/UI/buttons/Button'
 import Checkbox from '../../components/UI/Checkbox'
 import Input from '../../components/UI/Input'
@@ -45,7 +45,9 @@ const SignIn = () => {
       <StyledContainer>
          <form className="form" onSubmit={handleSubmit}>
             <Box className="exit">
-               <ExitIcon />
+               <Link to="/">
+                  <ExitIcon />
+               </Link>
             </Box>
 
             <Box className="content">
@@ -265,7 +267,9 @@ const StyledContainer = styled(Box)(({ theme }) => ({
             '& > .navigation': {
                textDecoration: 'none',
 
-               '&:active': { color: '#3A10E5' },
+               '&:active': {
+                  color: '#3A10E5',
+               },
             },
 
             '& > .register': {

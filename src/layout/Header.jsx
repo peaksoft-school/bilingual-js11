@@ -1,27 +1,46 @@
+import { useSelector } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
 import { AppBar, Box, Typography, styled } from '@mui/material'
 import Button from '../components/UI/buttons/Button'
 import { LogoImage } from '../assets/images'
 
-const Header = ({ title, endpoint, resultEndpoint }) => (
-   <StyledContainer>
-      <img src={LogoImage} alt="logo" />
+const Header = () => {
+   const { role } = useSelector((state) => state.auth)
 
-      <Box className="actions">
-         <NavLink className="navigation" to={endpoint}>
-            <Typography>TESTS</Typography>
-         </NavLink>
+   return (
+      <StyledContainer>
+         <img src={LogoImage} alt="logo" />
 
-         <NavLink className="navigation" to={resultEndpoint}>
-            <Typography>{title} RESULTS</Typography>
-         </NavLink>
+         <Box className="actions">
+            {role === 'ADMIN' ? (
+               <>
+                  <NavLink className="navigation" to="/admin/tests">
+                     <Typography>TESTS</Typography>
+                  </NavLink>
 
-         <Link to="/">
-            <StyledButton variant="secondary">LOG OUT</StyledButton>
-         </Link>
-      </Box>
-   </StyledContainer>
-)
+                  <NavLink className="navigation" to="/admin/results">
+                     <Typography> SUBMITTED RESULTS</Typography>
+                  </NavLink>
+               </>
+            ) : (
+               <>
+                  <NavLink className="navigation" to="/user/tests">
+                     <Typography>TESTS</Typography>
+                  </NavLink>
+
+                  <NavLink className="navigation" to="/user/results">
+                     <Typography>MY RESULTS</Typography>
+                  </NavLink>
+               </>
+            )}
+
+            <Link to="/">
+               <StyledButton variant="secondary">LOG OUT</StyledButton>
+            </Link>
+         </Box>
+      </StyledContainer>
+   )
+}
 
 export default Header
 

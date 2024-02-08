@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useFormik } from 'formik'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { Box, Typography, styled, InputAdornment } from '@mui/material'
 import {
    ExitIcon,
@@ -11,8 +11,9 @@ import {
    WarningIcon,
 } from '../../assets/icons'
 import { VALIDATION_SIGN_UP } from '../../utils/helpers/validation'
-import { showErrorsSignUp } from '../../utils/helpers'
-import { SIGN_UP_INPUTS, ROUTES } from '../../utils/constants'
+import { showErrorSignUp } from '../../utils/helpers'
+import { ROUTES } from '../../routes/routes'
+import { SIGN_UP_INPUTS } from '../../utils/constants'
 import Button from '../../components/UI/buttons/Button'
 import Input from '../../components/UI/Input'
 
@@ -47,7 +48,9 @@ const SignUp = () => {
       <StyledContainer>
          <form className="form" onSubmit={handleSubmit}>
             <Box className="exit">
-               <ExitIcon />
+               <Link to="/">
+                  <ExitIcon />
+               </Link>
             </Box>
 
             <Box className="title-box">
@@ -89,9 +92,9 @@ const SignUp = () => {
                   />
                ))}
 
-               {showErrorsSignUp(errors) ? (
+               {showErrorSignUp(errors) ? (
                   <Typography className="validate">
-                     {showErrorsSignUp(errors)} <WarningIcon />
+                     {showErrorSignUp(errors)} <WarningIcon />
                   </Typography>
                ) : (
                   <Typography> </Typography>
@@ -248,7 +251,9 @@ const StyledContainer = styled(Box)(({ theme }) => ({
             '& > .navigation': {
                textDecoration: 'none',
 
-               '&:active': { color: '#3A10E5' },
+               '&:active': {
+                  color: '#3A10E5',
+               },
             },
 
             '& .log-in': {

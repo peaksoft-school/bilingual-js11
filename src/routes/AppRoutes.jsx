@@ -1,23 +1,21 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
-import { ROLES, ROUTES } from '../utils/constants/index'
-import { ADMIN_ROUTES } from './AdminRoutes'
-import { USER_ROUTES } from './UserRoutes'
-import ProtectedRoutes from './ProtectedRoutes'
+import { ROLES, ROUTES, ADMIN_ROUTES, USER_ROUTES } from './routes'
+import ProtectedRoute from './ProtectedRoute'
 import AdminLayout from '../layout/admin/AdminLayout'
 import UserLayout from '../layout/user/UserLayout'
-import Landing from '../containers/Landing'
-import SignIn from '../containers/sign-in/SignIn'
-import SignUp from '../containers/sign-up/SignUp'
+import Home from '../pages/home/Home'
+import SignIn from '../pages/sign-in/SignIn'
+import SignUp from '../pages/sign-up/SignUp'
 
 const AppRoutes = () => {
    const router = createBrowserRouter([
       {
          path: '/',
          element: (
-            <ProtectedRoutes
+            <ProtectedRoute
                roles={[ROLES.USER, ROLES.GUEST]}
-               fallbackPath={ROUTES.SIGN_IN}
-               component={<Landing />}
+               fallbackPath="/admin"
+               Component={<Home />}
             />
          ),
       },
@@ -35,10 +33,10 @@ const AppRoutes = () => {
       {
          path: ROUTES.ADMIN.index,
          element: (
-            <ProtectedRoutes
+            <ProtectedRoute
                roles={[ROLES.ADMIN]}
-               fallbackPath={ROUTES.SIGN_IN}
-               component={<AdminLayout />}
+               fallbackPath="/"
+               Component={<AdminLayout />}
             />
          ),
          children: ADMIN_ROUTES,
@@ -47,14 +45,15 @@ const AppRoutes = () => {
       {
          path: ROUTES.USER.index,
          element: (
-            <ProtectedRoutes
-               roles={[ROLES.USER, ROLES.GUEST]}
-               fallbackPath={ROUTES.ADMIN.index}
-               component={<UserLayout />}
+            <ProtectedRoute
+               roles={[ROLES.USER]}
+               fallbackPath="/"
+               Component={<UserLayout />}
             />
          ),
          children: USER_ROUTES,
       },
+
       {
          path: '*',
          element: <Navigate to="/" />,

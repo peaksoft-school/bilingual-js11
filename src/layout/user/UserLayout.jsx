@@ -8,14 +8,11 @@ const UserLayout = () => {
    useEffect(() => navigate('/user/tests'), [])
 
    return (
-      <div>
-         <Header
-            title="MY"
-            endpoint="/user/tests"
-            resultEndpoint="/user/results"
-         />
+      <>
+         <Header />
+
          <Outlet />
-      </div>
+      </>
    )
 }
 
