@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Box, styled } from '@mui/material'
+import { Link } from 'react-router-dom'
 import Button from '../components/UI/buttons/Button'
 import { LogoImage } from '../assets/images'
+import { ROUTES } from '../utils/constants'
 
 const LandingHeader = () => {
    const [isScrolled, setIsScrolled] = useState(false)
@@ -26,11 +28,15 @@ const LandingHeader = () => {
             <img src={LogoImage} alt="logo" />
 
             <Box className="buttons">
-               <Button>TO COME IN</Button>
+               <Link to={ROUTES.SIGN_IN}>
+                  <Button>TO COME IN</Button>
+               </Link>
 
-               <StyledRegisterButton variant="secondary">
-                  REGISTER
-               </StyledRegisterButton>
+               <Link to={ROUTES.SIGN_UP}>
+                  <StyledRegisterButton variant="secondary">
+                     REGISTER
+                  </StyledRegisterButton>
+               </Link>
             </Box>
          </Box>
       </StyledContainer>

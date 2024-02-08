@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useFormik } from 'formik'
+import { NavLink } from 'react-router-dom'
 import { Box, Typography, styled, InputAdornment } from '@mui/material'
 import {
    ExitIcon,
@@ -11,6 +12,7 @@ import {
 } from '../../assets/icons'
 import { VALIDATION_SIGN_IN } from '../../utils/helpers/validation'
 import { showErrorSignIn } from '../../utils/helpers'
+import { ROUTES } from '../../utils/constants'
 import Button from '../../components/UI/buttons/Button'
 import Checkbox from '../../components/UI/Checkbox'
 import Input from '../../components/UI/Input'
@@ -120,7 +122,9 @@ const SignIn = () => {
                <Box className="text-account">
                   <Typography>Dont have an account?</Typography>
 
-                  <Typography className="register">Register</Typography>
+                  <NavLink to={ROUTES.SIGN_UP} className="navigation">
+                     <Typography className="register">Register</Typography>
+                  </NavLink>
                </Box>
             </Box>
          </form>
@@ -258,7 +262,13 @@ const StyledContainer = styled(Box)(({ theme }) => ({
             fontWeight: '500',
             textTransform: 'uppercase',
 
-            '& .register': {
+            '& > .navigation': {
+               textDecoration: 'none',
+
+               '&:active': { color: '#3A10E5' },
+            },
+
+            '& > .register': {
                cursor: 'pointer',
                color: theme.palette.primary.main,
                fontWeight: '500',

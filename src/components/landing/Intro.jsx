@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
 import { motion } from 'framer-motion'
 import LandingButton from '../UI/buttons/LandingButton'
@@ -17,7 +19,19 @@ import {
 import { BackgroundIntroImage } from '../../assets/images'
 
 const Intro = () => {
+   const { isAuth } = useSelector((state) => state.auth)
+
    const [isVisible, setIsVisible] = useState(false)
+
+   const navigate = useNavigate()
+
+   const handleBegin = () => {
+      if (isAuth) {
+         navigate('/user/tests')
+      } else {
+         navigate('/sign-in')
+      }
+   }
 
    useEffect(() => {
       const timeoutId = setTimeout(() => {
@@ -147,7 +161,7 @@ const Intro = () => {
                   repeat: Infinity,
                }}
             >
-               <LandingButton isStart={false} />
+               <LandingButton isStart={false} onClick={() => handleBegin()} />
             </motion.div>
          </Box>
       </StyledContainer>

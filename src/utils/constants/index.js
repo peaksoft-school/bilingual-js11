@@ -385,11 +385,13 @@ const SIGN_UP_INPUTS = [
 ]
 
 const ROUTES = {
-   SIGN_IN: '/signIn',
-   SIGN_UP: '/signUp',
+   SIGN_IN: '/sign-in',
+   SIGN_UP: '/sign-up',
+
    ADMIN: {
       index: '/admin',
    },
+
    USER: {
       index: '/user',
    },

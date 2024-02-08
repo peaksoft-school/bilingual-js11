@@ -1,17 +1,24 @@
+import { Link, NavLink } from 'react-router-dom'
 import { AppBar, Box, Typography, styled } from '@mui/material'
 import Button from '../components/UI/buttons/Button'
 import { LogoImage } from '../assets/images'
 
-const Header = () => (
+const Header = ({ title, endpoint, resultEndpoint }) => (
    <StyledContainer>
       <img src={LogoImage} alt="logo" />
 
       <Box className="actions">
-         <Typography>TESTS</Typography>
+         <NavLink className="navigation" to={endpoint}>
+            <Typography>TESTS</Typography>
+         </NavLink>
 
-         <Typography>RESULTS</Typography>
+         <NavLink className="navigation" to={resultEndpoint}>
+            <Typography>{title} RESULTS</Typography>
+         </NavLink>
 
-         <StyledButton variant="secondary">LOG OUT</StyledButton>
+         <Link to="/">
+            <StyledButton variant="secondary">LOG OUT</StyledButton>
+         </Link>
       </Box>
    </StyledContainer>
 )
@@ -46,6 +53,13 @@ const StyledContainer = styled(AppBar)(({ theme }) => ({
       alignItems: 'center',
       gap: '3.75rem',
       cursor: 'pointer',
+
+      '& .navigation': {
+         textDecoration: 'none',
+         color: '#4c4859',
+
+         '&.active': { color: '#3A10E5' },
+      },
    },
 }))
 

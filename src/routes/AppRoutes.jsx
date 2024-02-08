@@ -5,7 +5,7 @@ import { USER_ROUTES } from './UserRoutes'
 import ProtectedRoutes from './ProtectedRoutes'
 import AdminLayout from '../layout/admin/AdminLayout'
 import UserLayout from '../layout/user/UserLayout'
-import LandingPage from '../containers/LandingPage'
+import Landing from '../containers/Landing'
 import SignIn from '../containers/sign-in/SignIn'
 import SignUp from '../containers/sign-up/SignUp'
 
@@ -17,7 +17,7 @@ const AppRoutes = () => {
             <ProtectedRoutes
                roles={[ROLES.USER, ROLES.GUEST]}
                fallbackPath={ROUTES.SIGN_IN}
-               component={<LandingPage />}
+               component={<Landing />}
             />
          ),
       },

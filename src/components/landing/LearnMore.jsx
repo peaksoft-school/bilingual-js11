@@ -1,4 +1,6 @@
 import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { Box, Typography, keyframes, styled } from '@mui/material'
 import { motion } from 'framer-motion'
 import Aos from 'aos'
@@ -23,6 +25,18 @@ const ROADMAPE_ANIMATE = keyframes`
 `
 
 const LearnMore = () => {
+   const { isAuth } = useSelector((state) => state.auth)
+
+   const navigate = useNavigate()
+
+   const handleStarted = () => {
+      if (isAuth) {
+         navigate('/user/tests')
+      } else {
+         navigate('/sign-in')
+      }
+   }
+
    useEffect(() => {
       Aos.init({
          easing: 'ease-in-quart',
@@ -144,7 +158,7 @@ const LearnMore = () => {
                   repeat: Infinity,
                }}
             >
-               <LandingButton />
+               <LandingButton onClick={() => handleStarted()} />
             </motion.div>
          </Box>
       </StyledContainer>

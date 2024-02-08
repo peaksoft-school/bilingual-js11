@@ -10,7 +10,7 @@ import UserExperience from '../components/landing/UserExperience'
 import Footer from '../layout/Footer'
 import LandingHeader from '../layout/LandingHeader'
 
-const LandingPage = () => (
+const Landing = () => (
    <>
       <LandingHeader />
       <Intro />
@@ -26,4 +26,4 @@ const LandingPage = () => (
    </>
 )
 
-export default LandingPage
+export default Landing
