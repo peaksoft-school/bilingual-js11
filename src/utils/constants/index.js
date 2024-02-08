@@ -343,14 +343,18 @@ const COLUMNS = [
 
 const TEST_DATA = [
    {
+      id: 1,
       title: 'Select the real Englisg word in the list...',
       duration: '1 min',
       questionType: 'Multiple Choice',
+      enable: false,
    },
    {
+      id: 2,
       title: 'Select the real Englisg word in the list...',
       duration: '1 min',
       questionType: 'Essay',
+      enable: !false,
    },
 ]
 
@@ -379,7 +383,6 @@ const SIGN_UP_INPUTS = [
       type: 'password',
    },
 ]
-const BASE_URL = 'http://18.208.146.212'
 
 export {
    VIDEOS,
@@ -393,5 +396,4 @@ export {
    PARTNERS,
    SIGN_UP_INPUTS,
    TEST_DATA,
-   BASE_URL,
 }

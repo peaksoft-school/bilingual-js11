@@ -1,4 +1,4 @@
-const showErrorsSignUp = (errors) => {
+const showErrorSignUp = (errors) => {
    let errorMessage = null
 
    if (Object.keys(errors).length > 1) {
@@ -26,4 +26,4 @@ const showErrorSignIn = (errors) => {
    return errorMessage
 }
 
-export { showErrorsSignUp, showErrorSignIn }
+export { showErrorSignUp, showErrorSignIn }

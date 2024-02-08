@@ -1,41 +1,46 @@
 import { useState } from 'react'
 import { useFormik } from 'formik'
+import { Link, NavLink } from 'react-router-dom'
 import { Box, Typography, styled, InputAdornment } from '@mui/material'
 import {
    ExitIcon,
-   GoogleIcon,
-   LogoIcon,
    EyeIcon,
    EyeOffIcon,
+   GoogleIcon,
+   LogoIcon,
    WarningIcon,
 } from '../../assets/icons'
-import { VALIDATION_SIGN_IN } from '../../utils/helpers/validate'
-import { showErrorSignIn } from '../../utils/helpers'
+import { VALIDATION_SIGN_UP } from '../../utils/helpers/validation'
+import { showErrorSignUp } from '../../utils/helpers'
+import { ROUTES } from '../../routes/routes'
+import { SIGN_UP_INPUTS } from '../../utils/constants'
 import Button from '../../components/UI/buttons/Button'
-import Checkbox from '../../components/UI/Checkbox'
 import Input from '../../components/UI/Input'
 
-const SignIn = () => {
+const SignUp = () => {
    const [showPassword, setShowPassword] = useState(false)
 
-   const [isPasswordFieldActive, setIsPasswordFieldActive] = useState(false)
+   const [focusedInput, setFocusedInput] = useState(null)
 
-   const handleShowPassword = () => setShowPassword((prev) => !prev)
+   const handlePasswordShow = () => setShowPassword((prev) => !prev)
 
-   const handlePasswordFieldFocus = () => setIsPasswordFieldActive(true)
+   const handleInputFocus = (name) => setFocusedInput(name)
 
    const onSubmit = (_, { resetForm }) => resetForm()
 
    const { values, errors, isValid, handleChange, handleSubmit, handleBlur } =
       useFormik({
          initialValues: {
+            firstName: '',
+            lastName: '',
             email: '',
             password: '',
             rememberMe: false,
          },
 
          validateOnChange: false,
-         validationSchema: VALIDATION_SIGN_IN,
+         validationSchema: VALIDATION_SIGN_UP,
+
          onSubmit,
       })
 
@@ -43,71 +48,59 @@ const SignIn = () => {
       <StyledContainer>
          <form className="form" onSubmit={handleSubmit}>
             <Box className="exit">
-               <ExitIcon />
+               <Link to="/">
+                  <ExitIcon />
+               </Link>
+            </Box>
+
+            <Box className="title-box">
+               <LogoIcon />
+
+               <Typography className="title" variant="h2">
+                  Create an Account
+               </Typography>
             </Box>
 
             <Box className="content">
-               <Box className="title-box">
-                  <LogoIcon />
-
-                  <Typography className="title" variant="h2">
-                     Sign in
-                  </Typography>
-               </Box>
-
-               <Input
-                  type="email"
-                  label="Email"
-                  name="email"
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={errors.email}
-               />
-
-               <Input
-                  label="Password"
-                  name="password"
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  onFocus={handlePasswordFieldFocus}
-                  type={showPassword ? 'text' : 'password'}
-                  error={errors.password}
-                  InputProps={{
-                     endAdornment: (
-                        <InputAdornment className="adornment" position="end">
-                           {isPasswordFieldActive && (
-                              <Box onClick={handleShowPassword}>
-                                 {showPassword ? <EyeIcon /> : <EyeOffIcon />}
-                              </Box>
-                           )}
-                        </InputAdornment>
-                     ),
-                  }}
-               />
-
-               <Box>
-                  <Checkbox
-                     name="rememberMe"
-                     checked={values.rememberMe}
+               {SIGN_UP_INPUTS.map(({ name, label, type }) => (
+                  <Input
+                     key={name}
+                     label={label}
+                     name={name}
+                     value={values[name]}
                      onChange={handleChange}
+                     onBlur={handleBlur}
+                     type={showPassword ? 'text' : type}
+                     error={errors[name]}
+                     onFocus={() => handleInputFocus(name)}
+                     InputProps={{
+                        endAdornment: (
+                           <InputAdornment className="adornment" position="end">
+                              {name === 'password' &&
+                                 focusedInput === 'password' && (
+                                    <Box onClick={handlePasswordShow}>
+                                       {showPassword ? (
+                                          <EyeIcon />
+                                       ) : (
+                                          <EyeOffIcon />
+                                       )}
+                                    </Box>
+                                 )}
+                           </InputAdornment>
+                        ),
+                     }}
                   />
+               ))}
 
-                  <Typography variant="span" className="text-checkbox">
-                     To remember me
-                  </Typography>
-               </Box>
-
-               {showErrorSignIn(errors) ? (
+               {showErrorSignUp(errors) ? (
                   <Typography className="validate">
-                     {showErrorSignIn(errors)} <WarningIcon />
+                     {showErrorSignUp(errors)} <WarningIcon />
                   </Typography>
                ) : (
                   <Typography> </Typography>
                )}
 
-               <Button disabled={!isValid}>Sign in</Button>
+               <Button disabled={!isValid}>Sign up</Button>
 
                <Button
                   type="button"
@@ -118,9 +111,11 @@ const SignIn = () => {
                </Button>
 
                <Box className="text-account">
-                  <Typography>Dont have an account?</Typography>
+                  <Typography>Already have an account?</Typography>
 
-                  <Typography className="register">Register</Typography>
+                  <NavLink to={ROUTES.SIGN_IN} className="navigation">
+                     <Typography className="log-in">Log in</Typography>
+                  </NavLink>
                </Box>
             </Box>
          </form>
@@ -128,7 +123,7 @@ const SignIn = () => {
    )
 }
 
-export default SignIn
+export default SignUp
 
 const StyledContainer = styled(Box)(({ theme }) => ({
    background: 'linear-gradient(180deg, #833fac, #3b10e5d8)',
@@ -141,11 +136,11 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    '& > .form': {
       backgroundColor: theme.palette.primary.white,
       boxShadow: '0px 5px 10px 2px rgba(34, 60, 80, 0.2)',
-      maxWidth: '38.5rem',
-      maxHeight: '40rem',
-      margin: '2.5rem',
+      maxWidth: '45.375rem',
+      maxHeight: '43rem',
+      margin: '1.4rem',
       borderRadius: '0.625rem',
-      padding: '1rem',
+      padding: '0.5rem',
       overflow: 'auto',
 
       '& > .exit': {
@@ -157,29 +152,29 @@ const StyledContainer = styled(Box)(({ theme }) => ({
          },
       },
 
+      '& > .title-box': {
+         display: 'flex',
+         flexDirection: 'column',
+         alignItems: 'center',
+         gap: '0.75rem',
+
+         '& > .title': {
+            color: '#4C4859',
+            fontSize: '1.5rem',
+            fontWeight: '400',
+            marginBottom: '2rem',
+         },
+      },
+
       '& > .content': {
          display: 'flex',
          flexDirection: 'column',
-         gap: '1.6rem',
+         gap: '1.5rem',
          margin: 'auto',
-         padding: '1rem 3rem',
+         padding: '0 5rem 1.89rem 5rem',
 
          '@media screen and (max-width: 1300px)': {
             gap: '1rem',
-         },
-
-         '& > .title-box': {
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '0.75rem',
-
-            '& > .title': {
-               color: '#4C4859',
-               fontSize: '1.5rem',
-               fontWeight: '500',
-               marginBottom: '2rem',
-            },
          },
 
          '& .MuiOutlinedInput-root': {
@@ -218,13 +213,6 @@ const StyledContainer = styled(Box)(({ theme }) => ({
             },
          },
 
-         '& .text-checkbox': {
-            color: '#757575',
-            fontFamily: 'Poppins',
-            fontSize: '0.875rem',
-            fontWeight: '400',
-         },
-
          '& .google-button': {
             '&.MuiButton-root': {
                backgroundColor: theme.palette.primary.white,
@@ -232,11 +220,12 @@ const StyledContainer = styled(Box)(({ theme }) => ({
                textAlign: 'center',
                fontSize: '0.875rem',
                fontWeight: '500',
-               padding: '0.875rem 1.25rem',
+               letterSpacing: '0.00875rem',
                gap: '0.5rem',
+               alignItems: 'center',
                border: '1px solid #BDBDBD',
                boxShadow: '0px 1px 2px 0px rgba(0, 0, 0, 0.20)',
-               width: '13.85rem',
+               maxWidth: '13.85rem',
                margin: 'auto',
 
                '&:hover': {
@@ -256,12 +245,20 @@ const StyledContainer = styled(Box)(({ theme }) => ({
             color: '#757575',
             fontSize: '0.875rem',
             fontWeight: '500',
+            letterSpacing: '0.0175rem',
             textTransform: 'uppercase',
 
-            '& .register': {
+            '& > .navigation': {
+               textDecoration: 'none',
+
+               '&:active': {
+                  color: '#3A10E5',
+               },
+            },
+
+            '& .log-in': {
                cursor: 'pointer',
                color: theme.palette.primary.main,
-               fontWeight: '500',
             },
          },
       },
@@ -269,11 +266,10 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 
    '& > .form::-webkit-scrollbar': {
       width: '0.3rem',
-      height: '0.3rem',
    },
 
    '& > .form::-webkit-scrollbar-thumb': {
       borderRadius: '1rem',
-      backgroundColor: '   #3b10e5d8',
+      backgroundColor: '#3b10e5d8',
    },
 }))

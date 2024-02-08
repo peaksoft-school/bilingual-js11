@@ -5,7 +5,7 @@ import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
 import { TEST_DATA } from '../../../utils/constants'
 
-const InnerPage = ({ title, shortDescription, duration }) => (
+const Questions = ({ title, shortDescription, duration }) => (
    <StyledContainer>
       <Box className="rectangle">
          <TestContainer>
@@ -43,28 +43,28 @@ const InnerPage = ({ title, shortDescription, duration }) => (
             </StyledTable>
 
             {TEST_DATA.length > 0 ? (
-               TEST_DATA.map((test, number, enable) => (
-                  <StyledBox>
-                     <Typography>{number + 1}</Typography>
-                     <Typography className="name-props">
-                        {test.title}
-                     </Typography>
+               TEST_DATA.map(
+                  ({ id, title, duration, questionType, enable }, index) => (
+                     <StyledBox key={id}>
+                        <Typography>{index + 1}</Typography>
+                        <Typography className="name-props">{title}</Typography>
 
-                     <Typography className="duration-props">
-                        {test.duration}
-                     </Typography>
+                        <Typography className="duration-props">
+                           {duration}
+                        </Typography>
 
-                     <Typography className="question-type-props">
-                        {test.questionType}
-                     </Typography>
+                        <Typography className="question-type-props">
+                           {questionType}
+                        </Typography>
 
-                     <Box className="icons">
-                        <Switcher className="switcher" checked={enable} />
-                        <EditIcon className="edit" />
-                        <TrashIcon className="delete" />
-                     </Box>
-                  </StyledBox>
-               ))
+                        <Box className="icons">
+                           <Switcher checked={enable} />
+                           <EditIcon className="edit" />
+                           <TrashIcon className="delete" />
+                        </Box>
+                     </StyledBox>
+                  )
+               )
             ) : (
                <Typography>You haven`t added any questions yet.</Typography>
             )}
@@ -75,7 +75,7 @@ const InnerPage = ({ title, shortDescription, duration }) => (
    </StyledContainer>
 )
 
-export default InnerPage
+export default Questions
 
 const StyledContainer = styled(Box)(() => ({
    display: 'flex',
@@ -200,7 +200,7 @@ const StyledBox = styled(Box)(() => ({
       cursor: 'pointer',
 
       '&  > .edit:hover': {
-         '& > path': {
+         '& > g > path': {
             stroke: '#0F85F1',
          },
       },

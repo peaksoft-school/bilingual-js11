@@ -1,13 +1,6 @@
 import './App.css'
-// import SignIn from './containers/sign-in/SignIn'
-import SignUp from './containers/sign-up/SignUp'
+import AppRoutes from './routes/AppRoutes'
 
-const App = () => {
-   return (
-      <div>
-         <SignUp />
-      </div>
-   )
-}
+const App = () => <AppRoutes />
 
 export default App
