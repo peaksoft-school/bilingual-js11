@@ -5,11 +5,13 @@ import Dropdown from './Dropdown'
 import Input from './Input'
 import { OPTIONS } from '../../utils/constants'
 import CardOption from './CardOption'
+import ModalSave from './modals/ModalSave'
 
 const SelectTrueOption = ({ addOptions }) => {
    const [isValue, setIsValue] = useState('')
    const [isValueInput, setIsValueInput] = useState('')
    const [isValueInputDuration, setIsValueInputDuration] = useState('')
+   const [isModalOpen, setIsModalOpen] = useState(false)
 
    const selectHandler = (e) => {
       setIsValue(e.target.value)
@@ -19,6 +21,9 @@ const SelectTrueOption = ({ addOptions }) => {
    }
    const inputDurationHandler = (e) => {
       setIsValueInputDuration(e.target.value)
+   }
+   const handleIsVisible = () => {
+      setIsModalOpen((prev) => !prev)
    }
 
    return (
@@ -71,8 +76,21 @@ const SelectTrueOption = ({ addOptions }) => {
                <CardOption num="6" />
             </Box>
             <Box className="block-of-buttons">
-               <Button variant="secondary">Go back</Button>
-               <Button variant="primary">save</Button>
+               <Button variant="secondary">GO BACK</Button>
+               <Button variant="primary" onClick={handleIsVisible}>
+                  SAVE
+               </Button>
+               {isModalOpen && (
+                  <ModalSave
+                     isVisible={isModalOpen}
+                     handleIsVisible={handleIsVisible}
+                     save="SAVE"
+                     goBack="GO BACK"
+                     isTrueOption="Is true option ?"
+                     title="title"
+                     onSave={handleIsVisible}
+                  />
+               )}
             </Box>
          </StyledModal>
       </StyledContainer>

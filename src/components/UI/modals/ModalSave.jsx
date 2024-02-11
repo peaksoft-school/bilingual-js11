@@ -4,32 +4,42 @@ import { CancelIcon } from '../../../assets/icons'
 import Checkbox from '../Checkbox'
 import Input from '../Input'
 
-const ModalSave = ({ onSave, children, isVisible, handleIsVisible }) => {
+const ModalSave = ({
+   onSave,
+   children,
+   isVisible,
+   handleIsVisible,
+   title,
+   isTrueOption,
+   goBack,
+   save,
+}) => {
    return (
       <StyledContainer>
-         <StyledOpenButton onClick={handleIsVisible}>SAVE</StyledOpenButton>
          <Modal open={isVisible} onClose={handleIsVisible}>
             <StyledModal>
                <StyledCloseIcon onClick={handleIsVisible} />
                <Box className="con-form">
                   <Typography className="title" variant="label">
-                     {children}
+                     {title}
                   </Typography>
 
                   <Input type="text" placeholder="Select real English words" />
 
                   <Box className="check-con">
-                     <Typography className="true-option">{children}</Typography>
+                     <Typography className="true-option">
+                        {isTrueOption}
+                     </Typography>
                      <Checkbox />
                   </Box>
                </Box>
                <Box className="buttons">
                   <Box className="con-of-btns">
                      <Button variant="secondary" onClick={handleIsVisible}>
-                        {children}
+                        {goBack}
                      </Button>
                      <Button variant="primary" onClick={onSave}>
-                        {children}
+                        {save}
                      </Button>
                   </Box>
                </Box>
@@ -114,20 +124,4 @@ const StyledCloseIcon = styled(CancelIcon)(() => ({
       transform: 'scale(1.1)',
       textColor: '#fff',
    },
-}))
-
-const StyledOpenButton = styled('button')(() => ({
-   width: '39.8125rem',
-   height: '2.4375rem',
-   background: '#4D9E3F',
-   color: '#FFF',
-   fontSize: '1.125rem',
-   fontWeight: '500',
-   fontFamily: 'Poppins',
-   display: 'flex',
-   textAlign: 'left',
-   alignItems: 'center',
-   paddingLeft: '1.37rem',
-   cursor: 'pointer',
-   border: 'none',
 }))
