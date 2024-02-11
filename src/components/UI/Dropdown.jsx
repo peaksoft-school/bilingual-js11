@@ -1,24 +1,11 @@
 import { MenuItem, InputLabel, Select, styled } from '@mui/material'
 import { forwardRef } from 'react'
 
-const MenuProps = {
-   PaperProps: {
-      style: {
-         maxHeight: 60 * 4.5 + 0,
-         width: '100%',
-         marginLeft: -16,
-         boxShadow: '0px 2px 5px -3px rgba(0,0,0,0.2)',
-         borderRadius: '0px 0px 5px 5px',
-      },
-   },
-}
-
 const Dropdown = forwardRef(({ options, value, onChange, ...rest }, ref) => (
    <StyledSelect
       displayEmpty
       value={value}
       onChange={onChange}
-      MenuProps={MenuProps}
       ref={ref}
       {...rest}
       renderValue={(selected) => (
