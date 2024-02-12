@@ -11,11 +11,12 @@ import { postTest, updateTest } from '../../../store/slice/admin/testsThunk'
 const CreateTest = () => {
    const { tests } = useSelector((state) => state.questionsSlice)
    const { id } = useParams()
-   const isNewTest = id === undefined || id === ''
    const [formData, setFormData] = useState({
       title: '',
       shortDescription: '',
    })
+
+   const isNewTest = id === undefined || id === ''
 
    const navigate = useNavigate()
    const dispatch = useDispatch()

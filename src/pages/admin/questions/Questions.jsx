@@ -13,6 +13,7 @@ import {
    getTest,
    updateQuestionByEnable,
 } from '../../../store/slice/admin/questionsThunk'
+import { SearchingImage } from '../../../assets/images'
 
 const Questions = () => {
    const { tests } = useSelector((state) => state.questionsSlice)
@@ -72,109 +73,105 @@ const Questions = () => {
          )
          setLocalQuestions(updatedQuestions)
       } catch (error) {
-         console.error('Ошибка при обновлении флага enable вопроса:', error)
+         console.error('Ошибка при обновлении enable вопроса:', error)
       }
    }
 
    return (
       <StyledContainer>
-         <Box>
-            <TestContainer>
-               <Box key={tests.id}>
-                  <Box className="title-container">
-                     <Box className="text">
-                        <Typography className="title">Title:</Typography>
-                        <Typography>{tests.title}</Typography>
-                     </Box>
+         <TestContainer>
+            <Box key={tests.id}>
+               <Box className="title-container">
+                  <Box className="text">
+                     <Typography className="title">Title:</Typography>
+                     <Typography>{tests.title}</Typography>
+                  </Box>
 
-                     <Box className="text">
-                        <Typography className="title">
-                           Short Description:
-                        </Typography>
-                        <Typography>{tests.shortDescription}</Typography>
-                     </Box>
+                  <Box className="text">
+                     <Typography className="title">
+                        Short Description:
+                     </Typography>
+                     <Typography>{tests.shortDescription}</Typography>
+                  </Box>
 
-                     <Box className="text">
-                        <Typography className="title">Duration:</Typography>
-                        <Typography>{tests.duration}</Typography>
-                     </Box>
+                  <Box className="text">
+                     <Typography className="title">Duration:</Typography>
+                     <Typography>{tests.duration}</Typography>
                   </Box>
                </Box>
+            </Box>
 
-               <Button icon={<PlusIcon className="plus" />} className="button">
-                  ADD MORE QUESTIONS
-               </Button>
+            <Button icon={<PlusIcon className="plus" />} className="button">
+               ADD MORE QUESTIONS
+            </Button>
 
-               <Box className="divider" />
+            <Box className="divider" />
 
-               <StyledTable>
-                  <Typography>#</Typography>
+            <StyledTable>
+               <Typography>#</Typography>
 
-                  <Typography className="name">Name</Typography>
+               <Typography className="name">Name</Typography>
 
-                  <Typography className="duration-time">Duration</Typography>
+               <Typography className="duration-time">Duration</Typography>
 
-                  <Typography className="question-type">
-                     Question Type
-                  </Typography>
-               </StyledTable>
+               <Typography className="question-type">Question Type</Typography>
+            </StyledTable>
 
-               {localQuestions.length > 0 ? (
-                  localQuestions.map(
-                     ({ id, title, duration, questionType, enable }, index) => (
-                        <StyledBox key={id}>
-                           <Typography>{index + 1}</Typography>
-                           <Typography className="name-props">
-                              {title}
-                           </Typography>
+            {localQuestions.length > 0 ? (
+               localQuestions.map(
+                  ({ id, title, duration, questionType, enable }, index) => (
+                     <StyledBox key={id}>
+                        <Typography>{index + 1}</Typography>
+                        <Typography className="name-props">{title}</Typography>
 
-                           <Typography className="duration-props">
-                              {duration}
-                           </Typography>
+                        <Typography className="duration-props">
+                           {duration}
+                        </Typography>
 
-                           <Typography className="question-type-props">
-                              {questionType}
-                           </Typography>
+                        <Typography className="question-type-props">
+                           {questionType}
+                        </Typography>
 
-                           <Box className="icons">
-                              <Switcher
-                                 key={id}
-                                 className="switcher"
-                                 checked={enable}
-                                 onChange={(e) =>
-                                    handleEnable(id, e.target.checked)
-                                 }
-                              />
+                        <Box className="icons">
+                           <Switcher
+                              key={id}
+                              className="switcher"
+                              checked={enable}
+                              onChange={(e) =>
+                                 handleEnable(id, e.target.checked)
+                              }
+                           />
 
-                              <EditIcon className="edit" />
+                           <EditIcon className="edit" />
 
-                              <TrashIcon
-                                 className="delete"
-                                 onClick={() => handleOpenModal(id)}
-                              />
-                           </Box>
-                        </StyledBox>
-                     )
+                           <TrashIcon
+                              className="delete"
+                              onClick={() => handleOpenModal(id)}
+                           />
+                        </Box>
+                     </StyledBox>
                   )
-               ) : (
-                  <Typography>You haven`t added any questions yet.</Typography>
-               )}
+               )
+            ) : (
+               <Box className="background-image">
+                  <img src={SearchingImage} alt="search" />
+               </Box>
+            )}
 
-               <Button className="go-back-button" variant="secondary">
-                  <Link to="/" className="text">
-                     GO BACK
-                  </Link>
-               </Button>
-            </TestContainer>
+            <Button className="go-back-button" variant="secondary">
+               <Link to="/" className="text">
+                  GO BACK
+               </Link>
+            </Button>
+         </TestContainer>
 
-            <ModalDelete
-               isVisible={isVisible}
-               onDelete={handleDeleteQuestion}
-               onCancel={handleCloseModal}
-            >
-               Do you want to delete?
-            </ModalDelete>
-         </Box>
+         <ModalDelete
+            isVisible={isVisible}
+            onDelete={handleDeleteQuestion}
+            onCancel={handleCloseModal}
+         >
+            Do you want to delete?
+         </ModalDelete>
       </StyledContainer>
    )
 }
@@ -255,9 +252,16 @@ const StyledContainer = styled(Box)(() => ({
    '& .divider': {
       width: 'auto',
       height: '0.0625rem',
-      margin: '1.5rem',
+      margin: '0.5rem',
       border: '1px solid #D4D0D0',
       background: '#C4C4C4',
+   },
+
+   '& .background-image': {
+      margin: 'auto',
+      marginTop: '1.8rem',
+      width: '16rem',
+      height: '16rem',
    },
 }))
 

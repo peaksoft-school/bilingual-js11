@@ -22,7 +22,7 @@ const AdminTests = () => (
 export default AdminTests
 
 const StyledContainer = styled(Box)(() => ({
-   '& .MuiButton-root': {
+   '& > div > .MuiButton-root': {
       margin: 'auto',
       marginLeft: '44.3rem',
       width: '12rem',
