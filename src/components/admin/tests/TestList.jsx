@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Switcher from '../../UI/Switcher'
 import { EditIcon, TrashIcon } from '../../../assets/icons'
+import ModalDelete from '../../UI/modals/ModalDelete'
 import {
    deleteTest,
    getAllTests,
-   updateByEnable,
-} from '../../../store/slice/testsSlice'
-import ModalDelete from '../../UI/modals/ModalDelete'
+   updateTetsByEnable,
+} from '../../../store/slice/admin/testsThunk'
 
 const TestList = () => {
    const { tests } = useSelector((state) => state.testsSlice)
@@ -37,7 +37,7 @@ const TestList = () => {
 
    const handleEnable = async (id, enable) => {
       try {
-         await dispatch(updateByEnable({ testId: id, enable }))
+         await dispatch(updateTetsByEnable({ testId: id, enable }))
       } catch (error) {
          console.error('Ошибка при обновлении теста:', error)
       } finally {
@@ -110,10 +110,6 @@ const StyledContainer = styled(Box)(() => ({
       '& > .title': {
          wordWrap: 'break-word',
          maxWidth: '38rem',
-
-         '&::first-letter': {
-            textTransform: 'uppercase',
-         },
 
          '& > .text': {
             textDecoration: 'none',

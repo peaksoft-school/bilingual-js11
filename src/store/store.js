@@ -11,8 +11,8 @@ import {
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { authSlice } from './authSlice'
-import { testsSlice } from './slice/testsSlice'
-import { questionsSlice } from './slice/questionsSlice'
+import { testsSlice } from './slice/admin/testsSlice'
+import { questionsSlice } from './slice/admin/questionsSlice'
 
 const rootReducer = combineReducers({
    [authSlice.name]: authSlice.reducer,

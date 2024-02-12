@@ -5,10 +5,10 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import Input from '../../../components/UI/Input'
 import TestContainer from '../../../components/UI/TestContainer'
 import Button from '../../../components/UI/buttons/Button'
-import { updateTest, postTest } from '../../../store/slice/testsSlice'
-import { getTest } from '../../../store/slice/questionsSlice'
+import { getTest } from '../../../store/slice/admin/questionsThunk'
+import { postTest, updateTest } from '../../../store/slice/admin/testsThunk'
 
-const UpdateTest = () => {
+const CreateTest = () => {
    const { tests } = useSelector((state) => state.questionsSlice)
    const { id } = useParams()
    const isNewTest = id === undefined || id === ''
@@ -29,7 +29,9 @@ const UpdateTest = () => {
    }
 
    useEffect(() => {
-      dispatch(getTest(id))
+      if (id) {
+         dispatch(getTest({ testId: id }))
+      }
    }, [dispatch, id])
 
    useEffect(() => {
@@ -49,6 +51,7 @@ const UpdateTest = () => {
          } else {
             await dispatch(updateTest({ id, ...testToSave }))
          }
+
          navigate('/')
       } catch (error) {
          console.error('Ошибка при сохранении теста:', error)
@@ -94,7 +97,7 @@ const UpdateTest = () => {
    )
 }
 
-export default UpdateTest
+export default CreateTest
 
 const StyledContainer = styled(Box)(() => ({
    '& > .label': {

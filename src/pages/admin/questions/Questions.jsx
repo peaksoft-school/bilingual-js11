@@ -6,32 +6,47 @@ import Switcher from '../../../components/UI/Switcher'
 import { EditIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
 import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
+import ModalDelete from '../../../components/UI/modals/ModalDelete'
 import {
    deleteQuestion,
-   getQuestion,
+   getAllQuestions,
    getTest,
-} from '../../../store/slice/questionsSlice'
-import ModalDelete from '../../../components/UI/modals/ModalDelete'
+   updateQuestionByEnable,
+} from '../../../store/slice/admin/questionsThunk'
 
 const Questions = () => {
    const { tests } = useSelector((state) => state.questionsSlice)
    const { testId } = useParams()
    const [isVisible, setIsVisible] = useState(false)
    const [selectedQuestionId, setSelectedQuestionId] = useState(null)
+   const [localQuestions, setLocalQuestions] = useState([])
    const dispatch = useDispatch()
 
    useEffect(() => {
-      dispatch(getTest(testId))
+      dispatch(getTest({ testId }))
    }, [dispatch, testId])
 
    useEffect(() => {
-      dispatch(getQuestion({ id: testId }))
-   }, [dispatch, testId])
+      dispatch(getAllQuestions())
+   }, [dispatch])
+
+   useEffect(() => {
+      setLocalQuestions(tests.question || [])
+   }, [tests])
 
    const handleDeleteQuestion = () => {
       if (selectedQuestionId) {
          dispatch(deleteQuestion({ questionId: selectedQuestionId }))
-         setIsVisible(false)
+            .then(() => {
+               setIsVisible(false)
+               const updatedQuestions = localQuestions.filter(
+                  (question) => question.id !== selectedQuestionId
+               )
+               setLocalQuestions(updatedQuestions)
+            })
+            .catch((error) => {
+               console.error('Failed to delete question:', error)
+            })
       }
    }
 
@@ -39,8 +54,26 @@ const Questions = () => {
       setSelectedQuestionId(questionId)
       setIsVisible(true)
    }
+
    const handleCloseModal = () => {
       setIsVisible(false)
+   }
+
+   const handleEnable = async (questionId, isChecked) => {
+      try {
+         await dispatch(
+            updateQuestionByEnable({ questionId, isEnable: isChecked })
+         )
+
+         const updatedQuestions = localQuestions.map((question) =>
+            question.id === questionId
+               ? { ...question, enable: isChecked }
+               : question
+         )
+         setLocalQuestions(updatedQuestions)
+      } catch (error) {
+         console.error('Ошибка при обновлении флага enable вопроса:', error)
+      }
    }
 
    return (
@@ -86,8 +119,8 @@ const Questions = () => {
                   </Typography>
                </StyledTable>
 
-               {tests.length > 0 ? (
-                  tests.question.map(
+               {localQuestions.length > 0 ? (
+                  localQuestions.map(
                      ({ id, title, duration, questionType, enable }, index) => (
                         <StyledBox key={id}>
                            <Typography>{index + 1}</Typography>
@@ -104,7 +137,14 @@ const Questions = () => {
                            </Typography>
 
                            <Box className="icons">
-                              <Switcher checked={enable} />
+                              <Switcher
+                                 key={id}
+                                 className="switcher"
+                                 checked={enable}
+                                 onChange={(e) =>
+                                    handleEnable(id, e.target.checked)
+                                 }
+                              />
 
                               <EditIcon className="edit" />
 
@@ -120,19 +160,19 @@ const Questions = () => {
                   <Typography>You haven`t added any questions yet.</Typography>
                )}
 
-               <Link to="/">
-                  <Button className="go-back-button" variant="secondary">
+               <Button className="go-back-button" variant="secondary">
+                  <Link to="/" className="text">
                      GO BACK
-                  </Button>
-               </Link>
+                  </Link>
+               </Button>
             </TestContainer>
 
             <ModalDelete
                isVisible={isVisible}
-               onDelete={() => handleDeleteQuestion(setSelectedQuestionId)}
+               onDelete={handleDeleteQuestion}
                onCancel={handleCloseModal}
             >
-               Do you want delete?
+               Do you want to delete?
             </ModalDelete>
          </Box>
       </StyledContainer>
@@ -191,6 +231,16 @@ const StyledContainer = styled(Box)(() => ({
       marginLeft: '48.6rem',
       marginTop: '0.8rem',
       width: '7.8rem',
+
+      '& > .text': {
+         display: 'flex',
+         alignItems: 'center',
+         textDecoration: 'none',
+         color: 'inherit',
+         fontFamily: 'Poppins',
+         fontSize: '14px',
+         fontWeight: '500',
+      },
 
       '&:hover': {
          color: '#FFF',
