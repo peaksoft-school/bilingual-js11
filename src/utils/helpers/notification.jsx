@@ -10,7 +10,7 @@ export const showNotification = ({
    title = 'Success',
    message = 'Successfully',
    type = 'success',
-   duration = 300000,
+   duration = 3000,
 }) => {
    const icon =
       type === 'success' ? (

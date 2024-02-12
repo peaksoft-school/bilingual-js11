@@ -2,39 +2,42 @@ import { Typography, styled, Modal, Box } from '@mui/material'
 import { CancelIcon, FalseIcon } from '../../../assets/icons'
 import Button from '../buttons/Button'
 
-const style = {
+const STYLE = {
    borderRadius: '1.25rem',
    borderStyle: 'none',
    alignItems: 'center',
 }
 
-const ModalDelete = ({ onDelete, children, isVisible, handleIsVisible }) => {
-   return (
-      <StyledContainer>
-         <StyledOpenButton onClick={handleIsVisible}>DELETE</StyledOpenButton>
-         <Modal open={isVisible} onClose={handleIsVisible} style={style}>
-            <StyledModal>
-               <StyledCloseIcon onClick={handleIsVisible} />
-               <FalseIcon className="red-cross-image" />
-               <Typography className="title">{children}</Typography>
-               <Typography className="text">{children}</Typography>
-               <Box className="container-btns">
-                  <Box className="buttons">
-                     <Button
-                        variant="secondary"
-                        onClick={handleIsVisible}
-                        className="button"
-                     >
-                        {children}
-                     </Button>
-                     <Button onClick={onDelete}>{children}</Button>
-                  </Box>
+const ModalDelete = ({ onDelete, children, isVisible, onCancel }) => (
+   <StyledContainer>
+      <Modal open={isVisible} onClose={onCancel} style={STYLE}>
+         <StyledModal>
+            <StyledCloseIcon onClick={onCancel} />
+
+            <FalseIcon className="red-cross-image" />
+
+            <Typography className="title">{children}</Typography>
+            <Typography className="text">
+               You can`t restore this file
+            </Typography>
+
+            <Box className="container-buttons">
+               <Box className="buttons">
+                  <Button
+                     variant="secondary"
+                     onClick={onCancel}
+                     className="button"
+                  >
+                     CANCEL
+                  </Button>
+
+                  <Button onClick={onDelete}>DELETE</Button>
                </Box>
-            </StyledModal>
-         </Modal>
-      </StyledContainer>
-   )
-}
+            </Box>
+         </StyledModal>
+      </Modal>
+   </StyledContainer>
+)
 
 export default ModalDelete
 
@@ -66,6 +69,7 @@ const StyledModal = styled(Box)(() => ({
       textAlign: 'center',
       color: '#4C4859',
    },
+
    '& .text': {
       fontWeight: '400',
       fontSize: '1rem',
@@ -79,18 +83,21 @@ const StyledModal = styled(Box)(() => ({
       justifyContent: 'center',
       gap: '1rem',
    },
+
    '& .button': {
       height: '2.625rem',
       padding: '0.8125rem 1.5rem',
       borderRadius: '0.5rem',
    },
+
    '& .red-cross-image': {
       display: 'flex',
       justifyContent: 'center',
       marginTop: '0.9375rem',
       marginBottom: '3.1875rem',
    },
-   '& .container-btns': {
+
+   '& .container-buttons': {
       borderRadius: '0rem 0rem 1.25rem 1.25rem',
       background: '#F0F1F1',
       width: '32.5rem',
@@ -98,27 +105,12 @@ const StyledModal = styled(Box)(() => ({
    },
 }))
 
-const StyledOpenButton = styled('button')(() => ({
-   width: '39.8125rem',
-   height: '2.4375rem',
-   background: '#4D9E3F',
-   color: '#FFF',
-   fontSize: '1.125rem',
-   fontWeight: '500',
-   fontFamily: 'Poppins',
-   display: 'flex',
-   textAlign: 'left',
-   alignItems: 'center',
-   paddingLeft: '1.37rem',
-   cursor: 'pointer',
-   border: 'none',
-}))
-
 const StyledCloseIcon = styled(CancelIcon)(() => ({
    marginLeft: '28.4375rem',
    marginTop: '1.375rem',
    cursor: 'pointer',
    transition: '0.3s',
+
    ':hover': {
       transform: 'scale(1.1)',
       textColor: '#fff',
