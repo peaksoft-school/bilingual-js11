@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { showNotification } from '../../../utils/helpers/notification'
+
 import {
    deleteTest,
    getAllTests,
+   getTest,
    postTest,
    updateTest,
    updateTetsByEnable,
@@ -34,18 +35,26 @@ export const testsSlice = createSlice({
             state.error = action.error.message
          })
 
+         .addCase(getTest.pending, (state) => {
+            state.status = 'loading'
+         })
+
+         .addCase(getTest.fulfilled, (state, action) => {
+            state.status = 'succeeded'
+            state.tests = action.payload
+         })
+
+         .addCase(getTest.rejected, (state, action) => {
+            state.status = 'failed'
+            state.error = action.error.message
+         })
+
          .addCase(postTest.pending, (state) => {
             state.status = 'loading'
          })
 
          .addCase(postTest.fulfilled, (state) => {
             state.status = 'succeeded'
-
-            showNotification({
-               title: 'Success',
-               message: 'Test successfully added',
-               type: 'success',
-            })
          })
 
          .addCase(postTest.rejected, (state, action) => {
@@ -63,12 +72,6 @@ export const testsSlice = createSlice({
             state.tests = state.tests.filter(
                (test) => test.id !== action.meta.arg
             )
-
-            showNotification({
-               title: 'Success',
-               message: 'Test successfully deleted',
-               type: 'success',
-            })
          })
 
          .addCase(deleteTest.rejected, (state, action) => {
@@ -82,12 +85,6 @@ export const testsSlice = createSlice({
 
          .addCase(updateTest.fulfilled, (state) => {
             state.status = 'succeeded'
-
-            showNotification({
-               title: 'Success',
-               message: 'Test successfully updated',
-               type: 'success',
-            })
          })
 
          .addCase(updateTest.rejected, (state, action) => {

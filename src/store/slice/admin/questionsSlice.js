@@ -1,9 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { showNotification } from '../../../utils/helpers/notification'
-import { deleteQuestion, getTest } from './questionsThunk'
+
+import {
+   deleteQuestion,
+   getAllQuestions,
+   getQuestion,
+   updateQuestionByEnable,
+} from './questionsThunk'
 
 const initialState = {
-   tests: [],
+   questions: [],
    status: '',
    error: null,
 }
@@ -14,16 +19,30 @@ export const questionsSlice = createSlice({
    reducers: {},
    extraReducers: (builder) => {
       builder
-         .addCase(getTest.pending, (state) => {
+         .addCase(getAllQuestions.pending, (state) => {
             state.status = 'loading'
          })
 
-         .addCase(getTest.fulfilled, (state, action) => {
+         .addCase(getAllQuestions.fulfilled, (state, action) => {
             state.status = 'succeeded'
-            state.tests = action.payload
+            state.questions = action.payload
          })
 
-         .addCase(getTest.rejected, (state, action) => {
+         .addCase(getAllQuestions.rejected, (state, action) => {
+            state.status = 'failed'
+            state.error = action.error.message
+         })
+
+         .addCase(getQuestion.pending, (state) => {
+            state.status = 'loading'
+         })
+
+         .addCase(getQuestion.fulfilled, (state, action) => {
+            state.status = 'succeeded'
+            state.questions = action.payload
+         })
+
+         .addCase(getQuestion.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
          })
@@ -34,15 +53,22 @@ export const questionsSlice = createSlice({
 
          .addCase(deleteQuestion.fulfilled, (state) => {
             state.status = 'succeeded'
-
-            showNotification({
-               title: 'Success',
-               message: 'Question successfully deleted',
-               type: 'success',
-            })
          })
 
          .addCase(deleteQuestion.rejected, (state, action) => {
+            state.status = 'failed'
+            state.error = action.error.message
+         })
+
+         .addCase(updateQuestionByEnable.pending, (state) => {
+            state.status = 'loading'
+         })
+
+         .addCase(updateQuestionByEnable.fulfilled, (state) => {
+            state.status = 'succeeded'
+         })
+
+         .addCase(updateQuestionByEnable.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
          })

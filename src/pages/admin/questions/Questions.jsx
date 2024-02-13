@@ -10,10 +10,10 @@ import ModalDelete from '../../../components/UI/modals/ModalDelete'
 import {
    deleteQuestion,
    getAllQuestions,
-   getTest,
    updateQuestionByEnable,
 } from '../../../store/slice/admin/questionsThunk'
 import { SearchingImage } from '../../../assets/images'
+import { getTest } from '../../../store/slice/admin/testsThunk'
 
 const Questions = () => {
    const { tests } = useSelector((state) => state.questionsSlice)
