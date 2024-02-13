@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Box, styled } from '@mui/material'
+import { Box, Typography, styled } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import Button from '../components/UI/buttons/Button'
 import { LogoImage } from '../assets/images'
 import { ROUTES } from '../routes/routes'
 import { AUTH_ACTIONS } from '../store/silce/auth/authSlice'
+import Modal from '../components/UI/modals/Modal'
 
 const LandingHeader = () => {
    const dispatch = useDispatch()
@@ -14,11 +15,13 @@ const LandingHeader = () => {
 
    const { role } = useSelector((state) => state.auth)
 
+   const [isVisible, setIsVisible] = useState(false)
+
    const [isScrolled, setIsScrolled] = useState(false)
 
-   const handlelogOut = () => {
-      dispatch(AUTH_ACTIONS.logOut({ navigate }))
-   }
+   const handlelogOut = () => dispatch(AUTH_ACTIONS.logOut({ navigate }))
+
+   const handleModal = () => setIsVisible((prev) => !prev)
 
    useEffect(() => {
       const handleScroll = () => {
@@ -29,9 +32,7 @@ const LandingHeader = () => {
 
       window.addEventListener('scroll', handleScroll)
 
-      return () => {
-         window.removeEventListener('scroll', handleScroll)
-      }
+      return () => window.removeEventListener('scroll', handleScroll)
    }, [])
 
    return (
@@ -45,6 +46,7 @@ const LandingHeader = () => {
                      <Link to={ROUTES.SIGN_IN}>
                         <Button>TO COME IN</Button>
                      </Link>
+
                      <Link to={ROUTES.SIGN_UP}>
                         <Button variant="secondary" className="register-button">
                            REGISTER
@@ -56,13 +58,32 @@ const LandingHeader = () => {
                      <Link to="/user/tests">
                         <Button>TESTS</Button>
                      </Link>
+
                      <Button
-                        onClick={handlelogOut}
                         variant="secondary"
                         className="register-button"
+                        onClick={handleModal}
                      >
                         LOG OUT
                      </Button>
+
+                     <Modal isVisible={isVisible} handleIsVisible={handleModal}>
+                        <Typography className="text">
+                           Are you sure you want to log out?
+                        </Typography>
+
+                        <Box className="buttons">
+                           <Button
+                              variant="secondary"
+                              onClick={handleModal}
+                              className="button"
+                           >
+                              CANCEL
+                           </Button>
+
+                           <Button onClick={handlelogOut}>YES</Button>
+                        </Box>
+                     </Modal>
                   </>
                )}
             </Box>

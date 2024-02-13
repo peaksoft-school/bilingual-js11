@@ -44,9 +44,8 @@ const SignUp = () => {
       })
    }
 
-   const onSubmit = (values, { resetForm }) => {
+   const onSubmit = (values, { resetForm }) =>
       dispatch(signUp({ userData: values, resetForm, navigate }))
-   }
 
    const { values, errors, handleChange, handleSubmit, handleBlur, touched } =
       useFormik({

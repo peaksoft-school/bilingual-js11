@@ -44,9 +44,8 @@ const SignIn = () => {
       })
    }
 
-   const onSubmit = (values, { resetForm }) => {
+   const onSubmit = (values, { resetForm }) =>
       dispatch(signIn({ userData: values, resetForm, navigate }))
-   }
 
    const { values, errors, touched, handleChange, handleSubmit, handleBlur } =
       useFormik({
@@ -139,7 +138,7 @@ const SignIn = () => {
                   className="google-button"
                   onClick={handleWithGoogle}
                >
-                  Sign up with google
+                  Sign in with google
                </Button>
 
                <Box className="text-account">

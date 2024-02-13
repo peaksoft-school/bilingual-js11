@@ -1,20 +1,24 @@
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { AppBar, Box, Typography, styled } from '@mui/material'
 import Button from '../components/UI/buttons/Button'
 import { LogoImage } from '../assets/images'
 import { AUTH_ACTIONS } from '../store/silce/auth/authSlice'
+import Modal from '../components/UI/modals/Modal'
 
 const Header = () => {
-   const { role } = useSelector((state) => state.auth)
-
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
 
-   const handlelogOut = () => {
-      dispatch(AUTH_ACTIONS.logOut({ navigate }))
-   }
+   const { role } = useSelector((state) => state.auth)
+
+   const [isVisible, setIsVisible] = useState(false)
+
+   const handleModal = () => setIsVisible((prev) => !prev)
+
+   const handlelogOut = () => dispatch(AUTH_ACTIONS.logOut({ navigate }))
 
    return (
       <StyledContainer>
@@ -45,9 +49,31 @@ const Header = () => {
                </>
             )}
 
-            <StyledButton variant="secondary" onClick={handlelogOut}>
+            <Button
+               variant="secondary"
+               onClick={handleModal}
+               className="log-out"
+            >
                LOG OUT
-            </StyledButton>
+            </Button>
+
+            <Modal isVisible={isVisible} handleIsVisible={handleModal}>
+               <Typography className="text">
+                  Are you sure you want to log out?
+               </Typography>
+
+               <Box className="buttons">
+                  <Button
+                     variant="secondary"
+                     onClick={handleModal}
+                     className="button"
+                  >
+                     CANCEL
+                  </Button>
+
+                  <Button onClick={handlelogOut}>YES</Button>
+               </Box>
+            </Modal>
          </Box>
       </StyledContainer>
    )
@@ -73,16 +99,16 @@ const StyledContainer = styled(AppBar)(({ theme }) => ({
    },
 
    '& > .actions': {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '3.75rem',
+      cursor: 'pointer',
+
       '& .MuiTypography-root': {
          fontSize: '0.9375rem',
          fontWeight: '700',
          cursor: 'pointer',
       },
-
-      display: 'flex',
-      alignItems: 'center',
-      gap: '3.75rem',
-      cursor: 'pointer',
 
       '& .navigation': {
          textDecoration: 'none',
@@ -90,13 +116,11 @@ const StyledContainer = styled(AppBar)(({ theme }) => ({
 
          '&.active': { color: '#3A10E5' },
       },
-   },
-}))
 
-const StyledButton = styled(Button)(() => ({
-   '&.MuiButton-root': {
-      color: '#4C4C4C',
-      fontWeight: '700',
-      border: '0.125rem solid #4C4859',
+      '& > .log-out': {
+         color: '#4C4C4C',
+         fontWeight: '700',
+         border: '0.125rem solid #4C4859',
+      },
    },
 }))

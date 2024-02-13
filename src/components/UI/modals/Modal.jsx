@@ -1,28 +1,15 @@
-import { Typography, styled, Modal as Modalka, Box } from '@mui/material'
-import Button from '../buttons/Button'
+import { styled, Modal as Modalka, Box } from '@mui/material'
 
-const style = {
+const STYLE = {
    borderRadius: '1.25rem',
    borderStyle: 'none',
    alignItems: 'center',
 }
 
-const Modal = ({ onLogOut, children, isVisible, handleIsVisible }) => {
+const Modal = ({ children, isVisible, handleIsVisible }) => {
    return (
-      <Modalka open={isVisible} onClose={handleIsVisible} style={style}>
-         <StyledModal>
-            <Typography className="text">{children}</Typography>
-            <Box className="buttons">
-               <Button
-                  variant="secondary"
-                  onClick={handleIsVisible}
-                  className="button"
-               >
-                  {children}
-               </Button>
-               <Button onClick={onLogOut}>{children}</Button>
-            </Box>
-         </StyledModal>
+      <Modalka open={isVisible} onClose={handleIsVisible} style={STYLE}>
+         <StyledModal>{children}</StyledModal>
       </Modalka>
    )
 }
@@ -43,6 +30,7 @@ const StyledModal = styled(Box)(() => ({
    justifyContent: 'center',
    flexDirection: 'column',
    textAlign: 'center',
+
    '& .text': {
       fontWeight: '400',
       fontSize: '1rem',
@@ -50,15 +38,17 @@ const StyledModal = styled(Box)(() => ({
       lineHeight: '124%',
       marginTop: '2.25rem',
    },
+
    '& .buttons': {
       padding: '1.63rem 0',
       display: 'flex',
       justifyContent: 'center',
       gap: '1rem',
-   },
-   '& .button': {
-      height: '2.625rem',
-      padding: '0.8125rem 1.5rem',
-      borderRadius: '0.5rem',
+
+      '& .button': {
+         height: '2.625rem',
+         padding: '0.8125rem 1.5rem',
+         borderRadius: '0.5rem',
+      },
    },
 }))

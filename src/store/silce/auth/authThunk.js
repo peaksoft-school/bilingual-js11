@@ -86,8 +86,8 @@ const authWithGoogle = createAsyncThunk(
          )
 
          showNotification({
-            title: 'You are registered!',
-            message: 'Successfully registered!',
+            title: 'You came in!',
+            message: 'Successfully came in!',
             type: 'success',
          })
 
