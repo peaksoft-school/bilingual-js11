@@ -10,6 +10,7 @@ import {
    getAllTests,
    updateTetsByEnable,
 } from '../../../store/slice/admin/testsThunk'
+import { SearchingImage } from '../../../assets/images'
 
 const TestList = () => {
    const { tests } = useSelector((state) => state.testsSlice)
@@ -76,7 +77,9 @@ const TestList = () => {
                </Box>
             ))
          ) : (
-            <Typography>You haven`t added any tests yet.</Typography>
+            <Box className="background-image">
+               <img src={SearchingImage} alt="search" />
+            </Box>
          )}
 
          <ModalDelete
@@ -93,6 +96,13 @@ const TestList = () => {
 export default TestList
 
 const StyledContainer = styled(Box)(() => ({
+   '& > .background-image': {
+      margin: 'auto',
+      marginTop: '1.8rem',
+      width: '18rem',
+      height: '18rem',
+   },
+
    '& > .test': {
       width: '100%',
       height: 'auto',
