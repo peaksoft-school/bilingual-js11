@@ -1,23 +1,31 @@
-import { useState } from 'react'
+import { Box, InputAdornment, Typography, styled } from '@mui/material'
+import { signInWithPopup } from 'firebase/auth'
 import { useFormik } from 'formik'
-import { Link, NavLink } from 'react-router-dom'
-import { Box, Typography, styled, InputAdornment } from '@mui/material'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import {
    ExitIcon,
-   GoogleIcon,
-   LogoIcon,
    EyeIcon,
    EyeOffIcon,
+   GoogleIcon,
+   LogoIcon,
    WarningIcon,
 } from '../../assets/icons'
-import { VALIDATION_SIGN_IN } from '../../utils/helpers/validation'
-import { showErrorSignIn } from '../../utils/helpers'
-import { ROUTES } from '../../routes/routes'
-import Button from '../../components/UI/buttons/Button'
 import Checkbox from '../../components/UI/Checkbox'
 import Input from '../../components/UI/Input'
+import Button from '../../components/UI/buttons/Button'
+import { ROUTES } from '../../routes/routes'
+import { authWithGoogle, signIn } from '../../store/silce/auth/authThunk'
+import { auth, provider } from '../../configs/withGoogle'
+import { showErrorSignIn } from '../../utils/helpers'
+import { VALIDATION_SIGN_IN } from '../../utils/helpers/validation'
 
 const SignIn = () => {
+   const dispatch = useDispatch()
+
+   const navigate = useNavigate()
+
    const [showPassword, setShowPassword] = useState(false)
 
    const [isPasswordFieldActive, setIsPasswordFieldActive] = useState(false)
@@ -26,9 +34,21 @@ const SignIn = () => {
 
    const handlePasswordFieldFocus = () => setIsPasswordFieldActive(true)
 
-   const onSubmit = (_, { resetForm }) => resetForm()
+   const handleWithGoogle = () => {
+      signInWithPopup(auth, provider)
+         .then((data) => {
+            dispatch(authWithGoogle({ tokenId: data.user.accessToken }))
+         })
+         .catch((e) => {
+            return e
+         })
+   }
 
-   const { values, errors, isValid, handleChange, handleSubmit, handleBlur } =
+   const onSubmit = (values, { resetForm }) => {
+      dispatch(signIn({ userData: values, resetForm, navigate }))
+   }
+
+   const { values, errors, touched, handleChange, handleSubmit, handleBlur } =
       useFormik({
          initialValues: {
             email: '',
@@ -66,7 +86,7 @@ const SignIn = () => {
                   value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={errors.email}
+                  error={touched.email && errors.email}
                />
 
                <Input
@@ -74,10 +94,10 @@ const SignIn = () => {
                   name="password"
                   value={values.password}
                   onChange={handleChange}
-                  onBlur={handleBlur}
                   onFocus={handlePasswordFieldFocus}
+                  onBlur={handleBlur}
                   type={showPassword ? 'text' : 'password'}
-                  error={errors.password}
+                  error={touched.password && errors.password}
                   InputProps={{
                      endAdornment: (
                         <InputAdornment className="adornment" position="end">
@@ -111,12 +131,13 @@ const SignIn = () => {
                   <Typography> </Typography>
                )}
 
-               <Button disabled={!isValid}>Sign in</Button>
+               <Button>Sign in</Button>
 
                <Button
                   type="button"
                   icon={<GoogleIcon />}
                   className="google-button"
+                  onClick={handleWithGoogle}
                >
                   Sign up with google
                </Button>

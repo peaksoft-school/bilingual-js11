@@ -1,11 +1,20 @@
-import { useSelector } from 'react-redux'
-import { Link, NavLink } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { AppBar, Box, Typography, styled } from '@mui/material'
 import Button from '../components/UI/buttons/Button'
 import { LogoImage } from '../assets/images'
+import { AUTH_ACTIONS } from '../store/silce/auth/authSlice'
 
 const Header = () => {
    const { role } = useSelector((state) => state.auth)
+
+   const dispatch = useDispatch()
+
+   const navigate = useNavigate()
+
+   const handlelogOut = () => {
+      dispatch(AUTH_ACTIONS.logOut({ navigate }))
+   }
 
    return (
       <StyledContainer>
@@ -34,9 +43,9 @@ const Header = () => {
                </>
             )}
 
-            <Link to="/">
-               <StyledButton variant="secondary">LOG OUT</StyledButton>
-            </Link>
+            <StyledButton variant="secondary" onClick={handlelogOut}>
+               LOG OUT
+            </StyledButton>
          </Box>
       </StyledContainer>
    )
