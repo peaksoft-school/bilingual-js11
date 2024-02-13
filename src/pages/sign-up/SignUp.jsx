@@ -34,14 +34,14 @@ const SignUp = () => {
 
    const handleInputFocus = (name) => setFocusedInput(name)
 
-   const handleWithGoogle = () => {
-      signInWithPopup(auth, provider)
-         .then((data) => {
-            dispatch(authWithGoogle({ tokenId: data.user.accessToken }))
+   const handleWithGoogle = async () => {
+      await signInWithPopup(auth, provider).then((data) => {
+         dispatch(
+            authWithGoogle({ tokenId: data.user.accessToken, navigate })
+         ).catch((e) => {
+            return e
          })
-         .catch((error) => {
-            return error
-         })
+      })
    }
 
    const onSubmit = (values, { resetForm }) => {

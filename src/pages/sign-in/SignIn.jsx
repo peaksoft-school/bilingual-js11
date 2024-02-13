@@ -34,14 +34,14 @@ const SignIn = () => {
 
    const handlePasswordFieldFocus = () => setIsPasswordFieldActive(true)
 
-   const handleWithGoogle = () => {
-      signInWithPopup(auth, provider)
-         .then((data) => {
-            dispatch(authWithGoogle({ tokenId: data.user.accessToken }))
-         })
-         .catch((e) => {
+   const handleWithGoogle = async () => {
+      await signInWithPopup(auth, provider).then((data) => {
+         dispatch(
+            authWithGoogle({ tokenId: data.user.accessToken, navigate })
+         ).catch((e) => {
             return e
          })
+      })
    }
 
    const onSubmit = (values, { resetForm }) => {

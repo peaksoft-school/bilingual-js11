@@ -18,7 +18,9 @@ const Header = () => {
 
    return (
       <StyledContainer>
-         <img src={LogoImage} alt="logo" />
+         <Link to="/" className="logo">
+            <img src={LogoImage} alt="logo" className="logo" />
+         </Link>
 
          <Box className="actions">
             {role === 'ADMIN' ? (
@@ -65,7 +67,7 @@ const StyledContainer = styled(AppBar)(({ theme }) => ({
    padding: '0 7.5rem',
    color: '#4C4859',
 
-   '& > img': {
+   '&  .logo': {
       width: '10.875rem',
       height: '2.625rem',
    },

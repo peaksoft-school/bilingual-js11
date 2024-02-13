@@ -79,7 +79,7 @@ const signIn = createAsyncThunk(
 const authWithGoogle = createAsyncThunk(
    'auth/authWithGoogle',
 
-   async ({ tokenId }, { rejectWithValue }) => {
+   async ({ tokenId, navigate }, { rejectWithValue }) => {
       try {
          const response = await axiosInstance.post(
             `/api/auth/authenticate/google?tokenId=${tokenId}`
@@ -90,6 +90,8 @@ const authWithGoogle = createAsyncThunk(
             message: 'Successfully registered!',
             type: 'success',
          })
+
+         navigate('/')
 
          return response.data
       } catch (error) {

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { ROLES } from '../../../routes/routes'
+import { ROLES, ROUTES } from '../../../routes/routes'
 import { authWithGoogle, signIn, signUp } from './authThunk'
 
 const BILINGUAL = process.env.REACT_APP_BINGUAL
