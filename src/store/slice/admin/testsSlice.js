@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit'
 import {
    deleteTest,
    getAllTests,
-   getTest,
    postTest,
    updateTest,
    updateTetsByEnable,
@@ -31,20 +30,6 @@ export const testsSlice = createSlice({
          })
 
          .addCase(getAllTests.rejected, (state, action) => {
-            state.status = 'failed'
-            state.error = action.error.message
-         })
-
-         .addCase(getTest.pending, (state) => {
-            state.status = 'loading'
-         })
-
-         .addCase(getTest.fulfilled, (state, action) => {
-            state.status = 'succeeded'
-            state.tests = action.payload
-         })
-
-         .addCase(getTest.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
          })

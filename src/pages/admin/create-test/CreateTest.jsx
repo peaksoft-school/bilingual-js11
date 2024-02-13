@@ -5,11 +5,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import Input from '../../../components/UI/Input'
 import TestContainer from '../../../components/UI/TestContainer'
 import Button from '../../../components/UI/buttons/Button'
-import {
-   getTest,
-   postTest,
-   updateTest,
-} from '../../../store/slice/admin/testsThunk'
+import { postTest, updateTest } from '../../../store/slice/admin/testsThunk'
+import { getTest } from '../../../store/slice/admin/questionsThunk'
 
 const CreateTest = () => {
    const { tests } = useSelector((state) => state.questionsSlice)
@@ -47,18 +44,13 @@ const CreateTest = () => {
       }
    }, [isNewTest, tests, id])
 
-   const handleSave = async () => {
-      try {
-         const testToSave = { ...formData }
-         if (isNewTest) {
-            await dispatch(postTest(testToSave))
-         } else {
-            await dispatch(updateTest({ id, ...testToSave }))
-         }
+   const handleSave = () => {
+      const testToSave = { ...formData }
 
-         navigate('/')
-      } catch (error) {
-         console.error('Ошибка при сохранении теста:', error)
+      if (isNewTest) {
+         dispatch(postTest({ testData: testToSave, navigate }))
+      } else {
+         dispatch(updateTest({ id, updatedTest: testToSave, navigate }))
       }
    }
 

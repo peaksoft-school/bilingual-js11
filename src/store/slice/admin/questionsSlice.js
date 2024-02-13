@@ -4,6 +4,7 @@ import {
    deleteQuestion,
    getAllQuestions,
    getQuestion,
+   getTest,
    updateQuestionByEnable,
 } from './questionsThunk'
 
@@ -19,6 +20,21 @@ export const questionsSlice = createSlice({
    reducers: {},
    extraReducers: (builder) => {
       builder
+
+         .addCase(getTest.pending, (state) => {
+            state.status = 'loading'
+         })
+
+         .addCase(getTest.fulfilled, (state, action) => {
+            state.status = 'succeeded'
+            state.tests = action.payload
+         })
+
+         .addCase(getTest.rejected, (state, action) => {
+            state.status = 'failed'
+            state.error = action.error.message
+         })
+
          .addCase(getAllQuestions.pending, (state) => {
             state.status = 'loading'
          })

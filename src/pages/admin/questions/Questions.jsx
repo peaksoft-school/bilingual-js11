@@ -9,18 +9,17 @@ import TestContainer from '../../../components/UI/TestContainer'
 import ModalDelete from '../../../components/UI/modals/ModalDelete'
 import {
    deleteQuestion,
-   getAllQuestions,
+   getTest,
    updateQuestionByEnable,
 } from '../../../store/slice/admin/questionsThunk'
 import { SearchingImage } from '../../../assets/images'
-import { getTest } from '../../../store/slice/admin/testsThunk'
 
 const Questions = () => {
    const { tests } = useSelector((state) => state.questionsSlice)
    const { testId } = useParams()
    const [isVisible, setIsVisible] = useState(false)
    const [selectedQuestionId, setSelectedQuestionId] = useState(null)
-   const [localQuestions, setLocalQuestions] = useState([])
+   const [switchStates, setSwitchStates] = useState({})
    const dispatch = useDispatch()
 
    useEffect(() => {
@@ -28,26 +27,24 @@ const Questions = () => {
    }, [dispatch, testId])
 
    useEffect(() => {
-      dispatch(getAllQuestions())
-   }, [dispatch])
+      if (tests && tests.question) {
+         const initialSwitchStates = {}
+         tests.question.forEach((question) => {
+            initialSwitchStates[question.id] = question.enable
+         })
 
-   useEffect(() => {
-      setLocalQuestions(tests.question || [])
+         setSwitchStates(initialSwitchStates)
+      }
    }, [tests])
 
    const handleDeleteQuestion = () => {
       if (selectedQuestionId) {
-         dispatch(deleteQuestion({ questionId: selectedQuestionId }))
-            .then(() => {
+         dispatch(deleteQuestion({ questionId: selectedQuestionId })).then(
+            () => {
+               dispatch(getTest({ testId }))
                setIsVisible(false)
-               const updatedQuestions = localQuestions.filter(
-                  (question) => question.id !== selectedQuestionId
-               )
-               setLocalQuestions(updatedQuestions)
-            })
-            .catch((error) => {
-               console.error('Failed to delete question:', error)
-            })
+            }
+         )
       }
    }
 
@@ -61,20 +58,12 @@ const Questions = () => {
    }
 
    const handleEnable = async (questionId, isChecked) => {
-      try {
-         await dispatch(
-            updateQuestionByEnable({ questionId, isEnable: isChecked })
-         )
+      dispatch(updateQuestionByEnable({ questionId, isEnable: isChecked }))
 
-         const updatedQuestions = localQuestions.map((question) =>
-            question.id === questionId
-               ? { ...question, enable: isChecked }
-               : question
-         )
-         setLocalQuestions(updatedQuestions)
-      } catch (error) {
-         console.error('Ошибка при обновлении enable вопроса:', error)
-      }
+      setSwitchStates((prevStates) => ({
+         ...prevStates,
+         [questionId]: isChecked,
+      }))
    }
 
    return (
@@ -117,9 +106,9 @@ const Questions = () => {
                <Typography className="question-type">Question Type</Typography>
             </StyledTable>
 
-            {localQuestions.length > 0 ? (
-               localQuestions.map(
-                  ({ id, title, duration, questionType, enable }, index) => (
+            {tests.question.length > 0 ? (
+               tests.question.map(
+                  ({ id, title, duration, questionType }, index) => (
                      <StyledBox key={id}>
                         <Typography>{index + 1}</Typography>
                         <Typography className="name-props">{title}</Typography>
@@ -136,7 +125,7 @@ const Questions = () => {
                            <Switcher
                               key={id}
                               className="switcher"
-                              checked={enable}
+                              checked={switchStates[id] || false}
                               onChange={(e) =>
                                  handleEnable(id, e.target.checked)
                               }

@@ -16,24 +16,10 @@ const getAllTests = createAsyncThunk(
    }
 )
 
-const getTest = createAsyncThunk(
-   'testsSlice/getTest',
-
-   async ({ testId }, { rejectWithValue }) => {
-      try {
-         const response = await axiosInstance.get(`/api/test?testId=${testId}`)
-
-         return response.data
-      } catch (error) {
-         return rejectWithValue.message
-      }
-   }
-)
-
 const postTest = createAsyncThunk(
    'testsSlice/postTest',
 
-   async (testData, { rejectWithValue }) => {
+   async ({ testData, navigate }, { rejectWithValue }) => {
       try {
          const response = await axiosInstance.post('/api/test', testData)
 
@@ -43,6 +29,8 @@ const postTest = createAsyncThunk(
             type: 'success',
          })
 
+         navigate('/')
+
          return response.data
       } catch (error) {
          showNotification({
@@ -51,7 +39,7 @@ const postTest = createAsyncThunk(
             type: 'error',
          })
 
-         return rejectWithValue.message
+         return rejectWithValue(error.message)
       }
    }
 )
@@ -86,10 +74,11 @@ const deleteTest = createAsyncThunk(
 
 const updateTest = createAsyncThunk(
    'testsSlice/updateTest',
-   async (updatedTest, { rejectWithValue }) => {
+
+   async ({ id, updatedTest, navigate }, { rejectWithValue }) => {
       try {
          const response = await axiosInstance.patch(
-            `/api/test?id=${updatedTest.id}`,
+            `/api/test?id=${id}`,
             updatedTest
          )
 
@@ -99,9 +88,17 @@ const updateTest = createAsyncThunk(
             type: 'success',
          })
 
+         navigate('/')
+
          return response.data
       } catch (error) {
-         return rejectWithValue.message
+         showNotification({
+            title: 'Error',
+            message: 'Failed to update test',
+            type: 'error',
+         })
+
+         return rejectWithValue(error.message)
       }
    }
 )
@@ -122,11 +119,4 @@ const updateTetsByEnable = createAsyncThunk(
    }
 )
 
-export {
-   getAllTests,
-   getTest,
-   deleteTest,
-   postTest,
-   updateTetsByEnable,
-   updateTest,
-}
+export { getAllTests, deleteTest, postTest, updateTetsByEnable, updateTest }

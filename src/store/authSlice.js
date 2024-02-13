@@ -4,7 +4,7 @@ import { ROLES, ROUTES } from '../routes/routes'
 const initialState = {
    accessToken: null,
    isAuth: false,
-   role: ROLES.ADMIN,
+   role: ROLES.GUEST,
    email: null,
 }
 
