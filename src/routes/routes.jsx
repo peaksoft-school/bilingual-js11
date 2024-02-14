@@ -45,4 +45,16 @@ const ROLES = {
    GUEST: 'GUEST',
 }
 
-export { USER_ROUTES, ADMIN_ROUTES, ROUTES, ROLES }
+const QUESTIONS_API = {
+   selectRealEnglishWords: 'api/questions/select-real-english-word',
+   listenAndSelect: 'api/questions/listen_and_select_english_words',
+   typeWhatYourHear: 'api/questions/type-what-you-hear',
+   describeImage: 'api/questions/describe-image',
+   recordSayingStatement: 'api/questions/record-saying-statement',
+   respondInAtLeastNWords: 'api/questions/respond-n-words',
+   highlightTheAnswer: 'api/questions/highlight-the-answer',
+   selectTheMainIdea: 'api/questions/select-the-main-idea',
+   selectBestTitle: 'api/questions/select-best-title',
+}
+
+export { USER_ROUTES, ADMIN_ROUTES, ROUTES, ROLES, QUESTIONS_API }
