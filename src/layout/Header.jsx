@@ -121,6 +121,12 @@ const StyledContainer = styled(AppBar)(({ theme }) => ({
          color: '#4C4C4C',
          fontWeight: '700',
          border: '0.125rem solid #4C4859',
+
+         '&:hover': {
+            borderColor: theme.palette.primary.main,
+            background: theme.palette.primary.main,
+            color: theme.palette.primary.white,
+         },
       },
    },
 }))
