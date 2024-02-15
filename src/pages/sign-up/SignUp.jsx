@@ -3,13 +3,7 @@ import { useFormik } from 'formik'
 import { signInWithPopup } from 'firebase/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import {
-   Box,
-   Typography,
-   styled,
-   InputAdornment,
-   CircularProgress,
-} from '@mui/material'
+import { Box, Typography, styled, InputAdornment } from '@mui/material'
 import {
    ExitIcon,
    EyeIcon,
