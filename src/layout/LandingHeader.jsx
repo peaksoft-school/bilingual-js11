@@ -1,12 +1,27 @@
 import { useState, useEffect } from 'react'
-import { Box, styled } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Box, Typography, styled } from '@mui/material'
+import { Link, useNavigate } from 'react-router-dom'
 import Button from '../components/UI/buttons/Button'
 import { LogoImage } from '../assets/images'
 import { ROUTES } from '../routes/routes'
+import { AUTH_ACTIONS } from '../store/slice/auth/authSlice'
+import Modal from '../components/UI/Modal'
 
 const LandingHeader = () => {
+   const dispatch = useDispatch()
+
+   const navigate = useNavigate()
+
+   const { role } = useSelector((state) => state.auth)
+
+   const [isVisibleModal, setIsVisibleModal] = useState(false)
+
    const [isScrolled, setIsScrolled] = useState(false)
+
+   const handlelogOut = () => dispatch(AUTH_ACTIONS.logOut({ navigate }))
+
+   const handleModal = () => setIsVisibleModal((prev) => !prev)
 
    useEffect(() => {
       const handleScroll = () => {
@@ -17,9 +32,7 @@ const LandingHeader = () => {
 
       window.addEventListener('scroll', handleScroll)
 
-      return () => {
-         window.removeEventListener('scroll', handleScroll)
-      }
+      return () => window.removeEventListener('scroll', handleScroll)
    }, [])
 
    return (
@@ -28,15 +41,54 @@ const LandingHeader = () => {
             <img src={LogoImage} alt="logo" />
 
             <Box className="buttons">
-               <Link to={ROUTES.SIGN_IN}>
-                  <Button>TO COME IN</Button>
-               </Link>
+               {role === 'GUEST' ? (
+                  <>
+                     <Link to={ROUTES.SIGN_IN}>
+                        <Button>TO COME IN</Button>
+                     </Link>
 
-               <Link to={ROUTES.SIGN_UP}>
-                  <StyledRegisterButton variant="secondary">
-                     REGISTER
-                  </StyledRegisterButton>
-               </Link>
+                     <Link to={ROUTES.SIGN_UP}>
+                        <Button variant="secondary" className="register-button">
+                           REGISTER
+                        </Button>
+                     </Link>
+                  </>
+               ) : (
+                  <>
+                     <Link to="/user/tests">
+                        <Button>TESTS</Button>
+                     </Link>
+
+                     <Button
+                        variant="secondary"
+                        className="register-button"
+                        onClick={handleModal}
+                     >
+                        LOG OUT
+                     </Button>
+
+                     <Modal
+                        isVisible={isVisibleModal}
+                        handleIsVisible={handleModal}
+                     >
+                        <Typography className="text">
+                           Are you sure you want to log out?
+                        </Typography>
+
+                        <Box className="buttons">
+                           <Button
+                              variant="secondary"
+                              onClick={handleModal}
+                              className="button"
+                           >
+                              CANCEL
+                           </Button>
+
+                           <Button onClick={handlelogOut}>YES</Button>
+                        </Box>
+                     </Modal>
+                  </>
+               )}
             </Box>
          </Box>
       </StyledContainer>
@@ -45,7 +97,7 @@ const LandingHeader = () => {
 
 export default LandingHeader
 
-const StyledContainer = styled(Box)(({ isscrolled }) => ({
+const StyledContainer = styled(Box)(({ isscrolled, theme }) => ({
    backgroundColor: isscrolled === 'true' ? 'white' : '#FCD200',
    position: 'sticky',
    top: 0,
@@ -78,13 +130,17 @@ const StyledContainer = styled(Box)(({ isscrolled }) => ({
             fontFamily: 'Gilroy',
             marginLeft: '1rem',
          },
-      },
-   },
-}))
 
-const StyledRegisterButton = styled(Button)(() => ({
-   '&.MuiButton-root': {
-      color: '#4C4C4C',
-      borderColor: 'white',
+         '& .register-button': {
+            color: '#4C4C4C',
+            borderColor: 'white',
+
+            '&:hover': {
+               borderColor: theme.palette.primary.main,
+               background: theme.palette.primary.main,
+               color: theme.palette.primary.white,
+            },
+         },
+      },
    },
 }))

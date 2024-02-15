@@ -1,24 +1,41 @@
 import { forwardRef } from 'react'
-import { styled, Button as MuiButton } from '@mui/material'
+import { styled, Button as MuiButton, CircularProgress } from '@mui/material'
 
 const Button = forwardRef(
    (
-      { onClick, disabled, type = 'submit', children, icon, variant, ...rest },
+      {
+         onClick,
+         disabled,
+         type = 'submit',
+         children,
+         icon,
+         variant,
+         colorLoading,
+         isLoading,
+         ...rest
+      },
       ref
-   ) => (
-      <StyledButton
-         onClick={onClick}
-         disabled={disabled}
-         type={type}
-         variant={variant}
-         ref={ref}
-         {...rest}
-      >
-         {icon && <span className="icon">{icon}</span>}
-
-         {children}
-      </StyledButton>
-   )
+   ) => {
+      return (
+         <StyledButton
+            onClick={onClick}
+            disabled={disabled}
+            type={isLoading ? 'button' : type}
+            variant={variant}
+            ref={ref}
+            {...rest}
+         >
+            {isLoading ? (
+               <CircularProgress color={colorLoading} className="loading" />
+            ) : (
+               <>
+                  {icon && <span className="icon">{icon}</span>}
+                  {children}
+               </>
+            )}
+         </StyledButton>
+      )
+   }
 )
 
 export default Button
@@ -51,6 +68,11 @@ const StyledButton = styled(MuiButton)(({ theme, variant }) => {
             color: theme.palette.primary.white,
             background: '#C4C4C4',
             border: '0.125rem solid #C4C4C4',
+         },
+
+         '& .MuiCircularProgress-root': {
+            width: '1.6rem !important',
+            height: '1.6rem !important',
          },
 
          '& .icon': {

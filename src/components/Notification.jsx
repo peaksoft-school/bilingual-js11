@@ -10,7 +10,7 @@ export default Notification
 
 const StyledToastContainer = styled(ToastContainer)(() => ({
    maxWidth: '350px',
-   width: '20rem',
+   width: '22rem',
 
    '& .Toastify__progress-bar--error': {
       background: '#fff1f0',
