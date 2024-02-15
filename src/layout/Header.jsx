@@ -1,15 +1,30 @@
-import { useSelector } from 'react-redux'
-import { Link, NavLink } from 'react-router-dom'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { AppBar, Box, Typography, styled } from '@mui/material'
 import Button from '../components/UI/buttons/Button'
 import { LogoImage } from '../assets/images'
+import { AUTH_ACTIONS } from '../store/slice/auth/authSlice'
+import Modal from '../components/UI/Modal'
 
 const Header = () => {
+   const dispatch = useDispatch()
+
+   const navigate = useNavigate()
+
    const { role } = useSelector((state) => state.auth)
+
+   const [isVisibleModal, setIsVisibleModal] = useState(false)
+
+   const handleModal = () => setIsVisibleModal((prev) => !prev)
+
+   const handlelogOut = () => dispatch(AUTH_ACTIONS.logOut({ navigate }))
 
    return (
       <StyledContainer>
-         <img src={LogoImage} alt="logo" />
+         <Link to="/" className="logo">
+            <img src={LogoImage} alt="logo" className="logo" />
+         </Link>
 
          <Box className="actions">
             {role === 'ADMIN' ? (
@@ -34,9 +49,25 @@ const Header = () => {
                </>
             )}
 
-            <Link to="/">
-               <StyledButton variant="secondary">LOG OUT</StyledButton>
-            </Link>
+            <Button
+               variant="secondary"
+               onClick={handleModal}
+               className="log-out"
+            >
+               LOG OUT
+            </Button>
+
+            <Modal isVisible={isVisibleModal} handleIsVisible={handleModal}>
+               <Typography>Are you sure you want to log out?</Typography>
+
+               <Box className="buttons">
+                  <Button variant="secondary" onClick={handleModal}>
+                     CANCEL
+                  </Button>
+
+                  <Button onClick={handlelogOut}>YES</Button>
+               </Box>
+            </Modal>
          </Box>
       </StyledContainer>
    )
@@ -56,22 +87,21 @@ const StyledContainer = styled(AppBar)(({ theme }) => ({
    padding: '0 7.5rem',
    color: '#4C4859',
 
-   '& > img': {
+   '&  .logo': {
       width: '10.875rem',
       height: '2.625rem',
    },
 
    '& > .actions': {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '3.75rem',
+
       '& .MuiTypography-root': {
          fontSize: '0.9375rem',
          fontWeight: '700',
          cursor: 'pointer',
       },
-
-      display: 'flex',
-      alignItems: 'center',
-      gap: '3.75rem',
-      cursor: 'pointer',
 
       '& .navigation': {
          textDecoration: 'none',
@@ -79,13 +109,17 @@ const StyledContainer = styled(AppBar)(({ theme }) => ({
 
          '&.active': { color: '#3A10E5' },
       },
-   },
-}))
 
-const StyledButton = styled(Button)(() => ({
-   '&.MuiButton-root': {
-      color: '#4C4C4C',
-      fontWeight: '700',
-      border: '0.125rem solid #4C4859',
+      '& > .log-out': {
+         color: '#4C4C4C',
+         fontWeight: '700',
+         border: '0.125rem solid #4C4859',
+
+         '&:hover': {
+            borderColor: theme.palette.primary.main,
+            background: theme.palette.primary.main,
+            color: theme.palette.primary.white,
+         },
+      },
    },
 }))

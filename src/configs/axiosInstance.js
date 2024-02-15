@@ -1,7 +1,6 @@
 import axios from 'axios'
-import store from '../store/store'
 
-const BASE_URL = process.env.API_URL
+const BASE_URL = process.env.REACT_APP_API
 
 export const axiosInstance = axios.create({
    baseURL: BASE_URL,
@@ -16,17 +15,17 @@ export const injectStore = (store) => {
    customStore = store
 }
 
-axios.interceptors.request.use(
+axiosInstance.interceptors.request.use(
    (config) => {
       const updateConfig = { ...config }
 
-      const token = customStore.getState().login.accessToken
+      const token = customStore.getState().auth.accessToken
 
       if (token) {
          updateConfig.headers.Authorization = `Bearer ${token}`
       }
 
-      return config
+      return updateConfig
    },
 
    (error) => {
@@ -34,15 +33,12 @@ axios.interceptors.request.use(
    }
 )
 
-axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
    (response) => {
-      Promise.resolve(response)
+      return Promise.resolve(response)
    },
 
    (error) => {
-      if (error.response.status === 401) {
-         store.dispatch()
-      }
       return Promise.reject(error)
    }
 )
