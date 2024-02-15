@@ -9,7 +9,7 @@ const initialState = {
    isAuth: false,
    role: ROLES.GUEST,
    email: null,
-   isLoading: null,
+   isLoading: false,
 }
 
 const authSlice = createSlice({
@@ -65,6 +65,7 @@ const authSlice = createSlice({
                state.email = payload.email
                state.accessToken = payload.accessToken
                state.isAuth = true
+               state.isLoading = false
             }
          )
 

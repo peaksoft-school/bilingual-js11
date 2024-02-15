@@ -48,6 +48,7 @@ const SignUp = () => {
             AUTH_THUNKS.authWithGoogle({
                tokenId: data.user.accessToken,
                navigate,
+               isSignUp: false,
             })
          ).catch((error) => {
             console.error(error)
@@ -132,7 +133,7 @@ const SignUp = () => {
                   <Typography> </Typography>
                )}
 
-               <Button>{isLoading ? <CircularProgress /> : 'Sign up'}</Button>
+               <Button>Sign up</Button>
 
                <Button
                   type="button"

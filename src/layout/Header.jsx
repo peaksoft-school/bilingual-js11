@@ -6,6 +6,7 @@ import Button from '../components/UI/buttons/Button'
 import { LogoImage } from '../assets/images'
 import { AUTH_ACTIONS } from '../store/slice/auth/authSlice'
 import Modal from '../components/UI/modals/Modal'
+import { CancelIcon } from '../assets/icons'
 
 const Header = () => {
    const dispatch = useDispatch()
@@ -58,16 +59,10 @@ const Header = () => {
             </Button>
 
             <Modal isVisible={isVisibleModal} handleIsVisible={handleModal}>
-               <Typography className="text">
-                  Are you sure you want to log out?
-               </Typography>
+               <Typography>Are you sure you want to log out?</Typography>
 
                <Box className="buttons">
-                  <Button
-                     variant="secondary"
-                     onClick={handleModal}
-                     className="button"
-                  >
+                  <Button variant="secondary" onClick={handleModal}>
                      CANCEL
                   </Button>
 

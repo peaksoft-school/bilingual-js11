@@ -68,6 +68,7 @@ const StyledMessage = styled(Typography)(() => ({
    color: '#646464',
    fontSize: '1rem',
    fontWeight: 400,
-   paddingLeft: '2rem',
+   padding: '0 2rem',
    fontFamily: 'Poppins',
+   textOverflow: 'ellipsis',
 }))

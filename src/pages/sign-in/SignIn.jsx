@@ -1,10 +1,4 @@
-import {
-   Box,
-   InputAdornment,
-   Typography,
-   styled,
-   CircularProgress,
-} from '@mui/material'
+import { Box, InputAdornment, Typography, styled } from '@mui/material'
 import { signInWithPopup } from 'firebase/auth'
 import { useFormik } from 'formik'
 import { useState } from 'react'
@@ -48,6 +42,7 @@ const SignIn = () => {
             AUTH_THUNKS.authWithGoogle({
                tokenId: data.user.accessToken,
                navigate,
+               isSignUp: true,
             })
          ).catch((error) => {
             console.error(error)
@@ -73,7 +68,7 @@ const SignIn = () => {
 
    return (
       <StyledContainer>
-         <form className="form" onSubmit={handleSubmit}>
+         <form className="form" autoComplete="off" onSubmit={handleSubmit}>
             <Box className="exit">
                <Link to="/">
                   <ExitIcon />
@@ -141,8 +136,8 @@ const SignIn = () => {
                   <Typography> </Typography>
                )}
 
-               <Button type={isLoading ? 'button' : 'submit'}>
-                  {isLoading ? <CircularProgress /> : 'Sign in'}
+               <Button colorLoading="secondary" isLoading={isLoading}>
+                  Sign in
                </Button>
 
                <Button

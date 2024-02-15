@@ -45,7 +45,7 @@ const signIn = createAsyncThunk(
 
          showNotification({
             title: 'You are logged in!',
-            message: 'Successfully entered 👌',
+            message: 'With welcome back!',
             type: 'success',
          })
 
@@ -79,7 +79,7 @@ const signIn = createAsyncThunk(
 const authWithGoogle = createAsyncThunk(
    'auth/authWithGoogle',
 
-   async ({ tokenId, navigate }, { rejectWithValue }) => {
+   async ({ tokenId, navigate, isSignUp }, { rejectWithValue }) => {
       try {
          const response = await axiosInstance.post(
             `/api/auth/authenticate/google?tokenId=${tokenId}`
@@ -87,7 +87,7 @@ const authWithGoogle = createAsyncThunk(
 
          showNotification({
             title: 'You came in!',
-            message: 'You walked in!',
+            message: isSignUp ? 'Signed in!' : 'Signed up!',
             type: 'success',
          })
 
