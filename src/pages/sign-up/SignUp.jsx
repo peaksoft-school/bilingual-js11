@@ -1,9 +1,15 @@
 import { useState } from 'react'
 import { useFormik } from 'formik'
-import { useDispatch } from 'react-redux'
 import { signInWithPopup } from 'firebase/auth'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { Box, Typography, styled, InputAdornment } from '@mui/material'
+import {
+   Box,
+   Typography,
+   styled,
+   InputAdornment,
+   CircularProgress,
+} from '@mui/material'
 import {
    ExitIcon,
    EyeIcon,
@@ -18,10 +24,12 @@ import { ROUTES } from '../../routes/routes'
 import { SIGN_UP_INPUTS } from '../../utils/constants'
 import Button from '../../components/UI/buttons/Button'
 import Input from '../../components/UI/Input'
-import { authWithGoogle, signUp } from '../../store/silce/auth/authThunk'
-import { auth, provider } from '../../configs/withGoogle'
+import { AUTH_THUNKS } from '../../store/slice/auth/authThunk'
+import { auth, provider } from '../../configs/firebase'
 
 const SignUp = () => {
+   const { isLoading } = useSelector((state) => state.auth)
+
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
@@ -37,15 +45,18 @@ const SignUp = () => {
    const handleWithGoogle = async () => {
       await signInWithPopup(auth, provider).then((data) => {
          dispatch(
-            authWithGoogle({ tokenId: data.user.accessToken, navigate })
-         ).catch((e) => {
-            return e
+            AUTH_THUNKS.authWithGoogle({
+               tokenId: data.user.accessToken,
+               navigate,
+            })
+         ).catch((error) => {
+            console.error(error)
          })
       })
    }
 
    const onSubmit = (values, { resetForm }) =>
-      dispatch(signUp({ userData: values, resetForm, navigate }))
+      dispatch(AUTH_THUNKS.signUp({ values, resetForm, navigate }))
 
    const { values, errors, handleChange, handleSubmit, handleBlur, touched } =
       useFormik({
@@ -121,7 +132,7 @@ const SignUp = () => {
                   <Typography> </Typography>
                )}
 
-               <Button>Sign up</Button>
+               <Button>{isLoading ? <CircularProgress /> : 'Sign up'}</Button>
 
                <Button
                   type="button"

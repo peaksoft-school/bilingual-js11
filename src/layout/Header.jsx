@@ -4,7 +4,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { AppBar, Box, Typography, styled } from '@mui/material'
 import Button from '../components/UI/buttons/Button'
 import { LogoImage } from '../assets/images'
-import { AUTH_ACTIONS } from '../store/silce/auth/authSlice'
+import { AUTH_ACTIONS } from '../store/slice/auth/authSlice'
 import Modal from '../components/UI/modals/Modal'
 
 const Header = () => {
@@ -14,9 +14,9 @@ const Header = () => {
 
    const { role } = useSelector((state) => state.auth)
 
-   const [isVisible, setIsVisible] = useState(false)
+   const [isVisibleModal, setIsVisibleModal] = useState(false)
 
-   const handleModal = () => setIsVisible((prev) => !prev)
+   const handleModal = () => setIsVisibleModal((prev) => !prev)
 
    const handlelogOut = () => dispatch(AUTH_ACTIONS.logOut({ navigate }))
 
@@ -57,7 +57,7 @@ const Header = () => {
                LOG OUT
             </Button>
 
-            <Modal isVisible={isVisible} handleIsVisible={handleModal}>
+            <Modal isVisible={isVisibleModal} handleIsVisible={handleModal}>
                <Typography className="text">
                   Are you sure you want to log out?
                </Typography>
@@ -102,7 +102,6 @@ const StyledContainer = styled(AppBar)(({ theme }) => ({
       display: 'flex',
       alignItems: 'center',
       gap: '3.75rem',
-      cursor: 'pointer',
 
       '& .MuiTypography-root': {
          fontSize: '0.9375rem',

@@ -1,14 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { ROLES, ROUTES } from '../../../routes/routes'
-import { authWithGoogle, signIn, signUp } from './authThunk'
+import { ROLES } from '../../../routes/routes'
+import { AUTH_THUNKS } from './authThunk'
 
-const BILINGUAL = process.env.REACT_APP_BINGUAL
+const BILINGUAL = process.env.BINGUAL
 
 const initialState = {
    accessToken: null,
    isAuth: false,
    role: ROLES.GUEST,
    email: null,
+   isLoading: null,
 }
 
 const authSlice = createSlice({
@@ -28,47 +29,50 @@ const authSlice = createSlice({
 
    extraReducers: (builder) => {
       builder
-         .addCase(signUp.fulfilled, (state, { payload }) => {
+         .addCase(AUTH_THUNKS.signUp.fulfilled, (state, { payload }) => {
             state.role = payload.role
             state.email = payload.email
             state.isAuth = true
             state.isLoading = false
          })
 
-         .addCase(signUp.rejected, (state) => {
+         .addCase(AUTH_THUNKS.signUp.rejected, (state) => {
             state.isLoading = false
          })
 
-         .addCase(signUp.pending, (state) => {
+         .addCase(AUTH_THUNKS.signUp.pending, (state) => {
             state.isLoading = true
          })
 
-         .addCase(signIn.fulfilled, (state, { payload }) => {
+         .addCase(AUTH_THUNKS.signIn.fulfilled, (state, { payload }) => {
             state.role = payload.role
             state.isAuth = true
             state.isLoading = false
          })
 
-         .addCase(signIn.rejected, (state) => {
+         .addCase(AUTH_THUNKS.signIn.rejected, (state) => {
             state.isLoading = false
          })
 
-         .addCase(signIn.pending, (state) => {
+         .addCase(AUTH_THUNKS.signIn.pending, (state) => {
             state.isLoading = true
          })
 
-         .addCase(authWithGoogle.fulfilled, (state, { payload }) => {
-            state.role = payload.role
-            state.email = payload.email
-            state.accessToken = payload.accessToken
-            state.isAuth = true
-         })
+         .addCase(
+            AUTH_THUNKS.authWithGoogle.fulfilled,
+            (state, { payload }) => {
+               state.role = payload.role
+               state.email = payload.email
+               state.accessToken = payload.accessToken
+               state.isAuth = true
+            }
+         )
 
-         .addCase(authWithGoogle.rejected, (state) => {
+         .addCase(AUTH_THUNKS.authWithGoogle.rejected, (state) => {
             state.isLoading = false
          })
 
-         .addCase(authWithGoogle.pending, (state) => {
+         .addCase(AUTH_THUNKS.authWithGoogle.pending, (state) => {
             state.isLoading = true
          })
    },

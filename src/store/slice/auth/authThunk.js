@@ -6,13 +6,13 @@ import { ROUTES } from '../../../routes/routes'
 const signUp = createAsyncThunk(
    'auth/signUp',
 
-   async ({ userData, resetForm, navigate }, { rejectWithValue }) => {
+   async ({ values, resetForm, navigate }, { rejectWithValue }) => {
       try {
-         const response = await axiosInstance.post('/api/auth/signUp', userData)
+         const response = await axiosInstance.post('/api/auth/signUp', values)
 
          showNotification({
             title: 'You are registered!',
-            message: 'Successfully registered!',
+            message: 'We wish you great results!',
             type: 'success',
          })
 
@@ -39,13 +39,13 @@ const signUp = createAsyncThunk(
 const signIn = createAsyncThunk(
    'auth/signIn',
 
-   async ({ userData, resetForm, navigate }, { rejectWithValue }) => {
+   async ({ values, resetForm, navigate }, { rejectWithValue }) => {
       try {
-         const response = await axiosInstance.post('/api/auth/signIn', userData)
+         const response = await axiosInstance.post('/api/auth/signIn', values)
 
          showNotification({
             title: 'You are logged in!',
-            message: 'Successfully entered!',
+            message: 'Successfully entered 👌',
             type: 'success',
          })
 
@@ -87,7 +87,7 @@ const authWithGoogle = createAsyncThunk(
 
          showNotification({
             title: 'You came in!',
-            message: 'Successfully came in!',
+            message: 'You walked in!',
             type: 'success',
          })
 
@@ -106,4 +106,4 @@ const authWithGoogle = createAsyncThunk(
    }
 )
 
-export { signIn, signUp, authWithGoogle }
+export const AUTH_THUNKS = { signIn, signUp, authWithGoogle }

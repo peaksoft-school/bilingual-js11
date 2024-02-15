@@ -21,6 +21,8 @@ const showErrorSignIn = (errors) => {
 
    if (Object.keys(errors).length > 1) {
       errorMessage = 'Please fill in all fields'
+   } else if (errors?.password) {
+      errorMessage = `Incorrect ${errors.password}`
    }
 
    return errorMessage

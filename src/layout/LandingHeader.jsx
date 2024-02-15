@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Button from '../components/UI/buttons/Button'
 import { LogoImage } from '../assets/images'
 import { ROUTES } from '../routes/routes'
-import { AUTH_ACTIONS } from '../store/silce/auth/authSlice'
+import { AUTH_ACTIONS } from '../store/slice/auth/authSlice'
 import Modal from '../components/UI/modals/Modal'
 
 const LandingHeader = () => {
@@ -15,13 +15,13 @@ const LandingHeader = () => {
 
    const { role } = useSelector((state) => state.auth)
 
-   const [isVisible, setIsVisible] = useState(false)
+   const [isVisibleModal, setIsVisibleModal] = useState(false)
 
    const [isScrolled, setIsScrolled] = useState(false)
 
    const handlelogOut = () => dispatch(AUTH_ACTIONS.logOut({ navigate }))
 
-   const handleModal = () => setIsVisible((prev) => !prev)
+   const handleModal = () => setIsVisibleModal((prev) => !prev)
 
    useEffect(() => {
       const handleScroll = () => {
@@ -67,7 +67,10 @@ const LandingHeader = () => {
                         LOG OUT
                      </Button>
 
-                     <Modal isVisible={isVisible} handleIsVisible={handleModal}>
+                     <Modal
+                        isVisible={isVisibleModal}
+                        handleIsVisible={handleModal}
+                     >
                         <Typography className="text">
                            Are you sure you want to log out?
                         </Typography>

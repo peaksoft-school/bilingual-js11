@@ -1,8 +1,14 @@
-import { Box, InputAdornment, Typography, styled } from '@mui/material'
+import {
+   Box,
+   InputAdornment,
+   Typography,
+   styled,
+   CircularProgress,
+} from '@mui/material'
 import { signInWithPopup } from 'firebase/auth'
 import { useFormik } from 'formik'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import {
    ExitIcon,
@@ -16,12 +22,14 @@ import Checkbox from '../../components/UI/Checkbox'
 import Input from '../../components/UI/Input'
 import Button from '../../components/UI/buttons/Button'
 import { ROUTES } from '../../routes/routes'
-import { authWithGoogle, signIn } from '../../store/silce/auth/authThunk'
-import { auth, provider } from '../../configs/withGoogle'
+import { AUTH_THUNKS } from '../../store/slice/auth/authThunk'
+import { auth, provider } from '../../configs/firebase'
 import { showErrorSignIn } from '../../utils/helpers'
 import { VALIDATION_SIGN_IN } from '../../utils/helpers/validation'
 
 const SignIn = () => {
+   const { isLoading } = useSelector((state) => state.auth)
+
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
@@ -37,15 +45,18 @@ const SignIn = () => {
    const handleWithGoogle = async () => {
       await signInWithPopup(auth, provider).then((data) => {
          dispatch(
-            authWithGoogle({ tokenId: data.user.accessToken, navigate })
-         ).catch((e) => {
-            return e
+            AUTH_THUNKS.authWithGoogle({
+               tokenId: data.user.accessToken,
+               navigate,
+            })
+         ).catch((error) => {
+            console.error(error)
          })
       })
    }
 
    const onSubmit = (values, { resetForm }) =>
-      dispatch(signIn({ userData: values, resetForm, navigate }))
+      dispatch(AUTH_THUNKS.signIn({ values, resetForm, navigate }))
 
    const { values, errors, touched, handleChange, handleSubmit, handleBlur } =
       useFormik({
@@ -130,7 +141,7 @@ const SignIn = () => {
                   <Typography> </Typography>
                )}
 
-               <Button>Sign in</Button>
+               <Button>{isLoading ? <CircularProgress /> : 'Sign in'}</Button>
 
                <Button
                   type="button"
