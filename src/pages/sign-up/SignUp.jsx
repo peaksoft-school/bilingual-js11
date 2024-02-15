@@ -133,7 +133,9 @@ const SignUp = () => {
                   <Typography> </Typography>
                )}
 
-               <Button>Sign up</Button>
+               <Button colorLoading="secondary" isLoading={isLoading}>
+                  Sign up
+               </Button>
 
                <Button
                   type="button"

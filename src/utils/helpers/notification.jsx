@@ -64,6 +64,8 @@ const StyledTitle = styled(Typography)(() => ({
 const StyledMessage = styled(Typography)(() => ({
    marginTop: '0.5rem',
    width: '100%',
+   maxHeight: '50px',
+   height: '100%',
    wordWrap: 'break-word',
    color: '#646464',
    fontSize: '1rem',
@@ -71,4 +73,6 @@ const StyledMessage = styled(Typography)(() => ({
    padding: '0 2rem',
    fontFamily: 'Poppins',
    textOverflow: 'ellipsis',
+   // whiteSpace: 'nowrap' /* Запрещаем перенос строк */,
+   overflow: ' hidden',
 }))

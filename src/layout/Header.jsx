@@ -5,8 +5,7 @@ import { AppBar, Box, Typography, styled } from '@mui/material'
 import Button from '../components/UI/buttons/Button'
 import { LogoImage } from '../assets/images'
 import { AUTH_ACTIONS } from '../store/slice/auth/authSlice'
-import Modal from '../components/UI/modals/Modal'
-import { CancelIcon } from '../assets/icons'
+import Modal from '../components/UI/Modal'
 
 const Header = () => {
    const dispatch = useDispatch()

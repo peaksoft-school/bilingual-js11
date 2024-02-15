@@ -6,7 +6,7 @@ import Button from '../components/UI/buttons/Button'
 import { LogoImage } from '../assets/images'
 import { ROUTES } from '../routes/routes'
 import { AUTH_ACTIONS } from '../store/slice/auth/authSlice'
-import Modal from '../components/UI/modals/Modal'
+import Modal from '../components/UI/Modal'
 
 const LandingHeader = () => {
    const dispatch = useDispatch()
