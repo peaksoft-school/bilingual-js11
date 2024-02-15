@@ -7,45 +7,29 @@ import { EditIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
 import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
 import ModalDelete from '../../../components/UI/modals/ModalDelete'
-import {
-   deleteQuestion,
-   getTest,
-   updateQuestionByEnable,
-} from '../../../store/slice/admin/questionsThunk'
 import { SearchingImage } from '../../../assets/images'
+import { QUESTIONS_THUNK } from '../../../store/slice/admin/questionsThunk'
 
 const Questions = () => {
-   const { tests } = useSelector((state) => state.questionsSlice)
+   const { questions } = useSelector((state) => state.questionsSlice)
    const { testId } = useParams()
    const [isVisible, setIsVisible] = useState(false)
    const [selectedQuestionId, setSelectedQuestionId] = useState(null)
-   const [switchStates, setSwitchStates] = useState({})
    const dispatch = useDispatch()
 
    useEffect(() => {
-      dispatch(getTest({ testId }))
+      dispatch(QUESTIONS_THUNK.getTest({ testId }))
    }, [dispatch, testId])
 
-   useEffect(() => {
-      if (tests && tests.question) {
-         const initialSwitchStates = {}
-         tests.question.forEach((question) => {
-            initialSwitchStates[question.id] = question.enable
-         })
-
-         setSwitchStates(initialSwitchStates)
-      }
-   }, [tests])
-
    const handleDeleteQuestion = () => {
-      if (selectedQuestionId) {
-         dispatch(deleteQuestion({ questionId: selectedQuestionId })).then(
-            () => {
-               dispatch(getTest({ testId }))
-               setIsVisible(false)
-            }
-         )
-      }
+      dispatch(
+         QUESTIONS_THUNK.deleteQuestion({
+            questionId: selectedQuestionId,
+            testId,
+         })
+      )
+
+      setIsVisible(false)
    }
 
    const handleOpenModal = (questionId) => {
@@ -57,35 +41,36 @@ const Questions = () => {
       setIsVisible(false)
    }
 
-   const handleEnable = async (questionId, isChecked) => {
-      dispatch(updateQuestionByEnable({ questionId, isEnable: isChecked }))
-
-      setSwitchStates((prevStates) => ({
-         ...prevStates,
-         [questionId]: isChecked,
-      }))
+   const handleEnable = (params) => {
+      dispatch(
+         QUESTIONS_THUNK.updateQuestionByEnable({
+            questionId: params.id,
+            isEnable: params.value,
+            testId,
+         })
+      )
    }
 
    return (
       <StyledContainer>
          <TestContainer>
-            <Box key={tests.id}>
+            <Box key={questions.id}>
                <Box className="title-container">
                   <Box className="text">
                      <Typography className="title">Title:</Typography>
-                     <Typography>{tests.title}</Typography>
+                     <Typography>{questions.title}</Typography>
                   </Box>
 
                   <Box className="text">
                      <Typography className="title">
                         Short Description:
                      </Typography>
-                     <Typography>{tests.shortDescription}</Typography>
+                     <Typography>{questions.shortDescription}</Typography>
                   </Box>
 
                   <Box className="text">
                      <Typography className="title">Duration:</Typography>
-                     <Typography>{tests.duration}</Typography>
+                     <Typography>{questions.duration}</Typography>
                   </Box>
                </Box>
             </Box>
@@ -106,9 +91,9 @@ const Questions = () => {
                <Typography className="question-type">Question Type</Typography>
             </StyledTable>
 
-            {tests.question.length > 0 ? (
-               tests.question.map(
-                  ({ id, title, duration, questionType }, index) => (
+            {questions.question.length > 0 ? (
+               questions.question.map(
+                  ({ id, title, duration, questionType, enable }, index) => (
                      <StyledBox key={id}>
                         <Typography>{index + 1}</Typography>
                         <Typography className="name-props">{title}</Typography>
@@ -125,10 +110,8 @@ const Questions = () => {
                            <Switcher
                               key={id}
                               className="switcher"
-                              checked={switchStates[id] || false}
-                              onChange={(e) =>
-                                 handleEnable(id, e.target.checked)
-                              }
+                              checked={enable}
+                              onChange={(value) => handleEnable({ value, id })}
                            />
 
                            <EditIcon className="edit" />

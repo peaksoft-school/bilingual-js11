@@ -8,9 +8,9 @@ import { PlusIcon } from '../../../assets/icons'
 const AdminTests = () => (
    <StyledContainer>
       <TestContainer>
-         <Button className="button">
+         <Button className="button" icon={<PlusIcon className="plus-icon" />}>
             <Link to="/admin/tests/create-test" className="text">
-               <PlusIcon className="plus-icon" /> ADD NEW TEST
+               ADD NEW TEST
             </Link>
          </Button>
 
@@ -27,6 +27,13 @@ const StyledContainer = styled(Box)(() => ({
       marginLeft: '44.3rem',
       width: '12rem',
 
+      '& .plus-icon': {
+         width: '0.9rem',
+         height: '0.9rem',
+         margin: '0.6rem',
+         marginTop: '0.4rem',
+      },
+
       '& > .text': {
          display: 'flex',
          alignItems: 'center',
@@ -35,12 +42,6 @@ const StyledContainer = styled(Box)(() => ({
          fontFamily: 'Poppins',
          fontSize: '14px',
          fontWeight: '500',
-
-         '& > .plus-icon': {
-            width: '0.9rem',
-            height: '0.9rem',
-            margin: '0.4rem',
-         },
       },
    },
 }))

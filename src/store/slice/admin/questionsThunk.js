@@ -49,7 +49,7 @@ const getQuestion = createAsyncThunk(
 const deleteQuestion = createAsyncThunk(
    'questionsSlice/deleteQuestion',
 
-   async ({ questionId }, { rejectWithValue }) => {
+   async ({ questionId, testId }, { rejectWithValue, dispatch }) => {
       try {
          const response = await axiosInstance.delete(
             `/api/question?questionId=${questionId}`
@@ -60,6 +60,8 @@ const deleteQuestion = createAsyncThunk(
             message: 'Question successfully deleted',
             type: 'success',
          })
+
+         dispatch(getTest({ testId }))
 
          return response.data
       } catch (error) {
@@ -75,7 +77,7 @@ const deleteQuestion = createAsyncThunk(
 )
 
 const updateQuestionByEnable = createAsyncThunk(
-   'testsSlice/updateQuestionByEnable',
+   'questionsSlice/updateQuestionByEnable',
 
    async ({ questionId, isEnable }, { rejectWithValue }) => {
       try {
@@ -90,7 +92,7 @@ const updateQuestionByEnable = createAsyncThunk(
    }
 )
 
-export {
+export const QUESTIONS_THUNK = {
    getAllQuestions,
    getQuestion,
    deleteQuestion,

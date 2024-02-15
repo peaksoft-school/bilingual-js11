@@ -1,29 +1,27 @@
 import { useEffect, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Switcher from '../../UI/Switcher'
 import { EditIcon, TrashIcon } from '../../../assets/icons'
 import ModalDelete from '../../UI/modals/ModalDelete'
-import {
-   deleteTest,
-   getAllTests,
-   updateTetsByEnable,
-} from '../../../store/slice/admin/testsThunk'
+import { TESTS_THUNK } from '../../../store/slice/admin/testsThunk'
 import { SearchingImage } from '../../../assets/images'
 
 const TestList = () => {
    const { tests } = useSelector((state) => state.testsSlice)
-   const dispatch = useDispatch()
    const [isVisible, setIsVisible] = useState(false)
    const [selectedTestId, setSelectedTestId] = useState(null)
+   const dispatch = useDispatch()
+
+   const navigate = useNavigate()
 
    useEffect(() => {
-      dispatch(getAllTests())
+      dispatch(TESTS_THUNK.getAllTests())
    }, [dispatch])
 
    const handleDeleteTest = (testId) => {
-      dispatch(deleteTest(testId))
+      dispatch(TESTS_THUNK.deleteTest(testId))
       setIsVisible(false)
    }
 
@@ -36,45 +34,53 @@ const TestList = () => {
       setIsVisible(false)
    }
 
-   const handleEnable = async (id, enable) => {
-      try {
-         await dispatch(updateTetsByEnable({ testId: id, enable }))
-      } catch (error) {
-         console.error('Ошибка при обновлении теста:', error)
-      } finally {
-         dispatch(getAllTests())
-      }
+   const handleEnable = (params) => {
+      dispatch(
+         TESTS_THUNK.updateTetsByEnable({
+            testId: params.id,
+            enable: params.value,
+         })
+      )
    }
 
    return (
       <StyledContainer>
          {tests?.length > 0 ? (
             tests.map(({ id, title, enable }) => (
-               <Box key={id} className="test">
-                  <Typography className="title">
-                     <Link to={`/admin/tests/questions/${id}`} className="text">
-                        {title}
-                     </Link>
-                  </Typography>
+               <Link
+                  to={`/admin/tests/questions/${id}`}
+                  key={id}
+                  className="test-link"
+               >
+                  <Box className="test">
+                     <Typography className="title">{title}</Typography>
 
-                  <Box className="icons">
-                     <Switcher
-                        key={id}
-                        className="switcher"
-                        checked={enable}
-                        onChange={(e) => handleEnable(id, e.target.checked)}
-                     />
+                     <Box className="icons">
+                        <Box onClick={(event) => event.stopPropagation()}>
+                           <Switcher
+                              checked={enable}
+                              onChange={(value) => handleEnable({ value, id })}
+                           />
+                        </Box>
 
-                     <Link to={`/admin/tests/update-test/${id}`}>
-                        <EditIcon className="edit" />
-                     </Link>
+                        <EditIcon
+                           className="edit"
+                           onClick={(event) => {
+                              event.preventDefault()
+                              navigate(`/admin/tests/update-test/${id}`)
+                           }}
+                        />
 
-                     <TrashIcon
-                        className="delete"
-                        onClick={() => handleOpenModal(id)}
-                     />
+                        <TrashIcon
+                           className="delete"
+                           onClick={(event) => {
+                              event.preventDefault()
+                              handleOpenModal(id)
+                           }}
+                        />
+                     </Box>
                   </Box>
-               </Box>
+               </Link>
             ))
          ) : (
             <Box className="background-image">
@@ -103,53 +109,53 @@ const StyledContainer = styled(Box)(() => ({
       height: '18rem',
    },
 
-   '& > .test': {
-      width: '100%',
-      height: 'auto',
-      display: 'flex',
-      backgroundColor: '#fff',
-      color: '#4C4859',
-      padding: '20px 25px',
-      borderRadius: '0.5rem',
-      boxShadow:
-         '0px 4px 10px 0px rgba(0, 0, 0, 0.06), 0px -4px 10px 0px rgba(0, 0, 0, 0.06)',
-      marginBottom: '0.94rem',
-      cursor: 'pointer',
-      position: 'relative',
+   '& > .test-link': {
+      textDecoration: 'none',
+      color: 'inherit',
 
-      '& > .title': {
-         wordWrap: 'break-word',
-         maxWidth: '38rem',
+      '& > .test': {
+         width: '100%',
+         height: 'auto',
+         display: 'flex',
+         backgroundColor: '#fff',
+         color: '#4C4859',
+         padding: '20px 25px',
+         borderRadius: '0.5rem',
+         boxShadow:
+            '0px 4px 10px 0px rgba(0, 0, 0, 0.06), 0px -4px 10px 0px rgba(0, 0, 0, 0.06)',
+         marginBottom: '0.94rem',
+         cursor: 'pointer',
+         position: 'relative',
 
-         '& > .text': {
-            textDecoration: 'none',
-            color: 'inherit',
+         '& > .title': {
+            wordWrap: 'break-word',
+            maxWidth: '38rem',
             fontFamily: 'Poppins',
             fontSize: '1rem',
          },
-      },
 
-      '&:hover': {
-         backgroundColor: '#f6f6f6',
-      },
-
-      '& > .icons': {
-         position: 'absolute',
-         top: '50%',
-         transform: 'translateY(-50%)',
-         right: '1.4rem',
-         display: 'flex',
-         gap: '1.4rem',
-
-         '& .edit:hover': {
-            '& > g > path': {
-               stroke: '#0F85F1',
-            },
+         '&:hover': {
+            backgroundColor: '#f6f6f6',
          },
 
-         '& > .delete:hover': {
-            '& > path': {
-               stroke: '#F61414',
+         '& > .icons': {
+            position: 'absolute',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            right: '1.4rem',
+            display: 'flex',
+            gap: '1.4rem',
+
+            '& .edit:hover': {
+               '& > g > path': {
+                  stroke: '#0F85F1',
+               },
+            },
+
+            '& > .delete:hover': {
+               '& > path': {
+                  stroke: '#F61414',
+               },
             },
          },
       },

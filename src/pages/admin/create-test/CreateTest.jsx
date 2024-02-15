@@ -5,11 +5,11 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import Input from '../../../components/UI/Input'
 import TestContainer from '../../../components/UI/TestContainer'
 import Button from '../../../components/UI/buttons/Button'
-import { postTest, updateTest } from '../../../store/slice/admin/testsThunk'
-import { getTest } from '../../../store/slice/admin/questionsThunk'
+import { TESTS_THUNK } from '../../../store/slice/admin/testsThunk'
+import { QUESTIONS_THUNK } from '../../../store/slice/admin/questionsThunk'
 
 const CreateTest = () => {
-   const { tests } = useSelector((state) => state.questionsSlice)
+   const { questions } = useSelector((state) => state.questionsSlice)
    const { id } = useParams()
    const [formData, setFormData] = useState({
       title: '',
@@ -31,26 +31,28 @@ const CreateTest = () => {
 
    useEffect(() => {
       if (id) {
-         dispatch(getTest({ testId: id }))
+         dispatch(QUESTIONS_THUNK.getTest({ testId: id }))
       }
    }, [dispatch, id])
 
    useEffect(() => {
-      if (!isNewTest && tests) {
+      if (!isNewTest && questions) {
          setFormData({
-            title: tests.title || '',
-            shortDescription: tests.shortDescription || '',
+            title: questions.title || '',
+            shortDescription: questions.shortDescription || '',
          })
       }
-   }, [isNewTest, tests, id])
+   }, [isNewTest, questions, id])
 
    const handleSave = () => {
       const testToSave = { ...formData }
 
       if (isNewTest) {
-         dispatch(postTest({ testData: testToSave, navigate }))
+         dispatch(TESTS_THUNK.postTest({ testData: testToSave, navigate }))
       } else {
-         dispatch(updateTest({ id, updatedTest: testToSave, navigate }))
+         dispatch(
+            TESTS_THUNK.updateTest({ id, updatedTest: testToSave, navigate })
+         )
       }
    }
 

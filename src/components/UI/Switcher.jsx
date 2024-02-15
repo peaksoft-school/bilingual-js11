@@ -1,19 +1,32 @@
-import { forwardRef } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import { FormControlLabel, Switch, styled } from '@mui/material'
 
-const Switcher = forwardRef(({ checked, onChange, disabled, ...rest }, ref) => (
-   <FormControlLabel
-      control={
-         <StyledSwitch
-            checked={checked}
-            onChange={onChange}
-            disabled={disabled}
-            ref={ref}
-            {...rest}
-         />
-      }
-   />
-))
+const Switcher = forwardRef(({ checked, onChange, disabled, ...rest }, ref) => {
+   const [isChecked, setChecked] = useState(checked)
+
+   useEffect(() => {
+      setChecked(checked)
+   }, [checked])
+
+   const handleChange = (event) => {
+      setChecked(event.target.checked)
+      onChange(event.target.checked)
+   }
+
+   return (
+      <FormControlLabel
+         control={
+            <StyledSwitch
+               onChange={handleChange}
+               disabled={disabled}
+               ref={ref}
+               checked={isChecked}
+               {...rest}
+            />
+         }
+      />
+   )
+})
 
 export default Switcher
 
