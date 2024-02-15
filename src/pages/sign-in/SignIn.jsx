@@ -141,7 +141,9 @@ const SignIn = () => {
                   <Typography> </Typography>
                )}
 
-               <Button>{isLoading ? <CircularProgress /> : 'Sign in'}</Button>
+               <Button type={isLoading ? 'button' : 'submit'}>
+                  {isLoading ? <CircularProgress /> : 'Sign in'}
+               </Button>
 
                <Button
                   type="button"
