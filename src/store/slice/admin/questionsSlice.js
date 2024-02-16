@@ -2,9 +2,24 @@ import { createSlice } from '@reduxjs/toolkit'
 import { QUESTIONS_THUNK } from './questionsThunk'
 
 const initialState = {
-   questions: null,
+   questions: {
+      id: 0,
+      title: '',
+      shortDescription: '',
+      duration: 0,
+      question: [
+         {
+            id: 18,
+            title: 'Select the real English',
+            duration: 3,
+            questionType: 'RECORD_SAYING',
+            enable: false,
+            number: 1,
+         },
+      ],
+   },
    status: '',
-   error: null,
+   error: '',
 }
 
 export const questionsSlice = createSlice({
@@ -20,6 +35,7 @@ export const questionsSlice = createSlice({
          .addCase(QUESTIONS_THUNK.getTest.fulfilled, (state, action) => {
             state.status = 'succeeded'
             state.questions = action.payload
+            console.log(action.payload)
          })
 
          .addCase(QUESTIONS_THUNK.getTest.rejected, (state, action) => {

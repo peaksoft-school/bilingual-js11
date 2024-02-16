@@ -11,7 +11,11 @@ import { QUESTIONS_THUNK } from '../../../store/slice/admin/questionsThunk'
 import Modal from '../../../components/UI/Modal'
 
 const Questions = () => {
-   const { questions } = useSelector((state) => state.questionsSlice)
+   console.log(useSelector((state) => state.questionsSlice.questions))
+   const { title, shortDescription, duration, question } = useSelector(
+      (state) => state.questionsSlice.questions
+   )
+
    const { testId } = useParams()
    const [isVisible, setIsVisible] = useState(false)
    const [selectedQuestionId, setSelectedQuestionId] = useState(null)
@@ -19,7 +23,7 @@ const Questions = () => {
 
    useEffect(() => {
       dispatch(QUESTIONS_THUNK.getTest({ testId }))
-   }, [dispatch, testId])
+   }, [testId])
 
    const handleDeleteQuestion = () => {
       dispatch(
@@ -50,23 +54,23 @@ const Questions = () => {
    return (
       <StyledContainer>
          <TestContainer>
-            <Box key={questions.id}>
+            <Box>
                <Box className="title-container">
                   <Box className="text">
                      <Typography className="title">Title:</Typography>
-                     <Typography>{questions.title}</Typography>
+                     <Typography>{title}</Typography>
                   </Box>
 
                   <Box className="text">
                      <Typography className="title">
                         Short Description:
                      </Typography>
-                     <Typography>{questions.shortDescription}</Typography>
+                     <Typography>{shortDescription}</Typography>
                   </Box>
 
                   <Box className="text">
                      <Typography className="title">Duration:</Typography>
-                     <Typography>{questions.duration}</Typography>
+                     <Typography>{duration}</Typography>
                   </Box>
                </Box>
             </Box>
@@ -87,8 +91,8 @@ const Questions = () => {
                <Typography className="question-type">Question Type</Typography>
             </StyledTable>
 
-            {questions.question.length > 0 ? (
-               questions.question.map(
+            {question.length > 0 ? (
+               question.map(
                   ({ id, title, duration, questionType, enable }, index) => (
                      <StyledBox key={id}>
                         <Typography>{index + 1}</Typography>

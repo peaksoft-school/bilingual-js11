@@ -1,7 +1,14 @@
+import { useState } from 'react'
 import { Box, InputLabel, styled } from '@mui/material'
 import Input from '../../../components/UI/Input'
 
 const TypeWhatYouHear = () => {
+   const [selectedFile, setSelectedFile] = useState(null)
+   const [upload, setUpload] = useState(null)
+
+   const handleChange = (e) => {
+      console.log(e.target.value)
+   }
    return (
       <Box>
          <Container>
@@ -15,7 +22,9 @@ const TypeWhatYouHear = () => {
                   InputProps={{ inputProps: { min: 0, max: 10 } }}
                />
             </Box>
-            <Box></Box>
+            <Box>
+               <Input type="file" onChange={handleChange} />
+            </Box>
          </Container>
       </Box>
    )
@@ -23,7 +32,7 @@ const TypeWhatYouHear = () => {
 
 export default TypeWhatYouHear
 
-const Container = styled(Box)(() => ({
+const Container = styled('form')(() => ({
    display: 'flex',
    marginTop: '3.75rem',
    width: '50%',
