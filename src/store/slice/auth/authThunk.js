@@ -67,9 +67,7 @@ const signIn = createAsyncThunk(
       } catch (error) {
          showNotification({
             title: 'Error',
-            // message: error.response.data,
-            message:
-               'aakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.comaakhunova02@gmail.com',
+            message: error.response.data,
             type: 'error',
          })
 
@@ -99,7 +97,7 @@ const authWithGoogle = createAsyncThunk(
       } catch (error) {
          showNotification({
             title: 'Error',
-            message: error.response.data,
+            message: 'Failed to log in via Google!',
             type: 'error',
          })
 

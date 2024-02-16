@@ -1,28 +1,73 @@
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
+import { Link, useParams } from 'react-router-dom'
 import Switcher from '../../../components/UI/Switcher'
-import { EditIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
+import { EditIcon, FalseIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
 import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
-import { TEST_DATA } from '../../../utils/constants'
+import { SearchingImage } from '../../../assets/images'
+import { QUESTIONS_THUNK } from '../../../store/slice/admin/questionsThunk'
+import Modal from '../../../components/UI/Modal'
 
-const Questions = ({ title, shortDescription, duration }) => (
-   <StyledContainer>
-      <Box className="rectangle">
+const Questions = () => {
+   const { questions } = useSelector((state) => state.questionsSlice)
+   const { testId } = useParams()
+   const [isVisible, setIsVisible] = useState(false)
+   const [selectedQuestionId, setSelectedQuestionId] = useState(null)
+   const dispatch = useDispatch()
+
+   useEffect(() => {
+      dispatch(QUESTIONS_THUNK.getTest({ testId }))
+   }, [dispatch, testId])
+
+   const handleDeleteQuestion = () => {
+      dispatch(
+         QUESTIONS_THUNK.deleteQuestion({
+            questionId: selectedQuestionId,
+            testId,
+         })
+      )
+
+      setIsVisible(false)
+   }
+
+   const handleOpenModal = (questionId) => {
+      setSelectedQuestionId(questionId)
+      setIsVisible((prev) => !prev)
+   }
+
+   const handleEnable = (params) => {
+      dispatch(
+         QUESTIONS_THUNK.updateQuestionByEnable({
+            questionId: params.id,
+            isEnable: params.value,
+            testId,
+         })
+      )
+   }
+
+   return (
+      <StyledContainer>
          <TestContainer>
-            <Box className="title-container">
-               <Box className="text">
-                  <Typography className="title">Title:</Typography>
-                  <Typography>{title}</Typography>
-               </Box>
+            <Box key={questions.id}>
+               <Box className="title-container">
+                  <Box className="text">
+                     <Typography className="title">Title:</Typography>
+                     <Typography>{questions.title}</Typography>
+                  </Box>
 
-               <Box className="text">
-                  <Typography className="title">Short Description:</Typography>
-                  <Typography>{shortDescription}</Typography>
-               </Box>
+                  <Box className="text">
+                     <Typography className="title">
+                        Short Description:
+                     </Typography>
+                     <Typography>{questions.shortDescription}</Typography>
+                  </Box>
 
-               <Box className="text">
-                  <Typography className="title">Duration:</Typography>
-                  <Typography>{duration}</Typography>
+                  <Box className="text">
+                     <Typography className="title">Duration:</Typography>
+                     <Typography>{questions.duration}</Typography>
+                  </Box>
                </Box>
             </Box>
 
@@ -42,8 +87,8 @@ const Questions = ({ title, shortDescription, duration }) => (
                <Typography className="question-type">Question Type</Typography>
             </StyledTable>
 
-            {TEST_DATA.length > 0 ? (
-               TEST_DATA.map(
+            {questions.question.length > 0 ? (
+               questions.question.map(
                   ({ id, title, duration, questionType, enable }, index) => (
                      <StyledBox key={id}>
                         <Typography>{index + 1}</Typography>
@@ -58,22 +103,62 @@ const Questions = ({ title, shortDescription, duration }) => (
                         </Typography>
 
                         <Box className="icons">
-                           <Switcher checked={enable} />
+                           <Switcher
+                              key={id}
+                              className="switcher"
+                              checked={enable}
+                              onChange={(value) => handleEnable({ value, id })}
+                           />
+
                            <EditIcon className="edit" />
-                           <TrashIcon className="delete" />
+
+                           <TrashIcon
+                              className="delete"
+                              onClick={() => handleOpenModal(id)}
+                           />
                         </Box>
                      </StyledBox>
                   )
                )
             ) : (
-               <Typography>You haven`t added any questions yet.</Typography>
+               <Box className="background-image">
+                  <img src={SearchingImage} alt="search" />
+               </Box>
             )}
 
-            <Button className="go-back-button">GO BACK</Button>
+            <Button className="go-back-button" variant="secondary">
+               <Link to="/" className="text">
+                  GO BACK
+               </Link>
+            </Button>
          </TestContainer>
-      </Box>
-   </StyledContainer>
-)
+
+         <Modal
+            isCloseIcon
+            isVisible={isVisible}
+            handleIsVisible={handleOpenModal}
+         >
+            <FalseIcon />
+
+            <Typography className="modal-title">Do you want delete?</Typography>
+
+            <Typography className="modal-message">
+               You can`t restore this file
+            </Typography>
+
+            <Box className="container-buttons">
+               <Button variant="secondary" onClick={handleOpenModal}>
+                  CANCEL
+               </Button>
+
+               <Button onClick={() => handleDeleteQuestion(selectedQuestionId)}>
+                  DELETE
+               </Button>
+            </Box>
+         </Modal>
+      </StyledContainer>
+   )
+}
 
 export default Questions
 
@@ -83,11 +168,14 @@ const StyledContainer = styled(Box)(() => ({
    width: 'auto',
 
    '& .title-container': {
-      paddingLeft: '1rem   ',
+      paddingLeft: '1rem',
+      paddingTop: '0.2rem',
+
       '& > .text': {
          display: 'flex',
+         gap: '0.3rem',
 
-         '& > .title ': {
+         '& > .title': {
             color: '#3752B4',
          },
       },
@@ -97,7 +185,7 @@ const StyledContainer = styled(Box)(() => ({
       padding: '0.75rem 1.5rem 0.75rem 1rem',
       width: 'auto',
       gap: '1rem',
-      margin: ' 0 1.75rem 0 40rem',
+      margin: '0 1.75rem 0 40rem',
       fontFamily: 'Poppins',
       fontSize: '14px',
 
@@ -116,12 +204,24 @@ const StyledContainer = styled(Box)(() => ({
       borderRadius: '0.5rem',
       fontSize: '0.875rem',
       color: '#3A10E5',
-      border: '2px solid  #3A10E5',
+      border: '2px solid #3A10E5',
       background: '#FFFF',
       padding: '0.8125rem 1.5rem',
       height: '2.625rem',
       margin: 'auto',
-      marginLeft: '47rem',
+      marginLeft: '48.6rem',
+      marginTop: '0.8rem',
+      width: '7.8rem',
+
+      '& > .text': {
+         display: 'flex',
+         alignItems: 'center',
+         textDecoration: 'none',
+         color: 'inherit',
+         fontFamily: 'Poppins',
+         fontSize: '14px',
+         fontWeight: '500',
+      },
 
       '&:hover': {
          color: '#FFF',
@@ -136,9 +236,16 @@ const StyledContainer = styled(Box)(() => ({
    '& .divider': {
       width: 'auto',
       height: '0.0625rem',
-      margin: '1.5rem',
-      border: '1 solid  #D4D0D0',
+      margin: '0.5rem',
+      border: '1px solid #D4D0D0',
       background: '#C4C4C4',
+   },
+
+   '& .background-image': {
+      margin: 'auto',
+      marginTop: '1.8rem',
+      width: '16rem',
+      height: '16rem',
    },
 }))
 
@@ -149,23 +256,23 @@ const StyledTable = styled(Box)(() => ({
 
    '& > .name': {
       margin: 'auto',
-      marginLeft: '1.23rem',
+      marginLeft: '1.12rem',
    },
 
    '& > .duration-time': {
       margin: 'auto',
-      marginLeft: '7.4rem',
+      marginLeft: '-4.8rem',
    },
 
    '& > .question-type': {
       margin: 'auto',
-      marginLeft: '-9rem',
+      marginLeft: '-17rem',
    },
 }))
 
 const StyledBox = styled(Box)(() => ({
    width: '100%',
-   height: ' 4.125rem',
+   height: '4.125rem',
    display: 'flex',
    backgroundColor: '#fff',
    color: '#4C4859',
@@ -178,6 +285,7 @@ const StyledBox = styled(Box)(() => ({
    '& > .name-props': {
       margin: '0 1.2rem',
       whiteSpace: 'nowrap',
+      width: '13rem',
    },
 
    '& > .duration-props': {
@@ -199,7 +307,7 @@ const StyledBox = styled(Box)(() => ({
       marginLeft: 'auto',
       cursor: 'pointer',
 
-      '&  > .edit:hover': {
+      '& > .edit:hover': {
          '& > g > path': {
             stroke: '#0F85F1',
          },
