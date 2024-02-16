@@ -6,7 +6,6 @@ import Input from '../Input'
 
 const ModalSave = ({
    onSave,
-   children,
    isVisible,
    handleIsVisible,
    title,
