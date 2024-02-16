@@ -13,7 +13,7 @@ const Input = forwardRef(
          disabled={disabled}
          value={value}
          onChange={onChange}
-         error={error}
+         error={Boolean(error)}
          placeholder={placeholder}
          variant="outlined"
          {...rest}
