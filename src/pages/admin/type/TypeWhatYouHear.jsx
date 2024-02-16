@@ -15,6 +15,7 @@ const TypeWhatYouHear = () => {
                   InputProps={{ inputProps: { min: 0, max: 10 } }}
                />
             </Box>
+            <Box></Box>
          </Container>
       </Box>
    )
