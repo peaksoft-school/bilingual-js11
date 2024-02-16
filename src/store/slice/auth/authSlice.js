@@ -5,7 +5,7 @@ import { AUTH_THUNKS } from './authThunk'
 const BILINGUAL = process.env.BINGUAL
 
 const initialState = {
-   accessToken: null,
+   token: null,
    isAuth: false,
    role: ROLES.GUEST,
    email: null,
@@ -17,7 +17,7 @@ const authSlice = createSlice({
    initialState,
    reducers: {
       logOut: (state, { payload }) => {
-         state.accessToken = null
+         state.token = null
          state.isAuth = false
          state.role = ROLES.GUEST
          state.email = null
@@ -34,6 +34,7 @@ const authSlice = createSlice({
             state.email = payload.email
             state.isAuth = true
             state.isLoading = false
+            state.token = payload.token
          })
 
          .addCase(AUTH_THUNKS.signUp.rejected, (state) => {
@@ -46,6 +47,8 @@ const authSlice = createSlice({
 
          .addCase(AUTH_THUNKS.signIn.fulfilled, (state, { payload }) => {
             state.role = payload.role
+            state.email = payload.email
+            state.token = payload.token
             state.isAuth = true
             state.isLoading = false
          })
@@ -63,7 +66,7 @@ const authSlice = createSlice({
             (state, { payload }) => {
                state.role = payload.role
                state.email = payload.email
-               state.accessToken = payload.accessToken
+               state.token = payload.token
                state.isAuth = true
                state.isLoading = false
             }

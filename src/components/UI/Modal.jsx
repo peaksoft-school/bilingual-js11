@@ -11,7 +11,7 @@ const Modal = ({
       <Box className="content">
          {isCloseIcon ? (
             <Box>
-               <CancelIcon onClick={handleIsVisible} />
+               <CancelIcon onClick={handleIsVisible} className="cancel-icon" />
             </Box>
          ) : null}
 
@@ -37,14 +37,40 @@ const StyledModal = styled(MuiModal)(() => ({
       justifyContent: 'center',
       alignItems: 'center',
       flexDirection: 'column',
-      gap: '1rem',
       width: '25.4375rem',
-      height: '9.875rem',
       textAlign: 'center',
 
       '& > .buttons': {
          display: 'flex',
          gap: '1.2rem',
+      },
+
+      '& > .modal-title': {
+         fontWeight: 'bold',
+         fontSize: '17px',
+         marginTop: '2.2rem',
+      },
+
+      '& > .modal-message': {
+         fontSize: '14px',
+         marginBottom: '2.2rem',
+      },
+
+      '& > div > .cancel-icon': {
+         marginLeft: '22rem',
+         marginTop: '1rem',
+         cursor: 'pointer',
+      },
+
+      '& > .container-buttons': {
+         display: 'flex',
+         gap: '1rem',
+         justifyContent: 'center',
+         backgroundColor: '#F0F1F1',
+         height: '5rem',
+         width: '25.4375rem',
+         paddingTop: '1rem',
+         borderRadius: '0 0 1.25rem 1.25rem',
       },
    },
 }))

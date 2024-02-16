@@ -40,7 +40,7 @@ const SignIn = () => {
       await signInWithPopup(auth, provider).then((data) => {
          dispatch(
             AUTH_THUNKS.authWithGoogle({
-               tokenId: data.user.accessToken,
+               tokenId: data.user.token,
                navigate,
                isSignUp: true,
             })
