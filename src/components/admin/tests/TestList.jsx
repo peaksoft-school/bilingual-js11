@@ -3,10 +3,11 @@ import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import Switcher from '../../UI/Switcher'
-import { EditIcon, TrashIcon } from '../../../assets/icons'
-import ModalDelete from '../../UI/modals/ModalDelete'
+import { EditIcon, FalseIcon, TrashIcon } from '../../../assets/icons'
 import { TESTS_THUNK } from '../../../store/slice/admin/testsThunk'
 import { SearchingImage } from '../../../assets/images'
+import Modal from '../../UI/Modal'
+import Button from '../../UI/buttons/Button'
 
 const TestList = () => {
    const { tests } = useSelector((state) => state.testsSlice)
@@ -27,11 +28,7 @@ const TestList = () => {
 
    const handleOpenModal = (testId) => {
       setSelectedTestId(testId)
-      setIsVisible(true)
-   }
-
-   const handleCloseModal = () => {
-      setIsVisible(false)
+      setIsVisible((prev) => !prev)
    }
 
    const handleEnable = (params) => {
@@ -88,13 +85,29 @@ const TestList = () => {
             </Box>
          )}
 
-         <ModalDelete
+         <Modal
+            isCloseIcon
             isVisible={isVisible}
-            onDelete={() => handleDeleteTest(selectedTestId)}
-            onCancel={handleCloseModal}
+            handleIsVisible={handleOpenModal}
          >
-            Do you want delete?
-         </ModalDelete>
+            <FalseIcon />
+
+            <Typography className="modal-title">Do you want delete?</Typography>
+
+            <Typography className="modal-message">
+               You can`t restore this file
+            </Typography>
+
+            <Box className="container-buttons">
+               <Button variant="secondary" onClick={handleOpenModal}>
+                  CANCEL
+               </Button>
+
+               <Button onClick={() => handleDeleteTest(selectedTestId)}>
+                  DELETE
+               </Button>
+            </Box>
+         </Modal>
       </StyledContainer>
    )
 }

@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
 import { Link, useParams } from 'react-router-dom'
 import Switcher from '../../../components/UI/Switcher'
-import { EditIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
+import { EditIcon, FalseIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
 import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
-import ModalDelete from '../../../components/UI/modals/ModalDelete'
 import { SearchingImage } from '../../../assets/images'
 import { QUESTIONS_THUNK } from '../../../store/slice/admin/questionsThunk'
+import Modal from '../../../components/UI/Modal'
 
 const Questions = () => {
    const { questions } = useSelector((state) => state.questionsSlice)
@@ -34,11 +34,7 @@ const Questions = () => {
 
    const handleOpenModal = (questionId) => {
       setSelectedQuestionId(questionId)
-      setIsVisible(true)
-   }
-
-   const handleCloseModal = () => {
-      setIsVisible(false)
+      setIsVisible((prev) => !prev)
    }
 
    const handleEnable = (params) => {
@@ -137,13 +133,29 @@ const Questions = () => {
             </Button>
          </TestContainer>
 
-         <ModalDelete
+         <Modal
+            isCloseIcon
             isVisible={isVisible}
-            onDelete={handleDeleteQuestion}
-            onCancel={handleCloseModal}
+            handleIsVisible={handleOpenModal}
          >
-            Do you want to delete?
-         </ModalDelete>
+            <FalseIcon />
+
+            <Typography className="modal-title">Do you want delete?</Typography>
+
+            <Typography className="modal-message">
+               You can`t restore this file
+            </Typography>
+
+            <Box className="container-buttons">
+               <Button variant="secondary" onClick={handleOpenModal}>
+                  CANCEL
+               </Button>
+
+               <Button onClick={() => handleDeleteQuestion(selectedQuestionId)}>
+                  DELETE
+               </Button>
+            </Box>
+         </Modal>
       </StyledContainer>
    )
 }

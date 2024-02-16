@@ -1,23 +1,33 @@
-import { useState } from 'react'
+import { Box, InputAdornment, Typography, styled } from '@mui/material'
+import { signInWithPopup } from 'firebase/auth'
 import { useFormik } from 'formik'
-import { Link, NavLink } from 'react-router-dom'
-import { Box, Typography, styled, InputAdornment } from '@mui/material'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import {
    ExitIcon,
-   GoogleIcon,
-   LogoIcon,
    EyeIcon,
    EyeOffIcon,
+   GoogleIcon,
+   LogoIcon,
    WarningIcon,
 } from '../../assets/icons'
-import { VALIDATION_SIGN_IN } from '../../utils/helpers/validation'
-import { showErrorSignIn } from '../../utils/helpers'
-import { ROUTES } from '../../routes/routes'
-import Button from '../../components/UI/buttons/Button'
 import Checkbox from '../../components/UI/Checkbox'
 import Input from '../../components/UI/Input'
+import Button from '../../components/UI/buttons/Button'
+import { ROUTES } from '../../routes/routes'
+import { AUTH_THUNKS } from '../../store/slice/auth/authThunk'
+import { auth, provider } from '../../configs/firebase'
+import { showErrorSignIn } from '../../utils/helpers'
+import { VALIDATION_SIGN_IN } from '../../utils/helpers/validation'
 
 const SignIn = () => {
+   const { isLoading } = useSelector((state) => state.auth)
+
+   const dispatch = useDispatch()
+
+   const navigate = useNavigate()
+
    const [showPassword, setShowPassword] = useState(false)
 
    const [isPasswordFieldActive, setIsPasswordFieldActive] = useState(false)
@@ -26,9 +36,24 @@ const SignIn = () => {
 
    const handlePasswordFieldFocus = () => setIsPasswordFieldActive(true)
 
-   const onSubmit = (_, { resetForm }) => resetForm()
+   const handleWithGoogle = async () => {
+      await signInWithPopup(auth, provider).then((data) => {
+         dispatch(
+            AUTH_THUNKS.authWithGoogle({
+               tokenId: data.user.token,
+               navigate,
+               isSignUp: true,
+            })
+         ).catch((error) => {
+            console.error(error)
+         })
+      })
+   }
 
-   const { values, errors, isValid, handleChange, handleSubmit, handleBlur } =
+   const onSubmit = (values, { resetForm }) =>
+      dispatch(AUTH_THUNKS.signIn({ values, resetForm, navigate }))
+
+   const { values, errors, touched, handleChange, handleSubmit, handleBlur } =
       useFormik({
          initialValues: {
             email: '',
@@ -43,7 +68,7 @@ const SignIn = () => {
 
    return (
       <StyledContainer>
-         <form className="form" onSubmit={handleSubmit}>
+         <form className="form" autoComplete="off" onSubmit={handleSubmit}>
             <Box className="exit">
                <Link to="/">
                   <ExitIcon />
@@ -66,7 +91,7 @@ const SignIn = () => {
                   value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={errors.email}
+                  error={touched.email && errors.email}
                />
 
                <Input
@@ -74,10 +99,10 @@ const SignIn = () => {
                   name="password"
                   value={values.password}
                   onChange={handleChange}
-                  onBlur={handleBlur}
                   onFocus={handlePasswordFieldFocus}
+                  onBlur={handleBlur}
                   type={showPassword ? 'text' : 'password'}
-                  error={errors.password}
+                  error={touched.password && errors.password}
                   InputProps={{
                      endAdornment: (
                         <InputAdornment className="adornment" position="end">
@@ -111,14 +136,17 @@ const SignIn = () => {
                   <Typography> </Typography>
                )}
 
-               <Button disabled={!isValid}>Sign in</Button>
+               <Button colorLoading="secondary" isLoading={isLoading}>
+                  Sign in
+               </Button>
 
                <Button
                   type="button"
                   icon={<GoogleIcon />}
                   className="google-button"
+                  onClick={handleWithGoogle}
                >
-                  Sign up with google
+                  Sign in with google
                </Button>
 
                <Box className="text-account">

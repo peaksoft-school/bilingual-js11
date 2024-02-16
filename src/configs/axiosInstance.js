@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = process.env.REACT_APP_API_URL
+const BASE_URL = process.env.REACT_APP_API
 
 export const axiosInstance = axios.create({
    baseURL: BASE_URL,
@@ -19,14 +19,13 @@ axiosInstance.interceptors.request.use(
    (config) => {
       const updateConfig = { ...config }
 
-      // const token = customStore.getState().login.accessToken
-      const token =
-         'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MDgyNDE0MTIsImlhdCI6MTcwNzk4MjIxMiwidXNlcm5hbWUiOiJhYWtodW5vdmEwMkBnbWFpbC5jb20ifQ.rE-9HUXaEuCDD0wGAsMhN5-ZZEHwPiRwzXmPOF7ncko'
+      const { token } = customStore.getState().auth
+
       if (token) {
          updateConfig.headers.Authorization = `Bearer ${token}`
       }
 
-      return config
+      return updateConfig
    },
 
    (error) => {
@@ -40,9 +39,6 @@ axiosInstance.interceptors.response.use(
    },
 
    (error) => {
-      if (error.response.status === 401) {
-         customStore.dispatch()
-      }
       return Promise.reject(error)
    }
 )

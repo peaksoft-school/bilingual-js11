@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useFormik } from 'formik'
-import { Link, NavLink } from 'react-router-dom'
+import { signInWithPopup } from 'firebase/auth'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { Box, Typography, styled, InputAdornment } from '@mui/material'
 import {
    ExitIcon,
@@ -16,8 +18,16 @@ import { ROUTES } from '../../routes/routes'
 import { SIGN_UP_INPUTS } from '../../utils/constants'
 import Button from '../../components/UI/buttons/Button'
 import Input from '../../components/UI/Input'
+import { AUTH_THUNKS } from '../../store/slice/auth/authThunk'
+import { auth, provider } from '../../configs/firebase'
 
 const SignUp = () => {
+   const { isLoading } = useSelector((state) => state.auth)
+
+   const dispatch = useDispatch()
+
+   const navigate = useNavigate()
+
    const [showPassword, setShowPassword] = useState(false)
 
    const [focusedInput, setFocusedInput] = useState(null)
@@ -26,16 +36,30 @@ const SignUp = () => {
 
    const handleInputFocus = (name) => setFocusedInput(name)
 
-   const onSubmit = (_, { resetForm }) => resetForm()
+   const handleWithGoogle = async () => {
+      await signInWithPopup(auth, provider).then((data) => {
+         dispatch(
+            AUTH_THUNKS.authWithGoogle({
+               tokenId: data.user.token,
+               navigate,
+               isSignUp: false,
+            })
+         ).catch((error) => {
+            console.error(error)
+         })
+      })
+   }
 
-   const { values, errors, isValid, handleChange, handleSubmit, handleBlur } =
+   const onSubmit = (values, { resetForm }) =>
+      dispatch(AUTH_THUNKS.signUp({ values, resetForm, navigate }))
+
+   const { values, errors, handleChange, handleSubmit, handleBlur, touched } =
       useFormik({
          initialValues: {
             firstName: '',
             lastName: '',
             email: '',
             password: '',
-            rememberMe: false,
          },
 
          validateOnChange: false,
@@ -46,7 +70,7 @@ const SignUp = () => {
 
    return (
       <StyledContainer>
-         <form className="form" onSubmit={handleSubmit}>
+         <form className="form" onSubmit={handleSubmit} autoComplete="off">
             <Box className="exit">
                <Link to="/">
                   <ExitIcon />
@@ -71,11 +95,14 @@ const SignUp = () => {
                      onChange={handleChange}
                      onBlur={handleBlur}
                      type={showPassword ? 'text' : type}
-                     error={errors[name]}
+                     error={touched[name] && errors[name]}
                      onFocus={() => handleInputFocus(name)}
                      InputProps={{
                         endAdornment: (
-                           <InputAdornment className="adornment" position="end">
+                           <InputAdornment
+                              className={name === 'password' ? 'adornment' : ''}
+                              position="end"
+                           >
                               {name === 'password' &&
                                  focusedInput === 'password' && (
                                     <Box onClick={handlePasswordShow}>
@@ -100,12 +127,15 @@ const SignUp = () => {
                   <Typography> </Typography>
                )}
 
-               <Button disabled={!isValid}>Sign up</Button>
+               <Button colorLoading="secondary" isLoading={isLoading}>
+                  Sign up
+               </Button>
 
                <Button
                   type="button"
                   icon={<GoogleIcon />}
                   className="google-button"
+                  onClick={handleWithGoogle}
                >
                   Sign up with google
                </Button>

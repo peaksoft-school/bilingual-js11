@@ -10,7 +10,7 @@ export const showNotification = ({
    title = 'Success',
    message = 'Successfully',
    type = 'success',
-   duration = 3000,
+   duration = 4000,
 }) => {
    const icon =
       type === 'success' ? (
@@ -64,10 +64,15 @@ const StyledTitle = styled(Typography)(() => ({
 const StyledMessage = styled(Typography)(() => ({
    marginTop: '0.5rem',
    width: '100%',
+   maxHeight: '50px',
+   height: '100%',
    wordWrap: 'break-word',
    color: '#646464',
    fontSize: '1rem',
    fontWeight: 400,
-   paddingLeft: '2rem',
+   padding: '0 2rem',
    fontFamily: 'Poppins',
+   textOverflow: 'ellipsis',
+   // whiteSpace: 'nowrap' /* Запрещаем перенос строк */,
+   overflow: ' hidden',
 }))
