@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { QUESTIONS_THUNK } from './questionsThunk'
+import { QUESTIONS_THUNK } from './slice/questionsThunk'
 
 const initialState = {
    questions: null,

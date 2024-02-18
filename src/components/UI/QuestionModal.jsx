@@ -1,44 +1,82 @@
-import { Box, Modal, styled, Typography } from '@mui/material'
-import Button from '../buttons/Button'
-import { CancelIcon } from '../../../assets/icons'
-import Checkbox from '../Checkbox'
-import Input from '../Input'
+import React, { useState } from 'react'
+import { Box, Modal, Typography, styled } from '@mui/material'
+import { useDispatch } from 'react-redux'
+import Button from './buttons/Button'
+import Input from './Input'
+import { CancelIcon } from '../../assets/icons'
+import { questionActions } from '../../configs/slice-thunk/questionSlice'
+import Checkbox from './Checkbox'
 
-const ModalSave = ({
-   onSave,
-   isVisible,
-   handleIsVisible,
-   title,
-   isTrueOption,
-   goBack,
-   save,
-}) => {
+const QuestionModal = ({ isOpen, onClose }) => {
+   const dispatch = useDispatch()
+   const [title, setTitle] = useState('')
+   const [checkOption, setChekOption] = useState(false)
+   const [optionOrder, setOptionOrder] = useState(1)
+
+   const changeInput = (e) => {
+      setTitle(e.target.value)
+   }
+   const goBackFunc = () => {
+      setTitle('')
+      onClose()
+   }
+
+   const changeCheckbox = (e) => {
+      setChekOption(e.target.checked)
+   }
+
+   const addHandler = () => {
+      const data = {
+         title,
+         isCorrect: checkOption,
+         optionOrder,
+         id: optionOrder,
+      }
+      setOptionOrder((prevOrder) => prevOrder + 1)
+      dispatch(questionActions.addOption(data))
+      onClose()
+      setTitle('')
+      setChekOption(false)
+   }
+
    return (
       <StyledContainer>
-         <Modal open={isVisible} onClose={handleIsVisible}>
+         <Modal open={isOpen} onClose={goBackFunc}>
             <StyledModal>
-               <StyledCloseIcon onClick={handleIsVisible} />
+               <StyledCloseIcon onClick={goBackFunc} />
                <Box className="con-form">
                   <Typography className="title" variant="label">
-                     {title}
+                     Title
                   </Typography>
 
-                  <Input type="text" placeholder="Select real English words" />
+                  <Input
+                     type="text"
+                     placeholder="Select real English words"
+                     value={title}
+                     onChange={changeInput}
+                  />
 
                   <Box className="check-con">
                      <Typography className="true-option">
-                        {isTrueOption}
+                        Is true option ?
                      </Typography>
-                     <Checkbox />
+                     <Checkbox
+                        checked={checkOption}
+                        onChange={changeCheckbox}
+                     />
                   </Box>
                </Box>
                <Box className="buttons">
                   <Box className="con-of-btns">
-                     <Button variant="secondary" onClick={handleIsVisible}>
-                        {goBack}
+                     <Button variant="secondary" onClick={goBackFunc}>
+                        GO BACK
                      </Button>
-                     <Button variant="primary" onClick={onSave}>
-                        {save}
+                     <Button
+                        variant="primary"
+                        onClick={addHandler}
+                        disabled={!title}
+                     >
+                        SAVE
                      </Button>
                   </Box>
                </Box>
@@ -48,7 +86,7 @@ const ModalSave = ({
    )
 }
 
-export default ModalSave
+export default QuestionModal
 
 const StyledContainer = styled(Box)(() => ({
    display: 'flex',

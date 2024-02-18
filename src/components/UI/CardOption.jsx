@@ -3,16 +3,22 @@ import React from 'react'
 import Checkbox from './Checkbox'
 import { TrashIcon } from '../../assets/icons'
 
-const CardOption = ({ num }) => {
+const CardOption = ({ elem, index, checkedFunction, setIsOpenModal }) => {
+   const openFunction = () => {
+      setIsOpenModal((prev) => !prev)
+   }
    return (
       <StyledBox>
          <Box className="advantage-block">
-            <Typography>{num}</Typography>
-            <Typography>advantage</Typography>
+            <Typography>{index + 1}</Typography>
+            <Typography>{elem.title}</Typography>
          </Box>
          <Box className="check-trash-block">
-            <Checkbox />
-            <TrashIcon />
+            <Checkbox
+               onClick={(e) => checkedFunction(e, elem.id)}
+               checked={elem.isCorrect}
+            />
+            <TrashIcon className="trash-icon" onClick={openFunction} />
          </Box>
       </StyledBox>
    )
@@ -38,5 +44,8 @@ const StyledBox = styled(Box)(() => ({
       display: 'flex',
       alignItems: 'center',
       gap: '0.5rem',
+   },
+   '& .trash-icon': {
+      cursor: 'pointer',
    },
 }))

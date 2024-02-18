@@ -1,17 +1,33 @@
-import { useState } from 'react'
-import { Box, styled, Typography } from '@mui/material'
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { AxiosError } from 'axios'
+import { Box, Typography, styled } from '@mui/material'
+import {
+   postSelectRealEnglishWord,
+   updateQuestionRequest,
+} from '../../api/questionService'
+import QuestionModal from './QuestionModal'
 import Button from './buttons/Button'
+import ModalDelete from './ModalDelete'
+import { questionActions } from '../../configs/slice-thunk/questionSlice'
 import Dropdown from './Dropdown'
 import Input from './Input'
 import { OPTIONS } from '../../utils/constants'
 import CardOption from './CardOption'
-import ModalSave from './modals/ModalSave'
+import { showNotification } from '../../utils/helpers/notification'
 
-const SelectTrueOption = ({ addOptions }) => {
+const SelectTrueOption = ({ title, duration, testId, setError }) => {
+   const options = useSelector((state) => state.questions.options)
+   const dispatch = useDispatch()
+   const { state } = useLocation()
+   const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
+   const [isOpenModalSave, setIsOpenModalSave] = useState(false)
+   const [idListen, setListenId] = useState()
    const [isValue, setIsValue] = useState('')
    const [isValueInput, setIsValueInput] = useState('')
    const [isValueInputDuration, setIsValueInputDuration] = useState('')
-   const [isModalOpen, setIsModalOpen] = useState(false)
+   const [isOpenButton, setIsOpenButton] = useState(false)
 
    const selectHandler = (e) => {
       setIsValue(e.target.value)
@@ -22,78 +38,161 @@ const SelectTrueOption = ({ addOptions }) => {
    const inputDurationHandler = (e) => {
       setIsValueInputDuration(e.target.value)
    }
-   const handleIsVisible = () => {
-      setIsModalOpen((prev) => !prev)
+   const navigate = useNavigate()
+
+   const openModalDelete = (id) => {
+      setIsOpenModalDelete((prevState) => !prevState)
+      setListenId(id)
+   }
+   const openModalSave = () => {
+      setIsOpenModalSave((prevState) => !prevState)
+      setIsOpenButton(true)
+   }
+   const deleteTest = (id) => {
+      dispatch(questionActions.deleteOption(id))
+      setIsOpenModalDelete((prevState) => !prevState)
+   }
+   const checkedFunction = (e, id) => {
+      dispatch(questionActions.changeTrueOption(id))
+   }
+   const navigateGoBackTest = () => {
+      navigate(-1)
+   }
+   const goBack = () => {
+      navigate(`/admin/test/${testId}`)
+   }
+   const saveTest = async () => {
+      const data = {
+         title,
+         duration,
+         questionOrder: 1,
+         testId,
+         options,
+         isActive: true,
+         questionType: state?.question.questionType,
+         id: state?.question.id,
+      }
+      try {
+         if (!title) {
+            return setError((prevState) => ({
+               ...prevState,
+               title: 'Please title enter!',
+            }))
+         }
+         if (!duration) {
+            return setError((prevState) => ({
+               ...prevState,
+               duration: 'Enter time!',
+            }))
+         }
+         if (options.length === 0) {
+            return showNotification(
+               'error',
+               'Failed',
+               'options should not be empty'
+            )
+         }
+         if (state !== null) {
+            await updateQuestionRequest(data)
+            goBack()
+            showNotification('success', 'Question', 'Successfully updated')
+         } else {
+            await postSelectRealEnglishWord(data)
+            goBack()
+            showNotification('success', 'Question', 'Successfully added')
+         }
+         return dispatch(questionActions.clearOptions())
+      } catch (error) {
+         if (AxiosError(error)) {
+            return showNotification(
+               'error',
+               'Question',
+               error.response?.data.message
+            )
+         }
+         return showNotification('error', 'Question', 'Something went wrong')
+      }
    }
 
+   useEffect(() => {
+      dispatch(questionActions.updateOption(state?.question.options || []))
+   }, [])
+
    return (
-      <StyledContainer>
-         <StyledModal>
-            <Box className="con-form">
-               <Typography className="title" variant="label">
-                  Title
-               </Typography>
-               <Box className="input-duration-container">
-                  <StyledInput
-                     placeholder="Select real English words"
-                     onChange={inputHandler}
-                     value={isValueInput}
-                     type="text"
-                  />
-                  <Box className="duration-container">
-                     <Typography className="duration-text">
-                        Duration <br /> (in minutes)
-                     </Typography>
-                     <Input
-                        type="text"
-                        className="duration"
-                        placeholder="15:00"
-                        value={isValueInputDuration}
-                        onChange={inputDurationHandler}
+      <>
+         <StyledContainer>
+            <StyledModal>
+               <Box className="con-form">
+                  <Typography className="title" variant="label">
+                     Title
+                  </Typography>
+                  <Box className="input-duration-container">
+                     <StyledInput
+                        placeholder="Select real English words"
+                        onChange={inputHandler}
+                        value={isValueInput}
+                     />
+                     <Box className="duration-container">
+                        <Typography className="duration-text">
+                           Duration <br /> (in minutes)
+                        </Typography>
+                        <Input
+                           className="duration"
+                           placeholder="15:00"
+                           value={isValueInputDuration}
+                           onChange={inputDurationHandler}
+                        />
+                     </Box>
+                  </Box>
+                  <Typography className="type" variant="label">
+                     Type
+                  </Typography>
+                  <Box>
+                     <StyledSelect
+                        value={isValue}
+                        onChange={selectHandler}
+                        options={OPTIONS}
                      />
                   </Box>
                </Box>
-               <Typography className="type" variant="label">
-                  Type
-               </Typography>
-               <Box>
-                  <StyledSelect
-                     value={isValue}
-                     onChange={selectHandler}
-                     options={OPTIONS}
-                  />
+               <Box className="con-of-btns">
+                  <Button onClick={openModalSave}>+ Add Options</Button>
                </Box>
-            </Box>
-            <Box className="con-of-btn">
-               <Button onClick={addOptions}>+ Add options</Button>
-            </Box>
-            <Box className="block-of-cards">
-               <CardOption num="1" />
-               <CardOption num="2" />
-               <CardOption num="3" />
-               <CardOption num="4" />
-               <CardOption num="5" />
-               <CardOption num="6" />
-            </Box>
-            <Box className="block-of-buttons">
-               <Button variant="secondary">GO BACK</Button>
-               <Button variant="primary" onClick={handleIsVisible}>
-                  SAVE
-               </Button>
-               {isModalOpen && (
-                  <ModalSave
-                     isVisible={isModalOpen}
-                     handleIsVisible={handleIsVisible}
-                     save="SAVE"
-                     goBack="GO BACK"
-                     isTrueOption="Is true option ?"
-                     title="title"
-                     onSave={handleIsVisible}
-                  />
+               <Box className="block-of-cards">
+                  {options.map((elem, i) => (
+                     <CardOption
+                        key={elem.id}
+                        elem={elem}
+                        index={i}
+                        checkedFunction={checkedFunction}
+                        openModal={isOpenModalDelete}
+                        setIsOpenModal={setIsOpenModalDelete}
+                     />
+                  ))}
+               </Box>
+               {isOpenButton === false ? null : (
+                  <Box className="block-of-buttons">
+                     <Button variant="secondary" onClick={navigateGoBackTest}>
+                        GO BACK
+                     </Button>
+                     <Button variant="primary" onClick={saveTest}>
+                        SAVE
+                     </Button>
+                  </Box>
                )}
-            </Box>
-         </StyledModal>
-      </StyledContainer>
+            </StyledModal>
+         </StyledContainer>
+         {options.map((item) => (
+            <ModalDelete
+               item={item}
+               id={idListen}
+               openModal={openModalDelete}
+               isOpenModal={isOpenModalDelete}
+               deleteFunction={deleteTest}
+            />
+         ))}
+         <QuestionModal isOpen={isOpenModalSave} onClose={openModalSave} />
+      </>
    )
 }
 
@@ -109,17 +208,24 @@ const StyledContainer = styled(Box)(() => ({
 const StyledModal = styled(Box)(() => ({
    borderRadius: '1.25rem',
    boxShadow: '0rem 0.25rem 2.4375rem -0.3125rem rgba(196, 196, 196, 0.6)',
-   width: '979px',
-   height: '572px',
+   width: '980px',
+   height: '100%',
    display: 'flex',
-   paddingTop: '2rem',
    justifyContent: 'center',
    flexDirection: 'column',
    alignItems: 'center',
-   '& .con-of-btn': {
+   '& .con-of-btns': {
       marginLeft: '41.5rem',
-      marginTop: '-1.1rem',
-      marginBottom: '1.5rem',
+      marginTop: '-2rem',
+   },
+   '& .block-of-cards': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: '1.1rem',
+      marginBottom: '2rem',
+      marginTop: '1.5rem',
    },
    '& .title': {
       width: '2.33rem',
@@ -183,14 +289,6 @@ const StyledModal = styled(Box)(() => ({
       fontSize: '1rem',
       color: '#4B4759',
    },
-   '& .block-of-cards': {
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: '1.1rem',
-      marginBottom: '2rem',
-   },
    '& .block-of-buttons': {
       display: 'flex',
       gap: '1.1rem',
@@ -208,7 +306,7 @@ const StyledInput = styled(Input)(() => ({
    color: '#4C4859',
 }))
 
-const StyledSelect = styled(Dropdown)(({ theme }) => ({
+const StyledSelect = styled(Dropdown)(() => ({
    borderRadius: '8px',
    width: '820px',
    fontStyle: 'normal',
@@ -216,5 +314,8 @@ const StyledSelect = styled(Dropdown)(({ theme }) => ({
    justifyContent: 'center',
    '& .MuiSelect-icon': {
       color: 'black',
+   },
+   '& .css-1ugmu4g-MuiFormLabel-root-MuiInputLabel-root': {
+      textAlign: 'center',
    },
 }))

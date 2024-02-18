@@ -407,7 +407,31 @@ const OPTIONS = [
    },
 ]
 
+const QUESTIONS_API = {
+   selectRealEnglishWords: 'api/questions/select-real-english-word',
+   listenAndSelect: 'api/questions/listen_and_select_english_words',
+   typeWhatYourHear: 'api/questions/type-what-you-hear',
+   describeImage: 'api/questions/describe-image',
+   recordSayingStatement: 'api/questions/record-saying-statement',
+   respondInAtLeastNWords: 'api/questions/respond-n-words',
+   highlightTheAnswer: 'api/questions/highlight-the-answer',
+   selectTheMainIdea: 'api/questions/select-the-main-idea',
+   selectBestTitle: 'api/questions/select-best-title',
+}
+const questionTypes = {
+   SelectRealEnglishWords: 'бирдеме',
+   ListenAndSelect: 'Listen and select English word',
+   TypeWhatYourHear: 'Type what you hear',
+   DescribeImage: 'Describe image',
+   RecordSayingStatement: 'Record saying statement',
+   RespondInAtLeastNWords: 'Respond in at least N words',
+   HighlightTheAnswer: 'Highlight the answer',
+   SelectTheMainIdea: 'Select the main idea',
+   SelectBestTitle: 'Select best title',
+}
+
 export {
+   questionTypes,
    OPTIONS,
    VIDEOS,
    CHECKBOX_IMAGE,
@@ -419,5 +443,6 @@ export {
    FAKE_DATA,
    PARTNERS,
    SIGN_UP_INPUTS,
+   QUESTIONS_API,
    TEST_DATA,
 }
