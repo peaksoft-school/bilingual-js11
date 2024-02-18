@@ -7,8 +7,8 @@ import { EditIcon, FalseIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
 import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
 import { SearchingImage } from '../../../assets/images'
-import { QUESTIONS_THUNK } from '../../../utils/helpers/slice/admin/questionsThunk'
 import Modal from '../../../components/UI/Modal'
+import { QUESTIONS_THUNK } from '../../../store/slice/admin/questionsThunk'
 
 const Questions = () => {
    const { questions } = useSelector((state) => state.questionsSlice)
