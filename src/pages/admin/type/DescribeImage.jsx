@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import Input from '../../../components/UI/Input'
-import TestContainer from '../../../components/UI/TestContainer'
+import { showNotification } from '../../../utils/helpers/notification'
 
 const DescribeImage = () => {
    const [image, setImage] = useState(null)
@@ -12,49 +12,68 @@ const DescribeImage = () => {
       const file = event.target.files[0]
 
       if (file) {
+         if (file.type !== 'image/jpeg') {
+            showNotification({
+               title: 'Error',
+               message: 'Please upload only JPG images!',
+               type: 'error',
+            })
+
+            return
+         }
+
          const reader = new FileReader()
+
          reader.onloadend = () => {
             setImage(reader.result)
          }
          reader.readAsDataURL(file)
+
          setFileName(file.name)
       }
    }
 
-   return (
-      <TestContainer>
-         <StyledContainer>
-            {image ? (
-               <Box className="container-image">
-                  <img src={image} alt="Uploaded" className="image" />
-                  <Typography className="file-name">{fileName}</Typography>
-               </Box>
-            ) : (
-               <Box className="upload">
-                  <label htmlFor="fileInput" className="title">
-                     Upload image
-                     <Input
-                        id="fileInput"
-                        type="file"
-                        className="input"
-                        onChange={handleFileChange}
-                        ref={inputRef}
-                     />
-                  </label>
-                  <Typography className="file-name">
-                     File_name_of_the_image_file.jpg
-                  </Typography>
-               </Box>
-            )}
+   const handleClick = () => {
+      if (inputRef.current) {
+         inputRef.current.click()
+      }
+   }
 
-            <Box>
-               <Typography className="correct-answer">
-                  Correct answer
+   return (
+      <StyledContainer>
+         {image ? (
+            <Box className="container-image">
+               <img src={image} alt="Uploaded" className="image" />
+
+               <Typography className="file-name" onClick={handleClick}>
+                  {fileName}
                </Typography>
-               <Input />
             </Box>
-         </StyledContainer>
-      </TestContainer>
+         ) : (
+            <Box className="upload">
+               <label htmlFor="fileInput" className="title">
+                  Upload image
+                  <Input
+                     id="fileInput"
+                     type="file"
+                     className="input"
+                     onChange={handleFileChange}
+                     accept=".jpg"
+                     ref={inputRef}
+                  />
+               </label>
+
+               <Typography className="file-name" onClick={handleClick}>
+                  File_name_of_the_image_file.jpg
+               </Typography>
+            </Box>
+         )}
+
+         <Box>
+            <Typography className="correct-answer">Correct answer</Typography>
+            <Input />
+         </Box>
+      </StyledContainer>
    )
 }
 
@@ -68,6 +87,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       display: 'flex',
       alignItems: 'center',
       marginBottom: '1.4rem',
+      marginTop: '1rem',
    },
 
    '& .upload': {
@@ -76,17 +96,21 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    },
 
    '& .title': {
-      border: '1px solid #D4D0D0',
-      padding: '3rem',
+      border: '1.53px solid #D4D0D0',
+      borderRadius: '8px',
+      padding: '4.6rem 2rem 4.6rem 2rem',
       color: theme.palette.primary.main,
       fontWeight: 500,
       fontFamily: 'Poppins',
+      marginBottom: '1.4rem',
+      marginTop: '1rem',
    },
 
    '& .image': {
-      width: '181px',
-      height: '178px',
+      width: '181.59px',
+      height: '177.39px',
       borderRadius: '8px',
+      cursor: 'pointer',
    },
 
    '& .input': {
@@ -94,7 +118,8 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    },
 
    '& .file-name': {
-      marginLeft: '10rem',
+      marginLeft: '4rem',
+      cursor: 'pointer',
    },
 
    '& .correct-answer': {
