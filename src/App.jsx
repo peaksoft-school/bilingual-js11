@@ -1,7 +1,6 @@
 import './App.css'
-import DescribeImage from './pages/admin/type/DescribeImage'
-// import AppRoutes from './routes/AppRoutes'
+import AppRoutes from './routes/AppRoutes'
 
-const App = () => <DescribeImage />
+const App = () => <AppRoutes />
 
 export default App
