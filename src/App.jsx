@@ -1,6 +1,8 @@
 import './App.css'
-import AppRoutes from './routes/AppRoutes'
+import RespondInAtLeastNWords from './pages/admin/type/RespondInAtLeastNWords'
+// import AppRoutes from './routes/AppRoutes'
 
-const App = () => <AppRoutes />
+// const App = () => <AppRoutes />
+const App = () => <RespondInAtLeastNWords />
 
 export default App
