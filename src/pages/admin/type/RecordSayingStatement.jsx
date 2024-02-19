@@ -16,12 +16,6 @@ const RecordSayingStatement = () => {
 
             <Input type="text" value={value} onChange={handleChange} />
          </Box>
-
-         <Box className="correct-answer">
-            <Typography>Correct answer</Typography>
-
-            <Input type="text" value={value} onChange={handleChange} />
-         </Box>
       </StyledContainer>
    )
 }
