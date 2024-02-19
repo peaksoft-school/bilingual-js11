@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { axiosInstance } from '../../../configs/axiosInstance'
-import { showNotification } from '../../../utils/helpers/notification'
+import { axiosInstance } from '../../../../configs/axiosInstance'
+import { showNotification } from '../../../../utils/helpers/notification'
 
 const getAllTests = createAsyncThunk(
    'testsSlice/getAllTests',

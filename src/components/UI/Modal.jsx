@@ -40,9 +40,17 @@ const StyledModal = styled(MuiModal)(() => ({
       width: '25.4375rem',
       textAlign: 'center',
 
-      '& > .buttons': {
+      '& > .log-out': {
+         padding: '3rem',
          display: 'flex',
-         gap: '1.2rem',
+         flexDirection: 'column',
+         gap: '1rem',
+         alignItems: 'center',
+
+         '& > .buttons': {
+            display: 'flex',
+            gap: '1.2rem',
+         },
       },
 
       '& > .modal-title': {

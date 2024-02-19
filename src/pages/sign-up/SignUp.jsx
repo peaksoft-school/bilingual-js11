@@ -37,17 +37,19 @@ const SignUp = () => {
    const handleInputFocus = (name) => setFocusedInput(name)
 
    const handleWithGoogle = async () => {
-      await signInWithPopup(auth, provider).then((data) => {
-         dispatch(
-            AUTH_THUNKS.authWithGoogle({
-               tokenId: data.user.accessToken,
-               navigate,
-               isSignUp: false,
-            })
-         ).catch((error) => {
-            console.error(error)
+      await signInWithPopup(auth, provider)
+         .then((data) => {
+            dispatch(
+               AUTH_THUNKS.authWithGoogle({
+                  tokenId: data.user.accessToken,
+                  navigate,
+                  isSignUp: false,
+               })
+            )
          })
-      })
+         .catch((error) => {
+            return error
+         })
    }
 
    const onSubmit = (values, { resetForm }) =>

@@ -58,14 +58,16 @@ const Header = () => {
             </Button>
 
             <Modal isVisible={isVisibleModal} handleIsVisible={handleModal}>
-               <Typography>Are you sure you want to log out?</Typography>
+               <Box className="log-out">
+                  <Typography>Are you sure you want to log out?</Typography>
 
-               <Box className="buttons">
-                  <Button variant="secondary" onClick={handleModal}>
-                     CANCEL
-                  </Button>
+                  <Box className="buttons">
+                     <Button variant="secondary" onClick={handleModal}>
+                        CANCEL
+                     </Button>
 
-                  <Button onClick={handlelogOut}>YES</Button>
+                     <Button onClick={handlelogOut}>YES</Button>
+                  </Box>
                </Box>
             </Modal>
          </Box>

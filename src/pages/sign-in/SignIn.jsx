@@ -37,17 +37,19 @@ const SignIn = () => {
    const handlePasswordFieldFocus = () => setIsPasswordFieldActive(true)
 
    const handleWithGoogle = async () => {
-      await signInWithPopup(auth, provider).then((data) => {
-         dispatch(
-            AUTH_THUNKS.authWithGoogle({
-               tokenId: data.user.accessToken,
-               navigate,
-               isSignUp: true,
-            })
-         ).catch((error) => {
-            console.error(error)
+      await signInWithPopup(auth, provider)
+         .then((response) => {
+            dispatch(
+               AUTH_THUNKS.authWithGoogle({
+                  tokenId: response.user.accessToken,
+                  navigate,
+                  isSignUp: true,
+               })
+            )
          })
-      })
+         .catch((error) => {
+            return error
+         })
    }
 
    const onSubmit = (values, { resetForm }) =>
