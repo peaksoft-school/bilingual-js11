@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import Switcher from '../../UI/Switcher'
 import { EditIcon, FalseIcon, TrashIcon } from '../../../assets/icons'
-import { TESTS_THUNK } from '../../../utils/helpers/slice/admin/testsThunk'
 import { SearchingImage } from '../../../assets/images'
 import Modal from '../../UI/Modal'
 import Button from '../../UI/buttons/Button'
+import { TESTS_THUNK } from '../../../store/slice/admin/testsThunk'
 
 const TestList = () => {
    const { tests } = useSelector((state) => state.testsSlice)

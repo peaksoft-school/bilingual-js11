@@ -1,11 +1,11 @@
 import { BrowserRouter as Router } from 'react-router-dom'
-import TestQuestions from './components/UI/TestQuestions'
+import SelectTrueOption from './components/UI/SelectTrueOption'
+import AppRoutes from './routes/AppRoutes'
 
-const App = () => {
-   return (
-      <Router>
-         <TestQuestions />
-      </Router>
-   )
-}
+// const App = () => <AppRoutes />
+const App = () => (
+   <Router>
+      <SelectTrueOption />
+   </Router>
+)
 export default App

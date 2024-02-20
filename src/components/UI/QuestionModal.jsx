@@ -4,39 +4,40 @@ import { useDispatch } from 'react-redux'
 import Button from './buttons/Button'
 import Input from './Input'
 import { CancelIcon } from '../../assets/icons'
-import { questionActions } from '../../configs/slice-thunk/questionSlice'
+import { questionActions } from '../../store/slice/admin/questionSlice'
 import Checkbox from './Checkbox'
 
-const QuestionModal = ({ isOpen, onClose }) => {
+const QuestionModal = ({
+   isOpen,
+   onClose,
+   title,
+   checkOption,
+   setTitle,
+   setCheckOption,
+}) => {
    const dispatch = useDispatch()
-   const [title, setTitle] = useState('')
-   const [checkOption, setChekOption] = useState(false)
-   const [optionOrder, setOptionOrder] = useState(1)
+   const [optionOrder, setOptionOrder] = useState(Math.random() * 1000)
 
    const changeInput = (e) => {
       setTitle(e.target.value)
    }
    const goBackFunc = () => {
-      setTitle('')
       onClose()
    }
-
    const changeCheckbox = (e) => {
-      setChekOption(e.target.checked)
+      setCheckOption(e.target.checked)
    }
-
    const addHandler = () => {
       const data = {
          title,
          isCorrect: checkOption,
-         optionOrder,
          id: optionOrder,
       }
       setOptionOrder((prevOrder) => prevOrder + 1)
       dispatch(questionActions.addOption(data))
       onClose()
       setTitle('')
-      setChekOption(false)
+      setCheckOption(false)
    }
 
    return (
@@ -48,14 +49,12 @@ const QuestionModal = ({ isOpen, onClose }) => {
                   <Typography className="title" variant="label">
                      Title
                   </Typography>
-
                   <Input
                      type="text"
                      placeholder="Select real English words"
                      value={title}
                      onChange={changeInput}
                   />
-
                   <Box className="check-con">
                      <Typography className="true-option">
                         Is true option ?

@@ -2,18 +2,12 @@ import { Typography, styled, Modal, Box } from '@mui/material'
 import { CancelIcon, FalseIcon } from '../../assets/icons'
 import Button from './buttons/Button'
 
-const style = {
-   borderRadius: '1.25rem',
-   borderStyle: 'none',
-   alignItems: 'center',
-}
-
-const ModalDelete = ({ deleteFunction, openModal, isOpenModal, item }) => {
+const ModalDelete = ({ deleteFunction, onCloseModal, isOpenModal, item }) => {
    return (
       <StyledContainer>
-         <Modal open={isOpenModal} onClose={openModal} style={style}>
+         <Modal className="modal" open={isOpenModal} onClose={onCloseModal}>
             <StyledModal>
-               <StyledCloseIcon onClick={openModal} />
+               <StyledCloseIcon onClick={onCloseModal} />
                <FalseIcon className="red-cross-image" />
                <Typography className="title">Do you want delete?</Typography>
                <Typography className="text">
@@ -24,7 +18,7 @@ const ModalDelete = ({ deleteFunction, openModal, isOpenModal, item }) => {
                      <Button
                         variant="secondary"
                         className="button"
-                        onClick={openModal}
+                        onClick={onCloseModal}
                      >
                         Cancel
                      </Button>
@@ -44,6 +38,11 @@ export default ModalDelete
 const StyledContainer = styled(Box)(() => ({
    display: 'flex',
    justifyContent: 'center',
+   '& .modal': {
+      borderRadius: '1.25rem',
+      borderStyle: 'none',
+      alignItems: 'center',
+   },
 }))
 
 const StyledModal = styled(Box)(() => ({
