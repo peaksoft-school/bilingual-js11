@@ -406,7 +406,11 @@ const OPTIONS = [
       title: 'Respond in at least N words',
    },
 ]
+const QUESTION_TYPES = {
+   SelectRealEnglishWords: 'Select real english words',
+}
 export {
+   QUESTION_TYPES,
    OPTIONS,
    VIDEOS,
    CHECKBOX_IMAGE,

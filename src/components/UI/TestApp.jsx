@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
@@ -5,25 +6,30 @@ import { questionActions } from '../../store/slice/admin/questionSlice'
 import Dropdown from './Dropdown'
 import Input from './Input'
 import { OPTIONS } from '../../utils/constants'
+import TypeTest from '../TypeOfTests'
+import { questionTitle } from '../../utils/helpers/questionTitle'
 
-const SelectTrueOption = () => {
+const TestApp = () => {
+   const { state } = useLocation()
    const dispatch = useDispatch()
    const option = useSelector((state) => state.question.option)
    const [error, setError] = useState({})
-   const [isValue, setIsValue] = useState('')
-   const [isValueInput, setIsValueInput] = useState('')
-   const [isValueInputDuration, setIsValueInputDuration] = useState(0)
+   const [selectType, setSelectType] = useState(
+      questionTitle(state?.question.questionType || 'SELECT_ENGLISH_WORD')
+   )
+   const [title, setTitle] = useState(state?.question.title || '')
+   const [duration, setDuration] = useState(state?.question.duration || 20)
 
    const selectHandler = (e) => {
-      setIsValue(e.target.value)
+      setSelectType(e.target.value)
    }
 
    const inputHandler = (e) => {
-      setIsValueInput(e.target.value)
+      setTitle(e.target.value)
    }
 
    const inputDurationHandler = (e) => {
-      setIsValueInputDuration(e.target.value)
+      setDuration(e.target.value)
    }
 
    useEffect(() => {
@@ -46,7 +52,7 @@ const SelectTrueOption = () => {
                      }
                      placeholder="Select real English words"
                      onChange={inputHandler}
-                     value={isValueInput}
+                     value={title}
                   />
                   <Box className="duration-container">
                      <Typography className="duration-text">
@@ -62,7 +68,7 @@ const SelectTrueOption = () => {
                         }
                         className="duration"
                         placeholder="15:00"
-                        value={isValueInputDuration}
+                        value={duration}
                         onChange={inputDurationHandler}
                         onInput={(e) => {
                            const value = +e.target.value
@@ -77,7 +83,7 @@ const SelectTrueOption = () => {
                </Typography>
                <Box>
                   <StyledSelect
-                     value={isValue}
+                     value={selectType}
                      onChange={selectHandler}
                      options={OPTIONS}
                      style={
@@ -90,12 +96,21 @@ const SelectTrueOption = () => {
                   />
                </Box>
             </Box>
+            <TypeTest
+               duration={duration}
+               setDuration={setDuration}
+               selectType={selectType}
+               setError={setError}
+               title={title}
+               setTitle={setTitle}
+               setSelectType={setSelectType}
+            />
          </StyledModal>
       </StyledContainer>
    )
 }
 
-export default SelectTrueOption
+export default TestApp
 
 const StyledContainer = styled(Box)(() => ({
    display: 'flex',
