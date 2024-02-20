@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import Input from '../../../components/UI/Input'
-import { showNotification } from '../../../utils/helpers/notification'
+import { axiosInstanceFile } from '../../../configs/axiosInstanceFile'
+import Button from '../../../components/UI/buttons/Button'
 
 const DescribeImage = () => {
    const [image, setImage] = useState(null)
@@ -10,23 +11,28 @@ const DescribeImage = () => {
 
    const [inputValue, setInputValue] = useState('')
 
+   const [file, setFile] = useState(null)
+
    const inputRef = useRef(null)
 
    const inputFileRef = useRef(null)
+
+   const postFileRequest = async () => {
+      try {
+         const formData = new FormData()
+
+         formData.append('multipartFile', file)
+
+         await axiosInstanceFile.post('/api/awsFile', formData)
+      } catch (error) {
+         console.error(error)
+      }
+   }
 
    const handleFileChange = (event) => {
       const file = event.target.files[0]
 
       if (file) {
-         if (file.type !== 'image/jpeg') {
-            showNotification({
-               title: 'Error',
-               message: 'Please upload only JPG images!',
-               type: 'error',
-            })
-            return
-         }
-
          const reader = new FileReader()
 
          reader.onloadend = () => {
@@ -36,23 +42,15 @@ const DescribeImage = () => {
          reader.readAsDataURL(file)
 
          setFileName(file.name)
+
+         setFile(file)
       }
    }
 
-   const handleImageChange = (e) => {
-      const file = e.target.files[0]
+   const handleImageChange = (event) => {
+      const file = event.target.files[0]
 
       if (file) {
-         if (file.type !== 'image/jpeg') {
-            showNotification({
-               title: 'Error',
-               message: 'Please upload only JPG images!',
-               type: 'error',
-            })
-
-            return
-         }
-
          const reader = new FileReader()
 
          reader.onloadend = () => {
@@ -62,6 +60,8 @@ const DescribeImage = () => {
          reader.readAsDataURL(file)
 
          setFileName(file.name)
+
+         setFile(file)
       }
    }
 
@@ -83,6 +83,7 @@ const DescribeImage = () => {
                   ref={inputFileRef}
                   type="file"
                   className="input"
+                  accept=".jpg"
                   onChange={handleImageChange}
                />
 
@@ -116,6 +117,10 @@ const DescribeImage = () => {
 
             <Input value={inputValue} onChange={handleInputChange} />
          </Box>
+
+         <Button variant="primary" onClick={postFileRequest}>
+            Save
+         </Button>
       </StyledContainer>
    )
 }
