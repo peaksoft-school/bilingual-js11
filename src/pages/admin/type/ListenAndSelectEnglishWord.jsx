@@ -7,9 +7,11 @@ import { PlusIcon, SoundIcon } from '../../../assets/icons'
 import CardOption from '../../../components/UI/CardOption'
 import Input from '../../../components/UI/Input'
 
-const ListenSelect = () => {
+const ListenAndSelectEnglishWord = () => {
    const [isOpenModal, setIsOpenModal] = useState(false)
+
    const [selectedFiles, setSelectedFiles] = useState([])
+
    const fileInputRef = useRef(null)
 
    const openModal = () => {
@@ -23,6 +25,7 @@ const ListenSelect = () => {
    const handleFileInputChange = ({ target: { files } }) => {
       if (files && files.length > 0) {
          const updatedFiles = Array.from(files)
+
          setSelectedFiles((prevSelectedFiles) => [
             ...prevSelectedFiles,
             ...updatedFiles,
@@ -35,29 +38,25 @@ const ListenSelect = () => {
    }
 
    return (
-      <StyledContainer>
-         <TestContainer>
+      <TestContainer>
+         <StyledContainer>
             <Button onClick={openModal} icon={<PlusIcon />}>
                ADD OPTIONS
             </Button>
 
             <Box className="selected-file">
-               {selectedFiles.length > 0 ? (
-                  selectedFiles.map((file, index) => (
-                     <CardOption
-                        index={index}
-                        icon={<SoundIcon />}
-                        title={file.name}
-                        onClick={() =>
-                           setSelectedFiles((prevSelectedFiles) =>
-                              prevSelectedFiles.filter((_, i) => i !== index)
-                           )
-                        }
-                     />
-                  ))
-               ) : (
-                  <Typography>No files selected</Typography>
-               )}
+               {selectedFiles.map((file, index) => (
+                  <CardOption
+                     index={index}
+                     icon={<SoundIcon />}
+                     title={file.name}
+                     onClick={() =>
+                        setSelectedFiles((prevSelectedFiles) =>
+                           prevSelectedFiles.filter((_, i) => i !== index)
+                        )
+                     }
+                  />
+               ))}
             </Box>
 
             <Modal
@@ -94,11 +93,11 @@ const ListenSelect = () => {
                   SAVE
                </Button>
             </Modal>
-         </TestContainer>
-      </StyledContainer>
+         </StyledContainer>
+      </TestContainer>
    )
 }
 
-export default ListenSelect
+export default ListenAndSelectEnglishWord
 
 const StyledContainer = styled(Box)(() => ({}))

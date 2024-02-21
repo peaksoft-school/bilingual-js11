@@ -1,7 +1,7 @@
 import './App.css'
-import ListenSelect from './pages/admin/create-test/ListenSelect'
+import ListenAndSelectEnglishWord from './pages/admin/type/ListenAndSelectEnglishWord'
 // import AppRoutes from './routes/AppRoutes'
 
-const App = () => <ListenSelect />
+const App = () => <ListenAndSelectEnglishWord />
 
 export default App
