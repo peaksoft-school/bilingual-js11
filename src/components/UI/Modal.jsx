@@ -72,5 +72,11 @@ const StyledModal = styled(MuiModal)(() => ({
          paddingTop: '1rem',
          borderRadius: '0 0 1.25rem 1.25rem',
       },
+
+      '& .modal-title': {
+         display: 'flex',
+         flexDirection: 'column',
+         alignItems: 'flex-start',
+      },
    },
 }))
