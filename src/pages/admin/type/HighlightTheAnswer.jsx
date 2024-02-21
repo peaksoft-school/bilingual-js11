@@ -67,10 +67,6 @@ const HighlightTheAnswer = () => {
                </Typography>
             </Box>
 
-            {formik.errors.text ? (
-               <Box className="error">{formik.errors.text}</Box>
-            ) : null}
-
             <Button className="save-button" onClick={handleSave}>
                save
             </Button>
