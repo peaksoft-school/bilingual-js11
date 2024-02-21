@@ -1,14 +1,10 @@
 import { useState } from 'react'
 import { useFormik } from 'formik'
-import { useParams } from 'react-router-dom'
-import { Box, Typography, styled } from '@mui/material'
+import { Box, TextField, Typography, styled } from '@mui/material'
 import Input from '../../../components/UI/Input'
-import Button from '../../../components/UI/buttons/Button'
-import { axiosInstance } from '../../../configs/axiosInstance'
 
 const HighlightTheAnswer = () => {
    const [answerValue, setAnswerValue] = useState('')
-   const { testId } = useParams()
 
    const formik = useFormik({
       initialValues: {
@@ -17,59 +13,40 @@ const HighlightTheAnswer = () => {
       },
    })
 
-   const handleSave = async () => {
-      try {
-         const formData = new FormData()
-         formData.append('correctAnswer', answerValue)
-
-         await axiosInstance.post(`/api/question?tesId=${testId}`, formData)
-      } catch (error) {
-         console.error(error)
-      }
-   }
-
    return (
-      <StyledContainer>
-         <Box onSubmit={formik.handleSubmit}>
-            <Typography>Questions to the Passage</Typography>
+      <StyledContainer onSubmit={formik.handleSubmit}>
+         <Typography className="title">Questions to the Passage</Typography>
 
-            <Input
-               className="input"
-               fullWidth
-               name="question"
-               value={formik.values.question}
+         <Input
+            fullWidth
+            name="question"
+            value={formik.values.question}
+            onChange={formik.handleChange}
+         />
+
+         <Box className="passage">
+            <Typography className="title">Passage</Typography>
+
+            <TextField
+               multiline
+               name="text"
+               value={formik.values.text}
                onChange={formik.handleChange}
+               fullWidth
             />
+         </Box>
 
-            <Box>
-               <Typography>Passage</Typography>
+         <Box className="correct-answer">
+            <Typography className="title">Highlight correct answer:</Typography>
 
-               <Input
-                  multiline
-                  name="text"
-                  value={formik.values.text}
-                  onChange={formik.handleChange}
-                  fullWidth
-                  className="textarea"
-               />
-            </Box>
-
-            <Box>
-               <Typography>Highlight correct answer:</Typography>
-
-               <Typography
-                  className="highlight-text"
-                  onMouseUp={() =>
-                     setAnswerValue(window.getSelection().toString())
-                  }
-               >
-                  {formik.values.text}
-               </Typography>
-            </Box>
-
-            <Button className="save-button" onClick={handleSave}>
-               save
-            </Button>
+            <Typography
+               className="highlight-text"
+               onMouseUp={() =>
+                  setAnswerValue(window.getSelection().toString())
+               }
+            >
+               {formik.values.text}
+            </Typography>
          </Box>
       </StyledContainer>
    )
@@ -78,15 +55,45 @@ const HighlightTheAnswer = () => {
 export default HighlightTheAnswer
 
 const StyledContainer = styled(Box)(({ theme }) => ({
-   color: '#4C4859',
-   fontFamily: 'Poppins',
+   '& .title': {
+      fontSize: '1rem',
+      fontWeight: 500,
+      color: '#4C4859',
+      fontFamily: 'Poppins',
+      marginBottom: '8px',
+   },
 
-   '& .highlight-text': {
-      marginBottom: '25px',
+   '& > .passage': {
+      marginTop: '1.6rem',
 
-      '::selection': {
-         color: theme.palette.primary.main,
-         textDecoration: 'underline',
+      '& .MuiOutlinedInput-root': {
+         borderRadius: '8px',
+         fontWeight: 400,
+         color: '#5b5867',
+
+         '&.Mui-focused fieldset': {
+            border: `1.53px solid ${theme.palette.primary.main}`,
+         },
+
+         '&:hover fieldset': {
+            border: `1px solid ${theme.palette.primary.main}`,
+         },
+      },
+   },
+
+   '& > .correct-answer': {
+      marginTop: '1.8rem',
+      marginBottom: '2rem',
+
+      '& .highlight-text': {
+         marginBottom: '25px',
+         fontWeight: 400,
+         color: '#5b5867',
+
+         '::selection': {
+            color: theme.palette.primary.main,
+            textDecoration: 'underline',
+         },
       },
    },
 }))
