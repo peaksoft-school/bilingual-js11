@@ -2,7 +2,8 @@ import { useState, useRef } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import Input from '../../../components/UI/Input'
 import { axiosInstanceFile } from '../../../configs/axiosInstanceFile'
-import Button from '../../../components/UI/buttons/Button'
+import TestContainer from '../../../components/UI/TestContainer'
+import Dropdown from '../../../components/UI/Dropdown'
 
 const DescribeImage = () => {
    const [image, setImage] = useState(null)
@@ -74,54 +75,59 @@ const DescribeImage = () => {
    }
 
    return (
-      <StyledContainer>
-         {image ? (
-            <Box className="container-image" onClick={handleClick}>
-               <img src={image} alt="Uploaded" className="image" />
+      <TestContainer>
+         <Dropdown />
+         <StyledContainer>
+            {image ? (
+               <Box className="container-image">
+                  <Box onClick={handleClick}>
+                     <img src={image} alt="Uploaded" className="image" />
+                  </Box>
 
-               <input
-                  ref={inputFileRef}
-                  type="file"
-                  className="input"
-                  accept=".jpg"
-                  onChange={handleImageChange}
-               />
-
-               <Typography className="file-name">{fileName}</Typography>
-            </Box>
-         ) : (
-            <Box className="upload">
-               <label htmlFor="fileInput" className="title">
-                  Upload image
                   <input
-                     id="fileInput"
+                     ref={inputFileRef}
                      type="file"
                      className="input"
-                     onChange={handleFileChange}
-                     accept=".jpg"
-                     ref={inputRef}
+                     accept=".jpg, .png"
+                     onChange={handleImageChange}
                   />
-               </label>
 
-               <Typography
-                  className="file-name"
-                  onClick={() => inputRef.current.click()}
-               >
-                  File_name_of_the_image_file.jpg
+                  <Typography className="file-name" onClick={handleClick}>
+                     {fileName}
+                  </Typography>
+               </Box>
+            ) : (
+               <Box className="upload">
+                  <label htmlFor="fileInput" className="title">
+                     Upload image
+                     <input
+                        id="fileInput"
+                        type="file"
+                        className="input"
+                        onChange={handleFileChange}
+                        accept=".jpg, .png"
+                        ref={inputRef}
+                     />
+                  </label>
+
+                  <Typography
+                     className="file-name"
+                     onClick={() => inputRef.current.click()}
+                  >
+                     File_name_of_the_image_file.jpg
+                  </Typography>
+               </Box>
+            )}
+
+            <Box>
+               <Typography className="correct-answer">
+                  Correct answer
                </Typography>
+
+               <Input value={inputValue} onChange={handleInputChange} />
             </Box>
-         )}
-
-         <Box>
-            <Typography className="correct-answer">Correct answer</Typography>
-
-            <Input value={inputValue} onChange={handleInputChange} />
-         </Box>
-
-         <Button variant="primary" onClick={postFileRequest}>
-            Save
-         </Button>
-      </StyledContainer>
+         </StyledContainer>
+      </TestContainer>
    )
 }
 
