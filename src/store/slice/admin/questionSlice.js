@@ -9,13 +9,7 @@ const initialState = {
    attempts: 0,
    correctAnswer: '',
    fileUrl: '',
-   option: [
-      {
-         optionTitle: '',
-         fileUrl: '',
-         isTrueOption: true,
-      },
-   ],
+   option: [],
 }
 
 const questionSlice = createSlice({
@@ -23,33 +17,37 @@ const questionSlice = createSlice({
    initialState,
    reducers: {
       addOption: (state, action) => {
-         state.option.push(action.payload)
+         state.option = [...state.option, action.payload]
       },
+
       changeTrueOption: (state, action) => {
          state.option = state.option.map((item) => {
             if (item.id === action.payload) {
                return {
                   ...item,
-                  isTrueOption: !item.isTrue,
+                  isTrueOption: !item.isTrueOption,
                }
             }
             return item
          })
       },
+
       deleteOption: (state, action) => {
          state.option = state.option.filter(
             (item) => item.id !== action.payload
          )
       },
+
       clearOptions(state) {
          state.option = []
       },
+
       updateOptions: (state, action) => {
          state.option = action.payload
       },
    },
    extraReducers: (builder) => {
-      builder.addCase(saveTest.fulfilled, (state, action) => {
+      builder.addCase(saveTest.fulfilled, (state) => {
          state.isLoading = false
          state.error = null
       })

@@ -16,6 +16,8 @@ const rootReducer = combineReducers({
 const persistConfig = {
    key: 'BILINGUAL',
    storage,
+
+   blacklist: ['question', 'questionsSlice'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

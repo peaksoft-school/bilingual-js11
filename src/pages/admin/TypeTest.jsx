@@ -1,12 +1,10 @@
-import React from 'react'
-import { QUESTION_TYPES } from '../utils/constants'
-import SelectRealEnglish from './UI/SelectRealEnglish'
+import { QUESTION_TYPES } from '../../utils/constants'
+import SelectRealEnglish from './type/SelectRealEnglish'
 
 const TypeTest = ({
    duration,
    setDuration,
    selectType,
-   setError,
    title,
    setTitle,
    setSelectType,
@@ -18,7 +16,6 @@ const TypeTest = ({
                duration={duration}
                setDuration={setDuration}
                selectType={selectType}
-               setError={setError}
                title={title}
                setTitle={setTitle}
                setSelectType={setSelectType}

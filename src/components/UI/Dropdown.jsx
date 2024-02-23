@@ -19,7 +19,9 @@ const Dropdown = forwardRef(({ options, value, onChange, ...rest }, ref) => (
       ref={ref}
       {...rest}
       renderValue={(selected) => (
-         <InputLabel shrink={false}>{selected || 'Describe image'}</InputLabel>
+         <InputLabel shrink={false}>
+            {selected || 'Select main idea'}
+         </InputLabel>
       )}
    >
       {options?.map(({ id, title }) => (

@@ -1,7 +1,7 @@
 export const questionTitle = (name) => {
    switch (name) {
-      case 'SELECT_ENGLISH_WORD':
-         return 'Select real english words'
+      case 'SELECT_REAL_ENGLISH_WORD':
+         return 'SELECT_REAL_ENGLISH_WORD'
       default:
          return name
    }

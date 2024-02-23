@@ -1,24 +1,41 @@
+import React, { useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
-import React from 'react'
-import Checkbox from './Checkbox'
 import { TrashIcon } from '../../assets/icons'
+import Checkbox from './Checkbox'
 
-const CardOption = ({ elem, index, checkedFunction, setIsOpenModal }) => {
-   const openFunction = () => {
-      setIsOpenModal((prev) => !prev)
+const CardOption = ({
+   item,
+   index,
+   checkedFunction,
+   openModal,
+   setOptionId,
+}) => {
+   const [isChecked, setIsChecked] = useState(item.isCorrect)
+
+   const handleCheckboxChange = (e) => {
+      const newCheckedValue = e.target.checked
+      setIsChecked(newCheckedValue)
+      checkedFunction(e, item.id, newCheckedValue)
    }
+
+   const openFunction = (id) => {
+      openModal((prev) => !prev)
+      setOptionId(id)
+   }
+
    return (
-      <StyledBox>
+      <StyledBox key={item.id}>
          <Box className="advantage-block">
             <Typography>{index + 1}</Typography>
-            <Typography>{elem.title}</Typography>
+            <Typography>{item.title2}</Typography>
          </Box>
          <Box className="check-trash-block">
-            <Checkbox
-               onClick={(e) => checkedFunction(e, elem.id)}
-               checked={elem.isCorrect}
+            <Checkbox onClick={handleCheckboxChange} checked={isChecked} />
+
+            <TrashIcon
+               className="trash-icon"
+               onClick={() => openFunction(item.id)}
             />
-            <TrashIcon className="trash-icon" onClick={openFunction} />
          </Box>
       </StyledBox>
    )
