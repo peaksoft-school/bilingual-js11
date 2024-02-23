@@ -4,8 +4,10 @@ import { axiosInstance } from '../../../configs/axiosInstance'
 
 export const saveTest = createAsyncThunk(
    'question/saveTest',
+
    async (
       { requestData, data: { testId, questionType, navigate } },
+
       { rejectWithValue }
    ) => {
       try {

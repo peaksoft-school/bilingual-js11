@@ -129,15 +129,15 @@ const StyledContent = styled(Box)(() => ({
 
          '& .input-title': {
             background: '#fff',
-            width: '697px',
-            height: '46px',
-            borderRadius: '8px',
-            paddingBottom: '56px',
+            width: '43.5313rem',
+            height: '2.875rem',
+            borderRadius: '0.5rem',
+            paddingBottom: '3.5rem',
             color: '#4C4859',
          },
 
          '& .duration-container': {
-            marginTop: '-68px',
+            marginTop: '-4.25rem',
 
             '& .duration': {
                marginBottom: '1.3rem',
@@ -145,9 +145,9 @@ const StyledContent = styled(Box)(() => ({
             },
 
             '& .duration-input': {
-               width: '99px',
-               height: '46px',
-               borderRadius: '8px',
+               width: '6.5625rem',
+               height: '2.875rem',
+               borderRadius: '0.5rem',
             },
          },
 
@@ -163,8 +163,9 @@ const StyledContent = styled(Box)(() => ({
       },
 
       '& .dropdown': {
-         borderRadius: '8px',
-         width: '820px',
+         borderRadius: '0.5rem',
+         width: '51.25rem',
+
          '& .MuiSelect-icon': {
             color: 'black',
          },

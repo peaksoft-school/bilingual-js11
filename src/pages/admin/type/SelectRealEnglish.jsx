@@ -51,7 +51,7 @@ const SelectRealEnglish = ({
       setIsOpenModalDelete((prevState) => !prevState)
    }
 
-   const checkedFunction = (id) => {
+   const handleChecked = (id) => {
       dispatch(questionActions.changeTrueOption(id))
    }
 
@@ -105,7 +105,6 @@ const SelectRealEnglish = ({
       openModalSave()
 
       setOptionTitle('')
-
       setCheckOption(false)
    }
 
@@ -127,7 +126,7 @@ const SelectRealEnglish = ({
                      key={item.id}
                      item={item}
                      index={i}
-                     checkedFunction={checkedFunction}
+                     handleChecked={handleChecked}
                      openModal={setIsOpenModalDelete}
                      setOptionId={setOptionId}
                   />
