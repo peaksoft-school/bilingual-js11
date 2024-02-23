@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { QUESTIONS_THUNK } from './questionsThunk'
 
 const initialState = {
-   questions: null,
+   questions: [],
    status: '',
    error: null,
 }
@@ -10,7 +10,14 @@ const initialState = {
 export const questionsSlice = createSlice({
    name: 'questionsSlice',
    initialState,
-   reducers: {},
+   reducers: {
+      deleteQuestion(state, action) {
+         state.questions = state.questions.filter(
+            (question) => question.id !== action.payload
+         )
+      },
+   },
+
    extraReducers: (builder) => {
       builder
          .addCase(QUESTIONS_THUNK.getTest.pending, (state) => {
@@ -88,5 +95,7 @@ export const questionsSlice = createSlice({
          )
    },
 })
+
+export const { deleteQuestion } = questionsSlice.actions
 
 export default questionsSlice.reducer

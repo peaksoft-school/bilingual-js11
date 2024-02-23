@@ -1,5 +1,4 @@
 import { Box, Typography, styled } from '@mui/material'
-import React from 'react'
 import Checkbox from './Checkbox'
 import { TrashIcon } from '../../assets/icons'
 
@@ -7,13 +6,13 @@ const CardOption = ({
    title,
    id,
    index,
-   isCorrect,
+   isChecked,
    icon,
-   checkedFunction,
-   setIsOpenModal,
+   handleToggle,
+   isVisible,
 }) => {
-   const openFunction = () => {
-      setIsOpenModal((prev) => !prev)
+   const handleModal = () => {
+      isVisible((prev) => !prev)
    }
 
    return (
@@ -27,12 +26,9 @@ const CardOption = ({
          </Box>
 
          <Box className="check-trash-block">
-            <Checkbox
-               onClick={(e) => checkedFunction(e, id)}
-               checked={isCorrect}
-            />
+            <Checkbox onClick={() => handleToggle(id)} checked={isChecked} />
 
-            <TrashIcon className="trash-icon" onClick={openFunction} />
+            <TrashIcon className="trash-icon" onClick={handleModal} />
          </Box>
       </StyledBox>
    )
