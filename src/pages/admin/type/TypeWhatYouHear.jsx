@@ -2,10 +2,10 @@
 import { useRef, useState } from 'react'
 import { useFormik } from 'formik'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
-import Input from '../../../components/UI/Input'
-import Button from '../../../components/UI/buttons/Button'
 import { PauseIcon, PlayIcon } from '../../../assets/icons'
 import { axiosInstanceFile } from '../../../configs/axiosInstanceFile'
+import Input from '../../../components/UI/Input'
+import Button from '../../../components/UI/buttons/Button'
 
 const TypeWhatYouHear = () => {
    const [fileName, setFileName] = useState('')
@@ -79,7 +79,7 @@ const TypeWhatYouHear = () => {
                   className="input-replays"
                   type="number"
                   name="attempts"
-                  inputProps={{ min: 0, max: 10 }}
+                  inputProps={{ min: 0, max: 15 }}
                   value={values.attempts}
                   onChange={handleChange}
                />
@@ -87,7 +87,7 @@ const TypeWhatYouHear = () => {
 
             <Box className="file">
                <Button type="button">
-                  <label htmlFor="filedInput">
+                  <label htmlFor="filedInput" className="label">
                      {files ? 'REPLACE' : 'UPPLOAD'}
                   </label>
                </Button>
@@ -118,8 +118,8 @@ const TypeWhatYouHear = () => {
                </Typography>
 
                <audio
+                  className="audio"
                   ref={audioRef}
-                  style={{ display: 'none' }}
                   type="audio/mp3"
                   controls
                />
@@ -135,6 +135,13 @@ const TypeWhatYouHear = () => {
                value={values.correctAnswer}
                onChange={handleChange}
             />
+         </Box>
+
+         <Box className="buttons">
+            <Button variant="secondary">GO BACK</Button>
+            <Button variant="primary" onClick={onSubmit}>
+               SAVE
+            </Button>
          </Box>
       </Container>
    )
@@ -155,15 +162,17 @@ const Container = styled('form')(() => ({
          display: 'table-column',
 
          '& > .input-replays': {
-            padding: '.75rem  0.7rem .75rem 0.7rem ',
-            width: '5rem',
-            borderRadius: '1.5rem',
-            textAlign: 'center',
-            fontSize: '1.5rem',
+            '& .MuiOutlinedInput-root': {
+               padding: '.75rem  0.7rem .75rem 0.7rem ',
+               width: '4.5rem',
+               height: '2.5rem',
+               textAlign: 'center',
+               fontSize: '1.2rem',
+            },
          },
       },
 
-      ' & .MuiOutlinedInput-input[type="number"]::-webkit-inner-spin-button': {
+      '& .MuiOutlinedInput-input[type="number"]::-webkit-inner-spin-button': {
          display: 'none',
       },
 
@@ -172,10 +181,15 @@ const Container = styled('form')(() => ({
       },
 
       '& > .file': {
-         marginTop: '4rem',
+         marginTop: '2.11111rem',
          display: 'flex',
          gap: '1rem',
          alignItems: 'center',
+
+         '& .label': {
+            fontFamily: 'Poppins',
+            fontWeight: '600',
+         },
 
          '& > input': {
             display: 'none',
@@ -186,6 +200,10 @@ const Container = styled('form')(() => ({
             backgroundColor: 'white',
             marginTop: '0.3rem',
             cursor: 'pointer',
+         },
+
+         '& .audio': {
+            display: 'none',
          },
       },
    },
@@ -198,5 +216,11 @@ const Container = styled('form')(() => ({
       lineHeight: '16px',
       color: '#4B4759',
       marginBottom: '15px',
+   },
+
+   '& .buttons': {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      gap: '1rem',
    },
 }))
