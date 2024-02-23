@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Box, Input, Typography, styled } from '@mui/material'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import { questionActions } from '../../../store/slice/admin/questionSlice'
@@ -45,7 +45,6 @@ const SelectRealEnglish = ({
    const openModalDelete = () => setIsOpenModalDelete((prevState) => !prevState)
 
    const openModalSave = () => setIsOpenModalSave((prevState) => !prevState)
-
    const deleteTest = () => {
       dispatch(questionActions.deleteOption(optionId))
       setIsOpenModalDelete((prevState) => !prevState)
@@ -65,19 +64,8 @@ const SelectRealEnglish = ({
 
          const requestData = {
             title,
-            duration: +duration,
-            statement: '',
-            passage: '',
-            attempts: 0,
-            correctAnswer: '',
-            fileUrl: '',
-            option: [
-               {
-                  optionTitle,
-                  isTrueOption: checkOption,
-                  fileUrl: '',
-               },
-            ],
+            duration: +duration * 60,
+            option,
          }
 
          dispatch(
@@ -134,17 +122,14 @@ const SelectRealEnglish = ({
             </Box>
 
             <Box className="buttons">
-               <Button variant="secondary">
-                  <Link
-                     to={`/admin/tests/questions/${testId}`}
-                     className="text"
-                  >
-                     GO BACK
-                  </Link>
+               <Button variant="secondary" onClick={() => navigate(-1)}>
+                  GO BACK
                </Button>
                <Button
                   variant="primary"
-                  disabled={!selectType || !duration || !title}
+                  disabled={
+                     !selectType || !duration || !title || option.length === 0
+                  }
                   onClick={saveTestQuestion}
                >
                   SAVE

@@ -16,7 +16,7 @@ export const saveTest = createAsyncThunk(
             requestData
          )
 
-         return navigate('/admin/tests/questions/:testId')
+         return navigate(`/admin/tests/questions/${testId}`)
       } catch (error) {
          if (AxiosError(error)) {
             return rejectWithValue(error.response?.data.message)

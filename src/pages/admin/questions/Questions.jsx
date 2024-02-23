@@ -100,7 +100,7 @@ const Questions = () => {
                         <Typography className="name-props">{title}</Typography>
 
                         <Typography className="duration-props">
-                           {duration}
+                           {duration / 60}
                         </Typography>
 
                         <Typography className="question-type-props">
