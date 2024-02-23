@@ -66,7 +66,11 @@ const Questions = () => {
 
                   <Box className="text">
                      <Typography className="title">Duration:</Typography>
-                     <Typography>{questions?.duration}</Typography>
+                     <Typography>
+                        {questions && questions.duration
+                           ? questions.duration / 60
+                           : ''}
+                     </Typography>
                   </Box>
                </Box>
             </Box>
