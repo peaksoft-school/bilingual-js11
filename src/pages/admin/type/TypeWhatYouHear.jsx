@@ -38,6 +38,11 @@ const TypeWhatYouHear = ({
 
    const audioRef = useRef(null)
 
+   const handleAttemptsChange = (event) => setAttempts(event.target.value)
+
+   const handleCorrectAnswerChange = (event) =>
+      setCorrectAnswer(event.target.value)
+
    const handleToggle = () => {
       if (isPlaying) {
          audioRef.current.pause()
@@ -112,7 +117,7 @@ const TypeWhatYouHear = ({
                   name="attempts"
                   inputProps={{ min: 0, max: 15 }}
                   value={attempts}
-                  onChange={(event) => setAttempts(event.target.value)}
+                  onChange={handleAttemptsChange}
                />
             </Box>
 
@@ -163,7 +168,7 @@ const TypeWhatYouHear = ({
                type="text"
                name="correctAnswer"
                value={correctAnswer}
-               onChange={(event) => setCorrectAnswer(event.target.value)}
+               onChange={handleCorrectAnswerChange}
             />
          </Box>
 
