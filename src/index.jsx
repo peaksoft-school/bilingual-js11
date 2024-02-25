@@ -21,7 +21,6 @@ root.render(
          <PersistGate loading={null} persistor={persistor}>
             <Themes>
                <Notification />
-
                <App />
             </Themes>
          </PersistGate>

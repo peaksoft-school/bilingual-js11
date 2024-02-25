@@ -1,34 +1,42 @@
 import { useState, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
 import Input from '../../../components/UI/Input'
-import { axiosInstanceFile } from '../../../configs/axiosInstanceFile'
-import TestContainer from '../../../components/UI/TestContainer'
-import Dropdown from '../../../components/UI/Dropdown'
+import { QUESTION_THUNK } from '../../../store/slice/admin/questionThunk'
+import Button from '../../../components/UI/buttons/Button'
+import { QUESTION_ACTIONS } from '../../../store/slice/admin/questionSlice'
+import { questionTitle } from '../../../utils/helpers/questionTitle'
 
-const DescribeImage = () => {
+const DescribeImage = ({
+   duration,
+   setDuration,
+   selectType,
+   title,
+   setTitle,
+   setSelectType,
+}) => {
+   const { fileUrl, isLoading } = useSelector((state) => state.question)
+
    const [image, setImage] = useState(null)
 
    const [fileName, setFileName] = useState('')
 
-   const [inputValue, setInputValue] = useState('')
+   const [answer, setAnswer] = useState('')
 
-   const [file, setFile] = useState(null)
+   const dispatch = useDispatch()
+
+   const navigate = useNavigate()
+
+   const { testId } = useParams()
 
    const inputRef = useRef(null)
 
    const inputFileRef = useRef(null)
 
-   const postFileRequest = async () => {
-      try {
-         const formData = new FormData()
+   const handleClick = () => inputFileRef.current.click()
 
-         formData.append('multipartFile', file)
-
-         await axiosInstanceFile.post('/api/awsFile', formData)
-      } catch (error) {
-         console.error(error)
-      }
-   }
+   const handleInputChange = (e) => setAnswer(e.target.value)
 
    const handleFileChange = (event) => {
       const file = event.target.files[0]
@@ -44,7 +52,7 @@ const DescribeImage = () => {
 
          setFileName(file.name)
 
-         setFile(file)
+         dispatch(QUESTION_THUNK.postFileRequest(file))
       }
    }
 
@@ -62,72 +70,111 @@ const DescribeImage = () => {
 
          setFileName(file.name)
 
-         setFile(file)
+         dispatch(QUESTION_THUNK.postFileRequest(file))
       }
    }
 
-   const handleClick = () => {
-      inputFileRef.current.click()
-   }
+   const saveTestQuestion = () => {
+      if (
+         selectType !== '' &&
+         +duration !== +'' &&
+         title !== '' &&
+         answer !== ''
+      ) {
+         dispatch(QUESTION_ACTIONS.clearOptions())
 
-   const handleInputChange = (e) => {
-      setInputValue(e.target.value)
+         setSelectType('')
+         setTitle('')
+         setDuration('')
+         setAnswer('')
+
+         const requestData = {
+            title,
+            duration: +duration * 60,
+            correctAnswer: answer,
+            fileUrl,
+         }
+
+         dispatch(
+            QUESTION_THUNK.saveTest({
+               requestData,
+               data: {
+                  testId,
+                  questionType: questionTitle('DESCRIBE_IMAGE'),
+                  navigate,
+               },
+            })
+         )
+      }
    }
 
    return (
-      <TestContainer>
-         <Dropdown />
-         <StyledContainer>
-            {image ? (
-               <Box className="container-image">
-                  <Box onClick={handleClick}>
-                     <img src={image} alt="Uploaded" className="image" />
-                  </Box>
+      <StyledContainer>
+         {image ? (
+            <Box className="container-image">
+               <Box onClick={handleClick}>
+                  <img src={image} alt="Uploaded" className="image" />
+               </Box>
 
+               <input
+                  ref={inputFileRef}
+                  type="file"
+                  className="input"
+                  accept=".jpg, .png"
+                  onChange={handleImageChange}
+               />
+
+               <Typography className="file-name" onClick={handleClick}>
+                  {fileName}
+               </Typography>
+            </Box>
+         ) : (
+            <Box className="upload">
+               <label htmlFor="fileInput" className="title">
+                  Upload image
                   <input
-                     ref={inputFileRef}
+                     id="fileInput"
                      type="file"
                      className="input"
+                     onChange={handleFileChange}
                      accept=".jpg, .png"
-                     onChange={handleImageChange}
+                     ref={inputRef}
                   />
+               </label>
 
-                  <Typography className="file-name" onClick={handleClick}>
-                     {fileName}
-                  </Typography>
-               </Box>
-            ) : (
-               <Box className="upload">
-                  <label htmlFor="fileInput" className="title">
-                     Upload image
-                     <input
-                        id="fileInput"
-                        type="file"
-                        className="input"
-                        onChange={handleFileChange}
-                        accept=".jpg, .png"
-                        ref={inputRef}
-                     />
-                  </label>
-
-                  <Typography
-                     className="file-name"
-                     onClick={() => inputRef.current.click()}
-                  >
-                     File_name_of_the_image_file.jpg
-                  </Typography>
-               </Box>
-            )}
-
-            <Box>
-               <Typography className="correct-answer">
-                  Correct answer
+               <Typography
+                  className="file-name"
+                  onClick={() => inputRef.current.click()}
+               >
+                  File_name_of_the_image_file.jpg
                </Typography>
-
-               <Input value={inputValue} onChange={handleInputChange} />
             </Box>
-         </StyledContainer>
-      </TestContainer>
+         )}
+
+         <Box className="answer">
+            <Typography className="correct-answer">Correct answer</Typography>
+
+            <Input value={answer} onChange={handleInputChange} />
+         </Box>
+
+         <Box className="buttons">
+            <Button variant="secondary" onClick={() => navigate(-1)}>
+               GO BACK
+            </Button>
+
+            <Button
+               variant="primary"
+               disabled={
+                  !selectType || !duration || !title || !image || !answer.trim()
+               }
+               onClick={saveTestQuestion}
+               isLoading={isLoading}
+               colorLoading="secondary"
+            >
+               SAVE
+            </Button>
+         </Box>
+      </StyledContainer>
    )
 }
 
@@ -179,5 +226,15 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 
    '& .correct-answer': {
       paddingBottom: '7px',
+   },
+
+   '& .answer': {
+      marginBottom: '2rem',
+   },
+
+   '& .buttons': {
+      display: 'flex',
+      gap: '1.1rem',
+      marginLeft: '37.5rem',
    },
 }))

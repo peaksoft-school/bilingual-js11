@@ -5,8 +5,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import Input from '../../../components/UI/Input'
 import TestContainer from '../../../components/UI/TestContainer'
 import Button from '../../../components/UI/buttons/Button'
-import { TESTS_THUNK } from '../../../store/slice/admin/testsThunk'
 import { QUESTIONS_THUNK } from '../../../store/slice/admin/questionsThunk'
+import { TESTS_THUNK } from '../../../store/slice/admin/testsThunk'
 
 const CreateTest = () => {
    const { questions } = useSelector((state) => state.questionsSlice)
