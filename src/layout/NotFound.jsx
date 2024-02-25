@@ -1,22 +1,32 @@
-import { Link } from 'react-router-dom'
-import { Typography, Box, styled } from '@mui/material'
+import { useNavigate } from 'react-router'
+import { Typography, Box, styled, Button } from '@mui/material'
 import { NotFoundImage } from '../assets/images'
 
-const NotFound = () => (
-   <Container>
-      <Box className="text-content">
-         <Typography variant="h2">Ooops...</Typography>
-         <Typography variant="h4">Page not Found</Typography>
-         <Typography variant="p">
-            The page you are looking for doesnt exist or an other error
-            occurred, go back to home page.
-         </Typography>
+//! ПОКА ЧТО ТАК ПОТОМ ПОМЕНЯЮ
 
-         <Link to="/">go back</Link>
-      </Box>
-      <img src={NotFoundImage} alt="404" />
-   </Container>
-)
+const NotFound = () => {
+   const navigate = useNavigate()
+
+   return (
+      <Container>
+         <Box className="text-content">
+            <Typography variant="h2">Ooops...</Typography>
+
+            <Typography variant="h4">Page not Found</Typography>
+
+            <Typography variant="p">
+               The page you are looking for doesnt exist or an other error
+               occurred, go back to home page.
+            </Typography>
+
+            <Button className="go-back" onClick={() => navigate(-1)}>
+               go back
+            </Button>
+         </Box>
+         <img src={NotFoundImage} alt="404" />
+      </Container>
+   )
+}
 
 export default NotFound
 
@@ -40,6 +50,25 @@ const Container = styled('div')(() => ({
 
       '& h4': {
          color: '#ffc801',
+      },
+
+      '& .go-back': {
+         padding: '0.5rem',
+         width: '30%',
+         borderRadius: '1rem',
+         border: '3px solid #ffc801',
+         textAlign: 'center',
+         backgroundColor: '#ffc801',
+         color: 'black',
+         fontWeight: 'bold',
+         fontFamily: 'Poppins',
+         textDecoration: 'none',
+         textTransform: 'uppercase',
+
+         '&:hover': {
+            backgroundColor: 'white',
+            border: '3px solid #ffc801',
+         },
       },
    },
 

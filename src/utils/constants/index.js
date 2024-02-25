@@ -408,6 +408,7 @@ const OPTIONS = [
 ]
 const QUESTION_TYPES = {
    SelectRealEnglishWords: 'Select real english words',
+   RespondInAtLeastNwords: 'Respond in at least N words',
 }
 export {
    QUESTION_TYPES,

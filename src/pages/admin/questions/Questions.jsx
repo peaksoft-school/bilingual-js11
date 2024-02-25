@@ -1,20 +1,24 @@
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Box, Typography, styled } from '@mui/material'
 import { Link, useParams } from 'react-router-dom'
-import Switcher from '../../../components/UI/Switcher'
+import { useEffect, useState } from 'react'
+import { Box, Typography, styled } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
 import { EditIcon, FalseIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
-import Button from '../../../components/UI/buttons/Button'
-import TestContainer from '../../../components/UI/TestContainer'
+import { QUESTIONS_THUNK } from '../../../store/slice/admin/questions/questionsThunk'
 import { SearchingImage } from '../../../assets/images'
 import Modal from '../../../components/UI/Modal'
-import { QUESTIONS_THUNK } from '../../../store/slice/admin/questionsThunk'
+import Button from '../../../components/UI/buttons/Button'
+import Switcher from '../../../components/UI/Switcher'
+import TestContainer from '../../../components/UI/TestContainer'
 
 const Questions = () => {
    const { questions } = useSelector((state) => state.questionsSlice)
+
    const { testId } = useParams()
+
    const [isVisible, setIsVisible] = useState(false)
+
    const [selectedQuestionId, setSelectedQuestionId] = useState(null)
+
    const dispatch = useDispatch()
 
    useEffect(() => {
@@ -34,6 +38,7 @@ const Questions = () => {
 
    const handleOpenModal = (questionId) => {
       setSelectedQuestionId(questionId)
+
       setIsVisible((prev) => !prev)
    }
 
@@ -54,6 +59,7 @@ const Questions = () => {
                <Box className="title-container">
                   <Box className="text">
                      <Typography className="title">Title:</Typography>
+
                      <Typography>{questions?.title}</Typography>
                   </Box>
 
@@ -61,11 +67,13 @@ const Questions = () => {
                      <Typography className="title">
                         Short Description:
                      </Typography>
+
                      <Typography>{questions?.shortDescription}</Typography>
                   </Box>
 
                   <Box className="text">
                      <Typography className="title">Duration:</Typography>
+
                      <Typography>
                         {questions && questions.duration
                            ? questions.duration / 60
@@ -101,6 +109,7 @@ const Questions = () => {
                   ({ id, title, duration, questionType, enable }, index) => (
                      <StyledBox key={id}>
                         <Typography>{index + 1}</Typography>
+
                         <Typography className="name-props">{title}</Typography>
 
                         <Typography className="duration-props">

@@ -7,7 +7,7 @@ import { EditIcon, FalseIcon, TrashIcon } from '../../../assets/icons'
 import { SearchingImage } from '../../../assets/images'
 import Modal from '../../UI/Modal'
 import Button from '../../UI/buttons/Button'
-import { TESTS_THUNK } from '../../../store/slice/admin/testsThunk'
+import { TESTS_THUNK } from '../../../store/slice/admin/tests/testsThunk'
 
 const TestList = () => {
    const { tests } = useSelector((state) => state.testsSlice)

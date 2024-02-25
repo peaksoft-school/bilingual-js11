@@ -3,8 +3,7 @@ import { Box, Input, Typography, styled } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
-import { questionActions } from '../../../store/slice/admin/questionSlice'
-import { saveTest } from '../../../store/slice/admin/questionThunk'
+import { QUESTION_ACTIONS } from '../../../store/slice/admin/questions/questionSlice'
 import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
 import CardOption from '../../../components/UI/CardOption'
 import Button from '../../../components/UI/buttons/Button'
@@ -46,17 +45,17 @@ const SelectRealEnglish = ({
 
    const openModalSave = () => setIsOpenModalSave((prevState) => !prevState)
    const deleteTest = () => {
-      dispatch(questionActions.deleteOption(optionId))
+      dispatch(QUESTION_ACTIONS.deleteOption(optionId))
       setIsOpenModalDelete((prevState) => !prevState)
    }
 
    const handleChecked = (id) => {
-      dispatch(questionActions.changeTrueOption(id))
+      dispatch(QUESTION_ACTIONS.changeTrueOption(id))
    }
 
    const saveTestQuestion = () => {
       if (selectType !== '' && +duration !== +'' && title !== '') {
-         dispatch(questionActions.clearOptions())
+         dispatch(QUESTION_ACTIONS.clearOptions())
 
          setSelectType('')
          setTitle('')
@@ -69,7 +68,7 @@ const SelectRealEnglish = ({
          }
 
          dispatch(
-            saveTest({
+            QUESTION_ACTIONS.saveTest({
                requestData,
                data: {
                   testId,
@@ -88,7 +87,7 @@ const SelectRealEnglish = ({
          id: uuidv4(),
       }
 
-      dispatch(questionActions.addOption(data))
+      dispatch(QUESTION_ACTIONS.addOption(data))
 
       openModalSave()
 
