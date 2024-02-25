@@ -11,9 +11,8 @@ import Modal from '../../../components/UI/Modal'
 import { QUESTIONS_THUNK } from '../../../store/slice/admin/questionsThunk'
 
 const Questions = () => {
-   const { question, title, shortDescription, duration } = useSelector(
-      (state) => state.questionsSlice.questions
-   )
+   const { questions } = useSelector((state) => state.questionsSlice)
+
    const { testId } = useParams()
 
    const [isVisible, setIsVisible] = useState(false)
@@ -39,6 +38,7 @@ const Questions = () => {
 
    const handleOpenModal = (questionId) => {
       setSelectedQuestionId(questionId)
+
       setIsVisible((prev) => !prev)
    }
 
@@ -59,19 +59,23 @@ const Questions = () => {
                <Box className="title-container">
                   <Box className="text">
                      <Typography className="title">Title:</Typography>
-                     <Typography>{title}</Typography>
+                     <Typography>{questions?.title}</Typography>
                   </Box>
 
                   <Box className="text">
                      <Typography className="title">
                         Short Description:
                      </Typography>
-                     <Typography>{shortDescription}</Typography>
+                     <Typography>{questions?.shortDescription}</Typography>
                   </Box>
 
                   <Box className="text">
                      <Typography className="title">Duration:</Typography>
-                     <Typography>{duration}</Typography>
+                     <Typography>
+                        {questions && questions.duration
+                           ? questions.duration / 60
+                           : ''}
+                     </Typography>
                   </Box>
                </Box>
             </Box>
@@ -97,8 +101,8 @@ const Questions = () => {
                <Typography className="question-type">Question Type</Typography>
             </StyledTable>
 
-            {question.length > 0 ? (
-               question.map(
+            {questions && questions.question.length > 0 ? (
+               questions.question.map(
                   ({ id, title, duration, questionType, enable }, index) => (
                      <StyledBox key={id}>
                         <Typography>{index + 1}</Typography>
