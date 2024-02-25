@@ -2,32 +2,35 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
 import { Link, useParams } from 'react-router-dom'
-import Switcher from '../../../components/UI/Switcher'
 import { EditIcon, FalseIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
-import Button from '../../../components/UI/buttons/Button'
-import TestContainer from '../../../components/UI/TestContainer'
-import { SearchingImage } from '../../../assets/images'
 import { QUESTIONS_THUNK } from '../../../store/slice/admin/questions/questionsThunk'
+import { SearchingImage } from '../../../assets/images'
+import { questionTypeHandler } from '../../../utils/helpers'
 import Modal from '../../../components/UI/Modal'
+import Button from '../../../components/UI/buttons/Button'
+import Switcher from '../../../components/UI/Switcher'
+import TestContainer from '../../../components/UI/TestContainer'
 
 const Questions = () => {
-   const { title, shortDescription, duration, question } = useSelector(
-      (state) => state.questionsSlice.questions
-   )
+   const { questions } = useSelector((state) => state.questionsSlice)
 
    const { testId } = useParams()
+
    const [isVisible, setIsVisible] = useState(false)
+
    const [selectedQuestionId, setSelectedQuestionId] = useState(null)
+
    const dispatch = useDispatch()
 
    useEffect(() => {
       dispatch(QUESTIONS_THUNK.getTest({ testId }))
-   }, [testId])
+   }, [dispatch, testId])
 
    const handleDeleteQuestion = () => {
       dispatch(
          QUESTIONS_THUNK.deleteQuestion({
             questionId: selectedQuestionId,
+
             testId,
          })
       )
@@ -37,6 +40,7 @@ const Questions = () => {
 
    const handleOpenModal = (questionId) => {
       setSelectedQuestionId(questionId)
+
       setIsVisible((prev) => !prev)
    }
 
@@ -57,29 +61,40 @@ const Questions = () => {
                <Box className="title-container">
                   <Box className="text">
                      <Typography className="title">Title:</Typography>
-                     <Typography>{title}</Typography>
+
+                     <Typography>{questions?.title}</Typography>
                   </Box>
 
                   <Box className="text">
                      <Typography className="title">
                         Short Description:
                      </Typography>
-                     <Typography>{shortDescription}</Typography>
+
+                     <Typography>{questions?.shortDescription}</Typography>
                   </Box>
 
                   <Box className="text">
                      <Typography className="title">Duration:</Typography>
-                     <Typography>{duration}</Typography>
+
+                     <Typography>
+                        {questions && questions.duration
+                           ? questions.duration / 60
+                           : ''}
+                     </Typography>
                   </Box>
                </Box>
             </Box>
 
             <Button icon={<PlusIcon className="plus" />} className="button">
-               ADD MORE QUESTIONS
+               <Link
+                  to={`/admin/tests/questions/${testId}/create-question`}
+                  className="text"
+               >
+                  ADD MORE QUESTIONS
+               </Link>
             </Button>
 
             <Box className="divider" />
-
             <StyledTable>
                <Typography>#</Typography>
 
@@ -90,19 +105,20 @@ const Questions = () => {
                <Typography className="question-type">Question Type</Typography>
             </StyledTable>
 
-            {question.length > 0 ? (
-               question.map(
+            {questions && questions.question.length > 0 ? (
+               questions.question.map(
                   ({ id, title, duration, questionType, enable }, index) => (
                      <StyledBox key={id}>
                         <Typography>{index + 1}</Typography>
+
                         <Typography className="name-props">{title}</Typography>
 
                         <Typography className="duration-props">
-                           {duration}
+                           {duration / 60}
                         </Typography>
 
                         <Typography className="question-type-props">
-                           {questionType}
+                           {questionTypeHandler(questionType)}
                         </Typography>
 
                         <Box className="icons">
@@ -162,7 +178,6 @@ const Questions = () => {
       </StyledContainer>
    )
 }
-
 export default Questions
 
 const StyledContainer = styled(Box)(() => ({
@@ -187,15 +202,20 @@ const StyledContainer = styled(Box)(() => ({
    '& .button': {
       padding: '0.75rem 1.5rem 0.75rem 1rem',
       width: 'auto',
-      gap: '1rem',
+      gap: '0.5rem',
       margin: '0 1.75rem 0 40rem',
-      fontFamily: 'Poppins',
-      fontSize: '14px',
 
       '& .plus': {
-         width: '18px',
-         height: '18px',
+         width: '17px',
+         height: '17px',
          marginTop: '-1rem',
+      },
+
+      '& > .text': {
+         color: 'inherit',
+         textDecoration: 'none',
+         fontFamily: 'Poppins',
+         fontSize: '14px',
       },
 
       '@media (max-width: 768px)': {
@@ -300,7 +320,7 @@ const StyledBox = styled(Box)(() => ({
    },
 
    '&:hover': {
-      backgroundColor: '#f6f6f6',
+      backgroundColor: '#F6F6F6',
    },
 
    '& > .icons': {
@@ -327,15 +347,12 @@ const StyledBox = styled(Box)(() => ({
       '& .name-props': {
          display: 'none',
       },
-
       '& .duration-props': {
          display: 'none',
       },
-
       '& .question-type-props': {
          display: 'none',
       },
-
       '& .icons': {
          justifyContent: 'center',
       },

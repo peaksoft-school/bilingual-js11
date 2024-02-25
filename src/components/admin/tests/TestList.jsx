@@ -2,20 +2,23 @@ import { useEffect, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import Switcher from '../../UI/Switcher'
 import { EditIcon, FalseIcon, TrashIcon } from '../../../assets/icons'
-import { TESTS_THUNK } from '../../../store/slice/admin/tests/testsThunk'
 import { SearchingImage } from '../../../assets/images'
+import { TESTS_THUNK } from '../../../store/slice/admin/tests/testsThunk'
 import Modal from '../../UI/Modal'
 import Button from '../../UI/buttons/Button'
+import Switcher from '../../UI/Switcher'
 
 const TestList = () => {
    const { tests } = useSelector((state) => state.testsSlice)
-   const [isVisible, setIsVisible] = useState(false)
-   const [selectedTestId, setSelectedTestId] = useState(null)
+
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
+
+   const [isVisible, setIsVisible] = useState(false)
+
+   const [selectedTestId, setSelectedTestId] = useState(null)
 
    useEffect(() => {
       dispatch(TESTS_THUNK.getAllTests())
@@ -23,11 +26,13 @@ const TestList = () => {
 
    const handleDeleteTest = (testId) => {
       dispatch(TESTS_THUNK.deleteTest(testId))
+
       setIsVisible(false)
    }
 
    const handleOpenModal = (testId) => {
       setSelectedTestId(testId)
+
       setIsVisible((prev) => !prev)
    }
 

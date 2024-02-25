@@ -28,7 +28,6 @@ import {
    FifthPartnerImage,
    SixthPartnerImage,
 } from '../../assets/images/index'
-import TypeWhatYouHear from '../../pages/admin/type/TypeWhatYouHear'
 
 const OUR_TEAM = [
    {
@@ -385,23 +384,35 @@ const SIGN_UP_INPUTS = [
    },
 ]
 
+const OPTIONS = [
+   {
+      id: 1,
+      title: 'Select real english words',
+   },
+   {
+      id: 2,
+      title: 'Listen and select word',
+   },
+   {
+      id: 3,
+      title: 'Type what you hear',
+   },
+   {
+      id: 4,
+      title: 'Record saying statement',
+   },
+   {
+      id: 5,
+      title: 'Respond in at least N words',
+   },
+]
 const QUESTION_TYPES = {
-   SelectRealEnglishWords: 'Select English words',
-   ListenAndSelect: 'Listen and select English word',
-   TypeWhatYourHear: 'Type what you hear',
-   DescribeImage: 'Describe image',
-   RecordSayingStatement: 'Record saying statement',
-   RespondInAtLeastNWords: 'Respond in at least N words',
-   HighlightTheAnswer: 'Highlight the answer',
-   SelectTheMainIdea: 'Select the main idea',
-   SelectBestTitle: 'Select best title',
+   SelectRealEnglishWords: 'Select real english words',
+   TypeWhatYouHear: 'Type what you hear',
 }
-
-const QUESTION_COMPONENTS = {
-   TYPE_WHAT_YOU_HEAR: TypeWhatYouHear,
-}
-
 export {
+   QUESTION_TYPES,
+   OPTIONS,
    VIDEOS,
    CHECKBOX_IMAGE,
    CHECK_OUT,
@@ -413,6 +424,4 @@ export {
    PARTNERS,
    SIGN_UP_INPUTS,
    TEST_DATA,
-   QUESTION_TYPES,
-   QUESTION_COMPONENTS,
 }

@@ -26,6 +26,7 @@ export const questionsSlice = createSlice({
    name: 'questionsSlice',
    initialState,
    reducers: {},
+
    extraReducers: (builder) => {
       builder
          .addCase(QUESTIONS_THUNK.getTest.pending, (state) => {
@@ -35,7 +36,6 @@ export const questionsSlice = createSlice({
          .addCase(QUESTIONS_THUNK.getTest.fulfilled, (state, action) => {
             state.status = 'succeeded'
             state.questions = action.payload
-            console.log(action.payload)
          })
 
          .addCase(QUESTIONS_THUNK.getTest.rejected, (state, action) => {

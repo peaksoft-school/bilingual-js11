@@ -1,18 +1,40 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import { useRef, useState } from 'react'
-import { useFormik } from 'formik'
+import { useNavigate, useParams } from 'react-router'
+import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { PauseIcon, PlayIcon } from '../../../assets/icons'
-import { axiosInstanceFile } from '../../../configs/axiosInstanceFile'
+import { QUESTION_ACTIONS } from '../../../store/slice/admin/questions/questionSlice'
+import { QUESTION_THUNK } from '../../../store/slice/admin/questions/questionThunk'
+import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Input from '../../../components/UI/Input'
 import Button from '../../../components/UI/buttons/Button'
 
-const TypeWhatYouHear = () => {
+const TypeWhatYouHear = ({
+   duration,
+   setDuration,
+   selectType,
+   title,
+   setTitle,
+   setSelectType,
+}) => {
+   const { fileUrl, isLoading } = useSelector((state) => state.question)
+
+   const { testId } = useParams()
+
+   const dispatch = useDispatch()
+
+   const navigate = useNavigate()
+
    const [fileName, setFileName] = useState('')
 
    const [isPlaying, setIsPlaying] = useState(false)
 
-   const [files, setFiles] = useState('')
+   const [file, setFile] = useState('')
+
+   const [attempts, setAttempts] = useState(0)
+
+   const [correctAnswer, setCorrectAnswer] = useState('')
 
    const audioRef = useRef(null)
 
@@ -25,33 +47,42 @@ const TypeWhatYouHear = () => {
       setIsPlaying(!isPlaying)
    }
 
-   const postFileRequest = async () => {
-      try {
-         const formData = new FormData()
-         formData.append('multipartFile', files)
+   const handleSubmit = () => {
+      if (selectType !== '' && +duration !== +'' && title !== '') {
+         dispatch(QUESTION_ACTIONS.clearOptions())
 
-         await axiosInstanceFile.post('/api/awsFile', formData)
-      } catch (error) {
-         console.error(error)
+         setSelectType('')
+
+         setTitle('')
+
+         setDuration('')
+
+         const requestData = {
+            title,
+            duration: +duration * 60,
+            fileUrl,
+            attempts,
+            correctAnswer,
+         }
+
+         dispatch(
+            QUESTION_THUNK.saveTest({
+               requestData,
+
+               data: {
+                  testId,
+                  questionType: questionTitle('TYPE_WHAT_YOU_HEAR'),
+                  navigate,
+               },
+            })
+         )
       }
    }
-
-   const onSubmit = (values) => {
-      postFileRequest()
-   }
-
-   const { handleSubmit, values, handleChange, setFieldValue } = useFormik({
-      initialValues: {
-         attempts: 0,
-         correctAnswer: '',
-      },
-      onSubmit,
-   })
 
    const handleFileChange = (event) => {
       const file = event.target.files[0]
 
-      setFiles(file)
+      setFile(file)
 
       if (file) {
          const reader = new FileReader()
@@ -60,14 +91,14 @@ const TypeWhatYouHear = () => {
 
          setFileName(file.name)
 
-         setFieldValue(file)
-
          audioRef.current.src = URL.createObjectURL(file)
+
+         dispatch(QUESTION_THUNK.postFileRequest(file))
       }
    }
 
    return (
-      <Container onSubmit={handleSubmit}>
+      <StyledContainer>
          <Box className="content">
             <Box className="replays">
                <InputLabel>
@@ -80,15 +111,15 @@ const TypeWhatYouHear = () => {
                   type="number"
                   name="attempts"
                   inputProps={{ min: 0, max: 15 }}
-                  value={values.attempts}
-                  onChange={handleChange}
+                  value={attempts}
+                  onChange={(event) => setAttempts(event.target.value)}
                />
             </Box>
 
             <Box className="file">
                <Button type="button">
                   <label htmlFor="filedInput" className="label">
-                     {files ? 'REPLACE' : 'UPPLOAD'}
+                     {file ? 'REPLACE' : 'UPPLOAD'}
                   </label>
                </Button>
 
@@ -97,11 +128,10 @@ const TypeWhatYouHear = () => {
                   id="filedInput"
                   name="fileUrl"
                   accept="audio/mp3"
-                  value={values.fileUrl}
                   onChange={handleFileChange}
                />
 
-               {files ? (
+               {file ? (
                   <button
                      type="button"
                      onClick={handleToggle}
@@ -132,28 +162,41 @@ const TypeWhatYouHear = () => {
             <Input
                type="text"
                name="correctAnswer"
-               value={values.correctAnswer}
-               onChange={handleChange}
+               value={correctAnswer}
+               onChange={(event) => setCorrectAnswer(event.target.value)}
             />
          </Box>
 
          <Box className="buttons">
             <Button variant="secondary">GO BACK</Button>
-            <Button variant="primary" onClick={onSubmit}>
+            <Button
+               variant="primary"
+               onClick={handleSubmit}
+               disabled={
+                  !selectType ||
+                  !duration ||
+                  !title ||
+                  !correctAnswer ||
+                  !attempts ||
+                  !file
+               }
+               isLoading={isLoading}
+            >
                SAVE
             </Button>
          </Box>
-      </Container>
+      </StyledContainer>
    )
 }
 
 export default TypeWhatYouHear
 
-const Container = styled('form')(() => ({
+const StyledContainer = styled(Box)(() => ({
    display: 'flex',
    flexDirection: 'column',
    marginTop: '2rem',
-   gap: '2rem',
+   gap: '1rem',
+   width: '90%',
 
    '& > .content': {
       display: 'flex',
