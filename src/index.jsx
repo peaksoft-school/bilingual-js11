@@ -8,8 +8,10 @@ import Notification from './components/Notification'
 import './index.css'
 import { injectStore } from './configs/axiosInstance'
 import store, { persistor } from './store/store'
+import { fileInjectStore } from './configs/axiosInstanceFile'
 
 injectStore(store)
+fileInjectStore(store)
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
@@ -19,7 +21,6 @@ root.render(
          <PersistGate loading={null} persistor={persistor}>
             <Themes>
                <Notification />
-
                <App />
             </Themes>
          </PersistGate>

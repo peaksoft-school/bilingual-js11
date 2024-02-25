@@ -1,12 +1,16 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 import { useState, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { v4 as uuidv4 } from 'uuid'
 import { styled, Box, Typography } from '@mui/material'
 import Modal from '../../../components/UI/Modal'
 import Button from '../../../components/UI/buttons/Button'
-import TestContainer from '../../../components/UI/TestContainer'
-import CardOption from '../../../components/UI/CardOption'
 import Input from '../../../components/UI/Input'
-import { deleteQuestion } from '../../../store/slice/admin/questionsSlice'
+import CardOption from '../../../components/UI/CardOption'
+import { QUESTIONS_ACTIONS } from '../../../store/slice/admin/questionSlice'
+import { QUESTION_THUNK } from '../../../store/slice/admin/questionThunk'
+import { questionTitle } from '../../../utils/helpers/questionTitle'
 
 import {
    CancelIcon,
@@ -15,186 +19,327 @@ import {
    SoundIcon,
 } from '../../../assets/icons'
 
-const ListenAndSelectEnglishWord = () => {
-   const [isOpenModal, setIsOpenModal] = useState(false)
-   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
-   const [selectedFiles, setSelectedFiles] = useState([])
-   const [selectedQuestionId, setSelectedQuestionId] = useState(null)
-   const [fileUploaded, setFileUploaded] = useState(false)
-   const [title, setTitle] = useState('')
-   const [option, setOption] = useState([])
-   const [isChecked, setIsChecked] = useState(false)
+const ListenAndSelectEnglishWord = ({
+   duration,
+   setDuration,
+   selectType,
+   title,
+   setTitle,
+   setSelectType,
+}) => {
+   const { option, fileUrl, isLoading } = useSelector((state) => state.question)
 
-   const fileInputRef = useRef(null)
+   const [isOpenModalSave, setIsOpenModalSave] = useState(false)
+
+   const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
+
+   const [files, setFiles] = useState([])
+
+   const [fileUploaded, setFileUploaded] = useState(false)
+
+   const [optionTitle, setOptionTitle] = useState('')
+
+   const [checkOption, setCheckOption] = useState(false)
+
+   const [optionId, setOptionId] = useState(null)
+
+   const [isPlaying, setIsPlaying] = useState(false)
+
+   const { testId } = useParams()
+
+   const audioRef = useRef(null)
+
+   const navigate = useNavigate()
+
    const dispatch = useDispatch()
 
-   const isFormValid = title !== '' && selectedFiles.length !== 0
+   const openModalDelete = () => setIsOpenModalDelete((prevState) => !prevState)
 
-   const handleModal = () => {
-      setIsOpenModal((prev) => !prev)
+   const handleChangeInput = (e) => setOptionTitle(e.target.value)
+
+   const handleUploadButtonClick = () => audioRef.current.click()
+
+   const isFormValid =
+      optionTitle.trim() !== '' && fileUploaded !== false && isLoading !== true
+
+   const openModalSave = () => {
+      setIsOpenModalSave((prevState) => !prevState)
+      setFileUploaded(false)
+      setOptionTitle('')
    }
 
-   const handleUploadButtonClick = () => {
-      fileInputRef.current.click()
-   }
+   const fileChangeHandler = (event) => {
+      const file = event.target.files[0]
 
-   const handleFileChange = ({ target: { files } }) => {
-      if (files) {
-         setSelectedFiles(Array.from(files))
+      setFiles([file])
+
+      if (file) {
+         const reader = new FileReader()
+
+         reader.readAsDataURL(file)
+
+         audioRef.current.src = URL.createObjectURL(file)
       }
+
+      dispatch(QUESTION_THUNK.postFileRequest({ files: file }))
+
       setFileUploaded(true)
    }
 
-   const handleSave = () => {
-      const id = Math.random()
+   const addOptionHandler = () => {
+      const data = {
+         optionTitle,
+         isCorrect: checkOption,
+         id: uuidv4(),
+         fileUrl,
+      }
 
+      dispatch(QUESTIONS_ACTIONS.addOption(data))
+
+      openModalSave()
+      setOptionTitle('')
+      setCheckOption(false)
       setFileUploaded(false)
-      setOption([...option, { id, title, selectedFiles }])
-      setTitle('')
-      setSelectedFiles([])
-      setIsOpenModal(false)
    }
 
-   const handleDeleteModal = (id) => {
-      setSelectedQuestionId(id)
-      setIsOpenDeleteModal(true)
+   const deleteOption = () => {
+      dispatch(QUESTIONS_ACTIONS.deleteOption(optionId))
+      setIsOpenModalDelete((prevState) => !prevState)
    }
 
-   const handleDelete = () => {
-      setOption((prevOptions) =>
-         prevOptions.filter((opt) => opt.id !== selectedQuestionId)
-      )
-      setIsOpenDeleteModal(true)
+   const handleChecked = (id) => {
+      dispatch(QUESTIONS_ACTIONS.changeTrueOption(id))
    }
 
-   const handleToggle = (id) => {
-      setIsChecked((prevState) => ({
-         ...prevState,
-         [id]: !prevState[id],
-      }))
+   const handleToggle = () => {
+      if (isPlaying) {
+         audioRef.current.pause()
+      } else {
+         audioRef.current.play()
+      }
+
+      setIsPlaying(!isPlaying)
+   }
+
+   const saveTestQuestion = () => {
+      if (selectType !== '' && +duration !== +'' && title !== '') {
+         dispatch(QUESTIONS_ACTIONS.clearOptions())
+
+         setSelectType('')
+         setTitle('')
+         setDuration('')
+
+         const requestData = {
+            title,
+            duration: +duration * 60,
+            option,
+         }
+
+         dispatch(
+            QUESTION_THUNK.saveTest({
+               requestData,
+               data: {
+                  testId,
+                  questionType: questionTitle('LISTEN_AND_SELECT_WORD'),
+                  navigate,
+               },
+            })
+         )
+      }
    }
 
    return (
-      <TestContainer>
-         <StyledContainer>
-            <Button onClick={handleModal} icon={<PlusIcon />}>
+      <StyledContainer>
+         <Box className="add-button">
+            <Button
+               onClick={openModalSave}
+               icon={<PlusIcon className="plus-icon" />}
+            >
                ADD OPTIONS
             </Button>
+         </Box>
 
-            <Box className="selected-files">
-               {option.map((data, index) => (
-                  <CardOption
-                     key={data.id}
-                     index={index}
-                     icon={<SoundIcon />}
-                     title={data.title}
-                     isVisible={setIsOpenDeleteModal}
-                     isCorrect={isChecked}
-                     handleToggle={() => handleToggle(data.id)}
-                     onClick={() => handleDeleteModal(data.id)}
-                  />
-               ))}
-            </Box>
-
-            <Modal
-               isCloseIcon
-               handleIsVisible={() => setIsOpenModal(false)}
-               isVisible={isOpenModal}
-            >
-               <StyledModal>
-                  <CancelIcon onClick={handleModal} className="cancel" />
-
-                  <Box className="content-modal-save">
-                     <Typography className="title" variant="label">
-                        Title
-                     </Typography>
-
-                     <Input
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
+         <Box className="cards">
+            {option.map((data, index) => (
+               <CardOption
+                  key={data.id}
+                  index={index}
+                  item={data}
+                  openModal={setIsOpenModalDelete}
+                  handleChecked={handleChecked}
+                  setOptionId={setOptionId}
+                  icon={
+                     <SoundIcon
+                        onClick={handleToggle}
+                        className={`play-pause-icon ${
+                           isPlaying ? 'playing' : ''
+                        }`}
                      />
-                  </Box>
+                  }
+               />
+            ))}
+         </Box>
 
-                  <input
-                     ref={fileInputRef}
-                     type="file"
-                     multiple
-                     accept="audio/*"
-                     onChange={handleFileChange}
-                     className="upload-input"
-                     style={{ display: 'none' }}
-                  />
+         <audio ref={audioRef} className="audio" type="audio/mp3" controls />
 
-                  <Box className="upload">
-                     <Button
-                        onClick={handleUploadButtonClick}
-                        variant="secondary"
+         <Box className="buttons">
+            <Button variant="secondary" onClick={() => navigate(-1)}>
+               GO BACK
+            </Button>
+
+            <Button
+               variant="primary"
+               disabled={
+                  !selectType || !duration || !title || option.length === 0
+               }
+               onClick={saveTestQuestion}
+            >
+               SAVE
+            </Button>
+         </Box>
+
+         <Modal
+            isCloseIcon
+            handleIsVisible={openModalSave}
+            isVisible={isOpenModalSave}
+         >
+            <StyledModal>
+               <CancelIcon onClick={openModalSave} className="cancel" />
+
+               <Box className="content-modal-save">
+                  <Typography className="title" variant="label">
+                     Title
+                  </Typography>
+
+                  <Input value={optionTitle} onChange={handleChangeInput} />
+               </Box>
+
+               <input
+                  type="file"
+                  accept="audio/mp3"
+                  id="filed-input"
+                  onChange={fileChangeHandler}
+                  className="upload-input"
+               />
+
+               <Box className="upload">
+                  <Button onClick={handleUploadButtonClick} variant="secondary">
+                     <label
+                        htmlFor="filed-input"
+                        className="uploading-button-text"
                      >
                         Upload audio file
-                     </Button>
-
-                     {!fileUploaded && (
-                        <Typography>File_name_of_the_audio_file.mp3</Typography>
-                     )}
-
-                     {selectedFiles.map((file) => (
-                        <Typography key={file.name}>{file.name}</Typography>
-                     ))}
-                  </Box>
-
-                  <Box className="buttons-modal-container">
-                     <Button
-                        onClick={() => setIsOpenModal(false)}
-                        variant="secondary"
-                     >
-                        GO BACK
-                     </Button>
-
-                     <Button
-                        onClick={handleSave}
-                        variant="primary"
-                        disabled={!isFormValid}
-                     >
-                        SAVE
-                     </Button>
-                  </Box>
-               </StyledModal>
-            </Modal>
-
-            <Modal
-               isCloseIcon
-               isVisible={isOpenDeleteModal}
-               handleIsVisible={() => setIsOpenDeleteModal(false)}
-            >
-               <FalseIcon />
-
-               <Typography className="modal-title">
-                  Do you want to delete?
-               </Typography>
-
-               <Typography className="modal-message">
-                  You can`t restore
-               </Typography>
-
-               <Box className="container-buttons">
-                  <Button
-                     variant="secondary"
-                     onClick={() => setIsOpenDeleteModal(false)}
-                  >
-                     CANCEL
+                     </label>
                   </Button>
 
-                  <Button onClick={handleDelete}>DELETE</Button>
+                  {!fileUploaded ? (
+                     <Typography className="file-name">
+                        File_name_of_the_audio_file.mp3
+                     </Typography>
+                  ) : (
+                     files.map((file) => (
+                        <Typography key={file.name} className="file-name">
+                           {file.name}
+                        </Typography>
+                     ))
+                  )}
                </Box>
-            </Modal>
-         </StyledContainer>
-      </TestContainer>
+
+               <Box className="buttons-modal-container">
+                  <Button onClick={openModalSave} variant="secondary">
+                     GO BACK
+                  </Button>
+
+                  <Button
+                     onClick={addOptionHandler}
+                     variant="primary"
+                     disabled={!isFormValid}
+                     isLoading={isLoading}
+                     colorLoading="secondary"
+                  >
+                     SAVE
+                  </Button>
+               </Box>
+            </StyledModal>
+         </Modal>
+
+         <Modal
+            isCloseIcon
+            isVisible={isOpenModalDelete}
+            handleIsVisible={openModalDelete}
+         >
+            <FalseIcon />
+
+            <Typography className="modal-title">
+               Do you want to delete?
+            </Typography>
+
+            <Typography className="modal-message">You can`t restore</Typography>
+
+            <Box className="container-buttons">
+               <Button variant="secondary" onClick={openModalDelete}>
+                  CANCEL
+               </Button>
+
+               <Button onClick={deleteOption}>DELETE</Button>
+            </Box>
+         </Modal>
+      </StyledContainer>
    )
 }
 
 export default ListenAndSelectEnglishWord
 
-const StyledContainer = styled(Box)(() => ({}))
+const StyledContainer = styled(Box)(({ theme }) => ({
+   '& .selected-files': {
+      display: 'flex',
+
+      '& .play-pause-icon': {
+         cursor: 'pointer',
+      },
+   },
+
+   '& .audio': {
+      display: 'none',
+   },
+
+   '& > .add-button': {
+      margin: '2rem 0 1.375rem 41.5rem',
+
+      '& .plus-icon': {
+         width: '1rem',
+         marginBottom: '0.2rem',
+         marginRight: '0.6rem',
+      },
+   },
+
+   '& .buttons': {
+      display: 'flex',
+      gap: '1.1rem',
+      marginLeft: '37.5rem',
+   },
+
+   '& .cards': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: '1.1rem',
+      margin: '1.5rem 0 2rem 0',
+   },
+
+   '& .play-pause-icon': {
+      cursor: 'pointer',
+   },
+
+   '& .playing': {
+      cursor: ' pointer',
+
+      '& path': {
+         fill: theme.palette.primary.main,
+      },
+   },
+}))
 
 const StyledModal = styled(Box)(() => ({
    position: 'absolute',
@@ -207,7 +352,7 @@ const StyledModal = styled(Box)(() => ({
 
    '& .cancel': {
       cursor: 'pointer',
-      marginLeft: ' 34rem',
+      marginLeft: ' 36rem',
       marginTop: ' 1rem',
    },
 
@@ -229,13 +374,26 @@ const StyledModal = styled(Box)(() => ({
       },
    },
 
+   '& .upload-input': {
+      display: 'none',
+   },
+
    '& .upload': {
       display: 'flex',
       alignItems: 'center',
       gap: '1.5rem',
       marginLeft: '3rem',
       marginBottom: '4rem',
-      marginTop: '-1.7rem',
+      marginTop: '-1rem',
+
+      '& .file-name': {
+         width: '14rem',
+      },
+
+      '& .uploading-button-text': {
+         fontFamily: 'Poppins',
+         fontWeight: 600,
+      },
    },
 
    '& .buttons-modal-container': {

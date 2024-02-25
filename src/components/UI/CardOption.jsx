@@ -1,34 +1,42 @@
+import { useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
-import Checkbox from './Checkbox'
 import { TrashIcon } from '../../assets/icons'
+import Checkbox from './Checkbox'
 
 const CardOption = ({
-   title,
-   id,
+   item,
+   handleChecked,
+   openModal,
+   setOptionId,
    index,
-   isChecked,
    icon,
-   handleToggle,
-   isVisible,
 }) => {
-   const handleModal = () => {
-      isVisible((prev) => !prev)
+   const [isChecked, setIsChecked] = useState(item.isCorrect)
+
+   const handleCheckboxChange = (e) => {
+      const newCheckedValue = e.target.checked
+
+      setIsChecked(newCheckedValue)
+      handleChecked(e, item.id, newCheckedValue)
+   }
+
+   const handleOpen = (id) => {
+      openModal((prev) => !prev)
+      setOptionId(id)
    }
 
    return (
-      <StyledBox>
+      <StyledBox key={item.id}>
          <Box className="advantage-block">
             <Typography>{index + 1}</Typography>
-
-            {icon && <span>{icon}</span>}
-
-            <Typography>{title}</Typography>
+            <Box>{icon}</Box>
+            <Typography>{item.optionTitle}</Typography>
          </Box>
 
          <Box className="check-trash-block">
-            <Checkbox onClick={() => handleToggle(id)} checked={isChecked} />
+            <Checkbox onClick={handleCheckboxChange} checked={isChecked} />
 
-            <TrashIcon className="trash-icon" onClick={handleModal} />
+            <TrashIcon className="trash" onClick={() => handleOpen(item.id)} />
          </Box>
       </StyledBox>
    )
@@ -38,13 +46,13 @@ export default CardOption
 
 const StyledBox = styled(Box)(() => ({
    display: 'flex',
-   width: '261px',
    height: '46px',
    border: '1.8px solid #BDBDBD',
    borderRadius: '8px',
    justifyContent: 'center',
    alignItems: 'center',
    gap: '3.85rem',
+   padding: '1rem',
 
    '& .advantage-block': {
       display: 'flex',
@@ -58,7 +66,13 @@ const StyledBox = styled(Box)(() => ({
       gap: '0.5rem',
    },
 
-   '& .trash-icon': {
+   '& .trash': {
       cursor: 'pointer',
+   },
+
+   '& .trash:hover': {
+      '& > path ': {
+         stroke: '#F61414',
+      },
    },
 }))
