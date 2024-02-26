@@ -384,7 +384,39 @@ const SIGN_UP_INPUTS = [
    },
 ]
 
+const OPTIONS = [
+   {
+      id: 1,
+      title: 'Select real english words',
+   },
+   {
+      id: 2,
+      title: 'Listen and select word',
+   },
+   {
+      id: 3,
+      title: 'Type what you hear',
+   },
+   {
+      id: 4,
+      title: 'Record saying statement',
+   },
+   {
+      id: 5,
+      title: 'Respond in at least N words',
+   },
+   {
+      id: 6,
+      title: 'Highlight the answer',
+   },
+]
+const QUESTION_TYPES = {
+   SelectRealEnglishWords: 'Select real english words',
+   HighlightTheAnswer: 'Highlight the answer',
+}
 export {
+   QUESTION_TYPES,
+   OPTIONS,
    VIDEOS,
    CHECKBOX_IMAGE,
    CHECK_OUT,
