@@ -7,8 +7,8 @@ import { EditIcon, FalseIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
 import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
 import { SearchingImage } from '../../../assets/images'
-import { QUESTIONS_THUNK } from '../../../store/slice/admin/questionsThunk'
 import Modal from '../../../components/UI/Modal'
+import { QUESTIONS_THUNK } from '../../../store/slice/admin/questionsThunk'
 
 const Questions = () => {
    const { questions } = useSelector((state) => state.questionsSlice)
@@ -50,29 +50,38 @@ const Questions = () => {
    return (
       <StyledContainer>
          <TestContainer>
-            <Box key={questions.id}>
+            <Box>
                <Box className="title-container">
                   <Box className="text">
                      <Typography className="title">Title:</Typography>
-                     <Typography>{questions.title}</Typography>
+                     <Typography>{questions?.title}</Typography>
                   </Box>
 
                   <Box className="text">
                      <Typography className="title">
                         Short Description:
                      </Typography>
-                     <Typography>{questions.shortDescription}</Typography>
+                     <Typography>{questions?.shortDescription}</Typography>
                   </Box>
 
                   <Box className="text">
                      <Typography className="title">Duration:</Typography>
-                     <Typography>{questions.duration}</Typography>
+                     <Typography>
+                        {questions && questions.duration
+                           ? questions.duration / 60
+                           : ''}
+                     </Typography>
                   </Box>
                </Box>
             </Box>
 
             <Button icon={<PlusIcon className="plus" />} className="button">
-               ADD MORE QUESTIONS
+               <Link
+                  to={`/admin/tests/questions/${testId}/create-question`}
+                  className="text"
+               >
+                  ADD MORE QUESTIONS
+               </Link>
             </Button>
 
             <Box className="divider" />
@@ -87,7 +96,7 @@ const Questions = () => {
                <Typography className="question-type">Question Type</Typography>
             </StyledTable>
 
-            {questions.question.length > 0 ? (
+            {questions && questions.question.length > 0 ? (
                questions.question.map(
                   ({ id, title, duration, questionType, enable }, index) => (
                      <StyledBox key={id}>
@@ -95,7 +104,7 @@ const Questions = () => {
                         <Typography className="name-props">{title}</Typography>
 
                         <Typography className="duration-props">
-                           {duration}
+                           {duration / 60}
                         </Typography>
 
                         <Typography className="question-type-props">
@@ -184,15 +193,20 @@ const StyledContainer = styled(Box)(() => ({
    '& .button': {
       padding: '0.75rem 1.5rem 0.75rem 1rem',
       width: 'auto',
-      gap: '1rem',
+      gap: '0.5rem',
       margin: '0 1.75rem 0 40rem',
-      fontFamily: 'Poppins',
-      fontSize: '14px',
 
       '& .plus': {
-         width: '18px',
-         height: '18px',
+         width: '17px',
+         height: '17px',
          marginTop: '-1rem',
+      },
+
+      '& > .text': {
+         color: 'inherit',
+         textDecoration: 'none',
+         fontFamily: 'Poppins',
+         fontSize: '14px',
       },
 
       '@media (max-width: 768px)': {

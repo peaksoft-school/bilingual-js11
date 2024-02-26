@@ -84,7 +84,6 @@ const updateQuestionByEnable = createAsyncThunk(
          const response = await axiosInstance.patch(
             `/api/question/IsEnable?questionId=${questionId}&isEnable=${isEnable}`
          )
-
          return response.data
       } catch (error) {
          return rejectWithValue.message

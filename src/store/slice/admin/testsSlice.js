@@ -18,7 +18,6 @@ export const testsSlice = createSlice({
          })
 
          .addCase(TESTS_THUNK.getAllTests.fulfilled, (state, action) => {
-            console.log(action)
             state.status = 'succeeded'
             state.tests = action.payload
          })
