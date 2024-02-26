@@ -405,9 +405,14 @@ const OPTIONS = [
       id: 5,
       title: 'Respond in at least N words',
    },
+   {
+      id: 8,
+      title: 'Select the best title',
+   },
 ]
 const QUESTION_TYPES = {
    SelectRealEnglishWords: 'Select real english words',
+   SeclectTheBestTitle: 'Select the best title',
 }
 export {
    QUESTION_TYPES,

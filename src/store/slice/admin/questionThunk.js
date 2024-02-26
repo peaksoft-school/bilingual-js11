@@ -2,7 +2,7 @@ import { AxiosError } from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstance } from '../../../configs/axiosInstance'
 
-export const saveTest = createAsyncThunk(
+const saveTest = createAsyncThunk(
    'question/saveTest',
 
    async (
@@ -21,7 +21,10 @@ export const saveTest = createAsyncThunk(
          if (AxiosError(error)) {
             return rejectWithValue(error.response?.data.message)
          }
+
          return rejectWithValue('Something went wrong')
       }
    }
 )
+
+export const QUESTION_THUNK = { saveTest }

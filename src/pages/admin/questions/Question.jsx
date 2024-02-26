@@ -2,8 +2,8 @@ import { useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
-import { questionActions } from '../../../store/slice/admin/questionSlice'
 import { OPTIONS } from '../../../utils/constants'
+import { QUESTION_ACTIONS } from '../../../store/slice/admin/questionSlice'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Input from '../../../components/UI/Input'
 import TypeTest from '../TypeTest'
@@ -32,7 +32,7 @@ const Question = () => {
    const inputDurationHandler = (e) => setDuration(e.target.value)
 
    useEffect(() => {
-      dispatch(questionActions.updateOptions(option || []))
+      dispatch(QUESTION_ACTIONS.updateOptions(option || []))
    }, [])
 
    return (

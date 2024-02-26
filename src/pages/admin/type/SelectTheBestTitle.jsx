@@ -1,18 +1,19 @@
 import { useState } from 'react'
-import { Box, Input, Typography, styled } from '@mui/material'
-import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { Box, TextField, Typography, styled } from '@mui/material'
+import { useNavigate, useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/questionSlice'
-import { QUESTION_THUNK } from '../../../store/slice/admin/questionThunk'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
-import CardOption from '../../../components/UI/CardOption'
+import { QUESTION_THUNK } from '../../../store/slice/admin/questionThunk'
 import Button from '../../../components/UI/buttons/Button'
+import CardOption from '../../../components/UI/CardOption'
 import Modal from '../../../components/UI/Modal'
 import Checkbox from '../../../components/UI/Checkbox'
+import Input from '../../../components/UI/Input'
 
-const SelectRealEnglish = ({
+const SelectTheBestTitle = ({
    duration,
    setDuration,
    selectType,
@@ -38,13 +39,22 @@ const SelectRealEnglish = ({
 
    const [optionId, setOptionId] = useState(null)
 
+   const [passage, setPassage] = useState('')
+
    const handleChangeInput = (e) => setOptionTitle(e.target.value)
+
+   const handleChangeTextArea = (e) => setPassage(e.target.value)
 
    const changeCheckbox = (e) => setCheckOption(e.target.checked)
 
    const openModalDelete = () => setIsOpenModalDelete((prevState) => !prevState)
 
-   const openModalSave = () => setIsOpenModalSave((prevState) => !prevState)
+   const openModalSave = () => {
+      setIsOpenModalSave((prevState) => !prevState)
+      setOptionTitle('')
+      setCheckOption('')
+   }
+
    const deleteTest = () => {
       dispatch(QUESTION_ACTIONS.deleteOption(optionId))
       setIsOpenModalDelete((prevState) => !prevState)
@@ -61,10 +71,12 @@ const SelectRealEnglish = ({
          setSelectType('')
          setTitle('')
          setDuration('')
+         setPassage('')
 
          const requestData = {
-            title,
+            title: title.trim(),
             duration: +duration * 60,
+            passage: passage.trim(),
             option,
          }
 
@@ -97,45 +109,62 @@ const SelectRealEnglish = ({
    }
 
    return (
-      <>
-         <StyledContainer>
-            <Box className="add-button">
-               <Button
-                  onClick={openModalSave}
-                  icon={<PlusIcon className="icon" />}
-               >
-                  Add Options
-               </Button>
-            </Box>
+      <StyledContainer>
+         <Box className="passage">
+            <Typography className="title">Passage</Typography>
 
-            <Box className="cards">
-               {option?.map((item, i) => (
-                  <CardOption
-                     key={item.id}
-                     item={item}
-                     index={i}
-                     handleChecked={handleChecked}
-                     openModal={setIsOpenModalDelete}
-                     setOptionId={setOptionId}
-                  />
-               ))}
-            </Box>
+            <TextField
+               multiline
+               value={passage}
+               onChange={handleChangeTextArea}
+               name="text"
+               fullWidth
+            />
+         </Box>
 
-            <Box className="buttons">
-               <Button variant="secondary" onClick={() => navigate(-1)}>
-                  GO BACK
-               </Button>
-               <Button
-                  variant="primary"
-                  disabled={
-                     !selectType || !duration || !title || option.length === 0
-                  }
-                  onClick={saveTestQuestion}
-               >
-                  SAVE
-               </Button>
-            </Box>
-         </StyledContainer>
+         <Box className="add-button">
+            <Button
+               onClick={openModalSave}
+               icon={<PlusIcon className="icon" />}
+            >
+               Add Options
+            </Button>
+         </Box>
+
+         <Box className="cards">
+            {option?.map((item, i) => (
+               <CardOption
+                  className="card-option"
+                  key={item.id}
+                  item={item}
+                  index={i}
+                  isRadio
+                  handleChecked={handleChecked}
+                  openModal={setIsOpenModalDelete}
+                  setOptionId={setOptionId}
+               />
+            ))}
+         </Box>
+
+         <Box className="buttons">
+            <Button variant="secondary" onClick={() => navigate(-1)}>
+               GO BACK
+            </Button>
+
+            <Button
+               variant="primary"
+               disabled={
+                  !selectType ||
+                  !duration ||
+                  !title ||
+                  option.length === 0 ||
+                  !passage.trim()
+               }
+               onClick={saveTestQuestion}
+            >
+               SAVE
+            </Button>
+         </Box>
 
          <Modal
             isCloseIcon
@@ -174,7 +203,7 @@ const SelectRealEnglish = ({
 
                   <Input
                      type="text"
-                     placeholder="Select real English words"
+                     placeholder="Select the main idea"
                      value={optionTitle}
                      onChange={handleChangeInput}
                   />
@@ -206,13 +235,15 @@ const SelectRealEnglish = ({
                </Box>
             </StyledModalSave>
          </Modal>
-      </>
+      </StyledContainer>
    )
 }
 
-export default SelectRealEnglish
+export default SelectTheBestTitle
 
-const StyledContainer = styled(Box)(() => ({
+const StyledContainer = styled(Box)(({ theme }) => ({
+   width: '820px',
+
    '& .add-button': {
       margin: '2rem 0 1.375rem 41.5rem',
 
@@ -222,26 +253,38 @@ const StyledContainer = styled(Box)(() => ({
       },
    },
 
+   '& > .passage': {
+      marginTop: '1.6rem',
+
+      '& .MuiOutlinedInput-root': {
+         borderRadius: '8px',
+         fontWeight: 400,
+
+         '&.Mui-focused fieldset': {
+            border: `1.53px solid ${theme.palette.primary.main}`,
+         },
+
+         '&:hover fieldset': {
+            border: `1px solid ${theme.palette.primary.main}`,
+         },
+      },
+   },
+
    '& .cards': {
       display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'center',
-      alignItems: 'center',
+      justifyContent: 'start',
+      flexDirection: 'column',
       gap: '1.1rem',
       margin: '1.5rem 0 2rem 0',
+      width: '820px',
+
+      '& .card-option': {},
    },
 
    '& .buttons': {
       display: 'flex',
       gap: '1.1rem',
-      marginLeft: '37.5rem',
-
-      '& .text': {
-         textDecoration: 'none',
-         color: 'inherit',
-         fontFamily: 'Poppins',
-         fontWeight: '700',
-      },
+      marginLeft: '37.4rem',
    },
 }))
 

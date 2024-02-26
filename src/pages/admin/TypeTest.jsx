@@ -1,5 +1,6 @@
 import { QUESTION_TYPES } from '../../utils/constants'
 import SelectRealEnglish from './type/SelectRealEnglish'
+import SelectTheBestTitle from './type/SelectTheBestTitle'
 
 const TypeTest = ({
    duration,
@@ -13,6 +14,18 @@ const TypeTest = ({
       case QUESTION_TYPES.SelectRealEnglishWords:
          return (
             <SelectRealEnglish
+               duration={duration}
+               setDuration={setDuration}
+               selectType={selectType}
+               title={title}
+               setTitle={setTitle}
+               setSelectType={setSelectType}
+            />
+         )
+
+      case QUESTION_TYPES.SeclectTheBestTitle:
+         return (
+            <SelectTheBestTitle
                duration={duration}
                setDuration={setDuration}
                selectType={selectType}
