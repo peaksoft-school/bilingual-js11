@@ -157,7 +157,7 @@ const SelectTheMainIdea = ({
                   !selectType ||
                   !duration ||
                   !title ||
-                  option.length.trim() === 0 ||
+                  option.length === 0 ||
                   !passage.trim()
                }
                onClick={saveTestQuestion}

@@ -22,8 +22,8 @@ const CardOption = ({
    }
 
    const handleRadioChange = () => {
-      setIsChecked(!isChecked)
-      handleChecked(setOptionId, item.id, !isChecked)
+      setIsChecked((prev) => !prev)
+      handleChecked(item.id)
    }
 
    const handleOpen = (id) => {
@@ -56,13 +56,12 @@ export default CardOption
 
 const StyledBox = styled(Box)(() => ({
    display: 'flex',
-   height: '46px',
    border: '1.8px solid #BDBDBD',
    borderRadius: '8px',
    justifyContent: 'center',
    alignItems: 'center',
    gap: '3.85rem',
-   padding: '1rem',
+   padding: '0.5rem 1rem 0.5rem 1rem ',
 
    '& .advantage-block': {
       display: 'flex',
