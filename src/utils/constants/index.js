@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-filename-extension */
 import FirstVideo from '../../assets/videos/first-video.mp4'
 import SecondVideo from '../../assets/videos/second-video.mp4'
 import ThirdVideo from '../../assets/videos/third-video.mp4'
@@ -29,7 +28,6 @@ import {
    FifthPartnerImage,
    SixthPartnerImage,
 } from '../../assets/images/index'
-import { TrashIcon } from '../../assets/icons'
 
 const OUR_TEAM = [
    {
@@ -285,85 +283,6 @@ const QUESTIONS = [
    },
 ]
 
-const FAKE_DATA = [
-   {
-      id: 1,
-      dateOfSubmission: '11.01.2021',
-      testName: 'English advanced test',
-      resultStatus: 'Not evaluated',
-      score: 0,
-      icon: <TrashIcon />,
-   },
-   {
-      id: 2,
-      dateOfSubmission: '21.01.2021',
-      testName: 'English advanced test',
-      resultStatus: 'Not evaluated',
-      score: 0,
-      icon: <TrashIcon />,
-   },
-   {
-      id: 3,
-      dateOfSubmission: '21.01.2021',
-      testName: 'English advanced test',
-      resultStatus: 'Evaluated',
-      score: 7,
-      icon: <TrashIcon />,
-   },
-   {
-      id: 4,
-      dateOfSubmission: '21.01.2021',
-      testName: 'English advanced test',
-      resultStatus: 'Evaluated',
-      score: 7,
-      icon: <TrashIcon />,
-   },
-]
-
-const COLUMNS = [
-   {
-      Header: '#',
-      accessor: 'id',
-   },
-   {
-      Header: 'Date of Submition',
-      accessor: 'dateOfSubmission',
-   },
-   {
-      Header: 'Test name',
-      accessor: 'testName',
-   },
-   {
-      Header: 'Status',
-      accessor: 'resultStatus',
-   },
-   {
-      Header: 'Score',
-      accessor: 'score',
-   },
-   {
-      Header: ' ',
-      accessor: 'icon',
-   },
-]
-
-const TEST_DATA = [
-   {
-      id: 1,
-      title: 'Select the real Englisg word in the list...',
-      duration: '1 min',
-      questionType: 'Multiple Choice',
-      enable: false,
-   },
-   {
-      id: 2,
-      title: 'Select the real Englisg word in the list...',
-      duration: '1 min',
-      questionType: 'Essay',
-      enable: !false,
-   },
-]
-
 const CHECKBOX_IMAGE =
    "\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12 5c-.28 0-.53.11-.71.29L7 9.59l-2.29-2.3a1.003 1.003 0 00-1.42 1.42l3 3c.18.18.43.29.71.29s.53-.11.71-.29l5-5A1.003 1.003 0 0012 5z' fill='%23fff'/%3E%3C/svg%3E\""
 
@@ -425,9 +344,6 @@ export {
    FEEDBACKS,
    OUR_TEAM,
    QUESTIONS,
-   COLUMNS,
-   FAKE_DATA,
    PARTNERS,
    SIGN_UP_INPUTS,
-   TEST_DATA,
 }
