@@ -19,6 +19,8 @@ const Table = ({ columns: headers, data }) => {
          data,
       })
 
+   console.log(rows)
+
    return (
       <StyledTableContainer>
          <StyledTable {...getTableProps()}>
@@ -58,7 +60,22 @@ const Table = ({ columns: headers, data }) => {
                               })}
                               key={cell.column.id}
                            >
-                              {cell.render('Cell')}
+                              {cell.column.id === 'resultStatus' ||
+                              cell.column.id === 'score' ? (
+                                 <span
+                                    style={{
+                                       color:
+                                          row.original.resultStatus ===
+                                          'Evaluated'
+                                             ? 'green'
+                                             : 'red',
+                                    }}
+                                 >
+                                    {cell.render('Cell')}
+                                 </span>
+                              ) : (
+                                 cell.render('Cell')
+                              )}
                            </StyledCellTd>
                         ))}
                      </StyledCellTr>

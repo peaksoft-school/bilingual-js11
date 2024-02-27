@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-filename-extension */
 import FirstVideo from '../../assets/videos/first-video.mp4'
 import SecondVideo from '../../assets/videos/second-video.mp4'
 import ThirdVideo from '../../assets/videos/third-video.mp4'
@@ -28,6 +29,7 @@ import {
    FifthPartnerImage,
    SixthPartnerImage,
 } from '../../assets/images/index'
+import { TrashIcon } from '../../assets/icons'
 
 const OUR_TEAM = [
    {
@@ -286,31 +288,35 @@ const QUESTIONS = [
 const FAKE_DATA = [
    {
       id: 1,
-      date: '11.01.2021',
-      test: 'English advanced test',
-      status: 'Not evaluated',
+      dateOfSubmission: '11.01.2021',
+      testName: 'English advanced test',
+      resultStatus: 'Not evaluated',
       score: 0,
+      icon: <TrashIcon />,
    },
    {
       id: 2,
-      date: '21.01.2021',
-      test: 'English advanced test',
-      status: 'Not evaluated',
+      dateOfSubmission: '21.01.2021',
+      testName: 'English advanced test',
+      resultStatus: 'Not evaluated',
       score: 0,
+      icon: <TrashIcon />,
    },
    {
       id: 3,
-      date: '21.01.2021',
-      test: 'English advanced test',
-      status: 'Evaluated',
+      dateOfSubmission: '21.01.2021',
+      testName: 'English advanced test',
+      resultStatus: 'Evaluated',
       score: 7,
+      icon: <TrashIcon />,
    },
    {
       id: 4,
-      date: '21.01.2021',
-      test: 'English advanced test',
-      status: 'Evaluated',
+      dateOfSubmission: '21.01.2021',
+      testName: 'English advanced test',
+      resultStatus: 'Evaluated',
       score: 7,
+      icon: <TrashIcon />,
    },
 ]
 
@@ -321,23 +327,23 @@ const COLUMNS = [
    },
    {
       Header: 'Date of Submition',
-      accessor: 'date',
+      accessor: 'dateOfSubmission',
    },
    {
       Header: 'Test name',
-      accessor: 'test',
+      accessor: 'testName',
    },
    {
       Header: 'Status',
-      accessor: 'status',
+      accessor: 'resultStatus',
    },
    {
       Header: 'Score',
       accessor: 'score',
    },
    {
-      Header: '',
-      accessor: 'action',
+      Header: ' ',
+      accessor: 'icon',
    },
 ]
 
@@ -399,7 +405,7 @@ const OPTIONS = [
    },
    {
       id: 4,
-      title: 'Record saying statement',
+      title: 'Describe image',
    },
    {
       id: 5,
@@ -408,6 +414,7 @@ const OPTIONS = [
 ]
 const QUESTION_TYPES = {
    SelectRealEnglishWords: 'Select real english words',
+   DescribeImage: 'Describe image',
 }
 export {
    QUESTION_TYPES,

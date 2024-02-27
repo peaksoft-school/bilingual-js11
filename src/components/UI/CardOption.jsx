@@ -8,20 +8,25 @@ const CardOption = ({ item, handleChecked, openModal, setOptionId, index }) => {
 
    const handleCheckboxChange = (e) => {
       const newCheckedValue = e.target.checked
+
       setIsChecked(newCheckedValue)
+
       handleChecked(e, item.id, newCheckedValue)
    }
 
    const handleOpen = (id) => {
       openModal((prev) => !prev)
+
       setOptionId(id)
    }
+
    return (
       <StyledBox key={item.id}>
          <Box className="advantage-block">
             <Typography>{index + 1}</Typography>
             <Typography>{item.optionTitle}</Typography>
          </Box>
+
          <Box className="check-trash-block">
             <Checkbox onClick={handleCheckboxChange} checked={isChecked} />
 

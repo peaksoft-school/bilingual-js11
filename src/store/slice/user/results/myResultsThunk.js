@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { axiosInstance } from '../../../configs/axiosInstance'
+import { axiosInstance } from '../../../../configs/axiosInstance'
 
 const getResults = createAsyncThunk(
-   'testsSlice/getAllTests',
+   'resultsSlice/getResult',
 
    async (_, { rejectWithValue }) => {
       try {
