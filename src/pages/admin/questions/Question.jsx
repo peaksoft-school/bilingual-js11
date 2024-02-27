@@ -1,28 +1,26 @@
 import { useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/questions/questionSlice'
-import { OPTIONS } from '../../../utils/constants'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
+import { OPTIONS } from '../../../utils/constants'
 import Input from '../../../components/UI/Input'
 import TypeTest from '../TypeTest'
 import Dropdown from '../../../components/UI/Dropdown'
 import TestContainer from '../../../components/UI/TestContainer'
 
 const Question = () => {
-   const dispatch = useDispatch()
+   const option = useSelector((state) => state.question.option)
 
    const { state } = useLocation()
 
-   const option = useSelector((state) => state.question.option)
+   const dispatch = useDispatch()
 
    const [selectType, setSelectType] = useState(
       questionTitle(state?.question.questionType || '')
    )
-
    const [title, setTitle] = useState(state?.question.title || '')
-
    const [duration, setDuration] = useState(state?.question.duration || 5)
 
    const selectHandler = (e) => setSelectType(e.target.value)

@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { axiosInstance } from '../../../../configs/axiosInstance'
 import { axiosInstanceFile } from '../../../../configs/axiosInstanceFile'
+import { axiosInstance } from '../../../../configs/axiosInstance'
 
 const saveTest = createAsyncThunk(
    'question/saveTest',

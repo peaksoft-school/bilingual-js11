@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
-import { Link, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { EditIcon, FalseIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
+import { questionTypeHandler } from '../../../utils/helpers'
 import { QUESTIONS_THUNK } from '../../../store/slice/admin/questions/questionsThunk'
 import { SearchingImage } from '../../../assets/images'
-import { questionTypeHandler } from '../../../utils/helpers'
 import Modal from '../../../components/UI/Modal'
 import Button from '../../../components/UI/buttons/Button'
 import Switcher from '../../../components/UI/Switcher'
@@ -16,11 +16,11 @@ const Questions = () => {
 
    const { testId } = useParams()
 
-   const [isVisible, setIsVisible] = useState(false)
-
-   const [selectedQuestionId, setSelectedQuestionId] = useState(null)
-
    const dispatch = useDispatch()
+   const navigate = useNavigate()
+
+   const [isVisible, setIsVisible] = useState(false)
+   const [selectedQuestionId, setSelectedQuestionId] = useState(null)
 
    useEffect(() => {
       dispatch(QUESTIONS_THUNK.getTest({ testId }))
@@ -85,13 +85,14 @@ const Questions = () => {
                </Box>
             </Box>
 
-            <Button icon={<PlusIcon className="plus" />} className="button">
-               <Link
-                  to={`/admin/tests/questions/${testId}/create-question`}
-                  className="text"
-               >
-                  ADD MORE QUESTIONS
-               </Link>
+            <Button
+               icon={<PlusIcon className="plus" />}
+               className="button"
+               onClick={() =>
+                  navigate(`/admin/tests/questions/${testId}/create-question`)
+               }
+            >
+               ADD MORE QUESTIONS
             </Button>
 
             <Box className="divider" />
@@ -145,10 +146,12 @@ const Questions = () => {
                </Box>
             )}
 
-            <Button className="go-back-button" variant="secondary">
-               <Link to="/" className="text">
-                  GO BACK
-               </Link>
+            <Button
+               className="go-back-button"
+               variant="secondary"
+               onClick={() => navigate('/')}
+            >
+               GO BACK
             </Button>
          </TestContainer>
 

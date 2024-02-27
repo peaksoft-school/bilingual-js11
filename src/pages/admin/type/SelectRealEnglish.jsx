@@ -3,14 +3,14 @@ import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, Input, Typography, styled } from '@mui/material'
-import { questionTitle } from '../../../utils/helpers/questionTitle'
-import { QUESTION_THUNK } from '../../../store/slice/admin/questions/questionThunk'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/questions/questionSlice'
 import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
+import { QUESTION_ACTIONS } from '../../../store/slice/admin/questions/questionSlice'
+import { QUESTION_THUNK } from '../../../store/slice/admin/questions/questionThunk'
+import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Modal from '../../../components/UI/Modal'
 import Button from '../../../components/UI/buttons/Button'
+import Option from '../../../components/UI/Option'
 import Checkbox from '../../../components/UI/Checkbox'
-import CardOption from '../../../components/UI/CardOption'
 
 const SelectRealEnglish = ({
    duration,
@@ -23,19 +23,14 @@ const SelectRealEnglish = ({
    const option = useSelector((state) => state.question.option)
 
    const dispatch = useDispatch()
-
    const navigate = useNavigate()
 
    const { testId } = useParams()
 
    const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
-
    const [isOpenModalSave, setIsOpenModalSave] = useState(false)
-
    const [optionTitle, setOptionTitle] = useState('')
-
    const [checkOption, setCheckOption] = useState(false)
-
    const [optionId, setOptionId] = useState(null)
 
    const handleChangeInput = (e) => setOptionTitle(e.target.value)
@@ -114,10 +109,10 @@ const SelectRealEnglish = ({
             </Box>
 
             <Box className="cards">
-               {option?.map((item, i) => (
-                  <CardOption
-                     key={item.id}
-                     item={item}
+               {option?.map((option, i) => (
+                  <Option
+                     key={option.id}
+                     item={option}
                      index={i}
                      handleChecked={handleChecked}
                      openModal={setIsOpenModalDelete}

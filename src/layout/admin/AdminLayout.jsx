@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
 import { Box, styled } from '@mui/material'
+import { Outlet, useNavigate } from 'react-router-dom'
 import Header from '../Header'
 
 const AdminLayout = () => {

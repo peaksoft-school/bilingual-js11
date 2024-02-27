@@ -23,17 +23,12 @@ const TypeWhatYouHear = ({
    const { testId } = useParams()
 
    const dispatch = useDispatch()
-
    const navigate = useNavigate()
 
    const [fileName, setFileName] = useState('')
-
    const [isPlaying, setIsPlaying] = useState(false)
-
    const [file, setFile] = useState('')
-
    const [attempts, setAttempts] = useState(0)
-
    const [correctAnswer, setCorrectAnswer] = useState('')
 
    const audioRef = useRef(null)

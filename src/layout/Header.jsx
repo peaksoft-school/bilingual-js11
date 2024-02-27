@@ -2,19 +2,18 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { AppBar, Box, Typography, styled } from '@mui/material'
-import Button from '../components/UI/buttons/Button'
-import { LogoImage } from '../assets/images'
 import { AUTH_ACTIONS } from '../store/slice/auth/authSlice'
+import { LogoImage } from '../assets/images'
 import Modal from '../components/UI/Modal'
+import Button from '../components/UI/buttons/Button'
 
 const Header = () => {
-   const dispatch = useDispatch()
-
-   const navigate = useNavigate()
-
    const { role } = useSelector((state) => state.auth)
 
    const [isVisibleModal, setIsVisibleModal] = useState(false)
+
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
 
    const handleModal = () => setIsVisibleModal((prev) => !prev)
 

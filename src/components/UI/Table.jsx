@@ -1,3 +1,5 @@
+import { memo, useMemo } from 'react'
+import { useTable } from 'react-table'
 import {
    styled,
    TableBody,
@@ -7,8 +9,6 @@ import {
    TableRow,
    Table as MuiTable,
 } from '@mui/material'
-import { memo, useMemo } from 'react'
-import { useTable } from 'react-table'
 
 const Table = ({ columns: headers, data }) => {
    const columns = useMemo(() => headers, [])

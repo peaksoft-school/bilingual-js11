@@ -3,15 +3,15 @@ import { Box, Typography, styled } from '@mui/material'
 import { TrashIcon } from '../../assets/icons'
 import Checkbox from './Checkbox'
 
-const CardOption = ({ item, handleChecked, openModal, setOptionId, index }) => {
-   const [isChecked, setIsChecked] = useState(item.isCorrect)
+const Option = ({ option, handleChecked, openModal, setOptionId, index }) => {
+   const [isChecked, setIsChecked] = useState(option.isCorrect)
 
    const handleCheckboxChange = (e) => {
       const newCheckedValue = e.target.checked
 
       setIsChecked(newCheckedValue)
 
-      handleChecked(e, item.id, newCheckedValue)
+      handleChecked(e, option.id, newCheckedValue)
    }
 
    const handleOpen = (id) => {
@@ -20,23 +20,26 @@ const CardOption = ({ item, handleChecked, openModal, setOptionId, index }) => {
       setOptionId(id)
    }
    return (
-      <StyledBox key={item.id}>
+      <StyledBox key={option.id}>
          <Box className="advantage-block">
             <Typography>{index + 1}</Typography>
 
-            <Typography>{item.optionTitle}</Typography>
+            <Typography>{option.optionTitle}</Typography>
          </Box>
 
          <Box className="check-trash-block">
             <Checkbox onClick={handleCheckboxChange} checked={isChecked} />
 
-            <TrashIcon className="trash" onClick={() => handleOpen(item.id)} />
+            <TrashIcon
+               className="trash"
+               onClick={() => handleOpen(option.id)}
+            />
          </Box>
       </StyledBox>
    )
 }
 
-export default CardOption
+export default Option
 
 const StyledBox = styled(Box)(() => ({
    display: 'flex',

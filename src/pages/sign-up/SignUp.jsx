@@ -14,22 +14,20 @@ import {
 } from '../../assets/icons'
 import { VALIDATION_SIGN_UP } from '../../utils/helpers/validation'
 import { showErrorSignUp } from '../../utils/helpers'
-import { ROUTES } from '../../routes/routes'
-import { SIGN_UP_INPUTS } from '../../utils/constants'
-import Button from '../../components/UI/buttons/Button'
-import Input from '../../components/UI/Input'
-import { AUTH_THUNKS } from '../../store/slice/auth/authThunk'
 import { auth, provider } from '../../configs/firebase'
+import { SIGN_UP_INPUTS } from '../../utils/constants'
+import { AUTH_THUNKS } from '../../store/slice/auth/authThunk'
+import { ROUTES } from '../../routes/routes'
+import Input from '../../components/UI/Input'
+import Button from '../../components/UI/buttons/Button'
 
 const SignUp = () => {
    const { isLoading } = useSelector((state) => state.auth)
 
    const dispatch = useDispatch()
-
    const navigate = useNavigate()
 
    const [showPassword, setShowPassword] = useState(false)
-
    const [focusedInput, setFocusedInput] = useState(null)
 
    const handlePasswordShow = () => setShowPassword((prev) => !prev)

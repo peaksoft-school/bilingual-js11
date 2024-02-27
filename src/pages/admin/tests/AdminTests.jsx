@@ -1,23 +1,29 @@
+import { useNavigate } from 'react-router-dom'
 import { Box, styled } from '@mui/material'
-import { Link } from 'react-router-dom'
-import TestContainer from '../../../components/UI/TestContainer'
+import { PlusIcon } from '../../../assets/icons'
 import Button from '../../../components/UI/buttons/Button'
 import TestList from '../../../components/admin/tests/TestList'
-import { PlusIcon } from '../../../assets/icons'
+import TestContainer from '../../../components/UI/TestContainer'
 
-const AdminTests = () => (
-   <StyledContainer>
-      <TestContainer>
-         <Button className="button" icon={<PlusIcon className="plus-icon" />}>
-            <Link to="/admin/tests/create-test" className="text">
+const AdminTests = () => {
+   const navigate = useNavigate()
+
+   return (
+      <StyledContainer>
+         <TestContainer>
+            <Button
+               className="button"
+               icon={<PlusIcon className="plus-icon" />}
+               onClick={() => navigate('/admin/tests/create-test')}
+            >
                ADD NEW TEST
-            </Link>
-         </Button>
+            </Button>
 
-         <TestList />
-      </TestContainer>
-   </StyledContainer>
-)
+            <TestList />
+         </TestContainer>
+      </StyledContainer>
+   )
+}
 
 export default AdminTests
 
@@ -32,16 +38,6 @@ const StyledContainer = styled(Box)(() => ({
          height: '0.9rem',
          margin: '0.6rem',
          marginTop: '0.4rem',
-      },
-
-      '& > .text': {
-         display: 'flex',
-         alignItems: 'center',
-         textDecoration: 'none',
-         color: 'inherit',
-         fontFamily: 'Poppins',
-         fontSize: '14px',
-         fontWeight: '500',
       },
    },
 }))

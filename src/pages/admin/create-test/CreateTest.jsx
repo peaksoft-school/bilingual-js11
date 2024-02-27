@@ -2,16 +2,19 @@ import { useEffect, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { QUESTIONS_THUNK } from '../../../store/slice/admin/questions/questionsThunk'
 import { TESTS_THUNK } from '../../../store/slice/admin/tests/testsThunk'
 import Input from '../../../components/UI/Input'
 import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
-import QUESTIONS_THUNK from '../../../store/slice/admin/questions/questionsSlice'
 
 const CreateTest = () => {
    const { questions } = useSelector((state) => state.questionsSlice)
 
    const { id } = useParams()
+
+   const navigate = useNavigate()
+   const dispatch = useDispatch()
 
    const [formData, setFormData] = useState({
       title: '',
@@ -19,10 +22,6 @@ const CreateTest = () => {
    })
 
    const isNewTest = id === undefined || id === ''
-
-   const navigate = useNavigate()
-
-   const dispatch = useDispatch()
 
    const handleInputChange = (e) => {
       const { name, value } = e.target
@@ -82,7 +81,6 @@ const CreateTest = () => {
                value={formData.shortDescription}
                onChange={handleInputChange}
             />
-
             <Box className="container-buttons">
                <Link to="/">
                   <Button variant="secondary">GO BACK</Button>

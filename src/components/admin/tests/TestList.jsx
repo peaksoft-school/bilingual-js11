@@ -13,11 +13,9 @@ const TestList = () => {
    const { tests } = useSelector((state) => state.testsSlice)
 
    const dispatch = useDispatch()
-
    const navigate = useNavigate()
 
    const [isVisible, setIsVisible] = useState(false)
-
    const [selectedTestId, setSelectedTestId] = useState(null)
 
    useEffect(() => {
@@ -30,19 +28,28 @@ const TestList = () => {
       setIsVisible(false)
    }
 
-   const handleOpenModal = (testId) => {
+   const handleOpenModal = (testId, e) => {
+      e.preventDefault()
+
       setSelectedTestId(testId)
 
       setIsVisible((prev) => !prev)
    }
 
-   const handleEnable = (params) => {
+   const handleEnable = ({ id, value }) => {
       dispatch(
          TESTS_THUNK.updateTetsByEnable({
-            testId: params.id,
-            enable: params.value,
+            testId: id,
+            enable: value,
          })
       )
+   }
+
+   const handleWithStopPropagation = (e) => e.stopPropagation()
+
+   const handleEdit = (id, e) => {
+      e.preventDefault()
+      navigate(`/admin/tests/update-test/${id}`)
    }
 
    return (
@@ -58,7 +65,7 @@ const TestList = () => {
                      <Typography className="title">{title}</Typography>
 
                      <Box className="icons">
-                        <Box onClick={(event) => event.stopPropagation()}>
+                        <Box onClick={handleWithStopPropagation}>
                            <Switcher
                               checked={enable}
                               onChange={(value) => handleEnable({ value, id })}
@@ -67,18 +74,12 @@ const TestList = () => {
 
                         <EditIcon
                            className="edit"
-                           onClick={(event) => {
-                              event.preventDefault()
-                              navigate(`/admin/tests/update-test/${id}`)
-                           }}
+                           onClick={(e) => handleEdit(id, e)}
                         />
 
                         <TrashIcon
                            className="delete"
-                           onClick={(event) => {
-                              event.preventDefault()
-                              handleOpenModal(id)
-                           }}
+                           onClick={(e) => handleOpenModal(id, e)}
                         />
                      </Box>
                   </Box>

@@ -11,6 +11,7 @@ export const testsSlice = createSlice({
    name: 'testsSlice',
    initialState,
    reducers: {},
+
    extraReducers: (builder) => {
       builder
          .addCase(TESTS_THUNK.getAllTests.pending, (state) => {
