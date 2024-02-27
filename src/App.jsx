@@ -1,7 +1,6 @@
-import './App.css'
-import HomePage from './components/user/HomePage'
-// import AppRoutes from './routes/AppRoutes'
+import AppRoutes from './routes/AppRoutes'
+// import HomePage from './components/user/HomePage'
 
-const App = () => <HomePage />
+const App = () => <AppRoutes />
 
 export default App

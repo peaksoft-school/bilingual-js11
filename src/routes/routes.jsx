@@ -4,11 +4,18 @@ import UserTests from '../pages/user/tests/UserTests'
 import CreateTest from '../pages/admin/create-test/CreateTest'
 import AdminTests from '../pages/admin/tests/AdminTests'
 import Questions from '../pages/admin/questions/Questions'
+import Question from '../pages/admin/questions/Question'
+import UserPracticeTest from '../pages/user/tests/UserPracticeTest'
 
 const USER_ROUTES = [
    {
       path: '/user/tests',
       element: <UserTests />,
+   },
+
+   {
+      path: '/user/tests/practice-test',
+      element: <UserPracticeTest />,
    },
 
    {
@@ -36,6 +43,11 @@ const ADMIN_ROUTES = [
    {
       path: '/admin/tests/questions/:testId',
       element: <Questions />,
+   },
+
+   {
+      path: '/admin/tests/questions/:testId/create-question',
+      element: <Question />,
    },
 
    {
