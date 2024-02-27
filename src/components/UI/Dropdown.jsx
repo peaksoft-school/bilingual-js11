@@ -39,16 +39,16 @@ const StyledSelect = styled(Select)(({ theme }) => ({
 
       '& fieldset': {
          borderRadius: '8px',
-         border: '2px solid #D4D0D0',
+         border: '1px solid #D4D0D0',
       },
 
       '&.Mui-focused fieldset': {
-         border: `2px solid ${theme.palette.primary.main}`,
+         border: `1px solid ${theme.palette.primary.main}`,
          borderRadius: '8px 8px 0px 0px',
       },
 
       '&:hover fieldset': {
-         border: `2px solid ${theme.palette.primary.main}`,
+         border: `1px solid ${theme.palette.primary.main}`,
       },
    },
 

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { PauseIcon, PlayIcon } from '../../../assets/icons'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/questions/questionSlice'
-import { QUESTION_THUNK } from '../../../store/slice/admin/questions/questionThunk'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/questions/questionThunk'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Input from '../../../components/UI/Input'
 import Button from '../../../components/UI/buttons/Button'
@@ -66,7 +66,7 @@ const TypeWhatYouHear = ({
          }
 
          dispatch(
-            QUESTION_THUNK.saveTest({
+            QUESTION_THUNKS.saveTest({
                requestData,
 
                data: {
@@ -93,9 +93,12 @@ const TypeWhatYouHear = ({
 
          audioRef.current.src = URL.createObjectURL(file)
 
-         dispatch(QUESTION_THUNK.postFileRequest(file))
+         dispatch(QUESTION_THUNKS.postFileRequest(file))
       }
    }
+
+   const isValid =
+      !selectType || !duration || !title || !correctAnswer || !attempts || !file
 
    return (
       <StyledContainer>
@@ -172,14 +175,7 @@ const TypeWhatYouHear = ({
             <Button
                variant="primary"
                onClick={handleSubmit}
-               disabled={
-                  !selectType ||
-                  !duration ||
-                  !title ||
-                  !correctAnswer ||
-                  !attempts ||
-                  !file
-               }
+               disabled={isValid}
                isLoading={isLoading}
             >
                SAVE
@@ -232,6 +228,7 @@ const StyledContainer = styled(Box)(() => ({
          '& .label': {
             fontFamily: 'Poppins',
             fontWeight: '600',
+            cursor: 'pointer',
          },
 
          '& > input': {

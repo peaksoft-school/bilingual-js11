@@ -19,15 +19,18 @@ const Option = ({ option, handleChecked, openModal, setOptionId, index }) => {
 
       setOptionId(id)
    }
+
    return (
-      <StyledBox key={option.id}>
-         <Box className="advantage-block">
+      <StyledContainer key={option.id}>
+         <Box className="content">
             <Typography>{index + 1}</Typography>
 
-            <Typography>{option.optionTitle}</Typography>
+            <Typography className="title-option">
+               {option.optionTitle}
+            </Typography>
          </Box>
 
-         <Box className="check-trash-block">
+         <Box className="actions">
             <Checkbox onClick={handleCheckboxChange} checked={isChecked} />
 
             <TrashIcon
@@ -35,28 +38,39 @@ const Option = ({ option, handleChecked, openModal, setOptionId, index }) => {
                onClick={() => handleOpen(option.id)}
             />
          </Box>
-      </StyledBox>
+      </StyledContainer>
    )
 }
 
 export default Option
 
-const StyledBox = styled(Box)(() => ({
+const StyledContainer = styled(Box)(() => ({
    display: 'flex',
-   width: '261px',
-   height: '46px',
+   maxWidth: '250px',
+   width: '100%',
+   maxHeight: '46px',
+   height: '100%',
    border: '1.8px solid #BDBDBD',
    borderRadius: '8px',
    justifyContent: 'center',
    alignItems: 'center',
-   gap: '3.85rem',
+   gap: '3rem',
+   padding: '1rem',
 
-   '& > .advantage-block': {
+   '& > .content': {
       display: 'flex',
       alignItems: 'center',
+      justifyContent: 'flex-start',
       gap: '0.85rem',
+      width: '50%',
+
+      '& .title-option': {
+         textOverflow: 'ellipsis',
+         overflow: 'hidden',
+      },
    },
-   '& > .check-trash-block': {
+
+   '& > .actions': {
       display: 'flex',
       alignItems: 'center',
       gap: '0.5rem',

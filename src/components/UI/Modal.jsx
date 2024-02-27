@@ -59,9 +59,18 @@ const StyledModal = styled(MuiModal)(() => ({
          marginTop: '2.2rem',
       },
 
+      '& > .title': {
+         maxWidth: '10rem',
+         fontFamily: 'Poppins',
+         fontSize: '1rem',
+         overflow: 'hidden',
+         textOverflow: 'ellipsis',
+      },
+
       '& > .modal-message': {
          fontSize: '14px',
          marginBottom: '2.2rem',
+         color: 'red',
       },
 
       '& > div > .cancel-icon': {

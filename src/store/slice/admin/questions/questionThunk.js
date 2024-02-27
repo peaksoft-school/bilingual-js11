@@ -1,7 +1,7 @@
-import { AxiosError } from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstanceFile } from '../../../../configs/axiosInstanceFile'
 import { axiosInstance } from '../../../../configs/axiosInstance'
+import { showNotification } from '../../../../utils/helpers/notification'
 
 const saveTest = createAsyncThunk(
    'question/saveTest',
@@ -11,16 +11,22 @@ const saveTest = createAsyncThunk(
       { rejectWithValue }
    ) => {
       try {
-         await axiosInstance.post(
+         const response = await axiosInstance.post(
             `/api/question?testId=${testId}&questionType=${questionType}`,
             requestData
          )
 
+         showNotification({
+            message: `${response.data.message}!`,
+         })
+
          return navigate(`/admin/tests/questions/${testId}`)
       } catch (error) {
-         if (AxiosError(error)) {
-            return rejectWithValue(error.response?.data.message)
-         }
+         showNotification({
+            title: 'Error',
+            message: 'Failed to save test!',
+            type: 'error',
+         })
 
          return rejectWithValue('Something went wrong')
       }
@@ -40,12 +46,18 @@ const postFileRequest = createAsyncThunk(
 
          return data
       } catch (error) {
-         return rejectWithValue('Something went wrong')
+         showNotification({
+            title: 'Error',
+            message: 'Failed to file!',
+            type: 'error',
+         })
+
+         return rejectWithValue(error.response.data)
       }
    }
 )
 
-export const QUESTION_THUNK = {
+export const QUESTION_THUNKS = {
    postFileRequest,
    saveTest,
 }

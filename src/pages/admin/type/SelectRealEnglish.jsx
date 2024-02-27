@@ -2,15 +2,16 @@ import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Box, Input, Typography, styled } from '@mui/material'
+import { Box, Typography, styled } from '@mui/material'
 import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/questions/questionSlice'
-import { QUESTION_THUNK } from '../../../store/slice/admin/questions/questionThunk'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/questions/questionThunk'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Modal from '../../../components/UI/Modal'
 import Button from '../../../components/UI/buttons/Button'
 import Option from '../../../components/UI/Option'
 import Checkbox from '../../../components/UI/Checkbox'
+import Input from '../../../components/UI/Input'
 
 const SelectRealEnglish = ({
    duration,
@@ -22,10 +23,10 @@ const SelectRealEnglish = ({
 }) => {
    const option = useSelector((state) => state.question.option)
 
+   const { testId } = useParams()
+
    const dispatch = useDispatch()
    const navigate = useNavigate()
-
-   const { testId } = useParams()
 
    const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
    const [isOpenModalSave, setIsOpenModalSave] = useState(false)
@@ -43,7 +44,6 @@ const SelectRealEnglish = ({
 
    const deleteTest = () => {
       dispatch(QUESTION_ACTIONS.deleteOption(optionId))
-
       setIsOpenModalDelete((prevState) => !prevState)
    }
 
@@ -62,13 +62,13 @@ const SelectRealEnglish = ({
          setDuration('')
 
          const requestData = {
-            title,
+            title: title.trim(),
             duration: +duration * 60,
             option,
          }
 
          dispatch(
-            QUESTION_THUNK.saveTest({
+            QUESTION_THUNKS.saveTest({
                requestData,
                data: {
                   testId,
@@ -112,7 +112,7 @@ const SelectRealEnglish = ({
                {option?.map((option, i) => (
                   <Option
                      key={option.id}
-                     item={option}
+                     option={option}
                      index={i}
                      handleChecked={handleChecked}
                      openModal={setIsOpenModalDelete}
@@ -175,7 +175,7 @@ const SelectRealEnglish = ({
 
                   <Input
                      type="text"
-                     placeholder="Select real English words"
+                     placeholder="Enter the title ..."
                      value={optionTitle}
                      onChange={handleChangeInput}
                   />

@@ -6,6 +6,8 @@ export const questionTitle = (name) => {
       case 'TYPE_WHAT_YOU_HEAR':
          return 'TYPE_WHAT_YOU_HEAR'
 
+      case 'DESCRIBE_IMAGE':
+         return 'DESCRIBE_IMAGE'
       default:
          return name
    }

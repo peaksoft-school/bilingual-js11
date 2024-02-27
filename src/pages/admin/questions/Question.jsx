@@ -21,7 +21,7 @@ const Question = () => {
       questionTitle(state?.question.questionType || '')
    )
    const [title, setTitle] = useState(state?.question.title || '')
-   const [duration, setDuration] = useState(state?.question.duration || 5)
+   const [duration, setDuration] = useState(state?.question.duration || 0)
 
    const selectHandler = (e) => setSelectType(e.target.value)
 
@@ -44,7 +44,7 @@ const Question = () => {
                <Box className="input-container">
                   <Input
                      className="input-title"
-                     placeholder="Select real English words"
+                     placeholder="Enter the title ....."
                      onChange={inputHandler}
                      value={title}
                   />
