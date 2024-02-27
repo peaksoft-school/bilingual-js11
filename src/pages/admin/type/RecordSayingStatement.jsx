@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
-import { QUESTION_THUNK } from '../../../store/slice/admin/questionThunk'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/questionSlice'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/questionThunks'
 import Input from '../../../components/UI/Input'
 import Button from '../../../components/UI/buttons/Button'
 
@@ -16,13 +16,12 @@ const RecordSayingStatement = ({
    setTitle,
    setSelectType,
 }) => {
+   const [statement, setStatement] = useState('')
+
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
-
    const { testId } = useParams()
-
-   const [statement, setStatement] = useState('')
 
    const saveTestQuestion = () => {
       if (selectType !== '' && +duration !== +'' && title !== '') {
@@ -40,7 +39,7 @@ const RecordSayingStatement = ({
          }
 
          dispatch(
-            QUESTION_THUNK.saveTest({
+            QUESTION_THUNKS.saveTest({
                requestData,
                data: {
                   testId,
@@ -52,9 +51,10 @@ const RecordSayingStatement = ({
       }
    }
 
-   const handleChange = (event) => {
-      setStatement(event.target.value)
-   }
+   const handleChange = (e) => setStatement(e.target.value)
+
+   const isFormValid =
+      !selectType || !duration || !title.trim() || !statement.trim()
 
    return (
       <StyledContainer>
@@ -71,9 +71,7 @@ const RecordSayingStatement = ({
 
             <Button
                variant="primary"
-               disabled={
-                  !selectType || !duration || !title.trim() || !statement.trim()
-               }
+               disabled={isFormValid}
                onClick={saveTestQuestion}
             >
                SAVE
