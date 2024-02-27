@@ -4,9 +4,9 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/questionSlice'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/questionThunks'
 import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
-import { QUESTION_THUNK } from '../../../store/slice/admin/questionThunk'
 import CardOption from '../../../components/UI/CardOption'
 import Button from '../../../components/UI/buttons/Button'
 import Modal from '../../../components/UI/Modal'
@@ -21,21 +21,15 @@ const SelectRealEnglish = ({
    setSelectType,
 }) => {
    const option = useSelector((state) => state.question.option)
-
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
-
    const { testId } = useParams()
 
    const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
-
    const [isOpenModalSave, setIsOpenModalSave] = useState(false)
-
    const [optionTitle, setOptionTitle] = useState('')
-
    const [checkOption, setCheckOption] = useState(false)
-
    const [optionId, setOptionId] = useState(null)
 
    const handleChangeInput = (e) => setOptionTitle(e.target.value)
@@ -64,13 +58,13 @@ const SelectRealEnglish = ({
          setDuration('')
 
          const requestData = {
-            title,
+            title: title.trim(),
             duration: +duration * 60,
             option,
          }
 
          dispatch(
-            QUESTION_THUNK.saveTest({
+            QUESTION_THUNKS.saveTest({
                requestData,
                data: {
                   testId,

@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { useFormik } from 'formik'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useFormik } from 'formik'
 import { Box, TextField, Typography, styled } from '@mui/material'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/questionSlice'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/questionThunks'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
-import { QUESTION_THUNK } from '../../../store/slice/admin/questionThunk'
 import Input from '../../../components/UI/Input'
 import Button from '../../../components/UI/buttons/Button'
 
@@ -22,7 +22,6 @@ const HighlightTheAnswer = ({
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
-
    const { testId } = useParams()
 
    const formik = useFormik({
@@ -50,7 +49,7 @@ const HighlightTheAnswer = ({
          }
 
          dispatch(
-            QUESTION_THUNK.saveTest({
+            QUESTION_THUNKS.saveTest({
                requestData,
                data: {
                   testId,
@@ -61,6 +60,13 @@ const HighlightTheAnswer = ({
          )
       }
    }
+
+   const isFormValid =
+      !selectType ||
+      !duration ||
+      !title.trim() ||
+      !answerValue ||
+      formik.values.question.trim() === ''
 
    return (
       <StyledContainer onSubmit={formik.handleSubmit}>
@@ -105,13 +111,7 @@ const HighlightTheAnswer = ({
 
             <Button
                variant="primary"
-               disabled={
-                  !selectType ||
-                  !duration ||
-                  !title.trim() ||
-                  !answerValue ||
-                  formik.values.question.trim() === ''
-               }
+               disabled={isFormValid}
                onClick={saveTestQuestion}
             >
                SAVE

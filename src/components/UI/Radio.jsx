@@ -7,13 +7,9 @@ const Radio = forwardRef(({ checked, onChange, ...rest }, ref) => (
 
 export default Radio
 
-const StyledRadio = styled(MuiRadio)(({ theme }) => ({
+const StyledRadio = styled(MuiRadio)(() => ({
    width: '20px',
    height: '20px',
    padding: '1px',
    color: '#9A9A9A',
-
-   '&.Mui-checked': {
-      color: theme.palette.primary.main,
-   },
 }))

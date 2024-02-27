@@ -43,7 +43,7 @@ const StyledSelect = styled(Select)(({ theme }) => ({
       },
 
       '&.Mui-focused fieldset': {
-         border: `1.53px solid ${theme.palette.primary.main}`,
+         border: `1px solid ${theme.palette.primary.main}`,
          borderRadius: '8px 8px 0px 0px',
       },
 
