@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstance } from '../../../../configs/axiosInstance'
+import { axiosInstanceFile } from '../../../../configs/axiosInstanceFile'
 
 const saveTest = createAsyncThunk(
    'question/saveTest',
@@ -26,4 +27,24 @@ const saveTest = createAsyncThunk(
    }
 )
 
-export const QUESTION_THUNK = { saveTest }
+const postFileRequest = createAsyncThunk(
+   'question/postFile',
+
+   async (file, { rejectWithValue }) => {
+      try {
+         const formData = new FormData()
+         formData.append('multipartFile', file)
+
+         const { data } = await axiosInstanceFile.post('/api/awsFile', formData)
+
+         return data
+      } catch (error) {
+         return rejectWithValue('Something went wrong')
+      }
+   }
+)
+
+export const QUESTION_THUNKS = {
+   postFileRequest,
+   saveTest,
+}

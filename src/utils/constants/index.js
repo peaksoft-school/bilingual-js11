@@ -399,7 +399,7 @@ const OPTIONS = [
    },
    {
       id: 4,
-      title: 'Record saying statement',
+      title: 'Describe image',
    },
    {
       id: 5,
@@ -408,6 +408,7 @@ const OPTIONS = [
 ]
 const QUESTION_TYPES = {
    SelectRealEnglishWords: 'Select real english words',
+   DescribeImage: 'Describe image',
    RespondInAtLeastNwords: 'Respond in at least N words',
 }
 export {

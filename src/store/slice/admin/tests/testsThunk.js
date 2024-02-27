@@ -121,7 +121,7 @@ const updateTetsByEnable = createAsyncThunk(
    }
 )
 
-export const TESTS_THUNK = {
+export const TESTS_THUNKS = {
    getAllTests,
    deleteTest,
    postTest,

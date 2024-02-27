@@ -1,5 +1,6 @@
 import { QUESTION_TYPES } from '../../utils/constants'
 import RespondInAtLeastNWords from './type/RespondInAtLeastNWords'
+import DescribeImage from './type/DescribeImage'
 import SelectRealEnglish from './type/SelectRealEnglish'
 
 const TypeTest = ({
@@ -25,6 +26,18 @@ const TypeTest = ({
       case QUESTION_TYPES.RespondInAtLeastNwords:
          return (
             <RespondInAtLeastNWords
+               duration={duration}
+               setDuration={setDuration}
+               selectType={selectType}
+               title={title}
+               setTitle={setTitle}
+               setSelectType={setSelectType}
+            />
+         )
+
+      case QUESTION_TYPES.DescribeImage:
+         return (
+            <DescribeImage
                duration={duration}
                setDuration={setDuration}
                selectType={selectType}

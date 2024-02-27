@@ -3,33 +3,35 @@ import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/questions/questionSlice'
-import { questionTitle } from '../../../utils/helpers/questionTitle'
 import { OPTIONS } from '../../../utils/constants'
+import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Input from '../../../components/UI/Input'
-import TypeTest from '../TypeTest'
 import Dropdown from '../../../components/UI/Dropdown'
 import TestContainer from '../../../components/UI/TestContainer'
+import TypeTest from '../TypeTest'
 
 const Question = () => {
+   const option = useSelector((state) => state.question.option)
    const dispatch = useDispatch()
 
    const { state } = useLocation()
 
-   const option = useSelector((state) => state.question.option)
-
    const [selectType, setSelectType] = useState(
       questionTitle(state?.question.questionType || '')
    )
-
    const [title, setTitle] = useState(state?.question.title || '')
-
    const [duration, setDuration] = useState(state?.question.duration || 5)
 
-   const selectHandler = (e) => setSelectType(e.target.value)
+   const handleSelect = (e) => setSelectType(e.target.value)
 
-   const inputHandler = (e) => setTitle(e.target.value)
+   const handleInputTitle = (e) => setTitle(e.target.value)
 
-   const inputDurationHandler = (e) => setDuration(e.target.value)
+   const handleInputDuration = (e) => setDuration(e.target.value)
+
+   const handleInput = (e) => {
+      const value = +e.target.value
+      e.target.value = Math.max(1, Math.min(15, value))
+   }
 
    useEffect(() => {
       dispatch(QUESTION_ACTIONS.updateOptions(option || []))
@@ -46,8 +48,8 @@ const Question = () => {
                <Box className="input-container">
                   <Input
                      className="input-title"
-                     placeholder="Select real English words"
-                     onChange={inputHandler}
+                     placeholder="Enter the title ....."
+                     onChange={handleInputTitle}
                      value={title}
                   />
 
@@ -60,11 +62,8 @@ const Question = () => {
                         className="duration-input"
                         placeholder="15:00"
                         value={duration}
-                        onChange={inputDurationHandler}
-                        onInput={(e) => {
-                           const value = +e.target.value
-                           e.target.value = Math.max(1, Math.min(15, value))
-                        }}
+                        onChange={handleInputDuration}
+                        onInput={handleInput}
                         type="number"
                      />
                   </Box>
@@ -78,7 +77,7 @@ const Question = () => {
                   <Dropdown
                      className="dropdown"
                      value={selectType}
-                     onChange={selectHandler}
+                     onChange={handleSelect}
                      options={OPTIONS}
                   />
                </Box>

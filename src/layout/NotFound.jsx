@@ -2,10 +2,10 @@ import { useNavigate } from 'react-router'
 import { Typography, Box, styled, Button } from '@mui/material'
 import { NotFoundImage } from '../assets/images'
 
-//! ПОКА ЧТО ТАК ПОТОМ ПОМЕНЯЮ
-
 const NotFound = () => {
    const navigate = useNavigate()
+
+   const handleGoBack = () => navigate(-1)
 
    return (
       <Container>
@@ -19,7 +19,7 @@ const NotFound = () => {
                occurred, go back to home page.
             </Typography>
 
-            <Button className="go-back" onClick={() => navigate(-1)}>
+            <Button className="go-back" onClick={handleGoBack}>
                go back
             </Button>
          </Box>
@@ -37,7 +37,7 @@ const Container = styled('div')(() => ({
    width: '100%',
    height: '100vh',
 
-   '& .text-content': {
+   '& > .text-content': {
       display: 'flex',
       flexDirection: 'column',
       gap: '1rem',
@@ -52,7 +52,7 @@ const Container = styled('div')(() => ({
          color: '#ffc801',
       },
 
-      '& .go-back': {
+      '& > .go-back': {
          padding: '0.5rem',
          width: '30%',
          borderRadius: '1rem',
@@ -72,7 +72,7 @@ const Container = styled('div')(() => ({
       },
    },
 
-   '& img': {
+   '& > img': {
       width: '40rem',
       borderRadius: '20rem',
    },

@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router'
 import { InputLabel, styled, Box } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/questions/questionSlice'
-import { QUESTION_THUNK } from '../../../store/slice/admin/questions/questionThunk'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/questions/questionThunk'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Input from '../../../components/UI/Input'
 import Button from '../../../components/UI/buttons/Button'
@@ -21,11 +21,9 @@ const RespondInAtLeastNWords = ({
    const { testId } = useParams()
 
    const dispatch = useDispatch()
-
    const navigate = useNavigate()
 
    const [statement, setStatement] = useState('')
-
    const [attempts, setAttempts] = useState(0)
 
    const handleStatementChange = (event) => setStatement(event.target.value)
@@ -50,7 +48,7 @@ const RespondInAtLeastNWords = ({
          }
 
          dispatch(
-            QUESTION_THUNK.saveTest({
+            QUESTION_THUNKS.saveTest({
                requestData,
 
                data: {
@@ -62,6 +60,8 @@ const RespondInAtLeastNWords = ({
          )
       }
    }
+
+   const isValid = !selectType || !duration || !title || !statement || !attempts
 
    return (
       <StyledContainer>
@@ -82,6 +82,7 @@ const RespondInAtLeastNWords = ({
                type="number"
                value={attempts}
                onChange={handleAttempsChange}
+               inputProps={{ min: 0, max: 5 }}
             />
          </Box>
 
@@ -92,9 +93,7 @@ const RespondInAtLeastNWords = ({
                variant="primary"
                onClick={handleSubmit}
                isLoading={isLoading}
-               disabled={
-                  !selectType || !duration || !title || !statement || !attempts
-               }
+               disabled={isValid}
             >
                SAVE
             </Button>
