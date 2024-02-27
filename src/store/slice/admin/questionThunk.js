@@ -27,4 +27,4 @@ const saveTest = createAsyncThunk(
    }
 )
 
-export const QUESTION_THUNK = { saveTest }
+export const QUESTION_THUNKS = { saveTest }

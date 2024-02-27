@@ -6,23 +6,20 @@ import { OPTIONS } from '../../../utils/constants'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/questionSlice'
 import Input from '../../../components/UI/Input'
-import TypeTest from '../TypeTest'
 import Dropdown from '../../../components/UI/Dropdown'
 import TestContainer from '../../../components/UI/TestContainer'
+import TypeTest from '../TypeTest'
 
 const Question = () => {
+   const option = useSelector((state) => state.question.option)
    const dispatch = useDispatch()
 
    const { state } = useLocation()
 
-   const option = useSelector((state) => state.question.option)
-
    const [selectType, setSelectType] = useState(
       questionTitle(state?.question.questionType || '')
    )
-
    const [title, setTitle] = useState(state?.question.title || '')
-
    const [duration, setDuration] = useState(state?.question.duration || 5)
 
    const selectHandler = (e) => setSelectType(e.target.value)
@@ -37,7 +34,7 @@ const Question = () => {
 
    return (
       <TestContainer>
-         <StyledContent>
+         <StyledContainer>
             <Box className="form-container">
                <Typography className="text title" variant="label">
                   Title
@@ -92,14 +89,14 @@ const Question = () => {
                setTitle={setTitle}
                setSelectType={setSelectType}
             />
-         </StyledContent>
+         </StyledContainer>
       </TestContainer>
    )
 }
 
 export default Question
 
-const StyledContent = styled(Box)(() => ({
+const StyledContainer = styled(Box)(() => ({
    display: 'flex',
    justifyContent: 'center',
    flexDirection: 'column',

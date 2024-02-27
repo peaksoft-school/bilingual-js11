@@ -2,28 +2,30 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
 import { Link, useParams } from 'react-router-dom'
-import Switcher from '../../../components/UI/Switcher'
 import { EditIcon, FalseIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
+import { SearchingImage } from '../../../assets/images'
+import { QUESTIONS_THUNKS } from '../../../store/slice/admin/questionsThunk'
 import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
-import { SearchingImage } from '../../../assets/images'
+import Switcher from '../../../components/UI/Switcher'
 import Modal from '../../../components/UI/Modal'
-import { QUESTIONS_THUNK } from '../../../store/slice/admin/questionsThunk'
 
 const Questions = () => {
    const { questions } = useSelector((state) => state.questionsSlice)
-   const { testId } = useParams()
-   const [isVisible, setIsVisible] = useState(false)
-   const [selectedQuestionId, setSelectedQuestionId] = useState(null)
    const dispatch = useDispatch()
 
+   const { testId } = useParams()
+
+   const [isVisible, setIsVisible] = useState(false)
+   const [selectedQuestionId, setSelectedQuestionId] = useState(null)
+
    useEffect(() => {
-      dispatch(QUESTIONS_THUNK.getTest({ testId }))
+      dispatch(QUESTIONS_THUNKS.getTest({ testId }))
    }, [dispatch, testId])
 
    const handleDeleteQuestion = () => {
       dispatch(
-         QUESTIONS_THUNK.deleteQuestion({
+         QUESTIONS_THUNKS.deleteQuestion({
             questionId: selectedQuestionId,
             testId,
          })
@@ -39,7 +41,7 @@ const Questions = () => {
 
    const handleEnable = (params) => {
       dispatch(
-         QUESTIONS_THUNK.updateQuestionByEnable({
+         QUESTIONS_THUNKS.updateQuestionByEnable({
             questionId: params.id,
             isEnable: params.value,
             testId,
@@ -50,28 +52,26 @@ const Questions = () => {
    return (
       <StyledContainer>
          <TestContainer>
-            <Box>
-               <Box className="title-container">
-                  <Box className="text">
-                     <Typography className="title">Title:</Typography>
-                     <Typography>{questions?.title}</Typography>
-                  </Box>
+            <Box className="title-container">
+               <Box className="text">
+                  <Typography className="title">Title:</Typography>
+                  <Typography>{questions?.title}</Typography>
+               </Box>
 
-                  <Box className="text">
-                     <Typography className="title">
-                        Short Description:
-                     </Typography>
-                     <Typography>{questions?.shortDescription}</Typography>
-                  </Box>
+               <Box className="text">
+                  <Typography className="title">Short Description:</Typography>
 
-                  <Box className="text">
-                     <Typography className="title">Duration:</Typography>
-                     <Typography>
-                        {questions && questions.duration
-                           ? questions.duration / 60
-                           : ''}
-                     </Typography>
-                  </Box>
+                  <Typography>{questions?.shortDescription}</Typography>
+               </Box>
+
+               <Box className="text">
+                  <Typography className="title">Duration:</Typography>
+
+                  <Typography>
+                     {questions && questions.duration
+                        ? questions.duration / 60
+                        : ''}
+                  </Typography>
                </Box>
             </Box>
 
@@ -88,11 +88,8 @@ const Questions = () => {
 
             <StyledTable>
                <Typography>#</Typography>
-
                <Typography className="name">Name</Typography>
-
                <Typography className="duration-time">Duration</Typography>
-
                <Typography className="question-type">Question Type</Typography>
             </StyledTable>
 

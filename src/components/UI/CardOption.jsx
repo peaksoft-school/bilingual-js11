@@ -59,9 +59,8 @@ const StyledBox = styled(Box)(() => ({
    border: '1.8px solid #BDBDBD',
    borderRadius: '8px',
    justifyContent: 'center',
-   alignItems: 'center',
    gap: '3.85rem',
-   padding: '0.5rem 1rem 0.5rem 1rem ',
+   padding: '0.8rem 1rem 0.8rem 1rem ',
 
    '& .advantage-block': {
       display: 'flex',

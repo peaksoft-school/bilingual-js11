@@ -2,27 +2,28 @@ import { useEffect, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import Switcher from '../../UI/Switcher'
 import { EditIcon, FalseIcon, TrashIcon } from '../../../assets/icons'
 import { SearchingImage } from '../../../assets/images'
+import { TESTS_THUNKS } from '../../../store/slice/admin/testsThunk'
 import Modal from '../../UI/Modal'
+import Switcher from '../../UI/Switcher'
 import Button from '../../UI/buttons/Button'
-import { TESTS_THUNK } from '../../../store/slice/admin/testsThunk'
 
 const TestList = () => {
    const { tests } = useSelector((state) => state.testsSlice)
+   const dispatch = useDispatch()
+
    const [isVisible, setIsVisible] = useState(false)
    const [selectedTestId, setSelectedTestId] = useState(null)
-   const dispatch = useDispatch()
 
    const navigate = useNavigate()
 
    useEffect(() => {
-      dispatch(TESTS_THUNK.getAllTests())
+      dispatch(TESTS_THUNKS.getAllTests())
    }, [dispatch])
 
    const handleDeleteTest = (testId) => {
-      dispatch(TESTS_THUNK.deleteTest(testId))
+      dispatch(TESTS_THUNKS.deleteTest(testId))
       setIsVisible(false)
    }
 
@@ -33,7 +34,7 @@ const TestList = () => {
 
    const handleEnable = (params) => {
       dispatch(
-         TESTS_THUNK.updateTetsByEnable({
+         TESTS_THUNKS.updateTetsByEnable({
             testId: params.id,
             enable: params.value,
          })

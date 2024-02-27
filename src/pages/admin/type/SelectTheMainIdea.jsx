@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/questionSlice'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
-import { QUESTION_THUNK } from '../../../store/slice/admin/questionThunk'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/questionThunk'
 import Button from '../../../components/UI/buttons/Button'
 import CardOption from '../../../components/UI/CardOption'
 import Modal from '../../../components/UI/Modal'
@@ -81,7 +81,7 @@ const SelectTheMainIdea = ({
          }
 
          dispatch(
-            QUESTION_THUNK.saveTest({
+            QUESTION_THUNKS.saveTest({
                requestData,
                data: {
                   testId,
@@ -228,7 +228,7 @@ const SelectTheMainIdea = ({
                   <Button
                      variant="primary"
                      onClick={addHandler}
-                     disabled={!optionTitle}
+                     disabled={!optionTitle.trim()}
                   >
                      SAVE
                   </Button>
@@ -272,13 +272,10 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 
    '& .cards': {
       display: 'flex',
-      justifyContent: 'start',
       flexDirection: 'column',
       gap: '1.1rem',
       margin: '1.5rem 0 2rem 0',
       width: '820px',
-
-      '& .card-option': {},
    },
 
    '& .buttons': {

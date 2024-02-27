@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { QUESTION_THUNK } from './questionThunk'
+import { QUESTION_THUNKS } from './questionThunk'
 
 const initialState = {
    title: '',
@@ -50,17 +50,17 @@ const questionSlice = createSlice({
 
    extraReducers: (builder) => {
       builder
-         .addCase(QUESTION_THUNK.saveTest.fulfilled, (state) => {
+         .addCase(QUESTION_THUNKS.saveTest.fulfilled, (state) => {
             state.isLoading = false
             state.error = null
          })
 
-         .addCase(QUESTION_THUNK.saveTest.rejected, (state, action) => {
+         .addCase(QUESTION_THUNKS.saveTest.rejected, (state, action) => {
             state.isLoading = false
             state.error = action.payload
          })
 
-         .addCase(QUESTION_THUNK.saveTest.pending, (state) => {
+         .addCase(QUESTION_THUNKS.saveTest.pending, (state) => {
             state.isLoading = true
             state.error = null
          })

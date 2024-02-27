@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { Box, Input, Typography, styled } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { Box, Input, Typography, styled } from '@mui/material'
 import { v4 as uuidv4 } from 'uuid'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/questionSlice'
-import { QUESTION_THUNK } from '../../../store/slice/admin/questionThunk'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/questionThunk'
 import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import CardOption from '../../../components/UI/CardOption'
@@ -21,21 +21,15 @@ const SelectRealEnglish = ({
    setSelectType,
 }) => {
    const option = useSelector((state) => state.question.option)
-
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
-
    const { testId } = useParams()
 
    const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
-
    const [isOpenModalSave, setIsOpenModalSave] = useState(false)
-
    const [optionTitle, setOptionTitle] = useState('')
-
    const [checkOption, setCheckOption] = useState(false)
-
    const [optionId, setOptionId] = useState(null)
 
    const handleChangeInput = (e) => setOptionTitle(e.target.value)
@@ -70,7 +64,7 @@ const SelectRealEnglish = ({
          }
 
          dispatch(
-            QUESTION_THUNK.saveTest({
+            QUESTION_THUNKS.saveTest({
                requestData,
                data: {
                   testId,
@@ -92,7 +86,6 @@ const SelectRealEnglish = ({
       dispatch(QUESTION_ACTIONS.addOption(data))
 
       openModalSave()
-
       setOptionTitle('')
       setCheckOption(false)
    }
@@ -200,7 +193,7 @@ const SelectRealEnglish = ({
                   <Button
                      variant="primary"
                      onClick={addHandler}
-                     disabled={!optionTitle}
+                     disabled={!optionTitle.trim()}
                   >
                      SAVE
                   </Button>
@@ -214,6 +207,8 @@ const SelectRealEnglish = ({
 export default SelectRealEnglish
 
 const StyledContainer = styled(Box)(() => ({
+   width: '820px',
+
    '& .add-button': {
       margin: '2rem 0 1.375rem 41.5rem',
 
@@ -235,7 +230,7 @@ const StyledContainer = styled(Box)(() => ({
    '& .buttons': {
       display: 'flex',
       gap: '1.1rem',
-      marginLeft: '37.5rem',
+      marginLeft: '37.4rem',
 
       '& .text': {
          textDecoration: 'none',
