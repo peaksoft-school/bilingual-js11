@@ -44,7 +44,7 @@ const postFileRequest = createAsyncThunk(
    }
 )
 
-export const QUESTION_THUNK = {
+export const QUESTION_THUNKS = {
    postFileRequest,
    saveTest,
 }

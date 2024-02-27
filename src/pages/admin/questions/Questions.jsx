@@ -1,33 +1,31 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Box, Typography, styled } from '@mui/material'
 import { Link, useParams } from 'react-router-dom'
-import Switcher from '../../../components/UI/Switcher'
+import { Box, Typography, styled } from '@mui/material'
 import { EditIcon, FalseIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
+import { SearchingImage } from '../../../assets/images'
+import { QUESTIONS_THUNKS } from '../../../store/slice/admin/questionsThunks'
+import Switcher from '../../../components/UI/Switcher'
 import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
-import { SearchingImage } from '../../../assets/images'
 import Modal from '../../../components/UI/Modal'
-import { QUESTIONS_THUNK } from '../../../store/slice/admin/questionsThunk'
 
 const Questions = () => {
    const { questions } = useSelector((state) => state.questionsSlice)
+   const dispatch = useDispatch()
 
    const { testId } = useParams()
 
    const [isVisible, setIsVisible] = useState(false)
-
    const [selectedQuestionId, setSelectedQuestionId] = useState(null)
 
-   const dispatch = useDispatch()
-
    useEffect(() => {
-      dispatch(QUESTIONS_THUNK.getTest({ testId }))
+      dispatch(QUESTIONS_THUNKS.getTest({ testId }))
    }, [dispatch, testId])
 
    const handleDeleteQuestion = () => {
       dispatch(
-         QUESTIONS_THUNK.deleteQuestion({
+         QUESTIONS_THUNKS.deleteQuestion({
             questionId: selectedQuestionId,
             testId,
          })
@@ -38,13 +36,12 @@ const Questions = () => {
 
    const handleOpenModal = (questionId) => {
       setSelectedQuestionId(questionId)
-
       setIsVisible((prev) => !prev)
    }
 
    const handleEnable = (params) => {
       dispatch(
-         QUESTIONS_THUNK.updateQuestionByEnable({
+         QUESTIONS_THUNKS.updateQuestionByEnable({
             questionId: params.id,
             isEnable: params.value,
             testId,

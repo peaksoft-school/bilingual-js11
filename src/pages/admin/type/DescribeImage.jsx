@@ -2,11 +2,11 @@ import { useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
-import Input from '../../../components/UI/Input'
-import { QUESTION_THUNK } from '../../../store/slice/admin/questionThunk'
-import Button from '../../../components/UI/buttons/Button'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/questionThunks'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/questionSlice'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
+import Button from '../../../components/UI/buttons/Button'
+import Input from '../../../components/UI/Input'
 
 const DescribeImage = ({
    duration,
@@ -17,29 +17,24 @@ const DescribeImage = ({
    setSelectType,
 }) => {
    const { fileUrl, isLoading } = useSelector((state) => state.question)
-
-   const [image, setImage] = useState(null)
-
-   const [fileName, setFileName] = useState('')
-
-   const [answer, setAnswer] = useState('')
-
    const dispatch = useDispatch()
 
-   const navigate = useNavigate()
+   const [image, setImage] = useState(null)
+   const [fileName, setFileName] = useState('')
+   const [answer, setAnswer] = useState('')
 
+   const navigate = useNavigate()
    const { testId } = useParams()
 
    const inputRef = useRef(null)
-
    const inputFileRef = useRef(null)
 
    const handleClick = () => inputFileRef.current.click()
 
    const handleInputChange = (e) => setAnswer(e.target.value)
 
-   const handleFileChange = (event) => {
-      const file = event.target.files[0]
+   const handleFileChange = (e) => {
+      const file = e.target.files[0]
 
       if (file) {
          const reader = new FileReader()
@@ -52,25 +47,7 @@ const DescribeImage = ({
 
          setFileName(file.name)
 
-         dispatch(QUESTION_THUNK.postFileRequest(file))
-      }
-   }
-
-   const handleImageChange = (event) => {
-      const file = event.target.files[0]
-
-      if (file) {
-         const reader = new FileReader()
-
-         reader.onloadend = () => {
-            setImage(reader.result)
-         }
-
-         reader.readAsDataURL(file)
-
-         setFileName(file.name)
-
-         dispatch(QUESTION_THUNK.postFileRequest(file))
+         dispatch(QUESTION_THUNKS.postFileRequest(file))
       }
    }
 
@@ -89,14 +66,14 @@ const DescribeImage = ({
          setAnswer('')
 
          const requestData = {
-            title,
+            title: title.trim(),
             duration: +duration * 60,
-            correctAnswer: answer,
+            correctAnswer: answer.trim(),
             fileUrl,
          }
 
          dispatch(
-            QUESTION_THUNK.saveTest({
+            QUESTION_THUNKS.saveTest({
                requestData,
                data: {
                   testId,
@@ -107,6 +84,9 @@ const DescribeImage = ({
          )
       }
    }
+
+   const isFormValid =
+      !selectType || !duration || !title || !image || !answer.trim()
 
    return (
       <StyledContainer>
@@ -121,7 +101,7 @@ const DescribeImage = ({
                   type="file"
                   className="input"
                   accept=".jpg, .png"
-                  onChange={handleImageChange}
+                  onChange={handleFileChange}
                />
 
                <Typography className="file-name" onClick={handleClick}>
@@ -141,13 +121,6 @@ const DescribeImage = ({
                      ref={inputRef}
                   />
                </label>
-
-               <Typography
-                  className="file-name"
-                  onClick={() => inputRef.current.click()}
-               >
-                  File_name_of_the_image_file.jpg
-               </Typography>
             </Box>
          )}
 
@@ -164,9 +137,7 @@ const DescribeImage = ({
 
             <Button
                variant="primary"
-               disabled={
-                  !selectType || !duration || !title || !image || !answer.trim()
-               }
+               disabled={isFormValid}
                onClick={saveTestQuestion}
                isLoading={isLoading}
                colorLoading="secondary"
@@ -204,7 +175,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    },
 
    '& .title': {
-      border: '1.53px solid #D4D0D0',
+      border: '1px solid #D4D0D0',
       borderRadius: '8px',
       padding: '4.6rem 2rem 4.6rem 2rem',
       color: theme.palette.primary.main,
