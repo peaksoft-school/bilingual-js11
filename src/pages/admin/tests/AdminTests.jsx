@@ -8,13 +8,15 @@ import TestContainer from '../../../components/UI/TestContainer'
 const AdminTests = () => {
    const navigate = useNavigate()
 
+   const handleNavigate = () => navigate('/admin/tests/create-test')
+
    return (
       <StyledContainer>
          <TestContainer>
             <Button
                className="button"
                icon={<PlusIcon className="plus-icon" />}
-               onClick={() => navigate('/admin/tests/create-test')}
+               onClick={handleNavigate}
             >
                ADD NEW TEST
             </Button>

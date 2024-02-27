@@ -17,7 +17,6 @@ const Questions = () => {
    const { testId } = useParams()
 
    const dispatch = useDispatch()
-
    const navigate = useNavigate()
 
    const [isVisible, setIsVisible] = useState(false)
@@ -55,6 +54,11 @@ const Questions = () => {
       )
    }
 
+   const handleGoBack = () => navigate('/')
+
+   const handleAddQuestionsNavigate = () =>
+      navigate(`/admin/tests/questions/${testId}/create-question`)
+
    return (
       <StyledContainer>
          <TestContainer>
@@ -89,9 +93,7 @@ const Questions = () => {
             <Button
                icon={<PlusIcon className="plus" />}
                className="button"
-               onClick={() =>
-                  navigate(`/admin/tests/questions/${testId}/create-question`)
-               }
+               onClick={handleAddQuestionsNavigate}
             >
                ADD MORE QUESTIONS
             </Button>
@@ -153,7 +155,7 @@ const Questions = () => {
             <Button
                className="go-back-button"
                variant="secondary"
-               onClick={() => navigate('/')}
+               onClick={handleGoBack}
             >
                GO BACK
             </Button>

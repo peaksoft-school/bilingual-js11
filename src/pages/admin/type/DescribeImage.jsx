@@ -34,6 +34,8 @@ const DescribeImage = ({
 
    const handleInputChange = (e) => setAnswer(e.target.value)
 
+   const handleGoBack = () => navigate(-1)
+
    const handleFileChange = (e) => {
       const file = e.target.files[0]
 
@@ -132,7 +134,7 @@ const DescribeImage = ({
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={() => navigate(-1)}>
+            <Button variant="secondary" onClick={handleGoBack}>
                GO BACK
             </Button>
 

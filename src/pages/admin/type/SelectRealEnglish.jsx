@@ -42,6 +42,8 @@ const SelectRealEnglish = ({
 
    const openModalSave = () => setIsOpenModalSave((prevState) => !prevState)
 
+   const handleGoBack = () => navigate(-1)
+
    const deleteTest = () => {
       dispatch(QUESTION_ACTIONS.deleteOption(optionId))
       setIsOpenModalDelete((prevState) => !prevState)
@@ -122,7 +124,7 @@ const SelectRealEnglish = ({
             </Box>
 
             <Box className="buttons">
-               <Button variant="secondary" onClick={() => navigate(-1)}>
+               <Button variant="secondary" onClick={handleGoBack}>
                   GO BACK
                </Button>
 
