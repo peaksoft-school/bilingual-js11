@@ -3,14 +3,14 @@ import { Box, Input, Typography, styled } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
-import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/questionSlice'
-import { QUESTION_THUNK } from '../../../store/slice/admin/questionThunk'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/questionThunks'
+import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
-import CardOption from '../../../components/UI/CardOption'
 import Button from '../../../components/UI/buttons/Button'
 import Modal from '../../../components/UI/Modal'
 import Checkbox from '../../../components/UI/Checkbox'
+import Option from '../../../components/UI/Option'
 
 const SelectRealEnglish = ({
    duration,
@@ -21,21 +21,15 @@ const SelectRealEnglish = ({
    setSelectType,
 }) => {
    const option = useSelector((state) => state.question.option)
-
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
-
    const { testId } = useParams()
 
    const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
-
    const [isOpenModalSave, setIsOpenModalSave] = useState(false)
-
    const [optionTitle, setOptionTitle] = useState('')
-
    const [checkOption, setCheckOption] = useState(false)
-
    const [optionId, setOptionId] = useState(null)
 
    const handleChangeInput = (e) => setOptionTitle(e.target.value)
@@ -45,6 +39,7 @@ const SelectRealEnglish = ({
    const openModalDelete = () => setIsOpenModalDelete((prevState) => !prevState)
 
    const openModalSave = () => setIsOpenModalSave((prevState) => !prevState)
+
    const deleteTest = () => {
       dispatch(QUESTION_ACTIONS.deleteOption(optionId))
       setIsOpenModalDelete((prevState) => !prevState)
@@ -63,13 +58,13 @@ const SelectRealEnglish = ({
          setDuration('')
 
          const requestData = {
-            title,
+            title: title.trim(),
             duration: +duration * 60,
             option,
          }
 
          dispatch(
-            QUESTION_THUNK.saveTest({
+            QUESTION_THUNKS.saveTest({
                requestData,
                data: {
                   testId,
@@ -109,10 +104,10 @@ const SelectRealEnglish = ({
             </Box>
 
             <Box className="cards">
-               {option?.map((item, i) => (
-                  <CardOption
-                     key={item.id}
-                     item={item}
+               {option?.map((option, i) => (
+                  <Option
+                     key={option.id}
+                     option={option}
                      index={i}
                      handleChecked={handleChecked}
                      openModal={setIsOpenModalDelete}
@@ -213,6 +208,8 @@ const SelectRealEnglish = ({
 export default SelectRealEnglish
 
 const StyledContainer = styled(Box)(() => ({
+   width: '820px',
+
    '& .add-button': {
       margin: '2rem 0 1.375rem 41.5rem',
 

@@ -91,7 +91,7 @@ const updateQuestionByEnable = createAsyncThunk(
    }
 )
 
-export const QUESTIONS_THUNK = {
+export const QUESTIONS_THUNKS = {
    getAllQuestions,
    getQuestion,
    deleteQuestion,

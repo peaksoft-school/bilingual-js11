@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { TESTS_THUNK } from './testsThunk'
+import { TESTS_THUNKS } from './testsThunks'
 
 const initialState = {
    tests: [],
@@ -11,40 +11,41 @@ export const testsSlice = createSlice({
    name: 'testsSlice',
    initialState,
    reducers: {},
+
    extraReducers: (builder) => {
       builder
-         .addCase(TESTS_THUNK.getAllTests.pending, (state) => {
+         .addCase(TESTS_THUNKS.getAllTests.pending, (state) => {
             state.status = 'loading'
          })
 
-         .addCase(TESTS_THUNK.getAllTests.fulfilled, (state, action) => {
+         .addCase(TESTS_THUNKS.getAllTests.fulfilled, (state, action) => {
             state.status = 'succeeded'
             state.tests = action.payload
          })
 
-         .addCase(TESTS_THUNK.getAllTests.rejected, (state, action) => {
+         .addCase(TESTS_THUNKS.getAllTests.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
          })
 
-         .addCase(TESTS_THUNK.postTest.pending, (state) => {
+         .addCase(TESTS_THUNKS.postTest.pending, (state) => {
             state.status = 'loading'
          })
 
-         .addCase(TESTS_THUNK.postTest.fulfilled, (state) => {
+         .addCase(TESTS_THUNKS.postTest.fulfilled, (state) => {
             state.status = 'succeeded'
          })
 
-         .addCase(TESTS_THUNK.postTest.rejected, (state, action) => {
+         .addCase(TESTS_THUNKS.postTest.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
          })
 
-         .addCase(TESTS_THUNK.deleteTest.pending, (state) => {
+         .addCase(TESTS_THUNKS.deleteTest.pending, (state) => {
             state.status = 'loading'
          })
 
-         .addCase(TESTS_THUNK.deleteTest.fulfilled, (state, action) => {
+         .addCase(TESTS_THUNKS.deleteTest.fulfilled, (state, action) => {
             state.status = 'succeeded'
 
             state.tests = state.tests.filter(
@@ -52,33 +53,33 @@ export const testsSlice = createSlice({
             )
          })
 
-         .addCase(TESTS_THUNK.deleteTest.rejected, (state, action) => {
+         .addCase(TESTS_THUNKS.deleteTest.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
          })
 
-         .addCase(TESTS_THUNK.updateTest.pending, (state) => {
+         .addCase(TESTS_THUNKS.updateTest.pending, (state) => {
             state.status = 'loading'
          })
 
-         .addCase(TESTS_THUNK.updateTest.fulfilled, (state) => {
+         .addCase(TESTS_THUNKS.updateTest.fulfilled, (state) => {
             state.status = 'succeeded'
          })
 
-         .addCase(TESTS_THUNK.updateTest.rejected, (state, action) => {
+         .addCase(TESTS_THUNKS.updateTest.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
          })
 
-         .addCase(TESTS_THUNK.updateTetsByEnable.pending, (state) => {
+         .addCase(TESTS_THUNKS.updateTetsByEnable.pending, (state) => {
             state.status = 'loading'
          })
 
-         .addCase(TESTS_THUNK.updateTetsByEnable.fulfilled, (state) => {
+         .addCase(TESTS_THUNKS.updateTetsByEnable.fulfilled, (state) => {
             state.status = 'succeeded'
          })
 
-         .addCase(TESTS_THUNK.updateTetsByEnable.rejected, (state, action) => {
+         .addCase(TESTS_THUNKS.updateTetsByEnable.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
          })
