@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react'
+import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { Box, Typography, styled } from '@mui/material'
-import { QUESTIONS_THUNKS } from '../../../store/slice/admin/questionsThunks'
-import { TESTS_THUNKS } from '../../../store/slice/admin/testsThunks'
+import { QUESTIONS_THUNKS } from '../../../store/slice/admin/questions/questionsThunk'
+import { TESTS_THUNKS } from '../../../store/slice/admin/tests/testsThunk'
 import Input from '../../../components/UI/Input'
-import TestContainer from '../../../components/UI/TestContainer'
 import Button from '../../../components/UI/buttons/Button'
+import TestContainer from '../../../components/UI/TestContainer'
 
 const CreateTest = () => {
    const { questions } = useSelector((state) => state.questionsSlice)
-   const dispatch = useDispatch()
 
    const { id } = useParams()
+
+   const dispatch = useDispatch()
    const navigate = useNavigate()
 
    const [testData, setTestData] = useState({
@@ -24,6 +25,7 @@ const CreateTest = () => {
 
    const handleInputChange = (e) => {
       const { name, value } = e.target
+
       setTestData({
          ...testData,
          [name]: value,
@@ -63,6 +65,7 @@ const CreateTest = () => {
       <TestContainer>
          <StyledContainer>
             <Typography className="label">Title</Typography>
+
             <Input
                className="input"
                name="title"
@@ -71,6 +74,7 @@ const CreateTest = () => {
             />
 
             <Typography className="label">Short Description</Typography>
+
             <Input
                className="input"
                name="shortDescription"

@@ -1,16 +1,17 @@
 import { useState } from 'react'
-import { Box, Input, Typography, styled } from '@mui/material'
+import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { v4 as uuidv4 } from 'uuid'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/questionSlice'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/questionThunks'
+import { Box, Typography, styled } from '@mui/material'
 import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
+import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
-import CardOption from '../../../components/UI/CardOption'
-import Button from '../../../components/UI/buttons/Button'
 import Modal from '../../../components/UI/Modal'
+import Button from '../../../components/UI/buttons/Button'
+import Option from '../../../components/UI/Option'
 import Checkbox from '../../../components/UI/Checkbox'
+import Input from '../../../components/UI/Input'
 
 const SelectRealEnglish = ({
    duration,
@@ -21,10 +22,12 @@ const SelectRealEnglish = ({
    setSelectType,
 }) => {
    const option = useSelector((state) => state.question.option)
+
+   const { testId } = useParams()
+
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
-   const { testId } = useParams()
 
    const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
    const [isOpenModalSave, setIsOpenModalSave] = useState(false)
@@ -40,8 +43,11 @@ const SelectRealEnglish = ({
 
    const openModalSave = () => setIsOpenModalSave((prevState) => !prevState)
 
+   const handleGoBack = () => navigate(-1)
+
    const deleteTest = () => {
       dispatch(QUESTION_ACTIONS.deleteOption(optionId))
+
       setIsOpenModalDelete((prevState) => !prevState)
    }
 
@@ -88,8 +94,11 @@ const SelectRealEnglish = ({
       openModalSave()
 
       setOptionTitle('')
+
       setCheckOption(false)
    }
+
+   const isValid = !selectType || !duration || !title || option.length === 0
 
    return (
       <>
@@ -104,10 +113,10 @@ const SelectRealEnglish = ({
             </Box>
 
             <Box className="cards">
-               {option?.map((item, i) => (
-                  <CardOption
-                     key={item.id}
-                     item={item}
+               {option?.map((option, i) => (
+                  <Option
+                     key={option.id}
+                     option={option}
                      index={i}
                      handleChecked={handleChecked}
                      openModal={setIsOpenModalDelete}
@@ -117,15 +126,13 @@ const SelectRealEnglish = ({
             </Box>
 
             <Box className="buttons">
-               <Button variant="secondary" onClick={() => navigate(-1)}>
+               <Button variant="secondary" onClick={handleGoBack}>
                   GO BACK
                </Button>
 
                <Button
                   variant="primary"
-                  disabled={
-                     !selectType || !duration || !title || option.length === 0
-                  }
+                  disabled={isValid}
                   onClick={saveTestQuestion}
                >
                   SAVE
@@ -170,7 +177,7 @@ const SelectRealEnglish = ({
 
                   <Input
                      type="text"
-                     placeholder="Select real English words"
+                     placeholder="Enter the title ..."
                      value={optionTitle}
                      onChange={handleChangeInput}
                   />
@@ -217,6 +224,7 @@ const StyledContainer = styled(Box)(() => ({
          marginBottom: '0.2rem',
       },
    },
+
    '& .cards': {
       display: 'flex',
       flexWrap: 'wrap',
@@ -225,6 +233,7 @@ const StyledContainer = styled(Box)(() => ({
       gap: '1.1rem',
       margin: '1.5rem 0 2rem 0',
    },
+
    '& .buttons': {
       display: 'flex',
       gap: '1.1rem',

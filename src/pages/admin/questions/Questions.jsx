@@ -1,20 +1,25 @@
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
 import { EditIcon, FalseIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
-import { SearchingImage } from '../../../assets/images'
-import { QUESTIONS_THUNKS } from '../../../store/slice/admin/questionsThunks'
-import Switcher from '../../../components/UI/Switcher'
-import Button from '../../../components/UI/buttons/Button'
-import TestContainer from '../../../components/UI/TestContainer'
+import { questionTypeHandler } from '../../../utils/helpers'
+import { QUESTIONS_THUNKS } from '../../../store/slice/admin/questions/questionsThunk'
+import { NoData } from '../../../assets/images'
+import { ROUTES } from '../../../routes/routes'
 import Modal from '../../../components/UI/Modal'
+import Button from '../../../components/UI/buttons/Button'
+import Switcher from '../../../components/UI/Switcher'
+import TestContainer from '../../../components/UI/TestContainer'
 
 const Questions = () => {
    const { questions } = useSelector((state) => state.questionsSlice)
-   const dispatch = useDispatch()
 
    const { testId } = useParams()
+
+   const dispatch = useDispatch()
+
+   const navigate = useNavigate()
 
    const [isVisible, setIsVisible] = useState(false)
    const [selectedQuestionId, setSelectedQuestionId] = useState(null)
@@ -36,6 +41,7 @@ const Questions = () => {
 
    const handleOpenModal = (questionId) => {
       setSelectedQuestionId(questionId)
+
       setIsVisible((prev) => !prev)
    }
 
@@ -49,6 +55,13 @@ const Questions = () => {
       )
    }
 
+   const handleGoBack = () => navigate('/')
+
+   const handleAddQuestionsNavigate = () =>
+      navigate(
+         `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/${testId}/${ROUTES.ADMIN.createQuestion}`
+      )
+
    return (
       <StyledContainer>
          <TestContainer>
@@ -56,6 +69,7 @@ const Questions = () => {
                <Box className="title-container">
                   <Box className="text">
                      <Typography className="title">Title:</Typography>
+
                      <Typography>{questions?.title}</Typography>
                   </Box>
 
@@ -63,11 +77,13 @@ const Questions = () => {
                      <Typography className="title">
                         Short Description:
                      </Typography>
+
                      <Typography>{questions?.shortDescription}</Typography>
                   </Box>
 
                   <Box className="text">
                      <Typography className="title">Duration:</Typography>
+
                      <Typography>
                         {questions && questions.duration
                            ? questions.duration / 60
@@ -77,25 +93,26 @@ const Questions = () => {
                </Box>
             </Box>
 
-            <Button icon={<PlusIcon className="plus" />} className="button">
-               <Link
-                  to={`/admin/tests/questions/${testId}/create-question`}
-                  className="text"
-               >
-                  ADD MORE QUESTIONS
-               </Link>
+            <Button
+               icon={<PlusIcon className="plus" />}
+               className="button"
+               onClick={handleAddQuestionsNavigate}
+            >
+               ADD MORE QUESTIONS
             </Button>
 
             <Box className="divider" />
-
             <StyledTable>
-               <Typography>#</Typography>
-
-               <Typography className="name">Name</Typography>
-
-               <Typography className="duration-time">Duration</Typography>
-
-               <Typography className="question-type">Question Type</Typography>
+               {questions && questions.question.length > 0 ? (
+                  <>
+                     <Typography>#</Typography>
+                     <Typography className="name">Name</Typography>
+                     <Typography className="duration-time">Duration</Typography>
+                     <Typography className="question-type">
+                        Question Type
+                     </Typography>
+                  </>
+               ) : null}
             </StyledTable>
 
             {questions && questions.question.length > 0 ? (
@@ -103,6 +120,7 @@ const Questions = () => {
                   ({ id, title, duration, questionType, enable }, index) => (
                      <StyledBox key={id}>
                         <Typography>{index + 1}</Typography>
+
                         <Typography className="name-props">{title}</Typography>
 
                         <Typography className="duration-props">
@@ -110,7 +128,7 @@ const Questions = () => {
                         </Typography>
 
                         <Typography className="question-type-props">
-                           {questionType}
+                           {questionTypeHandler(questionType)}
                         </Typography>
 
                         <Box className="icons">
@@ -133,14 +151,16 @@ const Questions = () => {
                )
             ) : (
                <Box className="background-image">
-                  <img src={SearchingImage} alt="search" />
+                  <img src={NoData} alt="no-data" />
                </Box>
             )}
 
-            <Button className="go-back-button" variant="secondary">
-               <Link to="/" className="text">
-                  GO BACK
-               </Link>
+            <Button
+               className="go-back-button"
+               variant="secondary"
+               onClick={handleGoBack}
+            >
+               GO BACK
             </Button>
          </TestContainer>
 
@@ -170,7 +190,6 @@ const Questions = () => {
       </StyledContainer>
    )
 }
-
 export default Questions
 
 const StyledContainer = styled(Box)(() => ({
@@ -185,6 +204,11 @@ const StyledContainer = styled(Box)(() => ({
       '& > .text': {
          display: 'flex',
          gap: '0.3rem',
+         fontFamily: 'Poppins',
+         fontSize: '1rem',
+         overflow: 'hidden',
+         maxWidth: '20rem',
+         textOverflow: 'ellipsis',
 
          '& > .title': {
             color: '#3752B4',
@@ -259,9 +283,13 @@ const StyledContainer = styled(Box)(() => ({
 
    '& .background-image': {
       margin: 'auto',
-      marginTop: '1.8rem',
-      width: '16rem',
-      height: '16rem',
+      maxWidth: '20rem',
+      maxHeight: '15rem',
+
+      '& img': {
+         width: '100%',
+         height: '100%',
+      },
    },
 }))
 
@@ -302,6 +330,8 @@ const StyledBox = styled(Box)(() => ({
       margin: '0 1.2rem',
       whiteSpace: 'nowrap',
       width: '13rem',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
    },
 
    '& > .duration-props': {
@@ -313,7 +343,7 @@ const StyledBox = styled(Box)(() => ({
    },
 
    '&:hover': {
-      backgroundColor: '#f6f6f6',
+      backgroundColor: '#F6F6F6',
    },
 
    '& > .icons': {
@@ -340,15 +370,12 @@ const StyledBox = styled(Box)(() => ({
       '& .name-props': {
          display: 'none',
       },
-
       '& .duration-props': {
          display: 'none',
       },
-
       '& .question-type-props': {
          display: 'none',
       },
-
       '& .icons': {
          justifyContent: 'center',
       },

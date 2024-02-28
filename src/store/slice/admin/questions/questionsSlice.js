@@ -1,16 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { QUESTIONS_THUNKS } from './questionsThunks'
+import { QUESTIONS_THUNKS } from './questionsThunk'
 
 const initialState = {
    questions: null,
    status: '',
-   error: null,
+   error: '',
 }
 
 export const questionsSlice = createSlice({
    name: 'questionsSlice',
    initialState,
    reducers: {},
+
    extraReducers: (builder) => {
       builder
          .addCase(QUESTIONS_THUNKS.getTest.pending, (state) => {

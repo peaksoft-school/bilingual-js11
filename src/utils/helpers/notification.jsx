@@ -1,5 +1,5 @@
-import { Box, Typography, styled } from '@mui/material'
 import { toast } from 'react-toastify'
+import { Box, Typography, styled } from '@mui/material'
 import {
    ExitIcon,
    NotificationErrorIcon,
@@ -73,6 +73,5 @@ const StyledMessage = styled(Typography)(() => ({
    padding: '0 2rem',
    fontFamily: 'Poppins',
    textOverflow: 'ellipsis',
-   // whiteSpace: 'nowrap' /* Запрещаем перенос строк */,
    overflow: ' hidden',
 }))

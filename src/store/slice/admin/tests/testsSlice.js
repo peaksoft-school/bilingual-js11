@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { TESTS_THUNKS } from './testsThunks'
+import { TESTS_THUNKS } from './testsThunk'
 
 const initialState = {
    tests: [],
