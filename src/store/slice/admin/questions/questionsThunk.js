@@ -46,6 +46,35 @@ const getQuestion = createAsyncThunk(
    }
 )
 
+const postQuestion = createAsyncThunk(
+   'questionsSlice/postTest',
+
+   async ({ testId, questionType, navigate }, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.post(
+            `/api/question?testId=${testId}&questionType=${questionType}`
+         )
+         showNotification({
+            title: 'Success',
+            message: 'Question successfully added',
+            type: 'success',
+         })
+
+         navigate('/admin/tests/questions/:testId')
+
+         return response.data
+      } catch (error) {
+         showNotification({
+            title: 'Error',
+            message: 'Error creating question',
+            type: 'error',
+         })
+
+         return rejectWithValue(error.message)
+      }
+   }
+)
+
 const deleteQuestion = createAsyncThunk(
    'questionsSlice/deleteQuestion',
 
@@ -95,6 +124,7 @@ const updateQuestionByEnable = createAsyncThunk(
 export const QUESTIONS_THUNKS = {
    getAllQuestions,
    getQuestion,
+   postQuestion,
    deleteQuestion,
    updateQuestionByEnable,
    getTest,

@@ -51,10 +51,6 @@ const StyledSelect = styled(Select)(({ theme }) => ({
          border: `1px solid ${theme.palette.primary.main}`,
       },
    },
-
-   '& .MuiSelect-icon': {
-      color: 'white',
-   },
 }))
 
 const StyledMenuItem = styled(MenuItem)(() => ({
