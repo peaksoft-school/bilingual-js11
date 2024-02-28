@@ -18,7 +18,7 @@ const persistConfig = {
    key: 'BILINGUAL',
    storage,
 
-   blacklist: ['question', 'questionsSlice', 'testsSlice'],
+   blacklist: ['question', 'questionsSlice'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

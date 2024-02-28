@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { saveTest } from './questionThunk'
+import { QUESTION_THUNKS } from './questionThunks'
 
 const initialState = {
    title: '',
@@ -10,6 +10,7 @@ const initialState = {
    correctAnswer: '',
    fileUrl: '',
    option: [],
+   isLoading: false,
 }
 
 const questionSlice = createSlice({
@@ -46,22 +47,44 @@ const questionSlice = createSlice({
          state.option = action.payload
       },
    },
+
    extraReducers: (builder) => {
-      builder.addCase(saveTest.fulfilled, (state) => {
-         state.isLoading = false
-         state.error = null
-      })
-      builder.addCase(saveTest.rejected, (state, action) => {
-         state.isLoading = false
-         state.error = action.payload
-      })
-      builder.addCase(saveTest.pending, (state) => {
-         state.isLoading = true
-         state.error = null
-      })
+      builder
+         .addCase(QUESTION_THUNKS.saveTest.fulfilled, (state) => {
+            state.isLoading = false
+            state.error = null
+         })
+
+         .addCase(QUESTION_THUNKS.saveTest.rejected, (state, action) => {
+            state.isLoading = false
+            state.error = action.payload
+         })
+
+         .addCase(QUESTION_THUNKS.saveTest.pending, (state) => {
+            state.isLoading = true
+            state.error = null
+         })
+
+         .addCase(QUESTION_THUNKS.postFileRequest.pending, (state) => {
+            state.isLoading = true
+            state.error = null
+         })
+
+         .addCase(
+            QUESTION_THUNKS.postFileRequest.fulfilled,
+            (state, action) => {
+               state.isLoading = false
+               state.fileUrl = action.payload.link
+            }
+         )
+
+         .addCase(QUESTION_THUNKS.postFileRequest.rejected, (state, action) => {
+            state.isLoading = false
+            state.error = action.payload
+         })
    },
 })
 
 export default questionSlice
 
-export const questionActions = questionSlice.actions
+export const QUESTION_ACTIONS = questionSlice.actions

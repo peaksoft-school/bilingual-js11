@@ -1,40 +1,35 @@
-// import { useEffect } from 'react'
-// import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
 import { Box, styled, Typography } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import TestContainer from '../../../components/UI/TestContainer'
 import Button from '../../../components/UI/buttons/Button'
 import { ListIcon } from '../../../assets/icons'
-// import { HOME_THUNKS } from '../../store/slice/user/homeThunk'
+import { HOME_TEST } from '../../../store/slice/user/homeThunk'
 
 const HomePage = () => {
    const navigate = useNavigate()
-   // const dispatch = useDispatch()
-   // const { test } = useSelector((state) => state.HOME_THUNKS)
+   const dispatch = useDispatch()
+   const testData = useSelector((state) => state.home.testData)
 
-   // useEffect(() => {
-   //    dispatch(HOME_THUNKS.getTest())
-   // }, [dispatch])
+   useEffect(() => {
+      dispatch(HOME_TEST.getTest())
+   }, [dispatch])
 
    return (
       <StyledContainer>
          <TestContainer>
             <Box className="tests-conteiner">
                <ListIcon />
-               <Box className="content">
-                  <Typography className="duration">15 minutes</Typography>
-                  <Typography className="title">
-                     English advanced test
-                  </Typography>
-                  <Typography>shortDescription</Typography>
-               </Box>
-
-               {/* {questions &&
-                  questions.map((question, index) => (
-                     <Typography key={question.id}>{`Question ${index + 1}: ${
-                        question.title
-                     }`}</Typography>
-                  ))} */}
+               {testData && (
+                  <Box className="content">
+                     <Typography className="duration">
+                        {testData.description}
+                     </Typography>
+                     <Typography className="title">{testData.title}</Typography>
+                     <Typography>{testData.shortDescription}</Typography>
+                  </Box>
+               )}
                <Button
                   variant="secondary"
                   onClick={() => navigate('/user/tests/practice-test')}

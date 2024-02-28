@@ -3,14 +3,15 @@ import { axiosInstance } from '../../../configs/axiosInstance'
 
 const getTest = createAsyncThunk(
    'home/getTest',
-   async (_, { rejectWithValue }) => {
+   async ({ testId }, { rejectWithValue }) => {
       try {
-         const response = await axiosInstance.get('/api/test/all')
+         const response = await axiosInstance.get(`/api/test?testId=${testId}`)
+
          return response.data
       } catch (error) {
-         return rejectWithValue(error.response.data)
+         console.error(rejectWithValue.message)
+         throw error
       }
    }
 )
-
-export const HOME_THUNKS = { getTest }
+export const HOME_TEST = { getTest }
