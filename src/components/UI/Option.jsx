@@ -67,6 +67,7 @@ const StyledContainer = styled(Box)(() => ({
       justifyContent: 'flex-start',
       alignItems: 'center',
       gap: '0.85rem',
+      overflow: 'hidden',
 
       '& .title-option': {
          textOverflow: 'ellipsis',
