@@ -9,6 +9,9 @@ export const questionTitle = (name) => {
       case 'RECORD_SAYING':
          return 'RECORD_SAYING'
 
+      case 'HIGHLIGHTS_THE_ANSWER':
+         return 'HIGHLIGHTS_THE_ANSWER'
+
       case 'SELECT_THE_BEST_TITLE':
          return 'SELECT_THE_BEST_TITLE'
       default:

@@ -410,6 +410,10 @@ const OPTIONS = [
       title: 'Record saying statement',
    },
    {
+      id: 7,
+      title: 'Highlight the answer',
+   },
+   {
       id: 8,
       title: 'Select the best title',
    },
@@ -418,8 +422,9 @@ const OPTIONS = [
 const QUESTION_TYPES = {
    SelectRealEnglishWords: 'Select real english words',
    DescribeImage: 'Describe image',
-   SeclectTheBestTitle: 'Select the best title',
+   HighlightTheAnswer: 'Highlight the answer',
    RecordSayingStatement: 'Record saying statement',
+   SeclectTheBestTitle: 'Select the best title',
 }
 
 export {
