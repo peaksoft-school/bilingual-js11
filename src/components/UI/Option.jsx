@@ -12,14 +12,11 @@ const Option = ({
    index,
    isRadio,
 }) => {
-   const [isChecked, setIsChecked] = useState(option.isCorrect)
+   const [isChecked, setIsChecked] = useState(option.isTrueOption)
 
-   const handleCheckboxChange = (e) => {
-      const newCheckedValue = e.target.checked
-
-      setIsChecked(newCheckedValue)
-
-      handleChecked(e, option.id, newCheckedValue)
+   const handleChange = () => {
+      setIsChecked((prev) => !prev)
+      handleChecked(option.id, !isChecked)
    }
 
    const handleOpen = (id) => {
@@ -40,9 +37,9 @@ const Option = ({
 
          <Box className="actions">
             {isRadio ? (
-               <Radio onChange={handleCheckboxChange} checked={isChecked} />
+               <Radio onClick={handleChange} checked={isChecked} />
             ) : (
-               <Checkbox onClick={handleCheckboxChange} checked={isChecked} />
+               <Checkbox onClick={handleChange} checked={isChecked} />
             )}
 
             <TrashIcon

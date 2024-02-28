@@ -6,6 +6,9 @@ export const questionTitle = (name) => {
       case 'DESCRIBE_IMAGE':
          return 'DESCRIBE_IMAGE'
 
+      case 'RECORD_SAYING':
+         return 'RECORD_SAYING'
+
       case 'SELECT_THE_BEST_TITLE':
          return 'SELECT_THE_BEST_TITLE'
       default:

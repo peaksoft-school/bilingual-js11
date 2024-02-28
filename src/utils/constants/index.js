@@ -406,6 +406,10 @@ const OPTIONS = [
       title: 'Respond in at least N words',
    },
    {
+      id: 6,
+      title: 'Record saying statement',
+   },
+   {
       id: 8,
       title: 'Select the best title',
    },
@@ -415,6 +419,7 @@ const QUESTION_TYPES = {
    SelectRealEnglishWords: 'Select real english words',
    DescribeImage: 'Describe image',
    SeclectTheBestTitle: 'Select the best title',
+   RecordSayingStatement: 'Record saying statement',
 }
 
 export {

@@ -45,7 +45,6 @@ const SelectTheBestTitle = ({
    const openModalSave = () => {
       setIsOpenModalSave((prevState) => !prevState)
       setOptionTitle('')
-      setCheckOption('')
    }
 
    const deleteTest = () => {
@@ -90,7 +89,7 @@ const SelectTheBestTitle = ({
    const addHandler = () => {
       const data = {
          optionTitle,
-         isCorrect: checkOption,
+         isTrueOption: checkOption,
          id: uuidv4(),
       }
 

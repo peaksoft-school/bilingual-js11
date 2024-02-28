@@ -1,15 +1,17 @@
 import { forwardRef } from 'react'
 import { Radio as MuiRadio, styled } from '@mui/material'
 
-const Radio = forwardRef(({ checked, onChange, disabled, ...rest }, ref) => (
-   <StyledRadio
-      checked={checked}
-      onChange={onChange}
-      disabled={disabled}
-      ref={ref}
-      {...rest}
-   />
-))
+const Radio = forwardRef(({ checked, onChange, disabled, ...rest }, ref) => {
+   return (
+      <StyledRadio
+         checked={checked}
+         onChange={onChange}
+         disabled={disabled}
+         ref={ref}
+         {...rest}
+      />
+   )
+})
 
 export default Radio
 

@@ -79,7 +79,7 @@ const SelectRealEnglish = ({
    const addHandler = () => {
       const data = {
          optionTitle,
-         isCorrect: checkOption,
+         isTrueOption: checkOption,
          id: uuidv4(),
       }
 
@@ -120,6 +120,7 @@ const SelectRealEnglish = ({
                <Button variant="secondary" onClick={() => navigate(-1)}>
                   GO BACK
                </Button>
+
                <Button
                   variant="primary"
                   disabled={
