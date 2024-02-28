@@ -1,17 +1,17 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Box, TextField, Typography, styled } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
+import { Box, TextField, Typography, styled } from '@mui/material'
 import { v4 as uuidv4 } from 'uuid'
 import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/questionSlice'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/questionThunk'
+import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
 import Button from '../../../components/UI/buttons/Button'
-import CardOption from '../../../components/UI/CardOption'
 import Modal from '../../../components/UI/Modal'
 import Checkbox from '../../../components/UI/Checkbox'
 import Input from '../../../components/UI/Input'
+import Option from '../../../components/UI/Option'
 
 const SelectTheMainIdea = ({
    duration,
@@ -30,15 +30,10 @@ const SelectTheMainIdea = ({
    const { testId } = useParams()
 
    const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
-
    const [isOpenModalSave, setIsOpenModalSave] = useState(false)
-
    const [optionTitle, setOptionTitle] = useState('')
-
    const [checkOption, setCheckOption] = useState(false)
-
    const [optionId, setOptionId] = useState(null)
-
    const [passage, setPassage] = useState('')
 
    const handleChangeInput = (e) => setOptionTitle(e.target.value)
@@ -52,11 +47,11 @@ const SelectTheMainIdea = ({
    const openModalSave = () => {
       setIsOpenModalSave((prevState) => !prevState)
       setOptionTitle('')
-      setCheckOption('')
    }
 
    const deleteTest = () => {
       dispatch(QUESTION_ACTIONS.deleteOption(optionId))
+
       setIsOpenModalDelete((prevState) => !prevState)
    }
 
@@ -96,7 +91,7 @@ const SelectTheMainIdea = ({
    const addHandler = () => {
       const data = {
          optionTitle,
-         isCorrect: checkOption,
+         isTrueOption: checkOption,
          id: uuidv4(),
       }
 
@@ -105,8 +100,16 @@ const SelectTheMainIdea = ({
       openModalSave()
 
       setOptionTitle('')
+
       setCheckOption(false)
    }
+
+   const isFormValid =
+      !selectType ||
+      !duration ||
+      !title ||
+      option.length === 0 ||
+      !passage.trim()
 
    return (
       <StyledContainer>
@@ -132,11 +135,11 @@ const SelectTheMainIdea = ({
          </Box>
 
          <Box className="cards">
-            {option?.map((item, i) => (
-               <CardOption
+            {option?.map((option, i) => (
+               <Option
                   className="card-option"
-                  key={item.id}
-                  item={item}
+                  key={option.id}
+                  option={option}
                   index={i}
                   isRadio
                   handleChecked={handleChecked}
@@ -153,13 +156,7 @@ const SelectTheMainIdea = ({
 
             <Button
                variant="primary"
-               disabled={
-                  !selectType ||
-                  !duration ||
-                  !title ||
-                  option.length === 0 ||
-                  !passage.trim()
-               }
+               disabled={isFormValid}
                onClick={saveTestQuestion}
             >
                SAVE
@@ -275,7 +272,10 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       flexDirection: 'column',
       gap: '1.1rem',
       margin: '1.5rem 0 2rem 0',
-      width: '820px',
+
+      '& .actions': {
+         marginLeft: 'auto',
+      },
    },
 
    '& .buttons': {

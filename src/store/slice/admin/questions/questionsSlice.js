@@ -4,7 +4,7 @@ import { QUESTIONS_THUNKS } from './questionsThunk'
 const initialState = {
    questions: null,
    status: '',
-   error: null,
+   error: '',
 }
 
 export const questionsSlice = createSlice({
@@ -16,6 +16,11 @@ export const questionsSlice = createSlice({
       builder
          .addCase(QUESTIONS_THUNKS.getTest.pending, (state) => {
             state.status = 'loading'
+         })
+
+         .addCase(QUESTIONS_THUNKS.getTest.fulfilled, (state, action) => {
+            state.status = 'succeeded'
+            state.questions = action.payload
          })
 
          .addCase(QUESTIONS_THUNKS.getTest.rejected, (state, action) => {

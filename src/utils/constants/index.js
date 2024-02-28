@@ -1,7 +1,6 @@
 import FirstVideo from '../../assets/videos/first-video.mp4'
 import SecondVideo from '../../assets/videos/second-video.mp4'
 import ThirdVideo from '../../assets/videos/third-video.mp4'
-
 import {
    FifthPersonImage,
    FirstPersonImage,
@@ -399,21 +398,35 @@ const OPTIONS = [
    },
    {
       id: 4,
-      title: 'Record saying statement',
+      title: 'Describe image',
    },
    {
       id: 5,
+      title: 'Record saying statement',
+   },
+   {
+      id: 6,
       title: 'Respond in at least N words',
    },
    {
       id: 7,
+      title: 'Highlight the answer',
+   },
+   {
+      id: 8,
       title: 'Select the main idea',
    },
 ]
+
 const QUESTION_TYPES = {
    SelectRealEnglishWords: 'Select real english words',
+   TypeWhatYouHear: 'Type what you hear',
+   DescribeImage: 'Describe image',
+   HighlightTheAnswer: 'Highlight the answer',
+   RecordSayingStatement: 'Record saying statement',
    SelectMainIdea: 'Select the main idea',
 }
+
 export {
    QUESTION_TYPES,
    OPTIONS,

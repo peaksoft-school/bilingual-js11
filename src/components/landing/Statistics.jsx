@@ -1,8 +1,7 @@
+import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { Box, keyframes, styled, Typography } from '@mui/material'
-import { motion } from 'framer-motion'
 import CountUp from 'react-countup'
-
 import {
    AiroplaneIcon,
    BorderAiroplaneIcon,
@@ -34,6 +33,7 @@ const Statistics = () => {
 
             if (top < innerHeight && bottom >= 0) {
                setIsVisibleCount(true)
+
                setIsVisible(true)
             }
          }

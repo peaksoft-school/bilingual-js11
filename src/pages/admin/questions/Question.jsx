@@ -1,10 +1,10 @@
 import { useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
-import { OPTIONS } from '../../../utils/constants'
+import { useDispatch, useSelector } from 'react-redux'
+import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/questionSlice'
+import { OPTIONS } from '../../../utils/constants'
 import Input from '../../../components/UI/Input'
 import Dropdown from '../../../components/UI/Dropdown'
 import TestContainer from '../../../components/UI/TestContainer'
@@ -12,15 +12,16 @@ import TypeTest from '../TypeTest'
 
 const Question = () => {
    const option = useSelector((state) => state.question.option)
-   const dispatch = useDispatch()
 
    const { state } = useLocation()
+
+   const dispatch = useDispatch()
 
    const [selectType, setSelectType] = useState(
       questionTitle(state?.question.questionType || '')
    )
    const [title, setTitle] = useState(state?.question.title || '')
-   const [duration, setDuration] = useState(state?.question.duration || 5)
+   const [duration, setDuration] = useState(state?.question.duration || 0)
 
    const selectHandler = (e) => setSelectType(e.target.value)
 
@@ -43,7 +44,7 @@ const Question = () => {
                <Box className="input-container">
                   <Input
                      className="input-title"
-                     placeholder="Select real English words"
+                     placeholder="Enter the title ....."
                      onChange={inputHandler}
                      value={title}
                   />
@@ -102,7 +103,7 @@ const StyledContainer = styled(Box)(() => ({
    flexDirection: 'column',
    alignItems: 'center',
 
-   '& .form-container': {
+   '& > .form-container': {
       marginTop: '2.5rem',
       display: 'flex',
       justifyContent: 'center',
@@ -110,21 +111,21 @@ const StyledContainer = styled(Box)(() => ({
       flexDirection: 'column',
       gap: '1.25rem',
 
-      '& .text': {
+      '&  .text': {
          fontFamily: 'Poppins',
          fontWeight: '500',
       },
 
-      '& .title': {
+      '& > .title': {
          marginRight: '49rem',
          color: '#4B4759',
       },
 
-      '& .input-container': {
+      '& > .input-container': {
          display: 'flex',
          gap: '1.5rem',
 
-         '& .input-title': {
+         '& > .input-title': {
             background: '#fff',
             width: '43.5313rem',
             height: '2.875rem',
@@ -133,15 +134,15 @@ const StyledContainer = styled(Box)(() => ({
             color: '#4C4859',
          },
 
-         '& .duration-container': {
+         '& > .duration-container': {
             marginTop: '-4.25rem',
 
-            '& .duration': {
+            '& > .duration': {
                marginBottom: '1.3rem',
                color: '#4B4759',
             },
 
-            '& .duration-input': {
+            '& > .duration-input': {
                width: '6.5625rem',
                height: '2.875rem',
                borderRadius: '0.5rem',
@@ -154,7 +155,7 @@ const StyledContainer = styled(Box)(() => ({
             },
       },
 
-      '& .type': {
+      '& > .type': {
          color: '#4B4759',
          margin: '0.8rem 49rem -0.5rem 0',
       },
@@ -163,7 +164,10 @@ const StyledContainer = styled(Box)(() => ({
          borderRadius: '0.5rem',
          width: '51.25rem',
 
-         '& .MuiInputLabel-root': {
+         '& .MuiSelect-icon': {
+            color: 'black',
+         },
+         '& .MuiFormLabel-root-MuiInputLabel-root': {
             textAlign: 'center',
          },
       },

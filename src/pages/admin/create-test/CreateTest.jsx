@@ -2,18 +2,20 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
-import { QUESTIONS_THUNKS } from '../../../store/slice/admin/questionsThunk'
-import { TESTS_THUNKS } from '../../../store/slice/admin/testsThunk'
+import { QUESTIONS_THUNKS } from '../../../store/slice/admin/questions/questionsThunk'
+import { TESTS_THUNKS } from '../../../store/slice/admin/tests/testsThunk'
 import Input from '../../../components/UI/Input'
-import TestContainer from '../../../components/UI/TestContainer'
 import Button from '../../../components/UI/buttons/Button'
+import TestContainer from '../../../components/UI/TestContainer'
 
 const CreateTest = () => {
    const { questions } = useSelector((state) => state.questionsSlice)
+
+   const { id } = useParams()
+
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
-   const { id } = useParams()
 
    const [testData, setTestData] = useState({
       title: '',
@@ -72,6 +74,7 @@ const CreateTest = () => {
             />
 
             <Typography className="label">Short Description</Typography>
+
             <Input
                className="input"
                name="shortDescription"
