@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
+import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/questionSlice'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/questionThunks'
 import Input from '../../../components/UI/Input'
 import Button from '../../../components/UI/buttons/Button'
 
@@ -21,6 +21,7 @@ const RecordSayingStatement = ({
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
+
    const { testId } = useParams()
 
    const saveTestQuestion = () => {
@@ -53,6 +54,8 @@ const RecordSayingStatement = ({
 
    const handleChange = (e) => setStatement(e.target.value)
 
+   const handleGoBack = () => navigate(-1)
+
    const isFormValid =
       !selectType || !duration || !title.trim() || !statement.trim()
 
@@ -65,7 +68,7 @@ const RecordSayingStatement = ({
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={() => navigate(-1)}>
+            <Button variant="secondary" onClick={handleGoBack}>
                GO BACK
             </Button>
 

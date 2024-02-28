@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { QUESTION_THUNKS } from './questionThunks'
+import { QUESTION_THUNKS } from './questionThunk'
 
 const initialState = {
    title: '',
@@ -16,6 +16,7 @@ const initialState = {
 const questionSlice = createSlice({
    name: 'question',
    initialState,
+
    reducers: {
       addOption: (state, action) => {
          state.option = [...state.option, action.payload]

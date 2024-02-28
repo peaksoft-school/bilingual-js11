@@ -2,19 +2,19 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { AppBar, Box, Typography, styled } from '@mui/material'
-import Button from '../components/UI/buttons/Button'
-import { LogoImage } from '../assets/images'
 import { AUTH_ACTIONS } from '../store/slice/auth/authSlice'
+import { LogoImage } from '../assets/images'
 import Modal from '../components/UI/Modal'
+import Button from '../components/UI/buttons/Button'
+import { ROUTES } from '../routes/routes'
 
 const Header = () => {
-   const dispatch = useDispatch()
-
-   const navigate = useNavigate()
-
    const { role } = useSelector((state) => state.auth)
 
    const [isVisibleModal, setIsVisibleModal] = useState(false)
+
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
 
    const handleModal = () => setIsVisibleModal((prev) => !prev)
 
@@ -29,11 +29,14 @@ const Header = () => {
          <Box className="actions">
             {role === 'ADMIN' ? (
                <>
-                  <NavLink className="navigation" to="/admin/tests">
+                  <NavLink className="navigation" to={`${ROUTES.ADMIN.index}`}>
                      <Typography>TESTS</Typography>
                   </NavLink>
 
-                  <NavLink className="navigation" to="/admin/results">
+                  <NavLink
+                     className="navigation"
+                     to={`${ROUTES.ADMIN.index}/results`}
+                  >
                      <Typography> SUBMITTED RESULTS</Typography>
                   </NavLink>
                </>
@@ -58,14 +61,16 @@ const Header = () => {
             </Button>
 
             <Modal isVisible={isVisibleModal} handleIsVisible={handleModal}>
-               <Typography>Are you sure you want to log out?</Typography>
+               <Box className="log-out">
+                  <Typography>Are you sure you want to log out?</Typography>
 
-               <Box className="buttons">
-                  <Button variant="secondary" onClick={handleModal}>
-                     CANCEL
-                  </Button>
+                  <Box className="buttons">
+                     <Button variant="secondary" onClick={handleModal}>
+                        CANCEL
+                     </Button>
 
-                  <Button onClick={handlelogOut}>YES</Button>
+                     <Button onClick={handlelogOut}>YES</Button>
+                  </Box>
                </Box>
             </Modal>
          </Box>
