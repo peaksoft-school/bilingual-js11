@@ -1,5 +1,4 @@
-/* eslint-disable react/jsx-filename-extension */
-import { TrashIcon } from '../../assets/icons'
+import DeleteResults from '../../components/admin/results/DeleteResults'
 
 const FAKE_DATA = [
    {
@@ -57,7 +56,7 @@ const COLUMNS = [
       Header: ' ',
       accessor: 'action',
 
-      Cell: () => <TrashIcon />,
+      Cell: () => <DeleteResults />,
    },
 ]
 
