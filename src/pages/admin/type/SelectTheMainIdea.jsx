@@ -1,17 +1,17 @@
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
-import { Box, TextField, Typography, styled } from '@mui/material'
 import { v4 as uuidv4 } from 'uuid'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Box, TextField, Typography, styled } from '@mui/material'
 import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
-import { questionTitle } from '../../../utils/helpers/questionTitle'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { questionTitle } from '../../../utils/helpers/questionTitle'
+import Checkbox from '../../../components/UI/Checkbox'
+import Option from '../../../components/UI/Option'
 import Button from '../../../components/UI/buttons/Button'
 import Modal from '../../../components/UI/Modal'
-import Checkbox from '../../../components/UI/Checkbox'
 import Input from '../../../components/UI/Input'
-import Option from '../../../components/UI/Option'
 
 const SelectTheMainIdea = ({
    duration,
@@ -43,6 +43,8 @@ const SelectTheMainIdea = ({
    const changeCheckbox = (e) => setCheckOption(e.target.checked)
 
    const openModalDelete = () => setIsOpenModalDelete((prevState) => !prevState)
+
+   const handleGoBack = () => navigate(-1)
 
    const openModalSave = () => {
       setIsOpenModalSave((prevState) => !prevState)
@@ -80,7 +82,7 @@ const SelectTheMainIdea = ({
                requestData,
                data: {
                   testId,
-                  questionType: questionTitle('SELECT_MAIN_IDEA'),
+                  questionType: questionTitle('SELECT_THE_BEST_TITLE'),
                   navigate,
                },
             })
@@ -110,6 +112,8 @@ const SelectTheMainIdea = ({
       !title ||
       option.length === 0 ||
       !passage.trim()
+
+   const validModal = !optionTitle.trim()
 
    return (
       <StyledContainer>
@@ -150,7 +154,7 @@ const SelectTheMainIdea = ({
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={() => navigate(-1)}>
+            <Button variant="secondary" onClick={handleGoBack}>
                GO BACK
             </Button>
 
@@ -172,9 +176,7 @@ const SelectTheMainIdea = ({
 
             <Typography className="modal-title">Do you want delete?</Typography>
 
-            <Typography className="modal-message">
-               You can`t restore this file
-            </Typography>
+            <Typography className="modal-message">You can`t restore</Typography>
 
             <Box className="container-buttons">
                <Button variant="secondary" onClick={openModalDelete}>
@@ -225,7 +227,7 @@ const SelectTheMainIdea = ({
                   <Button
                      variant="primary"
                      onClick={addHandler}
-                     disabled={!optionTitle.trim()}
+                     disabled={validModal}
                   >
                      SAVE
                   </Button>
