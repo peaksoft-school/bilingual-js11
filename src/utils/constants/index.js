@@ -413,7 +413,7 @@ const OPTIONS = [
       title: 'Highlight the answer',
    },
    {
-      id: 8,
+      id: 9,
       title: 'Select the best title',
    },
 ]
