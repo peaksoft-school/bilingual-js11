@@ -110,7 +110,7 @@ const TestList = () => {
             </Typography>
 
             <Typography className="modal-message">
-               You can`t restore this file
+               You can`t restore this test
             </Typography>
 
             <Box className="container-buttons">
