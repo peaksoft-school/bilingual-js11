@@ -8,6 +8,12 @@ export const questionTitle = (name) => {
 
       case 'RESPOND_IN_AT_LEAST_N_WORDS':
          return 'RESPOND_IN_AT_LEAST_N_WORDS'
+
+      case 'RECORD_SAYING':
+         return 'RECORD_SAYING'
+
+      case 'HIGHLIGHTS_THE_ANSWER':
+         return 'HIGHLIGHTS_THE_ANSWER'
       default:
          return name
    }

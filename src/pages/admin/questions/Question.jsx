@@ -6,9 +6,9 @@ import { QUESTION_ACTIONS } from '../../../store/slice/admin/questions/questionS
 import { OPTIONS } from '../../../utils/constants'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Input from '../../../components/UI/Input'
-import Dropdown from '../../../components/UI/Dropdown'
 import TestContainer from '../../../components/UI/TestContainer'
 import TypeTest from '../TypeTest'
+import Dropdown from '../../../components/UI/Dropdown'
 
 const Question = () => {
    const option = useSelector((state) => state.question.option)
