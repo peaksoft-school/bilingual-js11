@@ -67,7 +67,7 @@ const StyledButton = styled(MuiButton)(({ theme, variant }) => {
          '&.Mui-disabled': {
             color: theme.palette.primary.white,
             background: '#C4C4C4',
-            border: '0.125rem solid #C4C4C4',
+            border: 'none',
          },
 
          '& .MuiCircularProgress-root': {

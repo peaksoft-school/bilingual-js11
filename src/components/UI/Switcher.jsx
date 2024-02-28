@@ -10,6 +10,7 @@ const Switcher = forwardRef(({ checked, onChange, disabled, ...rest }, ref) => {
 
    const handleChange = (event) => {
       setChecked(event.target.checked)
+
       onChange(event.target.checked)
    }
 

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { axiosInstance } from '../../../configs/axiosInstance'
-import { showNotification } from '../../../utils/helpers/notification'
+import { showNotification } from '../../../../utils/helpers/notification'
+import { axiosInstance } from '../../../../configs/axiosInstance'
 
 const getAllTests = createAsyncThunk(
    'testsSlice/getAllTests',
@@ -23,11 +23,7 @@ const postTest = createAsyncThunk(
       try {
          const response = await axiosInstance.post('/api/test', testData)
 
-         showNotification({
-            title: 'Success',
-            message: 'Test successfully added',
-            type: 'success',
-         })
+         showNotification({ message: 'Test successfully added' })
 
          navigate('/')
 
@@ -53,11 +49,7 @@ const deleteTest = createAsyncThunk(
             `/api/test?testId=${testId}`
          )
 
-         showNotification({
-            title: 'Success',
-            message: 'Test successfully deleted',
-            type: 'success',
-         })
+         showNotification({ message: 'Test successfully deleted' })
 
          return response.data
       } catch (error) {
@@ -82,11 +74,7 @@ const updateTest = createAsyncThunk(
             updatedTest
          )
 
-         showNotification({
-            title: 'Success',
-            message: 'Test successfully updated',
-            type: 'success',
-         })
+         showNotification({ message: 'Test successfully updated' })
 
          navigate('/')
 
@@ -121,7 +109,7 @@ const updateTetsByEnable = createAsyncThunk(
    }
 )
 
-export const TESTS_THUNK = {
+export const TESTS_THUNKS = {
    getAllTests,
    deleteTest,
    postTest,

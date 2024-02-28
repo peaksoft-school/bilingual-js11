@@ -1,38 +1,43 @@
 import { QUESTION_TYPES } from '../../utils/constants'
 import ListenAndSelectEnglishWord from './type/ListenAndSelectEnglishWord'
+import DescribeImage from './type/DescribeImage'
+import TypeWhatYouHear from './type/TypeWhatYouHear'
 import SelectRealEnglish from './type/SelectRealEnglish'
+import RecordSayingStatement from './type/RecordSayingStatement'
+import HighlightTheAnswer from './type/HighlightTheAnswer'
 
-const TypeTest = ({
-   duration,
-   setDuration,
-   selectType,
-   title,
-   setTitle,
-   setSelectType,
-}) => {
+const TypeTest = (props) => {
+   const { duration, setDuration, selectType, title, setTitle, setSelectType } =
+      props
+
+   const commonProps = {
+      duration,
+      setDuration,
+      selectType,
+      title,
+      setTitle,
+      setSelectType,
+   }
+
    switch (selectType) {
       case QUESTION_TYPES.SelectRealEnglishWords:
-         return (
-            <SelectRealEnglish
-               duration={duration}
-               setDuration={setDuration}
-               selectType={selectType}
-               title={title}
-               setTitle={setTitle}
-               setSelectType={setSelectType}
-            />
-         )
+         return <SelectRealEnglish {...commonProps} />
+
       case QUESTION_TYPES.ListenAndSelectEnglishWord:
-         return (
-            <ListenAndSelectEnglishWord
-               duration={duration}
-               setDuration={setDuration}
-               selectType={selectType}
-               title={title}
-               setTitle={setTitle}
-               setSelectType={setSelectType}
-            />
-         )
+         return <ListenAndSelectEnglishWord {...commonProps} />
+
+      case QUESTION_TYPES.TypeWhatYouHear:
+         return <TypeWhatYouHear {...commonProps} />
+
+      case QUESTION_TYPES.DescribeImage:
+         return <DescribeImage {...commonProps} />
+
+      case QUESTION_TYPES.RecordSayingStatement:
+         return <RecordSayingStatement {...commonProps} />
+
+      case QUESTION_TYPES.HighlightTheAnswer:
+         return <HighlightTheAnswer {...commonProps} />
+
       default:
          return <div />
    }

@@ -2,13 +2,13 @@ import ReactDOM from 'react-dom/client'
 import { StrictMode } from 'react'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
+import { injectStore } from './configs/axiosInstance'
+import { fileInjectStore } from './configs/axiosInstanceFile'
+import store, { persistor } from './store/store'
 import App from './App'
 import Themes from './components/Themes'
 import Notification from './components/Notification'
 import './index.css'
-import { injectStore } from './configs/axiosInstance'
-import store, { persistor } from './store/store'
-import { fileInjectStore } from './configs/axiosInstanceFile'
 
 injectStore(store)
 fileInjectStore(store)
