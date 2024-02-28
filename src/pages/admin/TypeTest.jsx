@@ -1,6 +1,7 @@
 import { QUESTION_TYPES } from '../../utils/constants'
-import DescribeImage from './type/DescribeImage'
 import SelectRealEnglish from './type/SelectRealEnglish'
+import RecordSayingStatement from './type/RecordSayingStatement'
+import DescribeImage from './type/DescribeImage'
 
 const TypeTest = ({
    duration,
@@ -34,6 +35,19 @@ const TypeTest = ({
                setSelectType={setSelectType}
             />
          )
+
+      case QUESTION_TYPES.RecordSayingStatement:
+         return (
+            <RecordSayingStatement
+               duration={duration}
+               setDuration={setDuration}
+               selectType={selectType}
+               title={title}
+               setTitle={setTitle}
+               setSelectType={setSelectType}
+            />
+         )
+
       default:
          return <div />
    }

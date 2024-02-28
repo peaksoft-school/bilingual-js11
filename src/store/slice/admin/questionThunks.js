@@ -22,6 +22,7 @@ const saveTest = createAsyncThunk(
          if (AxiosError(error)) {
             return rejectWithValue(error.response?.data.message)
          }
+
          return rejectWithValue('Something went wrong')
       }
    }
