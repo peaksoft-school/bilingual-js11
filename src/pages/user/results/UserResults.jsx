@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Box, styled } from '@mui/material'
-import { COLUMNS, FAKE_DATA } from '../../../utils/constants'
 import Table from '../../../components/UI/Table'
 import { MY_RESULTS_THUNK } from '../../../store/slice/user/results/myResultsThunk'
+import { COLUMNS, FAKE_DATA } from '../../../utils/constants/columns'
 
 const UserResults = () => {
    // const { results } = useSelector((state) => state.resultsSlice)

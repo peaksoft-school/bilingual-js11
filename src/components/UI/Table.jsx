@@ -19,8 +19,6 @@ const Table = ({ columns: headers, data }) => {
          data,
       })
 
-   console.log(rows)
-
    return (
       <StyledTableContainer>
          <StyledTable {...getTableProps()}>

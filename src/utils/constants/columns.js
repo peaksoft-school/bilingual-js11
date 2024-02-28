@@ -8,7 +8,6 @@ const FAKE_DATA = [
       testName: 'English advanced test',
       resultStatus: 'Not evaluated',
       score: 0,
-      icon: <TrashIcon />,
    },
    {
       id: 2,
@@ -16,7 +15,6 @@ const FAKE_DATA = [
       testName: 'English advanced test',
       resultStatus: 'Not evaluated',
       score: 0,
-      icon: <TrashIcon />,
    },
    {
       id: 3,
@@ -24,7 +22,6 @@ const FAKE_DATA = [
       testName: 'English advanced test',
       resultStatus: 'Evaluated',
       score: 7,
-      icon: <TrashIcon />,
    },
    {
       id: 4,
@@ -32,7 +29,6 @@ const FAKE_DATA = [
       testName: 'English advanced test',
       resultStatus: 'Evaluated',
       score: 7,
-      icon: <TrashIcon />,
    },
 ]
 
@@ -59,7 +55,9 @@ const COLUMNS = [
    },
    {
       Header: ' ',
-      accessor: 'icon',
+      accessor: 'action',
+
+      Cell: () => <TrashIcon />,
    },
 ]
 
