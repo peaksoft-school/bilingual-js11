@@ -6,6 +6,7 @@ import { AUTH_ACTIONS } from '../store/slice/auth/authSlice'
 import { LogoImage } from '../assets/images'
 import Modal from '../components/UI/Modal'
 import Button from '../components/UI/buttons/Button'
+import { ROUTES } from '../routes/routes'
 
 const Header = () => {
    const { role } = useSelector((state) => state.auth)
@@ -28,11 +29,14 @@ const Header = () => {
          <Box className="actions">
             {role === 'ADMIN' ? (
                <>
-                  <NavLink className="navigation" to="/admin/tests">
+                  <NavLink className="navigation" to={`${ROUTES.ADMIN.index}`}>
                      <Typography>TESTS</Typography>
                   </NavLink>
 
-                  <NavLink className="navigation" to="/admin/results">
+                  <NavLink
+                     className="navigation"
+                     to={`${ROUTES.ADMIN.index}/results`}
+                  >
                      <Typography> SUBMITTED RESULTS</Typography>
                   </NavLink>
                </>

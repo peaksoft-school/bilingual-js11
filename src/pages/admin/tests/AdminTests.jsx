@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { Box, styled } from '@mui/material'
 import { PlusIcon } from '../../../assets/icons'
+import { ROUTES } from '../../../routes/routes'
 import Button from '../../../components/UI/buttons/Button'
 import TestList from '../../../components/admin/tests/TestList'
 import TestContainer from '../../../components/UI/TestContainer'
@@ -8,7 +9,8 @@ import TestContainer from '../../../components/UI/TestContainer'
 const AdminTests = () => {
    const navigate = useNavigate()
 
-   const handleNavigate = () => navigate('/admin/tests/create-test')
+   const handleNavigate = () =>
+      navigate(`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.createTest}`)
 
    return (
       <StyledContainer>
@@ -20,7 +22,6 @@ const AdminTests = () => {
             >
                ADD NEW TEST
             </Button>
-
             <TestList />
          </TestContainer>
       </StyledContainer>

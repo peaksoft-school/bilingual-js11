@@ -4,8 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
 import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/questions/questionSlice'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/questions/questionThunk'
+import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Modal from '../../../components/UI/Modal'
 import Button from '../../../components/UI/buttons/Button'
@@ -26,6 +26,7 @@ const SelectRealEnglish = ({
    const { testId } = useParams()
 
    const dispatch = useDispatch()
+
    const navigate = useNavigate()
 
    const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
@@ -46,6 +47,7 @@ const SelectRealEnglish = ({
 
    const deleteTest = () => {
       dispatch(QUESTION_ACTIONS.deleteOption(optionId))
+
       setIsOpenModalDelete((prevState) => !prevState)
    }
 
@@ -58,9 +60,7 @@ const SelectRealEnglish = ({
          dispatch(QUESTION_ACTIONS.clearOptions())
 
          setSelectType('')
-
          setTitle('')
-
          setDuration('')
 
          const requestData = {
@@ -98,6 +98,8 @@ const SelectRealEnglish = ({
       setCheckOption(false)
    }
 
+   const isValid = !selectType || !duration || !title || option.length === 0
+
    return (
       <>
          <StyledContainer>
@@ -130,9 +132,7 @@ const SelectRealEnglish = ({
 
                <Button
                   variant="primary"
-                  disabled={
-                     !selectType || !duration || !title || option.length === 0
-                  }
+                  disabled={isValid}
                   onClick={saveTestQuestion}
                >
                   SAVE

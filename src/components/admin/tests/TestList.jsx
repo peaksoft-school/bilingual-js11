@@ -4,6 +4,7 @@ import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { EditIcon, FalseIcon, TrashIcon } from '../../../assets/icons'
 import { TESTS_THUNKS } from '../../../store/slice/admin/tests/testsThunk'
+import { ROUTES } from '../../../routes/routes'
 import { NoData } from '../../../assets/images'
 import Modal from '../../UI/Modal'
 import Button from '../../UI/buttons/Button'
@@ -13,6 +14,7 @@ const TestList = () => {
    const { tests } = useSelector((state) => state.testsSlice)
 
    const dispatch = useDispatch()
+
    const navigate = useNavigate()
 
    const [isVisible, setIsVisible] = useState(false)
@@ -47,9 +49,10 @@ const TestList = () => {
 
    const handleWithStopPropagation = (e) => e.stopPropagation()
 
-   const handleEdit = (id, e) => {
+   const handleEdit = (e, id) => {
       e.preventDefault()
-      navigate(`/admin/tests/update-test/${id}`)
+
+      navigate(`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.updateTest}/${id}`)
    }
 
    return (
@@ -57,7 +60,7 @@ const TestList = () => {
          {tests?.length > 0 ? (
             tests.map(({ id, title, enable }) => (
                <Link
-                  to={`/admin/tests/questions/${id}`}
+                  to={`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/${id}`}
                   key={id}
                   className="test-link"
                >
@@ -100,8 +103,10 @@ const TestList = () => {
 
             <Typography className="modal-title">Do you want delete?</Typography>
 
-            <Typography className="title">
-               Test: {tests.find((test) => test.id === selectedTestId)?.title}
+            <Typography className="title" variant="p">
+               <Typography variant="span">Test: </Typography>
+
+               {tests.find((test) => test.id === selectedTestId)?.title}
             </Typography>
 
             <Typography className="modal-message">

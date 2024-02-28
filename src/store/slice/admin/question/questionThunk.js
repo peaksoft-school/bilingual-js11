@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstanceFile } from '../../../../configs/axiosInstanceFile'
-import { axiosInstance } from '../../../../configs/axiosInstance'
 import { showNotification } from '../../../../utils/helpers/notification'
+import { axiosInstance } from '../../../../configs/axiosInstance'
+import { ROUTES } from '../../../../routes/routes'
 
 const saveTest = createAsyncThunk(
    'question/saveTest',
@@ -20,7 +21,9 @@ const saveTest = createAsyncThunk(
             message: `${response.data.message}!`,
          })
 
-         return navigate(`/admin/tests/questions/${testId}`)
+         navigate(`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/${testId}`)
+
+         return response.data
       } catch (error) {
          showNotification({
             title: 'Error',

@@ -6,6 +6,7 @@ import { EditIcon, FalseIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
 import { questionTypeHandler } from '../../../utils/helpers'
 import { QUESTIONS_THUNKS } from '../../../store/slice/admin/questions/questionsThunk'
 import { NoData } from '../../../assets/images'
+import { ROUTES } from '../../../routes/routes'
 import Modal from '../../../components/UI/Modal'
 import Button from '../../../components/UI/buttons/Button'
 import Switcher from '../../../components/UI/Switcher'
@@ -17,6 +18,7 @@ const Questions = () => {
    const { testId } = useParams()
 
    const dispatch = useDispatch()
+
    const navigate = useNavigate()
 
    const [isVisible, setIsVisible] = useState(false)
@@ -30,7 +32,6 @@ const Questions = () => {
       dispatch(
          QUESTIONS_THUNKS.deleteQuestion({
             questionId: selectedQuestionId,
-
             testId,
          })
       )
@@ -57,7 +58,9 @@ const Questions = () => {
    const handleGoBack = () => navigate('/')
 
    const handleAddQuestionsNavigate = () =>
-      navigate(`/admin/tests/questions/${testId}/create-question`)
+      navigate(
+         `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/${testId}/${ROUTES.ADMIN.createQuestion}`
+      )
 
    return (
       <StyledContainer>

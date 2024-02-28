@@ -1,11 +1,10 @@
-/* eslint-disable jsx-a11y/media-has-caption */
 import { useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { PauseIcon, PlayIcon } from '../../../assets/icons'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/questions/questionSlice'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/questions/questionThunk'
+import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Input from '../../../components/UI/Input'
 import Button from '../../../components/UI/buttons/Button'
@@ -23,6 +22,7 @@ const TypeWhatYouHear = ({
    const { testId } = useParams()
 
    const dispatch = useDispatch()
+
    const navigate = useNavigate()
 
    const [fileName, setFileName] = useState('')
@@ -52,9 +52,7 @@ const TypeWhatYouHear = ({
          dispatch(QUESTION_ACTIONS.clearOptions())
 
          setSelectType('')
-
          setTitle('')
-
          setDuration('')
 
          const requestData = {
@@ -155,7 +153,13 @@ const TypeWhatYouHear = ({
                   ref={audioRef}
                   type="audio/mp3"
                   controls
-               />
+               >
+                  <track
+                     src="captions_en.vtt"
+                     kind="captions"
+                     label="english_captions"
+                  />
+               </audio>
             </Box>
          </Box>
 
@@ -235,14 +239,14 @@ const StyledContainer = styled(Box)(() => ({
             display: 'none',
          },
 
-         '& .playing': {
+         '& > .playing': {
             border: 'none',
             backgroundColor: 'white',
             marginTop: '0.3rem',
             cursor: 'pointer',
          },
 
-         '& .audio': {
+         '& > .audio': {
             display: 'none',
          },
       },
@@ -258,7 +262,7 @@ const StyledContainer = styled(Box)(() => ({
       marginBottom: '15px',
    },
 
-   '& .buttons': {
+   '& > .buttons': {
       display: 'flex',
       justifyContent: 'flex-end',
       gap: '1rem',

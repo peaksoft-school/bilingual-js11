@@ -25,6 +25,7 @@ const SignUp = () => {
    const { isLoading } = useSelector((state) => state.auth)
 
    const dispatch = useDispatch()
+
    const navigate = useNavigate()
 
    const [showPassword, setShowPassword] = useState(false)

@@ -2,8 +2,8 @@ import { useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/questions/questionThunk'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/questions/questionSlice'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
@@ -21,6 +21,7 @@ const DescribeImage = ({
    const { testId } = useParams()
 
    const dispatch = useDispatch()
+
    const navigate = useNavigate()
 
    const [fileName, setFileName] = useState('')

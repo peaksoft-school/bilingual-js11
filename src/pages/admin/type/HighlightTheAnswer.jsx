@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useFormik } from 'formik'
 import { Box, TextField, Typography, styled } from '@mui/material'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/questions/questionSlice'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/questions/questionThunk'
+import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Input from '../../../components/UI/Input'
 import Button from '../../../components/UI/buttons/Button'
@@ -22,6 +22,7 @@ const HighlightTheAnswer = ({
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
+
    const { testId } = useParams()
 
    const formik = useFormik({
@@ -61,6 +62,10 @@ const HighlightTheAnswer = ({
       }
    }
 
+   const handleGoBack = () => navigate(-1)
+
+   const handleMouseUp = () => setAnswerValue(window.getSelection().toString())
+
    const isFormValid =
       !selectType ||
       !duration ||
@@ -94,18 +99,13 @@ const HighlightTheAnswer = ({
          <Box className="correct-answer">
             <Typography className="title">Highlight correct answer:</Typography>
 
-            <Typography
-               className="highlight-text"
-               onMouseUp={() =>
-                  setAnswerValue(window.getSelection().toString())
-               }
-            >
+            <Typography className="highlight-text" onMouseUp={handleMouseUp}>
                {formik.values.text}
             </Typography>
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={() => navigate(-1)}>
+            <Button variant="secondary" onClick={handleGoBack}>
                GO BACK
             </Button>
 

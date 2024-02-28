@@ -55,8 +55,8 @@ const signIn = createAsyncThunk(
             if (email && role && token) {
                resetForm()
 
-               if (role === ROUTES.ADMIN) {
-                  navigate('/admin')
+               if (role === 'ADMIN') {
+                  navigate(ROUTES.ADMIN.index)
                } else {
                   navigate('/')
                }

@@ -65,6 +65,11 @@ const StyledModal = styled(MuiModal)(() => ({
          fontSize: '1rem',
          overflow: 'hidden',
          textOverflow: 'ellipsis',
+
+         '& > span': {
+            fontWeight: 'bold',
+            fontFamily: 'Poppins',
+         },
       },
 
       '& > .modal-message': {
