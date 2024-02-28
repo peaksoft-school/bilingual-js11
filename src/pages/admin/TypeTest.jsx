@@ -1,7 +1,8 @@
 import { QUESTION_TYPES } from '../../utils/constants'
 import SelectRealEnglish from './type/SelectRealEnglish'
-import RecordSayingStatement from './type/RecordSayingStatement'
 import DescribeImage from './type/DescribeImage'
+import RecordSayingStatement from './type/RecordSayingStatement'
+import HighlightTheAnswer from './type/HighlightTheAnswer'
 
 const TypeTest = ({
    duration,
@@ -48,6 +49,17 @@ const TypeTest = ({
             />
          )
 
+      case QUESTION_TYPES.HighlightTheAnswer:
+         return (
+            <HighlightTheAnswer
+               duration={duration}
+               setDuration={setDuration}
+               selectType={selectType}
+               title={title}
+               setTitle={setTitle}
+               setSelectType={setSelectType}
+            />
+         )
       default:
          return <div />
    }
