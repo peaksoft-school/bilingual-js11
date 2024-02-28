@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
-import { motion } from 'framer-motion'
-import LandingButton from '../UI/buttons/LandingButton'
+import { BackgroundIntroImage } from '../../assets/images'
 import {
    FirstBookIcon,
    FirstPaperIcon,
@@ -16,7 +16,7 @@ import {
    ThirdBookIcon,
    ThirdPaperIcon,
 } from '../../assets/icons'
-import { BackgroundIntroImage } from '../../assets/images'
+import LandingButton from '../UI/buttons/LandingButton'
 
 const Intro = () => {
    const { isAuth } = useSelector((state) => state.auth)

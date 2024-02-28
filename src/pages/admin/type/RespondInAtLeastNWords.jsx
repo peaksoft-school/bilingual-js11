@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { InputLabel, styled, Box } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/questions/questionSlice'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/questions/questionThunk'
+import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Input from '../../../components/UI/Input'
 import Button from '../../../components/UI/buttons/Button'
@@ -21,6 +21,7 @@ const RespondInAtLeastNWords = ({
    const { testId } = useParams()
 
    const dispatch = useDispatch()
+
    const navigate = useNavigate()
 
    const [statement, setStatement] = useState('')
@@ -111,7 +112,7 @@ const StyledContainer = styled(Box)(() => ({
    marginTop: '2rem',
    width: '90%',
 
-   '& .MuiInputLabel-root': {
+   '& > .MuiInputLabel-root': {
       fontFamily: 'Poppins',
       fontWeight: 500,
       color: '#4B4759',
@@ -119,7 +120,7 @@ const StyledContainer = styled(Box)(() => ({
    },
 
    '& .input-number': {
-      '& .MuiOutlinedInput-root': {
+      '& > .MuiOutlinedInput-root': {
          padding: '.75rem  0.1rem .75rem 0.1rem ',
          width: '3.5rem',
          height: '3.5rem',
@@ -128,11 +129,11 @@ const StyledContainer = styled(Box)(() => ({
       },
    },
 
-   '& .MuiOutlinedInput-input[type="number"]::-webkit-inner-spin-button': {
+   '& > .MuiOutlinedInput-input[type="number"]::-webkit-inner-spin-button': {
       display: 'none',
    },
 
-   '& .buttons': {
+   '& > .buttons': {
       display: 'flex',
       justifyContent: 'flex-end',
       gap: '1rem',

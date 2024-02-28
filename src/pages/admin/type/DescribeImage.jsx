@@ -2,8 +2,8 @@ import { useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/questions/questionThunk'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/questions/questionSlice'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
@@ -17,21 +17,25 @@ const DescribeImage = ({
    setSelectType,
 }) => {
    const { fileUrl, isLoading } = useSelector((state) => state.question)
-   const dispatch = useDispatch()
 
-   const [image, setImage] = useState(null)
-   const [fileName, setFileName] = useState('')
-   const [answer, setAnswer] = useState('')
-
-   const navigate = useNavigate()
    const { testId } = useParams()
 
-   const inputRef = useRef(null)
+   const dispatch = useDispatch()
+
+   const navigate = useNavigate()
+
+   const [fileName, setFileName] = useState('')
+   const [answer, setAnswer] = useState('')
+   const [image, setImage] = useState(null)
+
    const inputFileRef = useRef(null)
+   const inputRef = useRef(null)
 
    const handleClick = () => inputFileRef.current.click()
 
    const handleInputChange = (e) => setAnswer(e.target.value)
+
+   const handleGoBack = () => navigate(-1)
 
    const handleFileChange = (e) => {
       const file = e.target.files[0]
@@ -131,7 +135,7 @@ const DescribeImage = ({
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={() => navigate(-1)}>
+            <Button variant="secondary" onClick={handleGoBack}>
                GO BACK
             </Button>
 

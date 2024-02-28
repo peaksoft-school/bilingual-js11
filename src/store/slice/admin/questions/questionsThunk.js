@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { showNotification } from '../../../../utils/helpers/notification'
 import { axiosInstance } from '../../../../configs/axiosInstance'
+import { ROUTES } from '../../../../routes/routes'
 
 const getTest = createAsyncThunk(
    'questionsSlice/getTest',
@@ -60,7 +61,7 @@ const postQuestion = createAsyncThunk(
             type: 'success',
          })
 
-         navigate('/admin/tests/questions/:testId')
+         navigate(`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/:testId`)
 
          return response.data
       } catch (error) {
@@ -113,6 +114,7 @@ const updateQuestionByEnable = createAsyncThunk(
          const response = await axiosInstance.patch(
             `/api/question/IsEnable?questionId=${questionId}&isEnable=${isEnable}`
          )
+
          return response.data
       } catch (error) {
          return rejectWithValue.message

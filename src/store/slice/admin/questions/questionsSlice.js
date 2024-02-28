@@ -4,7 +4,7 @@ import { QUESTIONS_THUNKS } from './questionsThunk'
 const initialState = {
    questions: null,
    status: '',
-   error: null,
+   error: '',
 }
 
 export const questionsSlice = createSlice({
