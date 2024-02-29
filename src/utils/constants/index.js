@@ -419,7 +419,7 @@ const OPTIONS = [
 ]
 
 const QUESTION_TYPES = {
-   SELECT_REAL_ENGLISH_WORDS: 'Select real English words',
+   SELECT_REAL_ENGLISH_WORDS: 'Select real english words',
    LISTEN_AND_SELECT_WORD: 'Listen and select word',
    TYPE_WHAT_YOU_HEAR: 'Type what you hear',
    DESCRIBE_IMAGE: 'Describe image',

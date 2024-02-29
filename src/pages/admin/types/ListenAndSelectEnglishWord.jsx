@@ -79,11 +79,11 @@ const ListenAndSelectEnglishWord = ({
    }
 
    const handleChecked = (id) => {
-      dispatch(QUESTION_ACTIONS.changeTrueOption(id))
+      dispatch(QUESTION_ACTIONS.handleIsCorrect(id))
    }
 
    const saveTestQuestion = () => {
-      if (selectType !== '' && +duration !== +'' && title !== '') {
+      if (selectType !== '' && +duration !== 0 && title !== '') {
          const requestData = {
             title: title.trim(),
             duration: +duration * 60,
@@ -135,7 +135,7 @@ const ListenAndSelectEnglishWord = ({
          <Box className="add-button">
             <Button
                onClick={openModalSave}
-               icon={<PlusIcon className="plus-icon" />}
+               icon={<PlusIcon className="plus" />}
             >
                ADD OPTIONS
             </Button>
@@ -203,14 +203,14 @@ const ListenAndSelectEnglishWord = ({
                         htmlFor="filed-input"
                         className="uploading-button-text"
                      >
-                        Upload audio file
+                        {fileUploaded ? 'Replace' : 'Upload audio file'}
                      </label>
                   </Button>
 
                   {fileUploaded &&
-                     files.map((file) => (
-                        <Typography key={file.name} className="file-name">
-                           {file.name}
+                     files.map(({ name }) => (
+                        <Typography key={name} className="file-name">
+                           {name}
                         </Typography>
                      ))}
                </Box>
@@ -244,6 +244,12 @@ const ListenAndSelectEnglishWord = ({
                Do you want to delete?
             </Typography>
 
+            <Typography className="title" variant="p">
+               <Typography variant="span">Question: </Typography>
+
+               {option.find((option) => option.id === optionId)?.optionTitle}
+            </Typography>
+
             <Typography className="modal-message">You can`t restore</Typography>
 
             <Box className="container-buttons">
@@ -260,52 +266,32 @@ const ListenAndSelectEnglishWord = ({
 
 export default ListenAndSelectEnglishWord
 
-const StyledContainer = styled(Box)(({ theme }) => ({
-   width: '820px',
-
-   '& .selected-files': {
-      display: 'flex',
-
-      '& .play-pause-icon': {
-         cursor: 'pointer',
-      },
-   },
+const StyledContainer = styled(Box)(() => ({
+   width: '822px',
 
    '& > .add-button': {
       margin: '2rem 0 1.375rem 41rem',
 
-      '& .plus-icon': {
+      '& .plus': {
          width: '1rem',
          marginBottom: '0.2rem',
          marginRight: '0.6rem',
       },
    },
 
-   '& .buttons': {
+   '& > .buttons': {
       display: 'flex',
       gap: '1.1rem',
       marginLeft: '37.5rem',
    },
 
-   '& .cards': {
+   '& > .cards': {
       display: 'flex',
       flexWrap: 'wrap',
       justifyContent: 'center',
       alignItems: 'center',
       gap: '1.1rem',
       margin: '1.5rem 0 2rem 0',
-   },
-
-   '& .play-pause-icon': {
-      cursor: 'pointer',
-   },
-
-   '& .playing': {
-      cursor: ' pointer',
-
-      '& path': {
-         fill: theme.palette.primary.main,
-      },
    },
 }))
 
@@ -318,13 +304,13 @@ const StyledModal = styled(Box)(() => ({
    justifyContent: 'center',
    flexDirection: 'column',
 
-   '& .cancel': {
+   '& > .cancel': {
       cursor: 'pointer',
       marginLeft: ' 36rem',
       marginTop: ' 1rem',
    },
 
-   '& .content-modal-save': {
+   '& > .content-modal-save': {
       width: '32.3125rem',
       margin: '3rem',
       display: 'flex',
@@ -342,11 +328,11 @@ const StyledModal = styled(Box)(() => ({
       },
    },
 
-   '& .upload-input': {
+   '& > .upload-input': {
       display: 'none',
    },
 
-   '& .upload': {
+   '& > .upload': {
       display: 'flex',
       alignItems: 'center',
       gap: '1.5rem',
@@ -354,7 +340,7 @@ const StyledModal = styled(Box)(() => ({
       marginBottom: '4rem',
       marginTop: '-1rem',
 
-      '& .file-name': {
+      '& > .file-name': {
          width: '14rem',
       },
 
@@ -364,7 +350,7 @@ const StyledModal = styled(Box)(() => ({
       },
    },
 
-   '& .buttons-modal-container': {
+   '& > .buttons-modal-container': {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'flex-end',

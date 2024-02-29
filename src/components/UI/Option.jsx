@@ -13,7 +13,9 @@ const Option = ({
    isRadio,
    icon,
 }) => {
-   const [isChecked, setIsChecked] = useState(option.isTrueOption)
+   const { id, fileUrl, optionTitle, isTrueOption } = option
+
+   const [isChecked, setIsChecked] = useState(isTrueOption)
    const [isPlaying, setIsPlaying] = useState(false)
 
    const audioRef = useRef(null)
@@ -21,7 +23,7 @@ const Option = ({
    const handleChange = () => {
       setIsChecked((prev) => !prev)
 
-      handleChecked(option.id, !isChecked)
+      handleChecked(id, !isChecked)
    }
 
    const handleOpen = (id) => {
@@ -31,30 +33,34 @@ const Option = ({
    }
 
    const handleToggle = () => {
-      if (isPlaying) {
-         audioRef.current.pause()
+      const audio = audioRef.current
+
+      if (audio.paused) {
+         audio.play().catch((error) => {
+            console.error(error)
+         })
       } else {
-         audioRef.current.play()
+         audio.pause()
       }
 
       setIsPlaying(!isPlaying)
    }
 
    return (
-      <StyledContainer key={option.id}>
+      <StyledContainer key={id}>
          <Box className="content">
             <Typography>{index + 1}</Typography>
 
             {icon && (
                <SoundIcon
                   onClick={handleToggle}
-                  className={`play-pause-icon ${isPlaying ? 'playing' : ''}`}
+                  className={`play-pause ${isPlaying ? 'playing' : ''}`}
                />
             )}
 
             <audio
                ref={audioRef}
-               src={option.fileUrl}
+               src={fileUrl}
                className="audio"
                type="audio/mp3"
                controls
@@ -62,9 +68,7 @@ const Option = ({
                <track src="captions.vtt" kind="captions" label="English" />
             </audio>
 
-            <Typography className="title-option">
-               {option.optionTitle}
-            </Typography>
+            <Typography className="title-option">{optionTitle}</Typography>
          </Box>
 
          <Box className="actions">
@@ -74,10 +78,7 @@ const Option = ({
                <Checkbox onClick={handleChange} checked={isChecked} />
             )}
 
-            <TrashIcon
-               className="trash"
-               onClick={() => handleOpen(option.id)}
-            />
+            <TrashIcon className="trash" onClick={() => handleOpen(id)} />
          </Box>
       </StyledContainer>
    )
@@ -91,7 +92,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    borderRadius: '8px',
    justifyContent: 'flex-start',
    alignItems: 'center',
-   gap: '3rem',
+   gap: '2rem',
    padding: '0.6rem 1rem 0.6rem 1rem ',
 
    '& > .content': {
@@ -127,14 +128,12 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       },
    },
 
-   '& .play-pause-icon': {
+   '& .play-pause': {
       cursor: 'pointer',
    },
 
    '& .playing': {
-      cursor: ' pointer',
-
-      '& path': {
+      '& > path': {
          fill: theme.palette.primary.main,
       },
    },

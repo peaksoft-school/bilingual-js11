@@ -237,7 +237,7 @@ const SelectTheMainIdea = ({
 export default SelectTheMainIdea
 
 const StyledContainer = styled(Box)(({ theme }) => ({
-   width: '825px',
+   width: '822px',
 
    '& .add-button': {
       margin: '2rem 0 1.375rem 41.5rem',
