@@ -103,7 +103,7 @@ const TestList = () => {
 
             <Typography className="modal-title">Do you want delete?</Typography>
 
-            <Typography className="title" variant="p">
+            <Typography className="title">
                <Typography variant="span">Test: </Typography>
 
                {tests.find((test) => test.id === selectedTestId)?.title}

@@ -124,7 +124,7 @@ const Questions = () => {
                         <Typography className="name-props">{title}</Typography>
 
                         <Typography className="duration-props">
-                           {duration / 60}
+                           {duration / 60} s
                         </Typography>
 
                         <Typography className="question-type-props">
@@ -172,6 +172,16 @@ const Questions = () => {
             <FalseIcon />
 
             <Typography className="modal-title">Do you want delete?</Typography>
+
+            <Typography className="title" variant="p">
+               <Typography variant="span">Test: </Typography>
+
+               {
+                  questions?.question?.find(
+                     (question) => question?.id === selectedQuestionId
+                  )?.title
+               }
+            </Typography>
 
             <Typography className="modal-message">
                You can`t restore this file
@@ -300,17 +310,17 @@ const StyledTable = styled(Box)(() => ({
 
    '& > .name': {
       margin: 'auto',
-      marginLeft: '1.12rem',
+      marginLeft: '2rem',
    },
 
    '& > .duration-time': {
-      margin: 'auto',
-      marginLeft: '-4.8rem',
+      // margin: 'auto',
+      marginLeft: '10rem',
    },
 
    '& > .question-type': {
-      margin: 'auto',
-      marginLeft: '-17rem',
+      // margin: 'auto',
+      marginLeft: '21rem',
    },
 }))
 
@@ -327,7 +337,7 @@ const StyledBox = styled(Box)(() => ({
    margin: 'auto',
 
    '& > .name-props': {
-      margin: '0 1.2rem',
+      margin: '0 2rem',
       whiteSpace: 'nowrap',
       width: '13rem',
       overflow: 'hidden',

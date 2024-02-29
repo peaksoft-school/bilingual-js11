@@ -3,8 +3,8 @@ import { useNavigate, useParams } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { PauseIcon, PlayIcon } from '../../../assets/icons'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_TITLE } from '../../../utils/constants'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Input from '../../../components/UI/Input'
 import Button from '../../../components/UI/buttons/Button'
@@ -33,10 +33,9 @@ const TypeWhatYouHear = ({
 
    const audioRef = useRef(null)
 
-   const handleAttemptsChange = (event) => setAttempts(event.target.value)
+   const handleAttemptsChange = (e) => setAttempts(e.target.value)
 
-   const handleCorrectAnswerChange = (event) =>
-      setCorrectAnswer(event.target.value)
+   const handleCorrectAnswerChange = (e) => setCorrectAnswer(e.target.value)
 
    const handleToggle = () => {
       if (isPlaying) {
@@ -47,14 +46,37 @@ const TypeWhatYouHear = ({
       setIsPlaying(!isPlaying)
    }
 
-   const handleSubmit = () => {
-      if (selectType !== '' && +duration !== +'' && title !== '') {
-         dispatch(QUESTION_ACTIONS.clearOptions())
+   const handleFileChange = (e) => {
+      const file = e.target.files[0]
 
-         setSelectType('')
-         setTitle('')
-         setDuration('')
+      if (file) {
+         setFile(file)
 
+         const reader = new FileReader()
+
+         reader.readAsDataURL(file)
+
+         setFileName(file.name)
+         setIsPlaying(false)
+
+         audioRef.current.src = URL.createObjectURL(file)
+
+         dispatch(QUESTION_THUNKS.saveFile(file))
+      }
+   }
+
+   const isDisabled =
+      !selectType || !duration || !title || !correctAnswer || !attempts || !file
+
+   const onSubmit = () => {
+      if (
+         selectType !== '' &&
+         +duration !== 0 &&
+         title !== '' &&
+         correctAnswer !== '' &&
+         file !== '' &&
+         +attempts !== 0
+      ) {
          const requestData = {
             title,
             duration: +duration * 60,
@@ -69,34 +91,21 @@ const TypeWhatYouHear = ({
 
                data: {
                   testId,
-                  questionType: questionTitle('TYPE_WHAT_YOU_HEAR'),
+                  questionType: questionTitle(
+                     QUESTION_TITLE.TYPE_WHAT_YOU_HEAR
+                  ),
                   navigate,
+               },
+
+               setState: {
+                  selectType: setSelectType(selectType),
+                  title: setTitle(title),
+                  duration: setDuration(duration),
                },
             })
          )
       }
    }
-
-   const handleFileChange = (event) => {
-      const file = event.target.files[0]
-
-      setFile(file)
-
-      if (file) {
-         const reader = new FileReader()
-
-         reader.readAsDataURL(file)
-
-         setFileName(file.name)
-
-         audioRef.current.src = URL.createObjectURL(file)
-
-         dispatch(QUESTION_THUNKS.postFileRequest(file))
-      }
-   }
-
-   const isValid =
-      !selectType || !duration || !title || !correctAnswer || !attempts || !file
 
    return (
       <StyledContainer>
@@ -119,9 +128,9 @@ const TypeWhatYouHear = ({
 
             <Box className="file">
                <Button type="button">
-                  <label htmlFor="filedInput" className="label">
+                  <InputLabel htmlFor="filedInput" className="label">
                      {file ? 'REPLACE' : 'UPPLOAD'}
-                  </label>
+                  </InputLabel>
                </Button>
 
                <input
@@ -132,7 +141,7 @@ const TypeWhatYouHear = ({
                   onChange={handleFileChange}
                />
 
-               {file ? (
+               {file && (
                   <button
                      type="button"
                      onClick={handleToggle}
@@ -140,8 +149,6 @@ const TypeWhatYouHear = ({
                   >
                      {isPlaying ? <PlayIcon /> : <PauseIcon />}
                   </button>
-               ) : (
-                  ' '
                )}
 
                <Typography variant="span" className="file-name">
@@ -178,8 +185,8 @@ const TypeWhatYouHear = ({
             <Button variant="secondary">GO BACK</Button>
             <Button
                variant="primary"
-               onClick={handleSubmit}
-               disabled={isValid}
+               onClick={onSubmit}
+               disabled={isDisabled}
                isLoading={isLoading}
             >
                SAVE
@@ -233,6 +240,8 @@ const StyledContainer = styled(Box)(() => ({
             fontFamily: 'Poppins',
             fontWeight: '600',
             cursor: 'pointer',
+            color: 'inherit',
+            marginTop: '0.8rem',
          },
 
          '& > input': {

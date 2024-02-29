@@ -415,15 +415,26 @@ const OPTIONS = [
 ]
 
 const QUESTION_TYPES = {
-   SelectRealEnglishWords: 'Select real english words',
-   TypeWhatYouHear: 'Type what you hear',
-   DescribeImage: 'Describe image',
-   HighlightTheAnswer: 'Highlight the answer',
-   RecordSayingStatement: 'Record saying statement',
+   SELECT_REAL_ENGLISH_WORDS: 'Select real english words',
+   TYPE_WHAT_YOU_HEAR: 'Type what you hear',
+   DESCRIBE_IMAGE: 'Describe image',
+   RESPOND_IN_AT_LEAST_N_WORDS: 'Respond in at least N words',
+   HIGHLIGHT_THE_ANSWER: 'Highlight the answer',
+   RECORD_SAYING_STATEMENT: 'Record saying statement',
+}
+
+const QUESTION_TITLE = {
+   SELECT_REAL_ENGLISH_WORDS: 'SELECT_REAL_ENGLISH_WORD',
+   TYPE_WHAT_YOU_HEAR: 'TYPE_WHAT_YOU_HEAR',
+   DESCRIBE_IMAGE: 'DESCRIBE_IMAGE',
+   RESPOND_IN_AT_LEAST_N_WORDS: 'RESPOND_IN_AT_LEAST_N_WORDS',
+   HIGHLIGHT_THE_ANSWER: 'HIGHLIGHT_THE_ANSWER',
+   RECORD_SAYING_STATEMENT: 'RECORD_SAYING_STATEMENT',
 }
 
 export {
    QUESTION_TYPES,
+   QUESTION_TITLE,
    OPTIONS,
    VIDEOS,
    CHECKBOX_IMAGE,

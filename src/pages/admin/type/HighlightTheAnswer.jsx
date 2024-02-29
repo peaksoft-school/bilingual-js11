@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useFormik } from 'formik'
-import { Box, TextField, Typography, styled } from '@mui/material'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
+import { Box, InputLabel, TextField, Typography, styled } from '@mui/material'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_TITLE } from '../../../utils/constants'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Input from '../../../components/UI/Input'
 import Button from '../../../components/UI/buttons/Button'
@@ -25,73 +24,81 @@ const HighlightTheAnswer = ({
 
    const { testId } = useParams()
 
-   const formik = useFormik({
-      initialValues: {
-         question: '',
-         text: '',
-      },
-   })
+   const [text, setText] = useState('')
+   const [question, setQuestion] = useState('')
+
+   const handleQuestionChange = (e) => setQuestion(e.target.value)
+
+   const handleTextChange = (e) => setText(e.target.value)
+
+   const handleMouseUp = () => setAnswerValue(window.getSelection().toString())
+
+   const handleGoBack = () => navigate(-1)
+
+   const isDisabled =
+      !selectType ||
+      !duration ||
+      !title.trim() ||
+      !answerValue ||
+      question.trim() === ''
 
    const saveTestQuestion = () => {
-      if (selectType !== '' && +duration !== +'' && title !== '') {
-         dispatch(QUESTION_ACTIONS.clearOptions())
-
-         setSelectType('')
-         setTitle('')
-         setDuration('')
-         setAnswerValue('')
-
+      if (
+         selectType !== '' &&
+         +duration !== 0 &&
+         title !== '' &&
+         text !== '' &&
+         question !== ''
+      ) {
          const requestData = {
             title: title.trim(),
             duration: +duration * 60,
-            statement: formik.values.question.trim(),
-            passage: formik.values.text.trim(),
+            statement: question.trim(),
+            passage: text.trim(),
             correctAnswer: answerValue.trim(),
          }
 
          dispatch(
             QUESTION_THUNKS.saveTest({
                requestData,
+
                data: {
                   testId,
-                  questionType: questionTitle('HIGHLIGHTS_THE_ANSWER'),
+                  questionType: questionTitle(
+                     QUESTION_TITLE.HIGHLIGHT_THE_ANSWER
+                  ),
                   navigate,
+               },
+
+               setState: {
+                  selectType: setSelectType(selectType),
+                  title: setTitle(title),
+                  duration: setDuration(duration),
                },
             })
          )
       }
    }
 
-   const handleGoBack = () => navigate(-1)
-
-   const handleMouseUp = () => setAnswerValue(window.getSelection().toString())
-
-   const isFormValid =
-      !selectType ||
-      !duration ||
-      !title.trim() ||
-      !answerValue ||
-      formik.values.question.trim() === ''
-
    return (
-      <StyledContainer onSubmit={formik.handleSubmit}>
+      <StyledContainer>
          <Typography className="title">Questions to the Passage</Typography>
 
          <Input
             fullWidth
             name="question"
-            value={formik.values.question}
-            onChange={formik.handleChange}
+            value={question}
+            onChange={handleQuestionChange}
          />
 
          <Box className="passage">
-            <Typography className="title">Passage</Typography>
+            <InputLabel className="title">Passage</InputLabel>
 
             <TextField
                multiline
                name="text"
-               value={formik.values.text}
-               onChange={formik.handleChange}
+               value={text}
+               onChange={handleTextChange}
                fullWidth
             />
          </Box>
@@ -100,7 +107,7 @@ const HighlightTheAnswer = ({
             <Typography className="title">Highlight correct answer:</Typography>
 
             <Typography className="highlight-text" onMouseUp={handleMouseUp}>
-               {formik.values.text}
+               {text}
             </Typography>
          </Box>
 
@@ -111,7 +118,7 @@ const HighlightTheAnswer = ({
 
             <Button
                variant="primary"
-               disabled={isFormValid}
+               disabled={isDisabled}
                onClick={saveTestQuestion}
             >
                SAVE
