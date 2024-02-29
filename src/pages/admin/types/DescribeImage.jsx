@@ -38,7 +38,7 @@ const DescribeImage = ({
    const handleGoBack = () => navigate(-1)
 
    const isDisabled =
-      !selectType || !duration || !title || !image || !answer.trim()
+      !selectType || !duration || !title.trim() || !image || !answer
 
    const handleFileChange = (e) => {
       const file = e.target.files[0]

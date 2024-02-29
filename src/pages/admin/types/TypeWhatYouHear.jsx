@@ -37,6 +37,8 @@ const TypeWhatYouHear = ({
 
    const handleCorrectAnswerChange = (e) => setCorrectAnswer(e.target.value)
 
+   const hadleGoBack = () => navigate(-1)
+
    const handleToggle = () => {
       if (isPlaying) {
          audioRef.current.pause()
@@ -66,7 +68,12 @@ const TypeWhatYouHear = ({
    }
 
    const isDisabled =
-      !selectType || !duration || !title || !correctAnswer || !attempts || !file
+      !selectType ||
+      !duration ||
+      !title.trim() ||
+      !correctAnswer.trim() ||
+      !attempts.trim() ||
+      !file
 
    const onSubmit = () => {
       if (
@@ -78,11 +85,11 @@ const TypeWhatYouHear = ({
          +attempts !== 0
       ) {
          const requestData = {
-            title,
+            title: title.trim(),
             duration: +duration * 60,
+            attempts: attempts.trim(),
+            correctAnswer: correctAnswer.trim(),
             fileUrl,
-            attempts,
-            correctAnswer,
          }
 
          dispatch(
@@ -182,12 +189,16 @@ const TypeWhatYouHear = ({
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary">GO BACK</Button>
+            <Button variant="secondary" onClick={hadleGoBack}>
+               GO BACK
+            </Button>
+
             <Button
                variant="primary"
                onClick={onSubmit}
                disabled={isDisabled}
                isLoading={isLoading}
+               colorLoading="secondary"
             >
                SAVE
             </Button>

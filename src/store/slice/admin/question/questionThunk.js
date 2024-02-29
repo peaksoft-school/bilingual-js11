@@ -36,7 +36,7 @@ const saveTest = createAsyncThunk(
       } catch (error) {
          showNotification({
             title: 'Error',
-            message: 'Failed to save test!',
+            message: 'Failed to save question!',
             type: 'error',
          })
 

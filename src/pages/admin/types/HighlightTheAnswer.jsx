@@ -39,7 +39,7 @@ const HighlightTheAnswer = ({
       !selectType ||
       !duration ||
       !title.trim() ||
-      !answerValue ||
+      !answerValue.trim() ||
       question.trim() === ''
 
    const saveTestQuestion = () => {
@@ -65,7 +65,7 @@ const HighlightTheAnswer = ({
                data: {
                   testId,
                   questionType: questionTitle(
-                     QUESTION_TITLE.HIGHLIGHT_THE_ANSWER
+                     QUESTION_TITLE.HIGHLIGHTS_THE_ANSWER
                   ),
                   navigate,
                },

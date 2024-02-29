@@ -31,6 +31,10 @@ const StyledSelect = styled(Select)(({ theme }) => ({
    fontSize: '1rem',
    padding: '0.75rem 1.125rem',
 
+   '& .MuiMenu-paper': {
+      boxShadow: 'none',
+   },
+
    '&.MuiOutlinedInput-root': {
       padding: '0.3rem',
       fontFamily: 'Poppins',
@@ -57,6 +61,7 @@ const StyledMenuItem = styled(MenuItem)(() => ({
    '&.MuiMenuItem-root': {
       backgroundColor: 'white',
       color: '#4C4859',
+      boxShadow: 'none',
    },
 
    '&.MuiMenuItem-root:hover': {

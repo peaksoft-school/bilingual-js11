@@ -7,8 +7,8 @@ import { TESTS_THUNKS } from '../../../store/slice/admin/tests/testsThunk'
 import { ROUTES } from '../../../routes/routes'
 import { NoData } from '../../../assets/images'
 import Modal from '../../UI/Modal'
-import Button from '../../UI/buttons/Button'
 import Switcher from '../../UI/Switcher'
+import Button from '../../UI/buttons/Button'
 
 const TestList = () => {
    const { tests } = useSelector((state) => state.testsSlice)
@@ -26,7 +26,6 @@ const TestList = () => {
 
    const handleDeleteTest = (testId) => {
       dispatch(TESTS_THUNKS.deleteTest(testId))
-
       setIsVisible(false)
    }
 

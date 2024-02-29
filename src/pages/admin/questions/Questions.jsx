@@ -119,7 +119,9 @@ const Questions = () => {
                questions.question.map(
                   ({ id, title, duration, questionType, enable }, index) => (
                      <StyledBox key={id}>
-                        <Typography>{index + 1}</Typography>
+                        <Typography className="numbering-props">
+                           {index + 1}
+                        </Typography>
 
                         <Typography className="name-props">{title}</Typography>
 
@@ -305,22 +307,18 @@ const StyledContainer = styled(Box)(() => ({
 
 const StyledTable = styled(Box)(() => ({
    display: 'flex',
-   justifyContent: 'space-around',
    margin: '0 1.5rem',
 
    '& > .name': {
-      margin: 'auto',
-      marginLeft: '2rem',
+      marginLeft: '2.5rem',
    },
 
    '& > .duration-time': {
-      // margin: 'auto',
-      marginLeft: '10rem',
+      marginLeft: '16.5rem',
    },
 
    '& > .question-type': {
-      // margin: 'auto',
-      marginLeft: '21rem',
+      marginLeft: '3.8rem',
    },
 }))
 
@@ -336,6 +334,10 @@ const StyledBox = styled(Box)(() => ({
       '0px 4px 10px 0px rgba(0, 0, 0, 0.06), 0px -4px 10px 0px rgba(0, 0, 0, 0.06)',
    margin: 'auto',
 
+   '& > .numbering-props': {
+      width: '1rem',
+   },
+
    '& > .name-props': {
       margin: '0 2rem',
       whiteSpace: 'nowrap',
@@ -346,6 +348,7 @@ const StyledBox = styled(Box)(() => ({
 
    '& > .duration-props': {
       margin: '0 4.4rem',
+      width: '2rem',
    },
 
    '& > .question-type-props': {

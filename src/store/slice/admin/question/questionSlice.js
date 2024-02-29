@@ -9,7 +9,7 @@ const initialState = {
    attempts: 0,
    correctAnswer: '',
    fileUrl: '',
-   option: [],
+   options: [],
    isLoading: false,
 }
 
@@ -18,13 +18,13 @@ const questionSlice = createSlice({
    initialState,
 
    reducers: {
-      addOption: (state, action) => {
-         state.option = [...state.option, action.payload]
+      addOption: (state, { payload }) => {
+         state.options = [...state.options, payload]
       },
 
-      changeTrueOption: (state, action) => {
-         state.option = state.option.map((item) => {
-            if (item.id === action.payload) {
+      handleIsCorrect: (state, { payload }) => {
+         state.options = state.options.map((item) => {
+            if (item.id === payload) {
                return {
                   ...item,
                   isTrueOption: !item.isTrueOption,
@@ -34,18 +34,16 @@ const questionSlice = createSlice({
          })
       },
 
-      deleteOption: (state, action) => {
-         state.option = state.option.filter(
-            (item) => item.id !== action.payload
-         )
+      deleteOption: (state, { payload }) => {
+         state.options = state.options.filter((item) => item.id !== payload)
       },
 
       clearOptions(state) {
-         state.option = []
+         state.options = []
       },
 
-      updateOptions: (state, action) => {
-         state.option = action.payload
+      updateOptions: (state, { payload }) => {
+         state.options = payload
       },
    },
 
@@ -56,9 +54,9 @@ const questionSlice = createSlice({
             state.error = null
          })
 
-         .addCase(QUESTION_THUNKS.saveTest.rejected, (state, action) => {
+         .addCase(QUESTION_THUNKS.saveTest.rejected, (state, { payload }) => {
             state.isLoading = false
-            state.error = action.payload
+            state.error = payload
          })
 
          .addCase(QUESTION_THUNKS.saveTest.pending, (state) => {
@@ -76,9 +74,9 @@ const questionSlice = createSlice({
             state.fileUrl = action.payload.link
          })
 
-         .addCase(QUESTION_THUNKS.saveFile.rejected, (state, action) => {
+         .addCase(QUESTION_THUNKS.saveFile.rejected, (state, { payload }) => {
             state.isLoading = false
-            state.error = action.payload
+            state.error = payload
          })
    },
 })

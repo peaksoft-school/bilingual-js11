@@ -45,9 +45,7 @@ const RecordSayingStatement = ({
 
                data: {
                   testId,
-                  questionType: questionTitle(
-                     QUESTION_TITLE.RECORD_SAYING_STATEMENT
-                  ),
+                  questionType: questionTitle(QUESTION_TITLE.RECORD_SAYING),
                   navigate,
                },
 
@@ -85,6 +83,8 @@ const RecordSayingStatement = ({
 export default RecordSayingStatement
 
 const StyledContainer = styled(Box)(() => ({
+   width: '825px',
+
    '& .statement': {
       marginTop: '1.4rem',
       marginBottom: '2rem',

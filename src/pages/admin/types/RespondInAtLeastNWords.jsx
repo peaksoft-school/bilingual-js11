@@ -32,7 +32,11 @@ const RespondInAtLeastNWords = ({
    const handleAttemptsChange = (e) => setAttempts(e.target.value)
 
    const isDisabled =
-      !selectType || !duration || !title || !statement.trim() || !attempts
+      !selectType ||
+      !duration ||
+      !title.trim() ||
+      !statement.trim() ||
+      !attempts
 
    const onSubmit = () => {
       if (
@@ -43,10 +47,10 @@ const RespondInAtLeastNWords = ({
          +attempts !== 0
       ) {
          const requestData = {
-            title,
+            title: title.trim(),
             duration: +duration * 60,
-            statement,
-            attempts,
+            statement: statement.trim(),
+            attempts: attempts.trim(),
          }
 
          dispatch(
@@ -102,6 +106,7 @@ const RespondInAtLeastNWords = ({
                onClick={onSubmit}
                isLoading={isLoading}
                disabled={isDisabled}
+               colorLoading="secondary"
             >
                SAVE
             </Button>

@@ -22,7 +22,7 @@ const SelectRealEnglish = ({
    setTitle,
    setSelectType,
 }) => {
-   const option = useSelector((state) => state.question.option)
+   const option = useSelector((state) => state.question.options)
 
    const { testId } = useParams()
 
@@ -53,10 +53,13 @@ const SelectRealEnglish = ({
    }
 
    const handleChecked = (id) => {
-      dispatch(QUESTION_ACTIONS.changeTrueOption(id))
+      dispatch(QUESTION_ACTIONS.handleIsCorrect(id))
    }
 
-   const isDisabled = !selectType || !duration || !title || option.length === 0
+   const isDisabled =
+      !selectType || !duration || !title.trim() || option.length === 0
+
+   const isDisabledModal = !optionTitle.trim()
 
    const onSubmit = () => {
       if (selectType !== '' && +duration !== 0 && title !== '') {
@@ -91,16 +94,15 @@ const SelectRealEnglish = ({
    }
 
    const addHandler = () => {
-      const data = {
-         optionTitle,
+      const option = {
+         optionTitle: optionTitle.trim(),
          isCorrect: checkOption,
          id: uuidv4(),
       }
 
-      dispatch(QUESTION_ACTIONS.addOption(data))
+      dispatch(QUESTION_ACTIONS.addOption(option))
 
       openModalSave()
-
       setOptionTitle('')
       setCheckOption(false)
    }
@@ -208,7 +210,7 @@ const SelectRealEnglish = ({
                   <Button
                      variant="primary"
                      onClick={addHandler}
-                     disabled={!optionTitle}
+                     disabled={isDisabledModal}
                   >
                      SAVE
                   </Button>
@@ -222,6 +224,8 @@ const SelectRealEnglish = ({
 export default SelectRealEnglish
 
 const StyledContainer = styled(Box)(() => ({
+   width: '820px',
+
    '& .add-button': {
       margin: '2rem 0 1.375rem 41.5rem',
 
@@ -243,7 +247,7 @@ const StyledContainer = styled(Box)(() => ({
    '& .buttons': {
       display: 'flex',
       gap: '1.1rem',
-      marginLeft: '37.5rem',
+      marginLeft: '37.4rem',
 
       '& .text': {
          textDecoration: 'none',
@@ -264,20 +268,20 @@ const StyledModalSave = styled(Box)(() => ({
    flexDirection: 'column',
    alignItems: 'center',
 
-   '& .cancel': {
+   '& > .cancel': {
       cursor: 'pointer',
       marginLeft: ' 34rem',
       marginTop: ' 1rem',
    },
 
-   '& .content-modal-save': {
+   '& > .content-modal-save': {
       width: '32.3125rem',
       margin: '3rem',
       display: 'flex',
       flexDirection: 'column',
       gap: '1.25rem',
 
-      '& .title': {
+      '& > .title': {
          width: '2.33rem',
          height: '1.125rem',
          fontFamily: 'Poppins',
@@ -287,12 +291,12 @@ const StyledModalSave = styled(Box)(() => ({
          color: '#4B4759',
       },
 
-      '& .checkbox-container': {
+      '& > .checkbox-container': {
          display: 'flex',
          gap: '0.44rem',
          alignItems: 'center',
 
-         '& .true-option': {
+         '& > .true-option': {
             fontFamily: 'Poppins',
          },
 
@@ -302,7 +306,7 @@ const StyledModalSave = styled(Box)(() => ({
       },
    },
 
-   '& .buttons-modal-container': {
+   '& > .buttons-modal-container': {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'flex-end',

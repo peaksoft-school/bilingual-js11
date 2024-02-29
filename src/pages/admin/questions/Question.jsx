@@ -6,9 +6,9 @@ import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSl
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import { OPTIONS } from '../../../utils/constants'
 import Input from '../../../components/UI/Input'
-import TypeTest from '../TypeTest'
 import Dropdown from '../../../components/UI/Dropdown'
 import TestContainer from '../../../components/UI/TestContainer'
+import TypeTest from '../TypeTest'
 
 const Question = () => {
    const option = useSelector((state) => state.question.option)
@@ -35,7 +35,7 @@ const Question = () => {
 
    return (
       <TestContainer>
-         <StyledContent>
+         <StyledContainer>
             <Box className="form-container">
                <Typography className="text title" variant="label">
                   Title
@@ -87,14 +87,14 @@ const Question = () => {
                setTitle={setTitle}
                setSelectType={setSelectType}
             />
-         </StyledContent>
+         </StyledContainer>
       </TestContainer>
    )
 }
 
 export default Question
 
-const StyledContent = styled(Box)(() => ({
+const StyledContainer = styled(Box)(() => ({
    display: 'flex',
    justifyContent: 'center',
    flexDirection: 'column',
@@ -120,11 +120,11 @@ const StyledContent = styled(Box)(() => ({
 
       '& > .input-container': {
          display: 'flex',
-         gap: '1.5rem',
+         gap: '1.3rem',
 
          '& > .input-title': {
             background: '#fff',
-            width: '43.5313rem',
+            width: '43.6rem',
             height: '2.875rem',
             borderRadius: '0.5rem',
             paddingBottom: '3.5rem',
@@ -132,7 +132,7 @@ const StyledContent = styled(Box)(() => ({
          },
 
          '& > .duration-container': {
-            marginTop: '-4.25rem',
+            marginTop: '-4.30rem',
 
             '& > .duration': {
                marginBottom: '1.3rem',
@@ -159,7 +159,7 @@ const StyledContent = styled(Box)(() => ({
 
       '& .dropdown': {
          borderRadius: '0.5rem',
-         width: '51.25rem',
+         width: '823px',
 
          '& .MuiSelect-icon': {
             color: 'black',
