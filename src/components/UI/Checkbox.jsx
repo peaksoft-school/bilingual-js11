@@ -19,6 +19,8 @@ const Checkbox = forwardRef(
 export default Checkbox
 
 const StyledCheckbox = styled(MuiCheckbox)(() => ({
+   padding: 0,
+
    '&:hover': {
       backgroundColor: 'inherit',
    },

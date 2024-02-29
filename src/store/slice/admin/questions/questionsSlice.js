@@ -18,9 +18,9 @@ export const questionsSlice = createSlice({
             state.status = 'loading'
          })
 
-         .addCase(QUESTIONS_THUNKS.getTest.fulfilled, (state, action) => {
+         .addCase(QUESTIONS_THUNKS.getTest.fulfilled, (state, { payload }) => {
             state.status = 'succeeded'
-            state.questions = action.payload
+            state.questions = payload
          })
 
          .addCase(QUESTIONS_THUNKS.getTest.rejected, (state, action) => {
@@ -34,9 +34,9 @@ export const questionsSlice = createSlice({
 
          .addCase(
             QUESTIONS_THUNKS.getAllQuestions.fulfilled,
-            (state, action) => {
+            (state, { payload }) => {
                state.status = 'succeeded'
-               state.questions = action.payload
+               state.questions = payload
             }
          )
 
@@ -52,10 +52,13 @@ export const questionsSlice = createSlice({
             state.status = 'loading'
          })
 
-         .addCase(QUESTIONS_THUNKS.getQuestion.fulfilled, (state, action) => {
-            state.status = 'succeeded'
-            state.questions = action.payload
-         })
+         .addCase(
+            QUESTIONS_THUNKS.getQuestion.fulfilled,
+            (state, { payload }) => {
+               state.status = 'succeeded'
+               state.questions = payload
+            }
+         )
 
          .addCase(QUESTIONS_THUNKS.getQuestion.rejected, (state, action) => {
             state.status = 'failed'
