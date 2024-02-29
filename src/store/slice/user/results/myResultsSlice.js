@@ -27,6 +27,23 @@ export const resultsSlice = createSlice({
             state.status = 'failed'
             state.error = action.error.message
          })
+
+         .addCase(MY_RESULTS_THUNK.deleteResults.pending, (state) => {
+            state.status = 'loading'
+         })
+
+         .addCase(MY_RESULTS_THUNK.deleteResults.fulfilled, (state, action) => {
+            state.status = 'succeeded'
+
+            state.results = state.results.filter(
+               (test) => test.id !== action.meta.arg
+            )
+         })
+
+         .addCase(MY_RESULTS_THUNK.deleteResults.rejected, (state, action) => {
+            state.status = 'failed'
+            state.error = action.error.message
+         })
    },
 })
 

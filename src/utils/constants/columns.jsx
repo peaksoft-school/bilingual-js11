@@ -56,7 +56,12 @@ const COLUMNS = [
       Header: ' ',
       accessor: 'action',
 
-      Cell: () => <DeleteResults />,
+      Cell: ({ row }) => (
+         <DeleteResults
+            name={row.original.testName}
+            resultId={row.original.id}
+         />
+      ),
    },
 ]
 

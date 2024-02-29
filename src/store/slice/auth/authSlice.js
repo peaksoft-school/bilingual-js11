@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { ROLES } from '../../../routes/routes'
 import { AUTH_THUNKS } from './authThunk'
+import { ROLES } from '../../../routes/routes'
 
 const BILINGUAL = process.env.BINGUAL
 

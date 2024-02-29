@@ -1,5 +1,5 @@
-import { Box, Typography, styled } from '@mui/material'
 import Slider from 'react-slick'
+import { Box, Typography, styled } from '@mui/material'
 import { SlickNextIcon, SlickPrevIcon } from '../../assets/icons'
 import { CHECK_OUT } from '../../utils/constants'
 import 'slick-carousel/slick/slick.css'

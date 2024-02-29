@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstance } from '../../../../configs/axiosInstance'
+import { showNotification } from '../../../../utils/helpers/notification'
 
 const getResults = createAsyncThunk(
    'resultsSlice/getResult',
@@ -15,32 +16,32 @@ const getResults = createAsyncThunk(
    }
 )
 
-// const deleteTest = createAsyncThunk(
-//    'testsSlice/deleteTest',
+const deleteResults = createAsyncThunk(
+   'myResultsSlice/deleteResults',
 
-//    async (testId, { rejectWithValue }) => {
-//       try {
-//          const response = await axiosInstance.delete(
-//             `/api/test?testId=${testId}`
-//          )
+   async (resultId, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.delete(
+            `/api/result?resultId=${resultId}`
+         )
 
-//          showNotification({
-//             title: 'Success',
-//             message: 'Test successfully deleted',
-//             type: 'success',
-//          })
+         showNotification({
+            title: 'Success',
+            message: 'Test successfully deleted',
+            type: 'success',
+         })
 
-//          return response.data
-//       } catch (error) {
-//          showNotification({
-//             title: 'Error',
-//             message: 'Failed to delete test',
-//             type: 'error',
-//          })
+         return response.data
+      } catch (error) {
+         showNotification({
+            title: 'Error',
+            message: 'Failed to delete test',
+            type: 'error',
+         })
 
-//          return rejectWithValue.message
-//       }
-//    }
-// )
+         return rejectWithValue.message
+      }
+   }
+)
 
-export const MY_RESULTS_THUNK = { getResults }
+export const MY_RESULTS_THUNK = { getResults, deleteResults }

@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Box, styled } from '@mui/material'
 import Table from '../../../components/UI/Table'
 import { MY_RESULTS_THUNK } from '../../../store/slice/user/results/myResultsThunk'
-import { COLUMNS, FAKE_DATA } from '../../../utils/constants/columns'
+import { COLUMNS } from '../../../utils/constants/columns'
 
 const UserResults = () => {
-   // const { results } = useSelector((state) => state.resultsSlice)
+   const { results } = useSelector((state) => state.resultsSlice)
 
    const dispatch = useDispatch()
 
@@ -16,7 +16,7 @@ const UserResults = () => {
 
    return (
       <StyledContainer>
-         <Table columns={COLUMNS} data={FAKE_DATA} />
+         <Table columns={COLUMNS} data={results} />
       </StyledContainer>
    )
 }

@@ -1,9 +1,9 @@
-import { Box, InputAdornment, Typography, styled } from '@mui/material'
-import { signInWithPopup } from 'firebase/auth'
-import { useFormik } from 'formik'
 import { useState } from 'react'
+import { useFormik } from 'formik'
+import { signInWithPopup } from 'firebase/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Box, InputAdornment, Typography, styled } from '@mui/material'
 import {
    ExitIcon,
    EyeIcon,
@@ -12,14 +12,14 @@ import {
    LogoIcon,
    WarningIcon,
 } from '../../assets/icons'
-import Checkbox from '../../components/UI/Checkbox'
-import Input from '../../components/UI/Input'
-import Button from '../../components/UI/buttons/Button'
 import { ROUTES } from '../../routes/routes'
 import { AUTH_THUNKS } from '../../store/slice/auth/authThunk'
 import { auth, provider } from '../../configs/firebase'
 import { showErrorSignIn } from '../../utils/helpers'
 import { VALIDATION_SIGN_IN } from '../../utils/helpers/validation'
+import Input from '../../components/UI/Input'
+import Button from '../../components/UI/buttons/Button'
+import Checkbox from '../../components/UI/Checkbox'
 
 const SignIn = () => {
    const { isLoading } = useSelector((state) => state.auth)
@@ -29,7 +29,6 @@ const SignIn = () => {
    const navigate = useNavigate()
 
    const [showPassword, setShowPassword] = useState(false)
-
    const [isPasswordFieldActive, setIsPasswordFieldActive] = useState(false)
 
    const handleShowPassword = () => setShowPassword((prev) => !prev)
@@ -37,17 +36,19 @@ const SignIn = () => {
    const handlePasswordFieldFocus = () => setIsPasswordFieldActive(true)
 
    const handleWithGoogle = async () => {
-      await signInWithPopup(auth, provider).then((data) => {
-         dispatch(
-            AUTH_THUNKS.authWithGoogle({
-               tokenId: data.user.accessToken,
-               navigate,
-               isSignUp: true,
-            })
-         ).catch((error) => {
-            console.error(error)
+      await signInWithPopup(auth, provider)
+         .then((response) => {
+            dispatch(
+               AUTH_THUNKS.authWithGoogle({
+                  tokenId: response.user.accessToken,
+                  navigate,
+                  isSignUp: true,
+               })
+            )
          })
-      })
+         .catch((error) => {
+            return error
+         })
    }
 
    const onSubmit = (values, { resetForm }) =>

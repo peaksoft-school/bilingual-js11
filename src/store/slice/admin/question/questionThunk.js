@@ -1,27 +1,35 @@
-import { AxiosError } from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { axiosInstance } from '../../../configs/axiosInstance'
-import { axiosInstanceFile } from '../../../configs/axiosInstanceFile'
+import { axiosInstanceFile } from '../../../../configs/axiosInstanceFile'
+import { showNotification } from '../../../../utils/helpers/notification'
+import { axiosInstance } from '../../../../configs/axiosInstance'
+import { ROUTES } from '../../../../routes/routes'
 
 const saveTest = createAsyncThunk(
    'question/saveTest',
 
    async (
       { requestData, data: { testId, questionType, navigate } },
-
       { rejectWithValue }
    ) => {
       try {
-         await axiosInstance.post(
+         const response = await axiosInstance.post(
             `/api/question?testId=${testId}&questionType=${questionType}`,
             requestData
          )
 
-         return navigate(`/admin/tests/questions/${testId}`)
+         showNotification({
+            message: `${response.data.message}!`,
+         })
+
+         navigate(`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/${testId}`)
+
+         return response.data
       } catch (error) {
-         if (AxiosError(error)) {
-            return rejectWithValue(error.response?.data.message)
-         }
+         showNotification({
+            title: 'Error',
+            message: 'Failed to save test!',
+            type: 'error',
+         })
 
          return rejectWithValue('Something went wrong')
       }
@@ -34,13 +42,20 @@ const postFileRequest = createAsyncThunk(
    async (file, { rejectWithValue }) => {
       try {
          const formData = new FormData()
+
          formData.append('multipartFile', file)
 
          const { data } = await axiosInstanceFile.post('/api/awsFile', formData)
 
          return data
       } catch (error) {
-         return rejectWithValue('Something went wrong')
+         showNotification({
+            title: 'Error',
+            message: 'Failed to file!',
+            type: 'error',
+         })
+
+         return rejectWithValue(error.response.data)
       }
    }
 )

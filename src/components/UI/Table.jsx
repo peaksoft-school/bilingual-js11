@@ -1,3 +1,5 @@
+import { memo, useMemo } from 'react'
+import { useTable } from 'react-table'
 import {
    styled,
    TableBody,
@@ -7,8 +9,6 @@ import {
    TableRow,
    Table as MuiTable,
 } from '@mui/material'
-import { memo, useMemo } from 'react'
-import { useTable } from 'react-table'
 
 const Table = ({ columns: headers, data }) => {
    const columns = useMemo(() => headers, [])
@@ -122,7 +122,6 @@ const StyledCellTd = styled(TableCell)(() => ({
    padding: '1.5rem 0',
    color: ' #4C4859',
    borderBottom: 'none',
-   textAlign: 'center',
 
    '&:first-of-type': {
       paddingLeft: '1rem',
@@ -130,7 +129,7 @@ const StyledCellTd = styled(TableCell)(() => ({
 }))
 
 const StyledCellTh = styled(TableCell)(() => ({
-   textAlign: 'center',
    fontWeight: '500',
    borderBottom: 'none',
+   paddingLeft: '-1rem',
 }))
