@@ -7,36 +7,24 @@ import RecordSayingStatement from './type/RecordSayingStatement'
 import HighlightTheAnswer from './type/HighlightTheAnswer'
 
 const TypeTest = (props) => {
-   const { duration, setDuration, selectType, title, setTitle, setSelectType } =
-      props
-
-   const commonProps = {
-      duration,
-      setDuration,
-      selectType,
-      title,
-      setTitle,
-      setSelectType,
-   }
-
-   switch (selectType) {
+   switch (props.selectType) {
       case QUESTION_TYPES.SelectRealEnglishWords:
-         return <SelectRealEnglish {...commonProps} />
+         return <SelectRealEnglish {...props} />
 
       case QUESTION_TYPES.TypeWhatYouHear:
-         return <TypeWhatYouHear {...commonProps} />
+         return <TypeWhatYouHear {...props} />
 
       case QUESTION_TYPES.DescribeImage:
-         return <DescribeImage {...commonProps} />
+         return <DescribeImage {...props} />
 
       case QUESTION_TYPES.RecordSayingStatement:
-         return <RecordSayingStatement {...commonProps} />
+         return <RecordSayingStatement {...props} />
 
       case QUESTION_TYPES.HighlightTheAnswer:
-         return <HighlightTheAnswer {...commonProps} />
+         return <HighlightTheAnswer {...props} />
 
       case QUESTION_TYPES.SelectMainIdea:
-         return <SelectTheMainIdea {...commonProps} />
+         return <SelectTheMainIdea {...props} />
       default:
          return <div />
    }

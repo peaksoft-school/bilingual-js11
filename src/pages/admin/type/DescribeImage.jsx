@@ -55,7 +55,7 @@ const DescribeImage = ({
       }
    }
 
-   const saveTestQuestion = () => {
+   const onSubmit = () => {
       if (
          selectType !== '' &&
          +duration !== +'' &&
@@ -89,7 +89,7 @@ const DescribeImage = ({
       }
    }
 
-   const isFormValid =
+   const isDisabled =
       !selectType || !duration || !title || !image || !answer.trim()
 
    return (
@@ -141,8 +141,8 @@ const DescribeImage = ({
 
             <Button
                variant="primary"
-               disabled={isFormValid}
-               onClick={saveTestQuestion}
+               disabled={isDisabled}
+               onClick={onSubmit}
                isLoading={isLoading}
                colorLoading="secondary"
             >

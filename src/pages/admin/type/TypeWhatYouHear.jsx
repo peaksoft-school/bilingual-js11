@@ -47,7 +47,7 @@ const TypeWhatYouHear = ({
       setIsPlaying(!isPlaying)
    }
 
-   const handleSubmit = () => {
+   const onSubmit = () => {
       if (selectType !== '' && +duration !== +'' && title !== '') {
          dispatch(QUESTION_ACTIONS.clearOptions())
 
@@ -95,7 +95,7 @@ const TypeWhatYouHear = ({
       }
    }
 
-   const isValid =
+   const isDisabled =
       !selectType || !duration || !title || !correctAnswer || !attempts || !file
 
    return (
@@ -178,8 +178,8 @@ const TypeWhatYouHear = ({
             <Button variant="secondary">GO BACK</Button>
             <Button
                variant="primary"
-               onClick={handleSubmit}
-               disabled={isValid}
+               onClick={onSubmit}
+               disabled={isDisabled}
                isLoading={isLoading}
             >
                SAVE

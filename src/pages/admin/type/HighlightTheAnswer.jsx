@@ -32,7 +32,7 @@ const HighlightTheAnswer = ({
       },
    })
 
-   const saveTestQuestion = () => {
+   const onSubmit = () => {
       if (selectType !== '' && +duration !== +'' && title !== '') {
          dispatch(QUESTION_ACTIONS.clearOptions())
 
@@ -66,7 +66,7 @@ const HighlightTheAnswer = ({
 
    const handleMouseUp = () => setAnswerValue(window.getSelection().toString())
 
-   const isFormValid =
+   const isDisabled =
       !selectType ||
       !duration ||
       !title.trim() ||
@@ -109,11 +109,7 @@ const HighlightTheAnswer = ({
                GO BACK
             </Button>
 
-            <Button
-               variant="primary"
-               disabled={isFormValid}
-               onClick={saveTestQuestion}
-            >
+            <Button variant="primary" disabled={isDisabled} onClick={onSubmit}>
                SAVE
             </Button>
          </Box>

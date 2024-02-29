@@ -21,7 +21,7 @@ const SelectTheMainIdea = ({
    setTitle,
    setSelectType,
 }) => {
-   const option = useSelector((state) => state.question.option)
+   const option = useSelector((state) => state.question.options)
 
    const dispatch = useDispatch()
 
@@ -36,7 +36,7 @@ const SelectTheMainIdea = ({
    const [optionId, setOptionId] = useState(null)
    const [passage, setPassage] = useState('')
 
-   const handleChangeInput = (e) => setOptionTitle(e.target.value)
+   const handleChangeTitle = (e) => setOptionTitle(e.target.value)
 
    const handleChangeTextArea = (e) => setPassage(e.target.value)
 
@@ -58,10 +58,10 @@ const SelectTheMainIdea = ({
    }
 
    const handleChecked = (id) => {
-      dispatch(QUESTION_ACTIONS.changeTrueOption(id))
+      dispatch(QUESTION_ACTIONS.handleIsCorrect(id))
    }
 
-   const saveTestQuestion = () => {
+   const onSubmit = () => {
       if (selectType !== '' && +duration !== +'' && title !== '') {
          dispatch(QUESTION_ACTIONS.clearOptions())
 
@@ -91,29 +91,28 @@ const SelectTheMainIdea = ({
    }
 
    const addHandler = () => {
-      const data = {
-         optionTitle,
+      const option = {
+         optionTitle: optionTitle.trim(),
          isTrueOption: checkOption,
          id: uuidv4(),
       }
 
-      dispatch(QUESTION_ACTIONS.addOption(data))
+      dispatch(QUESTION_ACTIONS.addOption(option))
 
       openModalSave()
 
       setOptionTitle('')
-
       setCheckOption(false)
    }
 
-   const isFormValid =
+   const isDisabled =
       !selectType ||
       !duration ||
-      !title ||
+      !title.trim() ||
       option.length === 0 ||
       !passage.trim()
 
-   const validModal = !optionTitle.trim()
+   const isDisabledModal = !optionTitle.trim()
 
    return (
       <StyledContainer>
@@ -134,7 +133,7 @@ const SelectTheMainIdea = ({
                onClick={openModalSave}
                icon={<PlusIcon className="icon" />}
             >
-               Add Options
+               ADD OPTIONS
             </Button>
          </Box>
 
@@ -158,11 +157,7 @@ const SelectTheMainIdea = ({
                GO BACK
             </Button>
 
-            <Button
-               variant="primary"
-               disabled={isFormValid}
-               onClick={saveTestQuestion}
-            >
+            <Button variant="primary" disabled={isDisabled} onClick={onSubmit}>
                SAVE
             </Button>
          </Box>
@@ -202,9 +197,9 @@ const SelectTheMainIdea = ({
 
                   <Input
                      type="text"
-                     placeholder="Select the main idea"
+                     placeholder="Enter the title..."
                      value={optionTitle}
-                     onChange={handleChangeInput}
+                     onChange={handleChangeTitle}
                   />
 
                   <Box className="checkbox-container">
@@ -227,7 +222,7 @@ const SelectTheMainIdea = ({
                   <Button
                      variant="primary"
                      onClick={addHandler}
-                     disabled={validModal}
+                     disabled={isDisabledModal}
                   >
                      SAVE
                   </Button>
@@ -297,20 +292,20 @@ const StyledModalSave = styled(Box)(() => ({
    flexDirection: 'column',
    alignItems: 'center',
 
-   '& .cancel': {
+   '& > .cancel': {
       cursor: 'pointer',
       marginLeft: ' 34rem',
       marginTop: ' 1rem',
    },
 
-   '& .content-modal-save': {
+   '& > .content-modal-save': {
       width: '32.3125rem',
       margin: '3rem',
       display: 'flex',
       flexDirection: 'column',
       gap: '1.25rem',
 
-      '& .title': {
+      '& > .title': {
          width: '2.33rem',
          height: '1.125rem',
          fontFamily: 'Poppins',
@@ -320,18 +315,18 @@ const StyledModalSave = styled(Box)(() => ({
          color: '#4B4759',
       },
 
-      '& .checkbox-container': {
+      '& > .checkbox-container': {
          display: 'flex',
          gap: '0.44rem',
          alignItems: 'center',
 
-         '& .true-option': {
+         '& > .true-option': {
             fontFamily: 'Poppins',
          },
       },
    },
 
-   '& .buttons-modal-container': {
+   '& > .buttons-modal-container': {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'flex-end',

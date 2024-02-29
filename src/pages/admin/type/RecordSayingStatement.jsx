@@ -24,7 +24,7 @@ const RecordSayingStatement = ({
 
    const { testId } = useParams()
 
-   const saveTestQuestion = () => {
+   const onSubmit = () => {
       if (selectType !== '' && +duration !== +'' && title !== '') {
          dispatch(QUESTION_ACTIONS.clearOptions())
 
@@ -56,7 +56,7 @@ const RecordSayingStatement = ({
 
    const handleGoBack = () => navigate(-1)
 
-   const isFormValid =
+   const isDisabled =
       !selectType || !duration || !title.trim() || !statement.trim()
 
    return (
@@ -72,11 +72,7 @@ const RecordSayingStatement = ({
                GO BACK
             </Button>
 
-            <Button
-               variant="primary"
-               disabled={isFormValid}
-               onClick={saveTestQuestion}
-            >
+            <Button variant="primary" disabled={isDisabled} onClick={onSubmit}>
                SAVE
             </Button>
          </Box>
