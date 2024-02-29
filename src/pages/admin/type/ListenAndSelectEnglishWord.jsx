@@ -1,23 +1,16 @@
-/* eslint-disable jsx-a11y/media-has-caption */
-import { useState, useRef } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { useNavigate, useParams } from 'react-router-dom'
 import { styled, Box, Typography } from '@mui/material'
-import Modal from '../../../components/UI/Modal'
-import Button from '../../../components/UI/buttons/Button'
-import Input from '../../../components/UI/Input'
-import CardOption from '../../../components/UI/CardOption'
+import { useDispatch, useSelector } from 'react-redux'
+import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
 import { QUESTIONS_ACTIONS } from '../../../store/slice/admin/questionSlice'
 import { QUESTION_THUNK } from '../../../store/slice/admin/questionThunk'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
-
-import {
-   CancelIcon,
-   FalseIcon,
-   PlusIcon,
-   SoundIcon,
-} from '../../../assets/icons'
+import Button from '../../../components/UI/buttons/Button'
+import Option from '../../../components/UI/Option'
+import Modal from '../../../components/UI/Modal'
+import Input from '../../../components/UI/Input'
 
 const ListenAndSelectEnglishWord = ({
    duration,
@@ -29,38 +22,31 @@ const ListenAndSelectEnglishWord = ({
 }) => {
    const { option, fileUrl, isLoading } = useSelector((state) => state.question)
 
-   const [isOpenModalSave, setIsOpenModalSave] = useState(false)
-
-   const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
-
-   const [files, setFiles] = useState([])
-
-   const [fileUploaded, setFileUploaded] = useState(false)
-
-   const [optionTitle, setOptionTitle] = useState('')
-
-   const [checkOption, setCheckOption] = useState(false)
-
-   const [optionId, setOptionId] = useState(null)
-
-   const [isPlaying, setIsPlaying] = useState(false)
-
    const { testId } = useParams()
-
-   const audioRef = useRef(null)
 
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
 
+   const [isOpenModalSave, setIsOpenModalSave] = useState(false)
+   const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
+   const [files, setFiles] = useState([])
+   const [fileUploaded, setFileUploaded] = useState(false)
+   const [optionTitle, setOptionTitle] = useState('')
+   const [checkOption, setCheckOption] = useState(false)
+   const [optionId, setOptionId] = useState(null)
+
    const openModalDelete = () => setIsOpenModalDelete((prevState) => !prevState)
 
-   const handleChangeInput = (e) => setOptionTitle(e.target.value)
+   const handleTitle = (e) => setOptionTitle(e.target.value)
 
-   const handleUploadButtonClick = () => audioRef.current.click()
+   const handleGoBack = () => navigate(-1)
 
    const isFormValid =
       optionTitle.trim() !== '' && fileUploaded !== false && isLoading !== true
+
+   const buttonSaveValid =
+      !selectType || !duration || !title.trim() || option.length === 0
 
    const openModalSave = () => {
       setIsOpenModalSave((prevState) => !prevState)
@@ -77,8 +63,6 @@ const ListenAndSelectEnglishWord = ({
          const reader = new FileReader()
 
          reader.readAsDataURL(file)
-
-         audioRef.current.src = URL.createObjectURL(file)
       }
 
       dispatch(QUESTION_THUNK.postFileRequest({ files: file }))
@@ -89,7 +73,7 @@ const ListenAndSelectEnglishWord = ({
    const addOptionHandler = () => {
       const data = {
          optionTitle,
-         isCorrect: checkOption,
+         isTrueOption: checkOption,
          id: uuidv4(),
          fileUrl,
       }
@@ -109,16 +93,6 @@ const ListenAndSelectEnglishWord = ({
 
    const handleChecked = (id) => {
       dispatch(QUESTIONS_ACTIONS.changeTrueOption(id))
-   }
-
-   const handleToggle = () => {
-      if (isPlaying) {
-         audioRef.current.pause()
-      } else {
-         audioRef.current.play()
-      }
-
-      setIsPlaying(!isPlaying)
    }
 
    const saveTestQuestion = () => {
@@ -160,38 +134,27 @@ const ListenAndSelectEnglishWord = ({
          </Box>
 
          <Box className="cards">
-            {option.map((data, index) => (
-               <CardOption
-                  key={data.id}
+            {option.map((option, index) => (
+               <Option
+                  key={option.id}
                   index={index}
-                  item={data}
+                  option={option}
                   openModal={setIsOpenModalDelete}
                   handleChecked={handleChecked}
                   setOptionId={setOptionId}
-                  icon={
-                     <SoundIcon
-                        onClick={handleToggle}
-                        className={`play-pause-icon ${
-                           isPlaying ? 'playing' : ''
-                        }`}
-                     />
-                  }
+                  icon
                />
             ))}
          </Box>
 
-         <audio ref={audioRef} className="audio" type="audio/mp3" controls />
-
          <Box className="buttons">
-            <Button variant="secondary" onClick={() => navigate(-1)}>
+            <Button variant="secondary" onClick={handleGoBack}>
                GO BACK
             </Button>
 
             <Button
                variant="primary"
-               disabled={
-                  !selectType || !duration || !title || option.length === 0
-               }
+               disabled={buttonSaveValid}
                onClick={saveTestQuestion}
             >
                SAVE
@@ -211,7 +174,11 @@ const ListenAndSelectEnglishWord = ({
                      Title
                   </Typography>
 
-                  <Input value={optionTitle} onChange={handleChangeInput} />
+                  <Input
+                     value={optionTitle}
+                     onChange={handleTitle}
+                     placeholder="Enter the title..."
+                  />
                </Box>
 
                <input
@@ -223,7 +190,7 @@ const ListenAndSelectEnglishWord = ({
                />
 
                <Box className="upload">
-                  <Button onClick={handleUploadButtonClick} variant="secondary">
+                  <Button variant="secondary">
                      <label
                         htmlFor="filed-input"
                         className="uploading-button-text"
@@ -232,17 +199,12 @@ const ListenAndSelectEnglishWord = ({
                      </label>
                   </Button>
 
-                  {!fileUploaded ? (
-                     <Typography className="file-name">
-                        File_name_of_the_audio_file.mp3
-                     </Typography>
-                  ) : (
+                  {fileUploaded &&
                      files.map((file) => (
                         <Typography key={file.name} className="file-name">
                            {file.name}
                         </Typography>
-                     ))
-                  )}
+                     ))}
                </Box>
 
                <Box className="buttons-modal-container">
@@ -291,6 +253,8 @@ const ListenAndSelectEnglishWord = ({
 export default ListenAndSelectEnglishWord
 
 const StyledContainer = styled(Box)(({ theme }) => ({
+   width: '820px',
+
    '& .selected-files': {
       display: 'flex',
 
@@ -299,12 +263,8 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       },
    },
 
-   '& .audio': {
-      display: 'none',
-   },
-
    '& > .add-button': {
-      margin: '2rem 0 1.375rem 41.5rem',
+      margin: '2rem 0 1.375rem 41rem',
 
       '& .plus-icon': {
          width: '1rem',

@@ -173,6 +173,16 @@ const Questions = () => {
 
             <Typography className="modal-title">Do you want delete?</Typography>
 
+            <Typography className="title" variant="p">
+               <Typography variant="span">Question: </Typography>
+
+               {
+                  questions.question.find(
+                     (test) => test.id === selectedQuestionId
+                  )?.title
+               }
+            </Typography>
+
             <Typography className="modal-message">
                You can`t restore this file
             </Typography>
