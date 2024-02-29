@@ -1,14 +1,14 @@
-import CheckOut from '../../components/landing/CheckOut'
-import Feedbacks from '../../components/landing/Feedbacks'
 import Intro from '../../components/landing/Intro'
-import LearnMore from '../../components/landing/LearnMore'
+import Footer from '../../layout/Footer'
 import OurTeam from '../../components/landing/OurTeam'
+import CheckOut from '../../components/landing/CheckOut'
 import Partners from '../../components/landing/Partners'
+import Feedbacks from '../../components/landing/Feedbacks'
+import LearnMore from '../../components/landing/LearnMore'
 import Statistics from '../../components/landing/Statistics'
 import UsefulVideos from '../../components/landing/UsefulVideos'
-import UserExperience from '../../components/landing/UserExperience'
-import Footer from '../../layout/Footer'
 import LandingHeader from '../../layout/LandingHeader'
+import UserExperience from '../../components/landing/UserExperience'
 
 const Landing = () => (
    <>

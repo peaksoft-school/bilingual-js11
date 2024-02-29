@@ -2,42 +2,45 @@ import { useEffect, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { QUESTIONS_THUNKS } from '../../../store/slice/admin/questions/questionsThunk'
+import { TESTS_THUNKS } from '../../../store/slice/admin/tests/testsThunk'
 import Input from '../../../components/UI/Input'
-import TestContainer from '../../../components/UI/TestContainer'
 import Button from '../../../components/UI/buttons/Button'
-import { TESTS_THUNK } from '../../../store/slice/admin/testsThunk'
-import { QUESTIONS_THUNK } from '../../../store/slice/admin/questionsThunk'
+import TestContainer from '../../../components/UI/TestContainer'
 
 const CreateTest = () => {
    const { questions } = useSelector((state) => state.questionsSlice)
+
    const { id } = useParams()
-   const [formData, setFormData] = useState({
+
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
+
+   const [testData, setTestData] = useState({
       title: '',
       shortDescription: '',
    })
 
    const isNewTest = id === undefined || id === ''
 
-   const navigate = useNavigate()
-   const dispatch = useDispatch()
-
    const handleInputChange = (e) => {
       const { name, value } = e.target
-      setFormData({
-         ...formData,
+
+      setTestData({
+         ...testData,
          [name]: value,
       })
    }
 
    useEffect(() => {
       if (id) {
-         dispatch(QUESTIONS_THUNK.getTest({ testId: id }))
+         dispatch(QUESTIONS_THUNKS.getTest({ testId: id }))
       }
    }, [dispatch, id])
 
    useEffect(() => {
       if (!isNewTest && questions) {
-         setFormData({
+         setTestData({
             title: questions.title || '',
             shortDescription: questions.shortDescription || '',
          })
@@ -45,35 +48,37 @@ const CreateTest = () => {
    }, [isNewTest, questions, id])
 
    const handleSave = () => {
-      const testToSave = { ...formData }
+      const testToSave = { ...testData }
 
       if (isNewTest) {
-         dispatch(TESTS_THUNK.postTest({ testData: testToSave, navigate }))
+         dispatch(TESTS_THUNKS.postTest({ testData: testToSave, navigate }))
       } else {
          dispatch(
-            TESTS_THUNK.updateTest({ id, updatedTest: testToSave, navigate })
+            TESTS_THUNKS.updateTest({ id, updatedTest: testToSave, navigate })
          )
       }
    }
 
-   const isFormValid = formData.title !== '' && formData.shortDescription !== ''
+   const isFormValid = testData.title !== '' && testData.shortDescription !== ''
 
    return (
       <TestContainer>
          <StyledContainer>
             <Typography className="label">Title</Typography>
+
             <Input
                className="input"
                name="title"
-               value={formData.title}
+               value={testData.title}
                onChange={handleInputChange}
             />
 
             <Typography className="label">Short Description</Typography>
+
             <Input
                className="input"
                name="shortDescription"
-               value={formData.shortDescription}
+               value={testData.shortDescription}
                onChange={handleInputChange}
             />
 

@@ -1,7 +1,6 @@
 import FirstVideo from '../../assets/videos/first-video.mp4'
 import SecondVideo from '../../assets/videos/second-video.mp4'
 import ThirdVideo from '../../assets/videos/third-video.mp4'
-
 import {
    FifthPersonImage,
    FirstPersonImage,
@@ -384,7 +383,48 @@ const SIGN_UP_INPUTS = [
    },
 ]
 
+const OPTIONS = [
+   {
+      id: 1,
+      title: 'Select real english words',
+   },
+   {
+      id: 2,
+      title: 'Listen and select word',
+   },
+   {
+      id: 3,
+      title: 'Type what you hear',
+   },
+   {
+      id: 4,
+      title: 'Describe image',
+   },
+   {
+      id: 5,
+      title: 'Respond in at least N words',
+   },
+   {
+      id: 6,
+      title: 'Record saying statement',
+   },
+   {
+      id: 7,
+      title: 'Highlight the answer',
+   },
+]
+
+const QUESTION_TYPES = {
+   SelectRealEnglishWords: 'Select real english words',
+   TypeWhatYouHear: 'Type what you hear',
+   DescribeImage: 'Describe image',
+   HighlightTheAnswer: 'Highlight the answer',
+   RecordSayingStatement: 'Record saying statement',
+}
+
 export {
+   QUESTION_TYPES,
+   OPTIONS,
    VIDEOS,
    CHECKBOX_IMAGE,
    CHECK_OUT,

@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { axiosInstance } from '../../../configs/axiosInstance'
-import { showNotification } from '../../../utils/helpers/notification'
+import { showNotification } from '../../../../utils/helpers/notification'
+import { axiosInstance } from '../../../../configs/axiosInstance'
+import { ROUTES } from '../../../../routes/routes'
 
 const getTest = createAsyncThunk(
    'questionsSlice/getTest',
@@ -42,6 +43,35 @@ const getQuestion = createAsyncThunk(
          return response.data
       } catch (error) {
          return rejectWithValue.message
+      }
+   }
+)
+
+const postQuestion = createAsyncThunk(
+   'questionsSlice/postTest',
+
+   async ({ testId, questionType, navigate }, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.post(
+            `/api/question?testId=${testId}&questionType=${questionType}`
+         )
+         showNotification({
+            title: 'Success',
+            message: 'Question successfully added',
+            type: 'success',
+         })
+
+         navigate(`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/:testId`)
+
+         return response.data
+      } catch (error) {
+         showNotification({
+            title: 'Error',
+            message: 'Error creating question',
+            type: 'error',
+         })
+
+         return rejectWithValue(error.message)
       }
    }
 )
@@ -92,9 +122,10 @@ const updateQuestionByEnable = createAsyncThunk(
    }
 )
 
-export const QUESTIONS_THUNK = {
+export const QUESTIONS_THUNKS = {
    getAllQuestions,
    getQuestion,
+   postQuestion,
    deleteQuestion,
    updateQuestionByEnable,
    getTest,

@@ -1,43 +1,58 @@
+import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
-import Switcher from '../../UI/Switcher'
 import { EditIcon, FalseIcon, TrashIcon } from '../../../assets/icons'
-import { TESTS_THUNK } from '../../../store/slice/admin/testsThunk'
-import { SearchingImage } from '../../../assets/images'
+import { TESTS_THUNKS } from '../../../store/slice/admin/tests/testsThunk'
+import { ROUTES } from '../../../routes/routes'
+import { NoData } from '../../../assets/images'
 import Modal from '../../UI/Modal'
 import Button from '../../UI/buttons/Button'
+import Switcher from '../../UI/Switcher'
 
 const TestList = () => {
    const { tests } = useSelector((state) => state.testsSlice)
-   const [isVisible, setIsVisible] = useState(false)
-   const [selectedTestId, setSelectedTestId] = useState(null)
+
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
 
+   const [isVisible, setIsVisible] = useState(false)
+   const [selectedTestId, setSelectedTestId] = useState(null)
+
    useEffect(() => {
-      dispatch(TESTS_THUNK.getAllTests())
+      dispatch(TESTS_THUNKS.getAllTests())
    }, [dispatch])
 
    const handleDeleteTest = (testId) => {
-      dispatch(TESTS_THUNK.deleteTest(testId))
+      dispatch(TESTS_THUNKS.deleteTest(testId))
+
       setIsVisible(false)
    }
 
-   const handleOpenModal = (testId) => {
+   const handleIsVisible = (e, testId) => {
+      e.preventDefault()
+
       setSelectedTestId(testId)
+
       setIsVisible((prev) => !prev)
    }
 
-   const handleEnable = (params) => {
+   const handleEnable = ({ id, value }) => {
       dispatch(
-         TESTS_THUNK.updateTetsByEnable({
-            testId: params.id,
-            enable: params.value,
+         TESTS_THUNKS.updateTetsByEnable({
+            testId: id,
+            enable: value,
          })
       )
+   }
+
+   const handleWithStopPropagation = (e) => e.stopPropagation()
+
+   const handleEdit = (e, id) => {
+      e.preventDefault()
+
+      navigate(`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.updateTest}/${id}`)
    }
 
    return (
@@ -45,7 +60,7 @@ const TestList = () => {
          {tests?.length > 0 ? (
             tests.map(({ id, title, enable }) => (
                <Link
-                  to={`/admin/tests/questions/${id}`}
+                  to={`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/${id}`}
                   key={id}
                   className="test-link"
                >
@@ -53,7 +68,7 @@ const TestList = () => {
                      <Typography className="title">{title}</Typography>
 
                      <Box className="icons">
-                        <Box onClick={(event) => event.stopPropagation()}>
+                        <Box onClick={handleWithStopPropagation}>
                            <Switcher
                               checked={enable}
                               onChange={(value) => handleEnable({ value, id })}
@@ -62,18 +77,12 @@ const TestList = () => {
 
                         <EditIcon
                            className="edit"
-                           onClick={(event) => {
-                              event.preventDefault()
-                              navigate(`/admin/tests/update-test/${id}`)
-                           }}
+                           onClick={(e) => handleEdit(e, id)}
                         />
 
                         <TrashIcon
                            className="delete"
-                           onClick={(event) => {
-                              event.preventDefault()
-                              handleOpenModal(id)
-                           }}
+                           onClick={(e) => handleIsVisible(e, id)}
                         />
                      </Box>
                   </Box>
@@ -81,25 +90,31 @@ const TestList = () => {
             ))
          ) : (
             <Box className="background-image">
-               <img src={SearchingImage} alt="search" />
+               <img src={NoData} alt="search" />
             </Box>
          )}
 
          <Modal
             isCloseIcon
             isVisible={isVisible}
-            handleIsVisible={handleOpenModal}
+            handleIsVisible={handleIsVisible}
          >
             <FalseIcon />
 
             <Typography className="modal-title">Do you want delete?</Typography>
+
+            <Typography className="title" variant="p">
+               <Typography variant="span">Test: </Typography>
+
+               {tests.find((test) => test.id === selectedTestId)?.title}
+            </Typography>
 
             <Typography className="modal-message">
                You can`t restore this file
             </Typography>
 
             <Box className="container-buttons">
-               <Button variant="secondary" onClick={handleOpenModal}>
+               <Button variant="secondary" onClick={handleIsVisible}>
                   CANCEL
                </Button>
 
@@ -117,9 +132,13 @@ export default TestList
 const StyledContainer = styled(Box)(() => ({
    '& > .background-image': {
       margin: 'auto',
-      marginTop: '1.8rem',
-      width: '18rem',
-      height: '18rem',
+      maxWidth: '20rem',
+      maxHeight: '18rem',
+
+      '& img': {
+         width: '100%',
+         height: '100%',
+      },
    },
 
    '& > .test-link': {
@@ -141,10 +160,11 @@ const StyledContainer = styled(Box)(() => ({
          position: 'relative',
 
          '& > .title': {
-            wordWrap: 'break-word',
-            maxWidth: '38rem',
+            maxWidth: '10rem',
             fontFamily: 'Poppins',
             fontSize: '1rem',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
          },
 
          '&:hover': {

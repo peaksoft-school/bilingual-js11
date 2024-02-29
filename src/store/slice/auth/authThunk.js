@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { axiosInstance } from '../../../configs/axiosInstance'
 import { showNotification } from '../../../utils/helpers/notification'
+import { axiosInstance } from '../../../configs/axiosInstance'
 import { ROUTES } from '../../../routes/routes'
 
 const signUp = createAsyncThunk(
@@ -55,8 +55,8 @@ const signIn = createAsyncThunk(
             if (email && role && token) {
                resetForm()
 
-               if (role === ROUTES.ADMIN) {
-                  navigate('/admin')
+               if (role === 'ADMIN') {
+                  navigate(ROUTES.ADMIN.index)
                } else {
                   navigate('/')
                }

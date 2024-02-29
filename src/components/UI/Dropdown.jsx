@@ -1,26 +1,17 @@
-import { MenuItem, InputLabel, Select, styled } from '@mui/material'
 import { forwardRef } from 'react'
-
-const MenuProps = {
-   PaperProps: {
-      style: {
-         maxHeight: 60 * 4.5 + 0,
-         boxShadow: '0px 2px 5px -3px rgba(0,0,0,0.2)',
-         borderRadius: '0px 0px 5px 5px',
-      },
-   },
-}
+import { MenuItem, InputLabel, Select, styled } from '@mui/material'
 
 const Dropdown = forwardRef(({ options, value, onChange, ...rest }, ref) => (
    <StyledSelect
       displayEmpty
       value={value}
       onChange={onChange}
-      MenuProps={MenuProps}
       ref={ref}
       {...rest}
       renderValue={(selected) => (
-         <InputLabel shrink={false}>{selected || 'Describe image'}</InputLabel>
+         <InputLabel shrink={false}>
+            {selected || 'Select main idea'}
+         </InputLabel>
       )}
    >
       {options?.map(({ id, title }) => (
@@ -48,21 +39,17 @@ const StyledSelect = styled(Select)(({ theme }) => ({
 
       '& fieldset': {
          borderRadius: '8px',
-         border: '2px solid #D4D0D0',
+         border: '1px solid #D4D0D0',
       },
 
       '&.Mui-focused fieldset': {
-         border: `2px solid ${theme.palette.primary.main}`,
+         border: `1px solid ${theme.palette.primary.main}`,
          borderRadius: '8px 8px 0px 0px',
       },
 
       '&:hover fieldset': {
-         border: `2px solid ${theme.palette.primary.main}`,
+         border: `1px solid ${theme.palette.primary.main}`,
       },
-   },
-
-   '& .MuiSelect-icon': {
-      color: 'white',
    },
 }))
 

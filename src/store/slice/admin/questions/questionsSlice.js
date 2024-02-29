@@ -1,86 +1,93 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { QUESTIONS_THUNK } from './questionsThunk'
+import { QUESTIONS_THUNKS } from './questionsThunk'
 
 const initialState = {
    questions: null,
    status: '',
-   error: null,
+   error: '',
 }
 
 export const questionsSlice = createSlice({
    name: 'questionsSlice',
    initialState,
    reducers: {},
+
    extraReducers: (builder) => {
       builder
-         .addCase(QUESTIONS_THUNK.getTest.pending, (state) => {
+         .addCase(QUESTIONS_THUNKS.getTest.pending, (state) => {
             state.status = 'loading'
          })
 
-         .addCase(QUESTIONS_THUNK.getTest.fulfilled, (state, action) => {
+         .addCase(QUESTIONS_THUNKS.getTest.fulfilled, (state, action) => {
             state.status = 'succeeded'
             state.questions = action.payload
          })
 
-         .addCase(QUESTIONS_THUNK.getTest.rejected, (state, action) => {
+         .addCase(QUESTIONS_THUNKS.getTest.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
          })
 
-         .addCase(QUESTIONS_THUNK.getAllQuestions.pending, (state) => {
+         .addCase(QUESTIONS_THUNKS.getAllQuestions.pending, (state) => {
             state.status = 'loading'
          })
 
          .addCase(
-            QUESTIONS_THUNK.getAllQuestions.fulfilled,
+            QUESTIONS_THUNKS.getAllQuestions.fulfilled,
             (state, action) => {
                state.status = 'succeeded'
                state.questions = action.payload
             }
          )
 
-         .addCase(QUESTIONS_THUNK.getAllQuestions.rejected, (state, action) => {
-            state.status = 'failed'
-            state.error = action.error.message
-         })
+         .addCase(
+            QUESTIONS_THUNKS.getAllQuestions.rejected,
+            (state, action) => {
+               state.status = 'failed'
+               state.error = action.error.message
+            }
+         )
 
-         .addCase(QUESTIONS_THUNK.getQuestion.pending, (state) => {
+         .addCase(QUESTIONS_THUNKS.getQuestion.pending, (state) => {
             state.status = 'loading'
          })
 
-         .addCase(QUESTIONS_THUNK.getQuestion.fulfilled, (state, action) => {
+         .addCase(QUESTIONS_THUNKS.getQuestion.fulfilled, (state, action) => {
             state.status = 'succeeded'
             state.questions = action.payload
          })
 
-         .addCase(QUESTIONS_THUNK.getQuestion.rejected, (state, action) => {
+         .addCase(QUESTIONS_THUNKS.getQuestion.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
          })
 
-         .addCase(QUESTIONS_THUNK.deleteQuestion.pending, (state) => {
+         .addCase(QUESTIONS_THUNKS.deleteQuestion.pending, (state) => {
             state.status = 'loading'
          })
 
-         .addCase(QUESTIONS_THUNK.deleteQuestion.fulfilled, (state) => {
+         .addCase(QUESTIONS_THUNKS.deleteQuestion.fulfilled, (state) => {
             state.status = 'succeeded'
          })
 
-         .addCase(QUESTIONS_THUNK.deleteQuestion.rejected, (state, action) => {
+         .addCase(QUESTIONS_THUNKS.deleteQuestion.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
          })
 
-         .addCase(QUESTIONS_THUNK.updateQuestionByEnable.pending, (state) => {
+         .addCase(QUESTIONS_THUNKS.updateQuestionByEnable.pending, (state) => {
             state.status = 'loading'
-         })
-
-         .addCase(QUESTIONS_THUNK.updateQuestionByEnable.fulfilled, (state) => {
-            state.status = 'succeeded'
          })
 
          .addCase(
-            QUESTIONS_THUNK.updateQuestionByEnable.rejected,
+            QUESTIONS_THUNKS.updateQuestionByEnable.fulfilled,
+            (state) => {
+               state.status = 'succeeded'
+            }
+         )
+
+         .addCase(
+            QUESTIONS_THUNKS.updateQuestionByEnable.rejected,
             (state, action) => {
                state.status = 'failed'
                state.error = action.error.message
