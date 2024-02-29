@@ -6,12 +6,12 @@ import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSl
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import { OPTIONS } from '../../../utils/constants'
 import Input from '../../../components/UI/Input'
-import TypeTest from '../TypeTest'
 import Dropdown from '../../../components/UI/Dropdown'
 import TestContainer from '../../../components/UI/TestContainer'
+import TypeTest from '../TypeTest'
 
 const Question = () => {
-   const option = useSelector((state) => state.question.option)
+   const option = useSelector((state) => state.question.options)
 
    const { state } = useLocation()
 
@@ -23,11 +23,11 @@ const Question = () => {
    const [title, setTitle] = useState(state?.question.title || '')
    const [duration, setDuration] = useState(state?.question.duration || 0)
 
-   const selectHandler = (e) => setSelectType(e.target.value)
+   const handleSelectTypeChange = (e) => setSelectType(e.target.value)
 
-   const inputHandler = (e) => setTitle(e.target.value)
+   const handleTitleChange = (e) => setTitle(e.target.value)
 
-   const inputDurationHandler = (e) => setDuration(e.target.value)
+   const handleDurationChange = (e) => setDuration(e.target.value)
 
    useEffect(() => {
       dispatch(QUESTION_ACTIONS.updateOptions(option || []))
@@ -35,7 +35,7 @@ const Question = () => {
 
    return (
       <TestContainer>
-         <StyledContent>
+         <StyledContainer>
             <Box className="form-container">
                <Typography className="text title" variant="label">
                   Title
@@ -45,7 +45,7 @@ const Question = () => {
                   <Input
                      className="input-title"
                      placeholder="Enter the title ....."
-                     onChange={inputHandler}
+                     onChange={handleTitleChange}
                      value={title}
                   />
 
@@ -58,11 +58,8 @@ const Question = () => {
                         className="duration-input"
                         placeholder="15:00"
                         value={duration}
-                        onChange={inputDurationHandler}
-                        onInput={(e) => {
-                           const value = +e.target.value
-                           e.target.value = Math.max(1, Math.min(15, value))
-                        }}
+                        onChange={handleDurationChange}
+                        inputProps={{ min: 0, max: 15 }}
                         type="number"
                      />
                   </Box>
@@ -76,7 +73,7 @@ const Question = () => {
                   <Dropdown
                      className="dropdown"
                      value={selectType}
-                     onChange={selectHandler}
+                     onChange={handleSelectTypeChange}
                      options={OPTIONS}
                   />
                </Box>
@@ -90,14 +87,14 @@ const Question = () => {
                setTitle={setTitle}
                setSelectType={setSelectType}
             />
-         </StyledContent>
+         </StyledContainer>
       </TestContainer>
    )
 }
 
 export default Question
 
-const StyledContent = styled(Box)(() => ({
+const StyledContainer = styled(Box)(() => ({
    display: 'flex',
    justifyContent: 'center',
    flexDirection: 'column',
@@ -123,11 +120,11 @@ const StyledContent = styled(Box)(() => ({
 
       '& > .input-container': {
          display: 'flex',
-         gap: '1.5rem',
+         gap: '1.3rem',
 
          '& > .input-title': {
             background: '#fff',
-            width: '43.5313rem',
+            width: '43.6rem',
             height: '2.875rem',
             borderRadius: '0.5rem',
             paddingBottom: '3.5rem',
@@ -135,7 +132,7 @@ const StyledContent = styled(Box)(() => ({
          },
 
          '& > .duration-container': {
-            marginTop: '-4.25rem',
+            marginTop: '-4.30rem',
 
             '& > .duration': {
                marginBottom: '1.3rem',
@@ -162,7 +159,7 @@ const StyledContent = styled(Box)(() => ({
 
       '& .dropdown': {
          borderRadius: '0.5rem',
-         width: '51.25rem',
+         width: '823px',
 
          '& .MuiSelect-icon': {
             color: 'black',

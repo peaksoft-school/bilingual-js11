@@ -26,7 +26,7 @@ const Button = forwardRef(
             {...rest}
          >
             {isLoading ? (
-               <CircularProgress color={colorLoading} className="loading" />
+               <CircularProgress color={colorLoading} />
             ) : (
                <>
                   {icon && <span className="icon">{icon}</span>}
@@ -73,6 +73,7 @@ const StyledButton = styled(MuiButton)(({ theme, variant }) => {
          '& .MuiCircularProgress-root': {
             width: '1.6rem !important',
             height: '1.6rem !important',
+            margin: '0 0.30rem',
          },
 
          '& .icon': {

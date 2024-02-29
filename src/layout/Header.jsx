@@ -4,9 +4,9 @@ import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { AppBar, Box, Typography, styled } from '@mui/material'
 import { AUTH_ACTIONS } from '../store/slice/auth/authSlice'
 import { LogoImage } from '../assets/images'
+import { ROUTES } from '../routes/routes'
 import Modal from '../components/UI/Modal'
 import Button from '../components/UI/buttons/Button'
-import { ROUTES } from '../routes/routes'
 
 const Header = () => {
    const { role } = useSelector((state) => state.auth)
@@ -29,7 +29,10 @@ const Header = () => {
          <Box className="actions">
             {role === 'ADMIN' ? (
                <>
-                  <NavLink className="navigation" to={`${ROUTES.ADMIN.index}`}>
+                  <NavLink
+                     className="navigation tests"
+                     to={`${ROUTES.ADMIN.index}`}
+                  >
                      <Typography>TESTS</Typography>
                   </NavLink>
 

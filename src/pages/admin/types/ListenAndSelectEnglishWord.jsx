@@ -4,13 +4,14 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { styled, Box, Typography } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
-import { QUESTIONS_ACTIONS } from '../../../store/slice/admin/questionSlice'
-import { QUESTION_THUNK } from '../../../store/slice/admin/questionThunk'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Button from '../../../components/UI/buttons/Button'
 import Option from '../../../components/UI/Option'
 import Modal from '../../../components/UI/Modal'
 import Input from '../../../components/UI/Input'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
+import { QUESTION_TITLE } from '../../../utils/constants'
 
 const ListenAndSelectEnglishWord = ({
    duration,
@@ -20,7 +21,8 @@ const ListenAndSelectEnglishWord = ({
    setTitle,
    setSelectType,
 }) => {
-   const { option, fileUrl, isLoading } = useSelector((state) => state.question)
+   const { fileUrl, isLoading } = useSelector((state) => state.question)
+   const option = useSelector((state) => state.question.options)
 
    const { testId } = useParams()
 
@@ -28,13 +30,13 @@ const ListenAndSelectEnglishWord = ({
 
    const dispatch = useDispatch()
 
-   const [isOpenModalSave, setIsOpenModalSave] = useState(false)
    const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
-   const [files, setFiles] = useState([])
+   const [isOpenModalSave, setIsOpenModalSave] = useState(false)
    const [fileUploaded, setFileUploaded] = useState(false)
    const [optionTitle, setOptionTitle] = useState('')
    const [checkOption, setCheckOption] = useState(false)
    const [optionId, setOptionId] = useState(null)
+   const [files, setFiles] = useState([])
 
    const openModalDelete = () => setIsOpenModalDelete((prevState) => !prevState)
 
@@ -42,11 +44,11 @@ const ListenAndSelectEnglishWord = ({
 
    const handleGoBack = () => navigate(-1)
 
-   const isFormValid =
-      optionTitle.trim() !== '' && fileUploaded !== false && isLoading !== true
-
-   const buttonSaveValid =
+   const isDisabled =
       !selectType || !duration || !title.trim() || option.length === 0
+
+   const isDisabledModal =
+      optionTitle.trim() !== '' && fileUploaded !== false && isLoading !== true
 
    const openModalSave = () => {
       setIsOpenModalSave((prevState) => !prevState)
@@ -65,61 +67,67 @@ const ListenAndSelectEnglishWord = ({
          reader.readAsDataURL(file)
       }
 
-      dispatch(QUESTION_THUNK.postFileRequest({ files: file }))
+      dispatch(QUESTION_THUNKS.saveFile(file))
 
       setFileUploaded(true)
    }
 
-   const addOptionHandler = () => {
-      const data = {
-         optionTitle,
-         isTrueOption: checkOption,
-         id: uuidv4(),
-         fileUrl,
-      }
-
-      dispatch(QUESTIONS_ACTIONS.addOption(data))
-
-      openModalSave()
-      setOptionTitle('')
-      setCheckOption(false)
-      setFileUploaded(false)
-   }
-
    const deleteOption = () => {
-      dispatch(QUESTIONS_ACTIONS.deleteOption(optionId))
+      dispatch(QUESTION_ACTIONS.deleteOption(optionId))
+
       setIsOpenModalDelete((prevState) => !prevState)
    }
 
    const handleChecked = (id) => {
-      dispatch(QUESTIONS_ACTIONS.changeTrueOption(id))
+      dispatch(QUESTION_ACTIONS.changeTrueOption(id))
    }
 
    const saveTestQuestion = () => {
       if (selectType !== '' && +duration !== +'' && title !== '') {
-         dispatch(QUESTIONS_ACTIONS.clearOptions())
-
-         setSelectType('')
-         setTitle('')
-         setDuration('')
-
          const requestData = {
-            title,
+            title: title.trim(),
             duration: +duration * 60,
             option,
          }
 
          dispatch(
-            QUESTION_THUNK.saveTest({
+            QUESTION_THUNKS.saveTest({
                requestData,
                data: {
                   testId,
-                  questionType: questionTitle('LISTEN_AND_SELECT_WORD'),
+                  questionType: questionTitle(
+                     QUESTION_TITLE.LISTEN_AND_SELECT_WORD
+                  ),
                   navigate,
                },
+
+               setState: {
+                  selectType: setSelectType(selectType),
+                  title: setTitle(title),
+                  duration: setDuration(duration),
+               },
+
+               clearOptions: QUESTION_ACTIONS,
             })
          )
       }
+   }
+
+   const addOptionHandler = () => {
+      const option = {
+         optionTitle: optionTitle.trim(),
+         isTrueOption: checkOption,
+         id: uuidv4(),
+         fileUrl,
+      }
+
+      dispatch(QUESTION_ACTIONS.addOption(option))
+
+      openModalSave()
+
+      setOptionTitle('')
+      setCheckOption(false)
+      setFileUploaded(false)
    }
 
    return (
@@ -154,7 +162,7 @@ const ListenAndSelectEnglishWord = ({
 
             <Button
                variant="primary"
-               disabled={buttonSaveValid}
+               disabled={isDisabled}
                onClick={saveTestQuestion}
             >
                SAVE
@@ -215,7 +223,7 @@ const ListenAndSelectEnglishWord = ({
                   <Button
                      onClick={addOptionHandler}
                      variant="primary"
-                     disabled={!isFormValid}
+                     disabled={!isDisabledModal}
                      isLoading={isLoading}
                      colorLoading="secondary"
                   >
