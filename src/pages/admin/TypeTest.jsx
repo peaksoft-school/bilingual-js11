@@ -2,28 +2,32 @@ import { QUESTION_TYPES } from '../../utils/constants'
 import DescribeImage from './types/DescribeImage'
 import TypeWhatYouHear from './types/TypeWhatYouHear'
 import SelectRealEnglish from './types/SelectRealEnglish'
-import SelectTheMainIdea from './types/SelectTheMainIdea'
 import RecordSayingStatement from './types/RecordSayingStatement'
 import HighlightTheAnswer from './types/HighlightTheAnswer'
+import RespondInAtLeastNWords from './types/RespondInAtLeastNWords'
+import SelectTheMainIdea from './types/SelectTheMainIdea'
 
 const TypeTest = (props) => {
    switch (props.selectType) {
-      case QUESTION_TYPES.SelectRealEnglishWords:
+      case QUESTION_TYPES.SELECT_REAL_ENGLISH_WORDS:
          return <SelectRealEnglish {...props} />
 
-      case QUESTION_TYPES.TypeWhatYouHear:
+      case QUESTION_TYPES.TYPE_WHAT_YOU_HEAR:
          return <TypeWhatYouHear {...props} />
 
-      case QUESTION_TYPES.DescribeImage:
+      case QUESTION_TYPES.DESCRIBE_IMAGE:
          return <DescribeImage {...props} />
 
-      case QUESTION_TYPES.RecordSayingStatement:
+      case QUESTION_TYPES.RECORD_SAYING:
          return <RecordSayingStatement {...props} />
 
-      case QUESTION_TYPES.HighlightTheAnswer:
+      case QUESTION_TYPES.RESPOND_IN_AT_LEAST_N_WORDS:
+         return <RespondInAtLeastNWords {...props} />
+
+      case QUESTION_TYPES.HIGHLIGHTS_THE_ANSWER:
          return <HighlightTheAnswer {...props} />
 
-      case QUESTION_TYPES.SelectMainIdea:
+      case QUESTION_TYPES.SELECT_MAIN_IDEA:
          return <SelectTheMainIdea {...props} />
       default:
          return <div />

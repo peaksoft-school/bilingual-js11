@@ -6,6 +6,7 @@ import { Box, TextField, Typography, styled } from '@mui/material'
 import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_TITLE } from '../../../utils/constants'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Checkbox from '../../../components/UI/Checkbox'
 import Option from '../../../components/UI/Option'
@@ -61,6 +62,15 @@ const SelectTheMainIdea = ({
       dispatch(QUESTION_ACTIONS.handleIsCorrect(id))
    }
 
+   const isDisabled =
+      !selectType ||
+      !duration ||
+      !title.trim() ||
+      option.length === 0 ||
+      !passage.trim()
+
+   const isDisabledModal = !optionTitle.trim()
+
    const onSubmit = () => {
       if (selectType !== '' && +duration !== +'' && title !== '') {
          const requestData = {
@@ -74,12 +84,16 @@ const SelectTheMainIdea = ({
                requestData,
                data: {
                   testId,
-                  questionType: questionTitle('SELECT_MAIN_IDEA'),
+                  questionType: questionTitle(QUESTION_TITLE.SELECT_MAIN_IDEA),
                   navigate,
                },
-               selectType: setSelectType(selectType),
-               title: setTitle(title),
-               duration: setDuration(duration),
+
+               setState: {
+                  selectType: setSelectType(selectType),
+                  title: setTitle(title),
+                  duration: setDuration(duration),
+               },
+
                clearOptions: QUESTION_ACTIONS,
             })
          )
@@ -100,15 +114,6 @@ const SelectTheMainIdea = ({
       setOptionTitle('')
       setCheckOption(false)
    }
-
-   const isDisabled =
-      !selectType ||
-      !duration ||
-      !title.trim() ||
-      option.length === 0 ||
-      !passage.trim()
-
-   const isDisabledModal = !optionTitle.trim()
 
    return (
       <StyledContainer>
@@ -232,7 +237,7 @@ const SelectTheMainIdea = ({
 export default SelectTheMainIdea
 
 const StyledContainer = styled(Box)(({ theme }) => ({
-   width: '820px',
+   width: '825px',
 
    '& .add-button': {
       margin: '2rem 0 1.375rem 41.5rem',
@@ -262,6 +267,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 
    '& .cards': {
       display: 'flex',
+      width: '100%',
       flexDirection: 'column',
       gap: '1.1rem',
       margin: '1.5rem 0 2rem 0',

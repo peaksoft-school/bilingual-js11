@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
 import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_TITLE } from '../../../utils/constants'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Modal from '../../../components/UI/Modal'
 import Button from '../../../components/UI/buttons/Button'
@@ -55,8 +56,13 @@ const SelectRealEnglish = ({
       dispatch(QUESTION_ACTIONS.handleIsCorrect(id))
    }
 
+   const isDisabled =
+      !selectType || !duration || !title.trim() || option.length === 0
+
+   const isDisabledModal = !optionTitle.trim()
+
    const onSubmit = () => {
-      if (selectType !== '' && +duration !== +'' && title !== '') {
+      if (selectType !== '' && +duration !== 0 && title !== '') {
          const requestData = {
             title: title.trim(),
             duration: +duration * 60,
@@ -66,14 +72,21 @@ const SelectRealEnglish = ({
          dispatch(
             QUESTION_THUNKS.saveTest({
                requestData,
+
                data: {
                   testId,
-                  questionType: questionTitle('SELECT_REAL_ENGLISH_WORD'),
+                  questionType: questionTitle(
+                     QUESTION_TITLE.SELECT_REAL_ENGLISH_WORDS
+                  ),
                   navigate,
                },
-               selectType: setSelectType(selectType),
-               title: setTitle(title),
-               duration: setDuration(duration),
+
+               setState: {
+                  selectType: setSelectType(selectType),
+                  title: setTitle(title),
+                  duration: setDuration(duration),
+               },
+
                clearOptions: QUESTION_ACTIONS,
             })
          )
@@ -91,13 +104,8 @@ const SelectRealEnglish = ({
 
       openModalSave()
       setOptionTitle('')
-
       setCheckOption(false)
    }
-
-   const isDisabled = !selectType || !duration || !title || option.length === 0
-
-   const isDisabledModal = !optionTitle.trim()
 
    return (
       <>
@@ -189,6 +197,7 @@ const SelectRealEnglish = ({
                      <Checkbox
                         checked={checkOption}
                         onChange={changeCheckbox}
+                        className="check-option"
                      />
                   </Box>
                </Box>
@@ -289,6 +298,10 @@ const StyledModalSave = styled(Box)(() => ({
 
          '& > .true-option': {
             fontFamily: 'Poppins',
+         },
+
+         '& .check-option': {
+            marginLeft: '9px',
          },
       },
    },
