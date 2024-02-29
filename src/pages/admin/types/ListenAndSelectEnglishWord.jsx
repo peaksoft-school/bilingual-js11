@@ -82,7 +82,7 @@ const ListenAndSelectEnglishWord = ({
       dispatch(QUESTION_ACTIONS.handleIsCorrect(id))
    }
 
-   const saveTestQuestion = () => {
+   const onSubmit = () => {
       if (selectType !== '' && +duration !== 0 && title !== '') {
          const requestData = {
             title: title.trim(),
@@ -160,11 +160,7 @@ const ListenAndSelectEnglishWord = ({
                GO BACK
             </Button>
 
-            <Button
-               variant="primary"
-               disabled={isDisabled}
-               onClick={saveTestQuestion}
-            >
+            <Button variant="primary" disabled={isDisabled} onClick={onSubmit}>
                SAVE
             </Button>
          </Box>
