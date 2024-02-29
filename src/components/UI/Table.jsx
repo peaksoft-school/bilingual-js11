@@ -131,5 +131,4 @@ const StyledCellTd = styled(TableCell)(() => ({
 const StyledCellTh = styled(TableCell)(() => ({
    fontWeight: '500',
    borderBottom: 'none',
-   paddingLeft: '-1rem',
 }))

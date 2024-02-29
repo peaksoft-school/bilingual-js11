@@ -35,23 +35,87 @@ const COLUMNS = [
    {
       Header: '#',
       accessor: 'id',
+
+      style: {
+         fontWeight: '500',
+         fontFamily: 'Poppins',
+         fonSize: '17px',
+         textAlign: 'left',
+      },
+
+      tdStyle: {
+         fontFamily: 'Poppins',
+      },
    },
+
    {
       Header: 'Date of Submition',
       accessor: 'dateOfSubmission',
+
+      style: {
+         fontWeight: '500',
+         fontFamily: 'Poppins',
+         fonSize: '17px',
+         textAlign: 'left',
+      },
+
+      tdStyle: {
+         fontFamily: 'Poppins',
+         marginLeft: '-rem',
+      },
    },
+
    {
       Header: 'Test name',
       accessor: 'testName',
+
+      style: {
+         fontWeight: '500',
+         fontFamily: 'Poppins',
+         fonSize: '17px',
+         textAlign: 'left',
+      },
+
+      tdStyle: {
+         fontFamily: 'Poppins',
+         marginLeft: '-rem',
+      },
    },
+
    {
       Header: 'Status',
       accessor: 'resultStatus',
+
+      style: {
+         fontWeight: '500',
+         fontFamily: 'Poppins',
+         fonSize: '17px',
+         textAlign: 'left',
+      },
+
+      tdStyle: {
+         fontFamily: 'Poppins',
+         marginLeft: '-rem',
+      },
    },
+
    {
       Header: 'Score',
       accessor: 'score',
+
+      style: {
+         fontWeight: '500',
+         fontFamily: 'Poppins',
+         fonSize: '17px',
+         textAlign: 'left',
+      },
+
+      tdStyle: {
+         fontFamily: 'Poppins',
+         marginLeft: '-rem',
+      },
    },
+
    {
       Header: ' ',
       accessor: 'action',
