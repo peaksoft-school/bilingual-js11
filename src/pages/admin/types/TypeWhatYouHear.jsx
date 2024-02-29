@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { PauseIcon, PlayIcon } from '../../../assets/icons'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Input from '../../../components/UI/Input'
@@ -35,6 +34,8 @@ const TypeWhatYouHear = ({
 
    const handleAttemptsChange = (event) => setAttempts(event.target.value)
 
+   const hadleGoBack = () => navigate(-1)
+
    const handleCorrectAnswerChange = (event) =>
       setCorrectAnswer(event.target.value)
 
@@ -49,12 +50,6 @@ const TypeWhatYouHear = ({
 
    const onSubmit = () => {
       if (selectType !== '' && +duration !== +'' && title !== '') {
-         dispatch(QUESTION_ACTIONS.clearOptions())
-
-         setSelectType('')
-         setTitle('')
-         setDuration('')
-
          const requestData = {
             title,
             duration: +duration * 60,
@@ -72,6 +67,10 @@ const TypeWhatYouHear = ({
                   questionType: questionTitle('TYPE_WHAT_YOU_HEAR'),
                   navigate,
                },
+
+               selectType: setSelectType(selectType),
+               title: setTitle(title),
+               duration: setDuration(duration),
             })
          )
       }
@@ -91,7 +90,7 @@ const TypeWhatYouHear = ({
 
          audioRef.current.src = URL.createObjectURL(file)
 
-         dispatch(QUESTION_THUNKS.postFileRequest(file))
+         dispatch(QUESTION_THUNKS.saveFile(file))
       }
    }
 
@@ -175,12 +174,16 @@ const TypeWhatYouHear = ({
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary">GO BACK</Button>
+            <Button variant="secondary" onClick={hadleGoBack}>
+               GO BACK
+            </Button>
+
             <Button
                variant="primary"
                onClick={onSubmit}
                disabled={isDisabled}
                isLoading={isLoading}
+               colorLoading="secondary"
             >
                SAVE
             </Button>

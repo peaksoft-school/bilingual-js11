@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Input from '../../../components/UI/Input'
@@ -26,13 +25,6 @@ const RecordSayingStatement = ({
 
    const onSubmit = () => {
       if (selectType !== '' && +duration !== +'' && title !== '') {
-         dispatch(QUESTION_ACTIONS.clearOptions())
-
-         setSelectType('')
-         setTitle('')
-         setDuration('')
-         setStatement('')
-
          const requestData = {
             title: title.trim(),
             duration: +duration * 60,
@@ -47,6 +39,10 @@ const RecordSayingStatement = ({
                   questionType: questionTitle('RECORD_SAYING'),
                   navigate,
                },
+
+               selectType: setSelectType(selectType),
+               title: setTitle(title),
+               duration: setDuration(duration),
             })
          )
       }

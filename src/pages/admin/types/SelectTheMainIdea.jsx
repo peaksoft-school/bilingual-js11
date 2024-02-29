@@ -63,17 +63,9 @@ const SelectTheMainIdea = ({
 
    const onSubmit = () => {
       if (selectType !== '' && +duration !== +'' && title !== '') {
-         dispatch(QUESTION_ACTIONS.clearOptions())
-
-         setSelectType('')
-         setTitle('')
-         setDuration('')
-         setPassage('')
-
          const requestData = {
             title: title.trim(),
             duration: +duration * 60,
-            passage: passage.trim(),
             option,
          }
 
@@ -82,9 +74,13 @@ const SelectTheMainIdea = ({
                requestData,
                data: {
                   testId,
-                  questionType: questionTitle('SELECT_THE_BEST_TITLE'),
+                  questionType: questionTitle('SELECT_MAIN_IDEA'),
                   navigate,
                },
+               selectType: setSelectType(selectType),
+               title: setTitle(title),
+               duration: setDuration(duration),
+               clearOptions: QUESTION_ACTIONS,
             })
          )
       }

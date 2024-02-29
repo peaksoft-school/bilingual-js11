@@ -64,26 +64,20 @@ const questionSlice = createSlice({
             state.error = null
          })
 
-         .addCase(QUESTION_THUNKS.postFileRequest.pending, (state) => {
+         .addCase(QUESTION_THUNKS.saveFile.pending, (state) => {
             state.isLoading = true
             state.error = null
          })
 
-         .addCase(
-            QUESTION_THUNKS.postFileRequest.fulfilled,
-            (state, action) => {
-               state.isLoading = false
-               state.fileUrl = action.payload.link
-            }
-         )
+         .addCase(QUESTION_THUNKS.saveFile.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.fileUrl = action.payload.link
+         })
 
-         .addCase(
-            QUESTION_THUNKS.postFileRequest.rejected,
-            (state, { payload }) => {
-               state.isLoading = false
-               state.error = payload
-            }
-         )
+         .addCase(QUESTION_THUNKS.saveFile.rejected, (state, { payload }) => {
+            state.isLoading = false
+            state.error = payload
+         })
    },
 })
 

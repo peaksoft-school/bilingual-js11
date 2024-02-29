@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useFormik } from 'formik'
 import { Box, TextField, Typography, styled } from '@mui/material'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Input from '../../../components/UI/Input'
@@ -34,13 +33,6 @@ const HighlightTheAnswer = ({
 
    const onSubmit = () => {
       if (selectType !== '' && +duration !== +'' && title !== '') {
-         dispatch(QUESTION_ACTIONS.clearOptions())
-
-         setSelectType('')
-         setTitle('')
-         setDuration('')
-         setAnswerValue('')
-
          const requestData = {
             title: title.trim(),
             duration: +duration * 60,
@@ -57,6 +49,11 @@ const HighlightTheAnswer = ({
                   questionType: questionTitle('HIGHLIGHTS_THE_ANSWER'),
                   navigate,
                },
+
+               selectType: setSelectType(selectType),
+               title: setTitle(title),
+               duration: setDuration(duration),
+               answerValue: setAnswerValue(answerValue),
             })
          )
       }

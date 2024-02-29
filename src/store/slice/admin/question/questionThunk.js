@@ -8,8 +8,16 @@ const saveTest = createAsyncThunk(
    'question/saveTest',
 
    async (
-      { requestData, data: { testId, questionType, navigate } },
-      { rejectWithValue }
+      {
+         requestData,
+         data: { testId, questionType, navigate },
+         selectType,
+         title,
+         duration,
+         clearOptions,
+         answerValue,
+      },
+      { rejectWithValue, dispatch }
    ) => {
       try {
          const response = await axiosInstance.post(
@@ -23,20 +31,29 @@ const saveTest = createAsyncThunk(
 
          navigate(`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/${testId}`)
 
+         if (clearOptions) {
+            dispatch(clearOptions.clearOptions())
+         }
+
          return response.data
       } catch (error) {
          showNotification({
             title: 'Error',
-            message: 'Failed to save test!',
+            message: 'Failed to save question!',
             type: 'error',
          })
+
+         selectType()
+         title()
+         duration()
+         answerValue()
 
          return rejectWithValue('Something went wrong')
       }
    }
 )
 
-const postFileRequest = createAsyncThunk(
+const saveFile = createAsyncThunk(
    'question/postFile',
 
    async (file, { rejectWithValue }) => {
@@ -61,6 +78,6 @@ const postFileRequest = createAsyncThunk(
 )
 
 export const QUESTION_THUNKS = {
-   postFileRequest,
+   saveFile,
    saveTest,
 }

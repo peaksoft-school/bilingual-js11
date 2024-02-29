@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
@@ -51,7 +50,7 @@ const DescribeImage = ({
 
          setFileName(file.name)
 
-         dispatch(QUESTION_THUNKS.postFileRequest(file))
+         dispatch(QUESTION_THUNKS.saveFile(file))
       }
    }
 
@@ -62,13 +61,6 @@ const DescribeImage = ({
          title !== '' &&
          answer !== ''
       ) {
-         dispatch(QUESTION_ACTIONS.clearOptions())
-
-         setSelectType('')
-         setTitle('')
-         setDuration('')
-         setAnswer('')
-
          const requestData = {
             title: title.trim(),
             duration: +duration * 60,
@@ -84,6 +76,11 @@ const DescribeImage = ({
                   questionType: questionTitle('DESCRIBE_IMAGE'),
                   navigate,
                },
+
+               selectType: setSelectType(selectType),
+               title: setTitle(title),
+               duration: setDuration(duration),
+               answerValue: setAnswer(answer),
             })
          )
       }

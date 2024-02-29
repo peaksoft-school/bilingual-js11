@@ -57,12 +57,6 @@ const SelectRealEnglish = ({
 
    const onSubmit = () => {
       if (selectType !== '' && +duration !== +'' && title !== '') {
-         dispatch(QUESTION_ACTIONS.clearOptions())
-
-         setSelectType('')
-         setTitle('')
-         setDuration('')
-
          const requestData = {
             title: title.trim(),
             duration: +duration * 60,
@@ -77,6 +71,10 @@ const SelectRealEnglish = ({
                   questionType: questionTitle('SELECT_REAL_ENGLISH_WORD'),
                   navigate,
                },
+               selectType: setSelectType(selectType),
+               title: setTitle(title),
+               duration: setDuration(duration),
+               clearOptions: QUESTION_ACTIONS,
             })
          )
       }
