@@ -8,29 +8,30 @@ const NotFound = () => {
    const handleGoBack = () => navigate(-1)
 
    return (
-      <Container>
+      <StyledContainer>
          <Box className="text-content">
             <Typography variant="h2">Ooops...</Typography>
 
             <Typography variant="h4">Page not Found</Typography>
 
-            <Typography variant="p">
+            <Typography>
                The page you are looking for doesnt exist or an other error
                occurred, go back to home page.
             </Typography>
 
             <Button className="go-back" onClick={handleGoBack}>
-               go back
+               GO BACK
             </Button>
          </Box>
+
          <img src={NotFoundImage} alt="404" />
-      </Container>
+      </StyledContainer>
    )
 }
 
 export default NotFound
 
-const Container = styled('div')(() => ({
+const StyledContainer = styled(Box)(() => ({
    display: 'flex',
    alignItems: 'center',
    justifyContent: 'space-around',
@@ -43,12 +44,12 @@ const Container = styled('div')(() => ({
       gap: '1rem',
       width: '20rem',
 
-      '& h2': {
+      '& > h2': {
          fontWeight: 'bold',
          color: '#1b2e35',
       },
 
-      '& h4': {
+      '& > h4': {
          color: '#ffc801',
       },
 

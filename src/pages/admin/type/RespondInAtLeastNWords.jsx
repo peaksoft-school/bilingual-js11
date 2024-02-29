@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { InputLabel, styled, Box } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_TITLE } from '../../../utils/constants'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Input from '../../../components/UI/Input'
 import Button from '../../../components/UI/buttons/Button'
@@ -27,20 +27,21 @@ const RespondInAtLeastNWords = ({
    const [statement, setStatement] = useState('')
    const [attempts, setAttempts] = useState(0)
 
-   const handleStatementChange = (event) => setStatement(event.target.value)
+   const handleStatementChange = (e) => setStatement(e.target.value)
 
-   const handleAttempsChange = (event) => setAttempts(event.target.value)
+   const handleAttemptsChange = (e) => setAttempts(e.target.value)
 
-   const handleSubmit = () => {
-      if (selectType !== '' && +duration !== +'' && title !== '') {
-         dispatch(QUESTION_ACTIONS.clearOptions())
+   const isDisabled =
+      !selectType || !duration || !title || !statement.trim() || !attempts
 
-         setSelectType('')
-
-         setTitle('')
-
-         setDuration('')
-
+   const onSubmit = () => {
+      if (
+         selectType !== '' &&
+         +duration !== 0 &&
+         title !== '' &&
+         statement !== '' &&
+         +attempts !== 0
+      ) {
          const requestData = {
             title,
             duration: +duration * 60,
@@ -54,15 +55,21 @@ const RespondInAtLeastNWords = ({
 
                data: {
                   testId,
-                  questionType: questionTitle('RESPOND_IN_AT_LEAST_N_WORDS'),
+                  questionType: questionTitle(
+                     QUESTION_TITLE.RESPOND_IN_AT_LEAST_N_WORDS
+                  ),
                   navigate,
+               },
+
+               setState: {
+                  selectType: setSelectType(selectType),
+                  title: setTitle(title),
+                  duration: setDuration(duration),
                },
             })
          )
       }
    }
-
-   const isValid = !selectType || !duration || !title || !statement || !attempts
 
    return (
       <StyledContainer>
@@ -82,8 +89,8 @@ const RespondInAtLeastNWords = ({
                className="input-number"
                type="number"
                value={attempts}
-               onChange={handleAttempsChange}
-               inputProps={{ min: 0, max: 5 }}
+               onChange={handleAttemptsChange}
+               inputProps={{ min: 0, max: 15 }}
             />
          </Box>
 
@@ -92,9 +99,9 @@ const RespondInAtLeastNWords = ({
 
             <Button
                variant="primary"
-               onClick={handleSubmit}
+               onClick={onSubmit}
                isLoading={isLoading}
-               disabled={isValid}
+               disabled={isDisabled}
             >
                SAVE
             </Button>

@@ -23,16 +23,11 @@ const Question = () => {
    const [title, setTitle] = useState(state?.question.title || '')
    const [duration, setDuration] = useState(state?.question.duration || 0)
 
-   const handleSelect = (e) => setSelectType(e.target.value)
+   const handleSelectTypeChange = (e) => setSelectType(e.target.value)
 
-   const handleInputTitle = (e) => setTitle(e.target.value)
+   const handleTitleChange = (e) => setTitle(e.target.value)
 
-   const handleInputDuration = (e) => setDuration(e.target.value)
-
-   const handleInput = (e) => {
-      const value = +e.target.value
-      e.target.value = Math.max(1, Math.min(15, value))
-   }
+   const handleDurationChange = (e) => setDuration(e.target.value)
 
    useEffect(() => {
       dispatch(QUESTION_ACTIONS.updateOptions(option || []))
@@ -50,7 +45,7 @@ const Question = () => {
                   <Input
                      className="input-title"
                      placeholder="Enter the title ....."
-                     onChange={handleInputTitle}
+                     onChange={handleTitleChange}
                      value={title}
                   />
 
@@ -63,8 +58,8 @@ const Question = () => {
                         className="duration-input"
                         placeholder="15:00"
                         value={duration}
-                        onChange={handleInputDuration}
-                        onInput={handleInput}
+                        onChange={handleDurationChange}
+                        inputProps={{ min: 0, max: 15 }}
                         type="number"
                      />
                   </Box>
@@ -78,7 +73,7 @@ const Question = () => {
                   <Dropdown
                      className="dropdown"
                      value={selectType}
-                     onChange={handleSelect}
+                     onChange={handleSelectTypeChange}
                      options={OPTIONS}
                   />
                </Box>

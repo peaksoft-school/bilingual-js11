@@ -20,31 +20,22 @@ const TypeTest = (props) => {
    }
 
    switch (selectType) {
-      case QUESTION_TYPES.SelectRealEnglishWords:
+      case QUESTION_TYPES.SELECT_REAL_ENGLISH_WORDS:
          return <SelectRealEnglish {...commonProps} />
 
-      case QUESTION_TYPES.TypeWhatYouHear:
+      case QUESTION_TYPES.TYPE_WHAT_YOU_HEAR:
          return <TypeWhatYouHear {...commonProps} />
 
-      case QUESTION_TYPES.RespondInAtLeastNwords:
-         return (
-            <RespondInAtLeastNWords
-               duration={duration}
-               setDuration={setDuration}
-               selectType={selectType}
-               title={title}
-               setTitle={setTitle}
-               setSelectType={setSelectType}
-            />
-         )
+      case QUESTION_TYPES.RESPOND_IN_AT_LEAST_N_WORDS:
+         return <RespondInAtLeastNWords {...commonProps} />
 
-      case QUESTION_TYPES.DescribeImage:
+      case QUESTION_TYPES.DESCRIBE_IMAGE:
          return <DescribeImage {...commonProps} />
 
-      case QUESTION_TYPES.RecordSayingStatement:
+      case QUESTION_TYPES.RECORD_SAYING_STATEMENT:
          return <RecordSayingStatement {...commonProps} />
 
-      case QUESTION_TYPES.HighlightTheAnswer:
+      case QUESTION_TYPES.HIGHLIGHT_THE_ANSWER:
          return <HighlightTheAnswer {...commonProps} />
       default:
          return <div />
