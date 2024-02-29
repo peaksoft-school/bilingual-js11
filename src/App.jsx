@@ -1,6 +1,11 @@
+import { BrowserRouter } from 'react-router-dom'
 import './App.css'
-import AppRoutes from './routes/AppRoutes'
+import TypeWhatYouHear from './components/UI/TypeWhatYouHear'
 
-const App = () => <AppRoutes />
+const App = () => (
+   <BrowserRouter>
+      <TypeWhatYouHear />
+   </BrowserRouter>
+)
 
 export default App
