@@ -402,15 +402,19 @@ const OPTIONS = [
    },
    {
       id: 5,
-      title: 'Respond in at least N words',
-   },
-   {
-      id: 6,
       title: 'Record saying statement',
    },
    {
+      id: 6,
+      title: 'Respond in at least N words',
+   },
+   {
       id: 7,
-      title: 'Highlight the answer',
+      title: 'Highlights the answer',
+   },
+   {
+      id: 8,
+      title: 'Select the main idea',
    },
    {
       id: 9,
@@ -419,16 +423,28 @@ const OPTIONS = [
 ]
 
 const QUESTION_TYPES = {
-   SelectRealEnglishWords: 'Select real english words',
-   TypeWhatYouHear: 'Type what you hear',
-   DescribeImage: 'Describe image',
-   HighlightTheAnswer: 'Highlight the answer',
-   RecordSayingStatement: 'Record saying statement',
-   SeclectTheBestTitle: 'Select the best title',
+   SELECT_REAL_ENGLISH_WORDS: 'Select real english words',
+   TYPE_WHAT_YOU_HEAR: 'Type what you hear',
+   DESCRIBE_IMAGE: 'Describe image',
+   RESPOND_IN_AT_LEAST_N_WORDS: 'Respond in at least N words',
+   HIGHLIGHTS_THE_ANSWER: 'Highlights the answer',
+   RECORD_SAYING: 'Record saying statement',
+   SELECT_MAIN_IDEA: 'Select the main idea',
+}
+
+const QUESTION_TITLE = {
+   SELECT_REAL_ENGLISH_WORDS: 'SELECT_REAL_ENGLISH_WORD',
+   TYPE_WHAT_YOU_HEAR: 'TYPE_WHAT_YOU_HEAR',
+   DESCRIBE_IMAGE: 'DESCRIBE_IMAGE',
+   RESPOND_IN_AT_LEAST_N_WORDS: 'RESPOND_IN_AT_LEAST_N_WORDS',
+   HIGHLIGHTS_THE_ANSWER: 'HIGHLIGHTS_THE_ANSWER',
+   RECORD_SAYING: 'RECORD_SAYING',
+   SELECT_MAIN_IDEA: 'SELECT_MAIN_IDEA',
 }
 
 export {
    QUESTION_TYPES,
+   QUESTION_TITLE,
    OPTIONS,
    VIDEOS,
    CHECKBOX_IMAGE,

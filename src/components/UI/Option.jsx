@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
-import { TrashIcon } from '../../assets/icons'
 import Checkbox from './Checkbox'
 import Radio from './Radio'
+import { TrashIcon } from '../../assets/icons'
 
 const Option = ({
    option,

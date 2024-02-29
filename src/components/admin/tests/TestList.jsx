@@ -7,8 +7,8 @@ import { TESTS_THUNKS } from '../../../store/slice/admin/tests/testsThunk'
 import { ROUTES } from '../../../routes/routes'
 import { NoData } from '../../../assets/images'
 import Modal from '../../UI/Modal'
-import Button from '../../UI/buttons/Button'
 import Switcher from '../../UI/Switcher'
+import Button from '../../UI/buttons/Button'
 
 const TestList = () => {
    const { tests } = useSelector((state) => state.testsSlice)
@@ -26,7 +26,6 @@ const TestList = () => {
 
    const handleDeleteTest = (testId) => {
       dispatch(TESTS_THUNKS.deleteTest(testId))
-
       setIsVisible(false)
    }
 
@@ -103,7 +102,7 @@ const TestList = () => {
 
             <Typography className="modal-title">Do you want delete?</Typography>
 
-            <Typography className="title" variant="p">
+            <Typography className="title">
                <Typography variant="span">Test: </Typography>
 
                {tests.find((test) => test.id === selectedTestId)?.title}

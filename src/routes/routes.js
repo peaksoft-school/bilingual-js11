@@ -3,7 +3,7 @@ const ROUTES = {
    SIGN_UP: '/sign-up',
 
    ADMIN: {
-      index: '/admin/tests',
+      index: '/admin',
       createTest: 'create-test',
       updateTest: 'update-test',
       questions: 'questions',

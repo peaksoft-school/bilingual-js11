@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
+import { createHashRouter, RouterProvider } from 'react-router-dom'
 import { ROLES, ROUTES } from './routes'
 import { ADMIN_ROUTES } from './AdminRoutes'
 import { USER_ROUTES } from './UserRoutes'
@@ -7,10 +7,11 @@ import AdminLayout from '../layout/admin/AdminLayout'
 import UserLayout from '../layout/user/UserLayout'
 import SignIn from '../pages/sign-in/SignIn'
 import SignUp from '../pages/sign-up/SignUp'
+import NotFound from '../layout/NotFound'
 import Home from '../pages/home/Home'
 
 const AppRoutes = () => {
-   const router = createBrowserRouter([
+   const router = createHashRouter([
       {
          path: '/',
          element: (
@@ -60,7 +61,7 @@ const AppRoutes = () => {
 
       {
          path: '*',
-         element: <Navigate to="/" />,
+         element: <NotFound />,
       },
    ])
 
