@@ -8,34 +8,48 @@ import { ListIcon } from '../../../assets/icons'
 import { HOME_TEST } from '../../../store/slice/user/homeThunk'
 
 const HomePage = () => {
+   const { testData } = useSelector((state) => state.home)
+
    const navigate = useNavigate()
+
    const dispatch = useDispatch()
-   const testData = useSelector((state) => state.home.testData)
 
    useEffect(() => {
-      dispatch(HOME_TEST.getTest())
+      dispatch(HOME_TEST.getAllTests())
    }, [dispatch])
+
+   const handleTestNavigation = (id) => {
+      navigate(`/user/tests/practice-test/${id}`)
+   }
 
    return (
       <StyledContainer>
          <TestContainer>
             <Box className="tests-conteiner">
-               <ListIcon />
-               {testData && (
-                  <Box className="content">
-                     <Typography className="duration">
-                        {testData.description}
-                     </Typography>
-                     <Typography className="title">{testData.title}</Typography>
-                     <Typography>{testData.shortDescription}</Typography>
-                  </Box>
-               )}
-               <Button
-                  variant="secondary"
-                  onClick={() => navigate('/user/tests/practice-test')}
-               >
-                  TRY TEST
-               </Button>
+               {testData &&
+                  testData.map(({ id, duration, title, shortDescription }) => (
+                     <Box className="content" key={id}>
+                        <ListIcon />
+                        <Box className="main-content">
+                           <Typography className="duration">
+                              {duration}
+                           </Typography>
+
+                           <Typography className="title">{title}</Typography>
+
+                           <Typography>{shortDescription}</Typography>
+                        </Box>
+
+                        <Box className="button-conteiner">
+                           <Button
+                              variant="secondary"
+                              onClick={() => handleTestNavigation(id)}
+                           >
+                              TRY TEST
+                           </Button>
+                        </Box>
+                     </Box>
+                  ))}
             </Box>
          </TestContainer>
       </StyledContainer>
@@ -45,17 +59,29 @@ const HomePage = () => {
 export default HomePage
 
 const StyledContainer = styled(Box)(() => ({
+   display: 'flex',
+   alignItems: 'center',
+
    '& .tests-conteiner': {
       display: 'flex',
-      justifyContent: ' space-between',
-      alignItems: 'flex-end',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      gap: '3rem',
 
       '& .content': {
          display: 'flex',
-         flexDirection: 'column',
-         justifyContent: ' space-between',
-         marginRight: '20rem',
-         gap: '1rem',
+         alignItems: 'flex-end',
+         gap: '8rem',
+         minWidth: '735px',
+
+         '& .main-content': {
+            marginLeft: '-5rem',
+         },
+
+         '& .button-conteiner': {
+            display: 'flex',
+            marginLeft: 'auto',
+         },
       },
 
       '& .duration': {
@@ -65,7 +91,7 @@ const StyledContainer = styled(Box)(() => ({
       },
 
       '& .title': {
-         fontSize: '26px',
+         fontSize: '22px',
       },
    },
 }))

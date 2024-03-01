@@ -14,13 +14,13 @@ const USER_ROUTES = [
    },
 
    {
-      path: '/user/tests/practice-test',
-      element: <UserPracticeTest />,
+      path: '/user/results',
+      element: <UserResults />,
    },
 
    {
-      path: '/user/results',
-      element: <UserResults />,
+      path: '/user/tests/practice-test/:testId',
+      element: <UserPracticeTest />,
    },
 ]
 

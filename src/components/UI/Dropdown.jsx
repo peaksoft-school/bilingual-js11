@@ -1,5 +1,5 @@
-import { MenuItem, InputLabel, Select, styled } from '@mui/material'
 import { forwardRef } from 'react'
+import { MenuItem, InputLabel, Select, styled } from '@mui/material'
 
 const Dropdown = forwardRef(({ options, value, onChange, ...rest }, ref) => (
    <StyledSelect
@@ -50,10 +50,6 @@ const StyledSelect = styled(Select)(({ theme }) => ({
       '&:hover fieldset': {
          border: `1px solid ${theme.palette.primary.main}`,
       },
-   },
-
-   '& .MuiSelect-icon': {
-      color: 'white',
    },
 }))
 

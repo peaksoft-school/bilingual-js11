@@ -1,17 +1,31 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstance } from '../../../configs/axiosInstance'
 
-const getTest = createAsyncThunk(
-   'home/getTest',
-   async ({ testId }, { rejectWithValue }) => {
+const getAllTests = createAsyncThunk(
+   'homeSlice/getAllTests',
+
+   async (_, { rejectWithValue }) => {
       try {
-         const response = await axiosInstance.get(`/api/test?testId=${testId}`)
+         const response = await axiosInstance.get('/api/test/all')
 
          return response.data
       } catch (error) {
-         console.error(rejectWithValue.message)
-         throw error
+         return rejectWithValue.message
       }
    }
 )
-export const HOME_TEST = { getTest }
+const getTest = createAsyncThunk(
+   'homeSlice/getTest',
+
+   async ({ testId }, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.get(`/api/test?testId=${testId}`)
+         console.log(response.data)
+         return response.data
+      } catch (error) {
+         return rejectWithValue.message
+      }
+   }
+)
+
+export const HOME_TEST = { getAllTests, getTest }
