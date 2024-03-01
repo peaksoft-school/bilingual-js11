@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Box, Typography, styled } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
+import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
+import { QUESTION_TITLE } from '../../../utils/constants'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
@@ -33,9 +33,12 @@ const DescribeImage = ({
 
    const handleClick = () => inputFileRef.current.click()
 
-   const handleInputChange = (e) => setAnswer(e.target.value)
+   const handleAnswerChange = (e) => setAnswer(e.target.value)
 
    const handleGoBack = () => navigate(-1)
+
+   const isDisabled =
+      !selectType || !duration || !title.trim() || !image || !answer
 
    const handleFileChange = (e) => {
       const file = e.target.files[0]
@@ -51,24 +54,17 @@ const DescribeImage = ({
 
          setFileName(file.name)
 
-         dispatch(QUESTION_THUNKS.postFileRequest(file))
+         dispatch(QUESTION_THUNKS.saveFile(file))
       }
    }
 
-   const saveTestQuestion = () => {
+   const onSubmit = () => {
       if (
          selectType !== '' &&
-         +duration !== +'' &&
+         +duration !== 0 &&
          title !== '' &&
          answer !== ''
       ) {
-         dispatch(QUESTION_ACTIONS.clearOptions())
-
-         setSelectType('')
-         setTitle('')
-         setDuration('')
-         setAnswer('')
-
          const requestData = {
             title: title.trim(),
             duration: +duration * 60,
@@ -79,18 +75,22 @@ const DescribeImage = ({
          dispatch(
             QUESTION_THUNKS.saveTest({
                requestData,
+
                data: {
                   testId,
-                  questionType: questionTitle('DESCRIBE_IMAGE'),
+                  questionType: questionTitle(QUESTION_TITLE.DESCRIBE_IMAGE),
                   navigate,
+               },
+
+               setState: {
+                  selectType: setSelectType(selectType),
+                  title: setTitle(title),
+                  duration: setDuration(duration),
                },
             })
          )
       }
    }
-
-   const isFormValid =
-      !selectType || !duration || !title || !image || !answer.trim()
 
    return (
       <StyledContainer>
@@ -129,9 +129,9 @@ const DescribeImage = ({
          )}
 
          <Box className="answer">
-            <Typography className="correct-answer">Correct answer</Typography>
+            <InputLabel className="correct-answer">Correct answer</InputLabel>
 
-            <Input value={answer} onChange={handleInputChange} />
+            <Input value={answer} onChange={handleAnswerChange} />
          </Box>
 
          <Box className="buttons">
@@ -141,8 +141,8 @@ const DescribeImage = ({
 
             <Button
                variant="primary"
-               disabled={isFormValid}
-               onClick={saveTestQuestion}
+               disabled={isDisabled}
+               onClick={onSubmit}
                isLoading={isLoading}
                colorLoading="secondary"
             >
