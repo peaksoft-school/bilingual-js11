@@ -22,7 +22,7 @@ const SelectTheMainIdea = ({
    setTitle,
    setSelectType,
 }) => {
-   const option = useSelector((state) => state.question.options)
+   const { options } = useSelector((state) => state.question)
 
    const dispatch = useDispatch()
 
@@ -31,6 +31,7 @@ const SelectTheMainIdea = ({
    const { testId } = useParams()
 
    const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
+   const [selectedOptionId, setSelectedOptionId] = useState(null)
    const [isOpenModalSave, setIsOpenModalSave] = useState(false)
    const [optionTitle, setOptionTitle] = useState('')
    const [checkOption, setCheckOption] = useState(false)
@@ -44,8 +45,6 @@ const SelectTheMainIdea = ({
    const changeCheckbox = (e) => setCheckOption(e.target.checked)
 
    const openModalDelete = () => setIsOpenModalDelete((prevState) => !prevState)
-
-   const isAnyOptionTrue = option.some((option) => option.isTrueOption)
 
    const handleGoBack = () => navigate(-1)
 
@@ -68,17 +67,17 @@ const SelectTheMainIdea = ({
       !selectType ||
       !duration ||
       !title.trim() ||
-      option.length === 0 ||
+      options.length < 2 ||
       !passage.trim()
 
    const isDisabledModal = !optionTitle.trim()
 
    const onSubmit = () => {
-      if (selectType !== '' && +duration !== +'' && title !== '') {
+      if (selectType !== '' && +duration !== 0 && title !== '') {
          const requestData = {
             title: title.trim(),
             duration: +duration * 60,
-            option,
+            option: options,
          }
 
          dispatch(
@@ -115,6 +114,12 @@ const SelectTheMainIdea = ({
 
       setOptionTitle('')
       setCheckOption(false)
+
+      if (options.length === 0) {
+         setSelectedOptionId(option.id)
+      } else if (checkOption) {
+         setSelectedOptionId(option.id)
+      }
    }
 
    return (
@@ -141,7 +146,7 @@ const SelectTheMainIdea = ({
          </Box>
 
          <Box className="cards">
-            {option?.map((option, i) => (
+            {options?.map((option, i) => (
                <Option
                   className="card-option"
                   key={option.id}
@@ -151,6 +156,8 @@ const SelectTheMainIdea = ({
                   handleChecked={handleChecked}
                   openModal={setIsOpenModalDelete}
                   setOptionId={setOptionId}
+                  selectedOptionId={selectedOptionId}
+                  setSelectedOptionId={setSelectedOptionId}
                />
             ))}
          </Box>
@@ -210,12 +217,10 @@ const SelectTheMainIdea = ({
                         Is true option ?
                      </Typography>
 
-                     {!isAnyOptionTrue ? (
-                        <Checkbox
-                           checked={checkOption}
-                           onChange={changeCheckbox}
-                        />
-                     ) : null}
+                     <Checkbox
+                        checked={checkOption}
+                        onChange={changeCheckbox}
+                     />
                   </Box>
                </Box>
 

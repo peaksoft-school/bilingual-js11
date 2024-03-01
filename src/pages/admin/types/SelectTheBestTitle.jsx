@@ -6,13 +6,13 @@ import { Box, TextField, Typography, styled } from '@mui/material'
 import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_TITLE } from '../../../utils/constants'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Checkbox from '../../../components/UI/Checkbox'
 import Option from '../../../components/UI/Option'
 import Button from '../../../components/UI/buttons/Button'
 import Modal from '../../../components/UI/Modal'
 import Input from '../../../components/UI/Input'
-import { QUESTION_TITLE } from '../../../utils/constants'
 
 const SelectTheBestTitle = ({
    duration,
@@ -22,7 +22,7 @@ const SelectTheBestTitle = ({
    setTitle,
    setSelectType,
 }) => {
-   const option = useSelector((state) => state.question.options)
+   const { options } = useSelector((state) => state.question)
 
    const dispatch = useDispatch()
 
@@ -31,6 +31,7 @@ const SelectTheBestTitle = ({
    const { testId } = useParams()
 
    const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
+   const [selectedOptionId, setSelectedOptionId] = useState(null)
    const [isOpenModalSave, setIsOpenModalSave] = useState(false)
    const [optionTitle, setOptionTitle] = useState('')
    const [checkOption, setCheckOption] = useState(false)
@@ -44,8 +45,6 @@ const SelectTheBestTitle = ({
    const changeCheckbox = (e) => setCheckOption(e.target.checked)
 
    const openModalDelete = () => setIsOpenModalDelete((prevState) => !prevState)
-
-   const isAnyOptionTrue = option.some((option) => option.isTrueOption)
 
    const handleGoBack = () => navigate(-1)
 
@@ -68,17 +67,17 @@ const SelectTheBestTitle = ({
       !selectType ||
       !duration ||
       !title.trim() ||
-      option.length === 0 ||
+      options.length < 2 ||
       !passage.trim()
 
    const isDisabledModal = !optionTitle.trim()
 
    const onSubmit = () => {
-      if (selectType !== '' && +duration !== +'' && title !== '') {
+      if (selectType !== '' && +duration !== 0 && title !== '') {
          const requestData = {
             title: title.trim(),
             duration: +duration * 60,
-            option,
+            option: options,
          }
 
          dispatch(
@@ -117,6 +116,12 @@ const SelectTheBestTitle = ({
 
       setOptionTitle('')
       setCheckOption(false)
+
+      if (options.length === 0) {
+         setSelectedOptionId(option.id)
+      } else if (checkOption) {
+         setSelectedOptionId(option.id)
+      }
    }
 
    return (
@@ -143,7 +148,7 @@ const SelectTheBestTitle = ({
          </Box>
 
          <Box className="cards">
-            {option?.map((option, i) => (
+            {options?.map((option, i) => (
                <Option
                   className="card-option"
                   key={option.id}
@@ -153,6 +158,8 @@ const SelectTheBestTitle = ({
                   handleChecked={handleChecked}
                   openModal={setIsOpenModalDelete}
                   setOptionId={setOptionId}
+                  selectedOptionId={selectedOptionId}
+                  setSelectedOptionId={setSelectedOptionId}
                />
             ))}
          </Box>
@@ -212,12 +219,10 @@ const SelectTheBestTitle = ({
                         Is true option ?
                      </Typography>
 
-                     {!isAnyOptionTrue ? (
-                        <Checkbox
-                           checked={checkOption}
-                           onChange={changeCheckbox}
-                        />
-                     ) : null}
+                     <Checkbox
+                        checked={checkOption}
+                        onChange={changeCheckbox}
+                     />
                   </Box>
                </Box>
 

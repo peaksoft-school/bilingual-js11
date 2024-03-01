@@ -19,7 +19,32 @@ const questionSlice = createSlice({
 
    reducers: {
       addOption: (state, { payload }) => {
-         state.options = [...state.options, payload]
+         const isFirstOption = state.options.length === 0
+
+         const newOption = {
+            ...payload,
+            isTrueOption: isFirstOption,
+         }
+
+         state.options = [...state.options, newOption]
+
+         state.options = state.options.map((option) => {
+            if (payload.isTrueOption) {
+               if (payload.id === option.id) {
+                  return {
+                     ...option,
+                     isTrueOption: payload.isTrueOption,
+                  }
+               }
+
+               return {
+                  ...option,
+                  isTrueOption: false,
+               }
+            }
+
+            return option
+         })
       },
 
       handleIsCorrect: (state, { payload }) => {
@@ -30,7 +55,10 @@ const questionSlice = createSlice({
                   isTrueOption: !item.isTrueOption,
                }
             }
-            return item
+            return {
+               ...item,
+               isTrueOption: false,
+            }
          })
       },
 

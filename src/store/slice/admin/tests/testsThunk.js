@@ -7,7 +7,7 @@ const getAllTests = createAsyncThunk(
 
    async (_, { rejectWithValue }) => {
       try {
-         const response = await axiosInstance.get('/api/test/all')
+         const response = await axiosInstance.get('/api/test/getAll')
 
          return response.data
       } catch (error) {
