@@ -45,6 +45,8 @@ const SelectTheMainIdea = ({
 
    const openModalDelete = () => setIsOpenModalDelete((prevState) => !prevState)
 
+   const isAnyOptionTrue = option.some((option) => option.isTrueOption)
+
    const handleGoBack = () => navigate(-1)
 
    const openModalSave = () => {
@@ -208,10 +210,12 @@ const SelectTheMainIdea = ({
                         Is true option ?
                      </Typography>
 
-                     <Checkbox
-                        checked={checkOption}
-                        onChange={changeCheckbox}
-                     />
+                     {!isAnyOptionTrue ? (
+                        <Checkbox
+                           checked={checkOption}
+                           onChange={changeCheckbox}
+                        />
+                     ) : null}
                   </Box>
                </Box>
 

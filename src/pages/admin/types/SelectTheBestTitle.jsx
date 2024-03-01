@@ -12,6 +12,7 @@ import Option from '../../../components/UI/Option'
 import Button from '../../../components/UI/buttons/Button'
 import Modal from '../../../components/UI/Modal'
 import Input from '../../../components/UI/Input'
+import { QUESTION_TITLE } from '../../../utils/constants'
 
 const SelectTheBestTitle = ({
    duration,
@@ -21,7 +22,7 @@ const SelectTheBestTitle = ({
    setTitle,
    setSelectType,
 }) => {
-   const option = useSelector((state) => state.question.option)
+   const option = useSelector((state) => state.question.options)
 
    const dispatch = useDispatch()
 
@@ -36,13 +37,15 @@ const SelectTheBestTitle = ({
    const [optionId, setOptionId] = useState(null)
    const [passage, setPassage] = useState('')
 
-   const handleChangeInput = (e) => setOptionTitle(e.target.value)
+   const handleChangeTitle = (e) => setOptionTitle(e.target.value)
 
    const handleChangeTextArea = (e) => setPassage(e.target.value)
 
    const changeCheckbox = (e) => setCheckOption(e.target.checked)
 
    const openModalDelete = () => setIsOpenModalDelete((prevState) => !prevState)
+
+   const isAnyOptionTrue = option.some((option) => option.isTrueOption)
 
    const handleGoBack = () => navigate(-1)
 
@@ -58,22 +61,23 @@ const SelectTheBestTitle = ({
    }
 
    const handleChecked = (id) => {
-      dispatch(QUESTION_ACTIONS.changeTrueOption(id))
+      dispatch(QUESTION_ACTIONS.handleIsCorrect(id))
    }
 
-   const saveTestQuestion = () => {
+   const isDisabled =
+      !selectType ||
+      !duration ||
+      !title.trim() ||
+      option.length === 0 ||
+      !passage.trim()
+
+   const isDisabledModal = !optionTitle.trim()
+
+   const onSubmit = () => {
       if (selectType !== '' && +duration !== +'' && title !== '') {
-         dispatch(QUESTION_ACTIONS.clearOptions())
-
-         setSelectType('')
-         setTitle('')
-         setDuration('')
-         setPassage('')
-
          const requestData = {
             title: title.trim(),
             duration: +duration * 60,
-            passage: passage.trim(),
             option,
          }
 
@@ -82,38 +86,38 @@ const SelectTheBestTitle = ({
                requestData,
                data: {
                   testId,
-                  questionType: questionTitle('SELECT_THE_BEST_TITLE'),
+                  questionType: questionTitle(
+                     QUESTION_TITLE.SELECT_THE_BEST_TITLE
+                  ),
                   navigate,
                },
+
+               setState: {
+                  selectType: setSelectType(selectType),
+                  title: setTitle(title),
+                  duration: setDuration(duration),
+               },
+
+               clearOptions: QUESTION_ACTIONS,
             })
          )
       }
    }
 
    const addHandler = () => {
-      const data = {
-         optionTitle,
+      const option = {
+         optionTitle: optionTitle.trim(),
          isTrueOption: checkOption,
          id: uuidv4(),
       }
 
-      dispatch(QUESTION_ACTIONS.addOption(data))
+      dispatch(QUESTION_ACTIONS.addOption(option))
 
       openModalSave()
 
       setOptionTitle('')
-
       setCheckOption(false)
    }
-
-   const isFormValid =
-      !selectType ||
-      !duration ||
-      !title ||
-      option.length === 0 ||
-      !passage.trim()
-
-   const validModal = !optionTitle.trim()
 
    return (
       <StyledContainer>
@@ -134,7 +138,7 @@ const SelectTheBestTitle = ({
                onClick={openModalSave}
                icon={<PlusIcon className="icon" />}
             >
-               Add Options
+               ADD OPTIONS
             </Button>
          </Box>
 
@@ -158,11 +162,7 @@ const SelectTheBestTitle = ({
                GO BACK
             </Button>
 
-            <Button
-               variant="primary"
-               disabled={isFormValid}
-               onClick={saveTestQuestion}
-            >
+            <Button variant="primary" disabled={isDisabled} onClick={onSubmit}>
                SAVE
             </Button>
          </Box>
@@ -202,9 +202,9 @@ const SelectTheBestTitle = ({
 
                   <Input
                      type="text"
-                     placeholder="Select the main idea"
+                     placeholder="Enter the title..."
                      value={optionTitle}
-                     onChange={handleChangeInput}
+                     onChange={handleChangeTitle}
                   />
 
                   <Box className="checkbox-container">
@@ -212,10 +212,12 @@ const SelectTheBestTitle = ({
                         Is true option ?
                      </Typography>
 
-                     <Checkbox
-                        checked={checkOption}
-                        onChange={changeCheckbox}
-                     />
+                     {!isAnyOptionTrue ? (
+                        <Checkbox
+                           checked={checkOption}
+                           onChange={changeCheckbox}
+                        />
+                     ) : null}
                   </Box>
                </Box>
 
@@ -227,7 +229,7 @@ const SelectTheBestTitle = ({
                   <Button
                      variant="primary"
                      onClick={addHandler}
-                     disabled={validModal}
+                     disabled={isDisabledModal}
                   >
                      SAVE
                   </Button>
@@ -241,7 +243,7 @@ const SelectTheBestTitle = ({
 export default SelectTheBestTitle
 
 const StyledContainer = styled(Box)(({ theme }) => ({
-   width: '820px',
+   width: '825px',
 
    '& .add-button': {
       margin: '2rem 0 1.375rem 41.5rem',
@@ -271,6 +273,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 
    '& .cards': {
       display: 'flex',
+      width: '100%',
       flexDirection: 'column',
       gap: '1.1rem',
       margin: '1.5rem 0 2rem 0',
@@ -297,20 +300,20 @@ const StyledModalSave = styled(Box)(() => ({
    flexDirection: 'column',
    alignItems: 'center',
 
-   '& .cancel': {
+   '& > .cancel': {
       cursor: 'pointer',
       marginLeft: ' 34rem',
       marginTop: ' 1rem',
    },
 
-   '& .content-modal-save': {
+   '& > .content-modal-save': {
       width: '32.3125rem',
       margin: '3rem',
       display: 'flex',
       flexDirection: 'column',
       gap: '1.25rem',
 
-      '& .title': {
+      '& > .title': {
          width: '2.33rem',
          height: '1.125rem',
          fontFamily: 'Poppins',
@@ -320,18 +323,18 @@ const StyledModalSave = styled(Box)(() => ({
          color: '#4B4759',
       },
 
-      '& .checkbox-container': {
+      '& > .checkbox-container': {
          display: 'flex',
          gap: '0.44rem',
          alignItems: 'center',
 
-         '& .true-option': {
+         '& > .true-option': {
             fontFamily: 'Poppins',
          },
       },
    },
 
-   '& .buttons-modal-container': {
+   '& > .buttons-modal-container': {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'flex-end',

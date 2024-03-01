@@ -430,6 +430,7 @@ const QUESTION_TYPES = {
    HIGHLIGHTS_THE_ANSWER: 'Highlights the answer',
    RECORD_SAYING: 'Record saying statement',
    SELECT_MAIN_IDEA: 'Select the main idea',
+   SELECT_THE_BEST_TITLE: 'Select the best title',
 }
 
 const QUESTION_TITLE = {
@@ -440,6 +441,7 @@ const QUESTION_TITLE = {
    HIGHLIGHTS_THE_ANSWER: 'HIGHLIGHTS_THE_ANSWER',
    RECORD_SAYING: 'RECORD_SAYING',
    SELECT_MAIN_IDEA: 'SELECT_MAIN_IDEA',
+   SELECT_THE_BEST_TITLE: 'SELECT_THE_BEST_TITLE',
 }
 
 export {

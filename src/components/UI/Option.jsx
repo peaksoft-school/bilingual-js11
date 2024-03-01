@@ -12,11 +12,14 @@ const Option = ({
    index,
    isRadio,
 }) => {
-   const [isChecked, setIsChecked] = useState(option.isTrueOption)
+   const { id, optionTitle, isTrueOption } = option
+
+   const [isChecked, setIsChecked] = useState(isTrueOption)
 
    const handleChange = () => {
       setIsChecked((prev) => !prev)
-      handleChecked(option.id, !isChecked)
+
+      handleChecked(id, !isChecked)
    }
 
    const handleOpen = (id) => {
@@ -30,22 +33,17 @@ const Option = ({
          <Box className="content">
             <Typography>{index + 1}</Typography>
 
-            <Typography className="title-option">
-               {option.optionTitle}
-            </Typography>
+            <Typography className="title-option">{optionTitle}</Typography>
          </Box>
 
          <Box className="actions">
             {isRadio ? (
-               <Radio onClick={handleChange} checked={isChecked} />
+               <Radio checked={isChecked} />
             ) : (
                <Checkbox onClick={handleChange} checked={isChecked} />
             )}
 
-            <TrashIcon
-               className="trash"
-               onClick={() => handleOpen(option.id)}
-            />
+            <TrashIcon className="trash" onClick={() => handleOpen(id)} />
          </Box>
       </StyledContainer>
    )
