@@ -11,52 +11,50 @@ import { HOME_TEST } from '../../../store/slice/user/homeThunk'
 const UserPracticeTest = () => {
    const { testData } = useSelector((state) => state.home)
 
+   const { testId } = useParams()
+
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
 
-   const { testId } = useParams()
-
    useEffect(() => {
-      dispatch(HOME_TEST.getTest({ testId }))
+      dispatch(HOME_TEST.getTest(testId))
    }, [dispatch, testId])
 
+   const handleTestNavigation = () => {
+      navigate(`/user/tests/`)
+   }
    return (
       <StyledContainer>
          <TestContainer>
-            {testData &&
-               testData.map(({ id, title, duration }) => (
-                  <Box className="main-content" key={id}>
-                     <Typography className="title">{title} </Typography>
-                     <Box className="content">
-                        <img src={TryImege} alt="TryImege" className="image" />
-                        <Box className="title-content">
-                           <Typography>
-                              <LeptopIcon />
-                              See what the test is like *
-                           </Typography>
-
-                           <Typography>
-                              <TimeIcon />
-                              Practice takes just {duration}
-                           </Typography>
-                           <Typography>
-                              <PhotoIcon />
-                              get an unofficial score estimate
-                           </Typography>
-                        </Box>
-                     </Box>
+            <Box className="main-content" key={testData.id}>
+               <Typography className="title">{testData.title} </Typography>
+               <Box className="content">
+                  <img src={TryImege} alt="TryImege" className="image" />
+                  <Box className="title-content">
                      <Typography>
-                        * The practice test may include question types that may
-                        not appear on the certified test.
+                        <LeptopIcon className="icon" />
+                        See what the test is like *
+                     </Typography>
+
+                     <Typography>
+                        <TimeIcon className="icon" />
+                        Practice takes just {testData.duration}
+                     </Typography>
+
+                     <Typography>
+                        <PhotoIcon className="icon" />
+                        get an unofficial score estimate
                      </Typography>
                   </Box>
-               ))}
+               </Box>
+               <Typography>
+                  * The practice test may include question types that may not
+                  appear on the certified test.
+               </Typography>
+            </Box>
             <Box className="buttons">
-               <Button
-                  variant="secondary"
-                  onClick={() => navigate('/user/tests/')}
-               >
+               <Button variant="secondary" onClick={handleTestNavigation}>
                   CANCEL
                </Button>
                <Button>PRACTICE TEST</Button>
@@ -95,6 +93,10 @@ const StyledContainer = styled(Box)(() => ({
             justifyContent: 'center',
             flexDirection: 'column',
             gap: '1rem',
+
+            '& .icon': {
+               margin: '0 1rem -0.4rem 0',
+            },
          },
       },
    },

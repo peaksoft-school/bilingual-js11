@@ -6,7 +6,7 @@ const getAllTests = createAsyncThunk(
 
    async (_, { rejectWithValue }) => {
       try {
-         const response = await axiosInstance.get('/api/test/all')
+         const response = await axiosInstance.get('/api/test/getAll')
 
          return response.data
       } catch (error) {
@@ -17,10 +17,10 @@ const getAllTests = createAsyncThunk(
 const getTest = createAsyncThunk(
    'homeSlice/getTest',
 
-   async ({ testId }, { rejectWithValue }) => {
+   async (testId, { rejectWithValue }) => {
       try {
          const response = await axiosInstance.get(`/api/test?testId=${testId}`)
-         console.log(response.data)
+         console.log(response.data, 'data')
          return response.data
       } catch (error) {
          return rejectWithValue.message

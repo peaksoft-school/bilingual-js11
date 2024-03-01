@@ -106,7 +106,7 @@ const TestList = () => {
             <Typography className="title" variant="p">
                <Typography variant="span">Test: </Typography>
 
-               {tests.find((test) => test.id === selectedTestId)?.title}
+               {tests?.find((test) => test?.id === selectedTestId)?.title}
             </Typography>
 
             <Typography className="modal-message">
