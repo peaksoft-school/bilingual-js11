@@ -20,7 +20,7 @@ const signUp = createAsyncThunk(
          if (email && role && token) {
             resetForm()
 
-            navigate(ROUTES.USER.tests)
+            navigate(ROUTES.USER.index)
          }
 
          return response.data
@@ -91,7 +91,7 @@ const authWithGoogle = createAsyncThunk(
             type: 'success',
          })
 
-         navigate('/')
+         navigate(ROUTES.USER.index)
 
          return response.data
       } catch (error) {

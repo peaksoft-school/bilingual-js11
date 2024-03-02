@@ -6,6 +6,8 @@ const COLUMNS = [
    {
       Header: '#',
       accessor: 'id',
+
+      Cell: ({ row }) => row.index + 1,
    },
 
    {

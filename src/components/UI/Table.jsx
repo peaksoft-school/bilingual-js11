@@ -101,9 +101,8 @@ const StyledTable = styled(MuiTable)(() => ({
    borderCollapse: 'separate',
 }))
 
-const StyledCellTr = styled(TableRow)(({ theme }) => ({
+const StyledCellTr = styled(TableRow)(() => ({
    borderRadius: '0.7rem',
-   background: theme.palette.primary.white,
    boxShadow:
       '0px 4px 10px 0px rgba(0, 0, 0, 0.06), 0px -4px 10px 0px rgba(0, 0, 0, 0.06)',
 }))
@@ -113,10 +112,6 @@ const StyledCellTd = styled(TableCell)(({ row }) => ({
    color: ' #4C4859',
    borderBottom: 'none',
    textAlign: 'left',
-
-   '&:first-of-type': {
-      paddingLeft: '1rem',
-   },
 
    '& span': {
       color: row.original.resultStatus === 'EVALUATED' ? 'green' : 'red',
