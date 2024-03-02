@@ -4,14 +4,18 @@ const ROUTES = {
 
    ADMIN: {
       index: '/admin',
+      tests: 'tests',
       createTest: 'create-test',
       updateTest: 'update-test',
       questions: 'questions',
       createQuestion: 'create-question',
+      results: 'results',
    },
 
    USER: {
       index: '/user',
+      tests: 'tests',
+      results: 'results',
    },
 }
 

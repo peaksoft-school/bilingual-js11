@@ -20,7 +20,7 @@ const signUp = createAsyncThunk(
          if (email && role && token) {
             resetForm()
 
-            navigate('/')
+            navigate(ROUTES.USER.tests)
          }
 
          return response.data
@@ -58,7 +58,7 @@ const signIn = createAsyncThunk(
                if (role === 'ADMIN') {
                   navigate(ROUTES.ADMIN.index)
                } else {
-                  navigate('/')
+                  navigate(ROUTES.USER.index)
                }
             }
          }

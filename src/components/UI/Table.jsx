@@ -57,20 +57,11 @@ const Table = ({ columns: headers, data }) => {
                                  style: { ...cell.column.style },
                               })}
                               key={cell.column.id}
+                              row={row}
                            >
                               {cell.column.id === 'resultStatus' ||
                               cell.column.id === 'score' ? (
-                                 <span
-                                    style={{
-                                       color:
-                                          row.original.resultStatus ===
-                                          'Evaluated'
-                                             ? 'green'
-                                             : 'red',
-                                    }}
-                                 >
-                                    {cell.render('Cell')}
-                                 </span>
+                                 <span>{cell.render('Cell')}</span>
                               ) : (
                                  cell.render('Cell')
                               )}
@@ -117,7 +108,7 @@ const StyledCellTr = styled(TableRow)(({ theme }) => ({
       '0px 4px 10px 0px rgba(0, 0, 0, 0.06), 0px -4px 10px 0px rgba(0, 0, 0, 0.06)',
 }))
 
-const StyledCellTd = styled(TableCell)(() => ({
+const StyledCellTd = styled(TableCell)(({ row }) => ({
    height: '4.125rem',
    padding: '1.5rem 0',
    color: ' #4C4859',
@@ -125,6 +116,11 @@ const StyledCellTd = styled(TableCell)(() => ({
 
    '&:first-of-type': {
       paddingLeft: '1rem',
+   },
+
+   '& span': {
+      color: row.original.resultStatus === 'EVALUATED' ? 'green' : 'red',
+      fontFamily: 'inherit',
    },
 }))
 

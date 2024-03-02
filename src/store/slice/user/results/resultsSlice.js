@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { MY_RESULTS_THUNK } from './myResultsThunk'
+import { MY_RESULTS_THUNK } from './resultsThunk'
 
 const initialState = {
    results: [],
@@ -36,7 +36,7 @@ export const resultsSlice = createSlice({
             state.status = 'succeeded'
 
             state.results = state.results.filter(
-               (test) => test.id !== action.meta.arg
+               (result) => result.id !== action.meta.arg
             )
          })
 
