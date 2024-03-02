@@ -96,7 +96,7 @@ const SelectRealEnglish = ({
    const addHandler = () => {
       const option = {
          optionTitle: optionTitle.trim(),
-         isCorrect: checkOption,
+         isTrueOption: checkOption,
          id: uuidv4(),
       }
 
