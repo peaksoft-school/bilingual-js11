@@ -22,6 +22,9 @@ export const questionTitle = (name) => {
 
       case QUESTION_TITLE.SELECT_MAIN_IDEA:
          return QUESTION_TITLE.SELECT_MAIN_IDEA
+
+      case QUESTION_TITLE.SELECT_THE_BEST_TITLE:
+         return QUESTION_TITLE.SELECT_THE_BEST_TITLE
       default:
          return name
    }

@@ -1,11 +1,12 @@
 import { QUESTION_TYPES } from '../../utils/constants'
 import DescribeImage from './types/DescribeImage'
 import TypeWhatYouHear from './types/TypeWhatYouHear'
-import SelectRealEnglish from './types/SelectRealEnglish'
 import RecordSayingStatement from './types/RecordSayingStatement'
 import HighlightTheAnswer from './types/HighlightTheAnswer'
 import RespondInAtLeastNWords from './types/RespondInAtLeastNWords'
 import SelectTheMainIdea from './types/SelectTheMainIdea'
+import SelectRealEnglish from './types/SelectRealEnglish'
+import SelectTheBestTitle from './types/SelectTheBestTitle'
 
 const TypeTest = (props) => {
    switch (props.selectType) {
@@ -29,6 +30,9 @@ const TypeTest = (props) => {
 
       case QUESTION_TYPES.SELECT_MAIN_IDEA:
          return <SelectTheMainIdea {...props} />
+
+      case QUESTION_TYPES.SELECT_THE_BEST_TITLE:
+         return <SelectTheBestTitle {...props} />
       default:
          return <div />
    }

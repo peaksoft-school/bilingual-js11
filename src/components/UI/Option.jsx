@@ -11,42 +11,50 @@ const Option = ({
    setOptionId,
    index,
    isRadio,
+   setSelectedOptionId,
+   selectedOptionId,
 }) => {
-   const [isChecked, setIsChecked] = useState(option.isTrueOption)
+   const { id, optionTitle, isTrueOption } = option
+
+   const [isChecked, setIsChecked] = useState(isTrueOption)
+
+   const handleChangeRadio = () => {
+      setSelectedOptionId(id)
+
+      handleChecked(id)
+   }
 
    const handleChange = () => {
       setIsChecked((prev) => !prev)
 
-      handleChecked(option.id, !isChecked)
+      handleChecked(id, !isChecked)
    }
 
-   const handleOpen = (id) => {
+   const handleOpen = () => {
       openModal((prev) => !prev)
 
       setOptionId(id)
    }
 
    return (
-      <StyledContainer key={option.id}>
+      <StyledContainer>
          <Box className="content">
             <Typography>{index + 1}</Typography>
 
-            <Typography className="title-option">
-               {option.optionTitle}
-            </Typography>
+            <Typography className="title-option">{optionTitle}</Typography>
          </Box>
 
          <Box className="actions">
             {isRadio ? (
-               <Radio onClick={handleChange} checked={isChecked} />
+               <Radio
+                  onClick={handleChangeRadio}
+                  checked={id === selectedOptionId}
+               />
             ) : (
                <Checkbox onClick={handleChange} checked={isChecked} />
             )}
 
-            <TrashIcon
-               className="trash"
-               onClick={() => handleOpen(option.id)}
-            />
+            <TrashIcon className="trash" onClick={handleOpen} />
          </Box>
       </StyledContainer>
    )
