@@ -110,9 +110,9 @@ const StyledCellTr = styled(TableRow)(({ theme }) => ({
 
 const StyledCellTd = styled(TableCell)(({ row }) => ({
    height: '4.125rem',
-   padding: '1.5rem 0',
    color: ' #4C4859',
    borderBottom: 'none',
+   textAlign: 'left',
 
    '&:first-of-type': {
       paddingLeft: '1rem',
@@ -125,6 +125,7 @@ const StyledCellTd = styled(TableCell)(({ row }) => ({
 }))
 
 const StyledCellTh = styled(TableCell)(() => ({
-   fontWeight: '500',
+   fontWeight: '600',
    borderBottom: 'none',
+   textAlign: 'left',
 }))
