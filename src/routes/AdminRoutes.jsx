@@ -1,3 +1,4 @@
+import { Navigate } from 'react-router'
 import { ROUTES } from './routes'
 import AdminResults from '../pages/admin/results/AdminResults'
 import CreateTest from '../pages/admin/create-test/CreateTest'
@@ -8,6 +9,10 @@ import Question from '../pages/admin/questions/Question'
 export const ADMIN_ROUTES = [
    {
       path: `${ROUTES.ADMIN.index}`,
+      element: <Navigate to="tests" />,
+   },
+   {
+      path: `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.tests}`,
       element: <AdminTests />,
    },
 

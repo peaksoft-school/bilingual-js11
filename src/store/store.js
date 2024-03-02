@@ -4,6 +4,7 @@ import { persistStore, persistReducer } from 'redux-persist'
 import { authSlice } from './slice/auth/authSlice'
 import { testsSlice } from './slice/admin/tests/testsSlice'
 import { questionsSlice } from './slice/admin/questions/questionsSlice'
+import { resultsSlice } from './slice/user/results/resultsSlice'
 import questionSlice from './slice/admin/question/questionSlice'
 
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
    [testsSlice.name]: testsSlice.reducer,
    [questionsSlice.name]: questionsSlice.reducer,
    [questionSlice.name]: questionSlice.reducer,
+   [resultsSlice.name]: resultsSlice.reducer,
 })
 
 const persistConfig = {
