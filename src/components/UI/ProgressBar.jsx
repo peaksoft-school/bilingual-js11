@@ -46,7 +46,7 @@ const StyledContainer = styled(Box)(() => ({
 }))
 
 const DurationLine = styled('progress')(({ theme }) => ({
-   height: '0.5rem',
+   height: '1rem',
    width: '100%',
    accentColor: theme.palette.primary.main,
 }))

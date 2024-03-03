@@ -1,3 +1,12 @@
-const UserTests = () => <h1 style={{ margin: '10rem' }}>User Tests</h1>
+import TestContainer from '../../../components/UI/TestContainer'
+import Test from '../Test'
+
+const UserTests = () => {
+   return (
+      <TestContainer>
+         <Test />
+      </TestContainer>
+   )
+}
 
 export default UserTests
