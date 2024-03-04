@@ -38,7 +38,7 @@ const COLUMNS = [
       Header: ' ',
       accessor: 'action',
 
-      Cell: ({ row }) => <DeleteResults resultId={row.original.id} row={row} />,
+      Cell: ({ row }) => <DeleteResults answerId={row.original.answerId} />,
    },
 ]
 

@@ -1,20 +1,27 @@
 import { Navigate } from 'react-router'
-import Results from '../pages/user/results/Results'
-import UserTests from '../pages/user/tests/UserTests'
 import { ROUTES } from './routes'
+import Results from '../pages/user/results/Results'
+import TestsList from '../pages/user/tests/TestsList'
+import InnerTest from '../components/user/tests/InnerTest'
 
 export const USER_ROUTES = [
    {
       path: `${ROUTES.USER.index}`,
-      element: <Navigate to="tests" />,
-   },
-   {
-      path: `${ROUTES.USER.tests}`,
-      element: <UserTests />,
+      element: <Navigate to={`${ROUTES.USER.tests}`} />,
    },
 
    {
-      path: `${ROUTES.USER.results}`,
+      path: `${ROUTES.USER.index}/${ROUTES.USER.tests}`,
+      element: <TestsList />,
+   },
+
+   {
+      path: `${ROUTES.USER.index}/${ROUTES.USER.tests}/:${ROUTES.USER.testId}`,
+      element: <InnerTest />,
+   },
+
+   {
+      path: `${ROUTES.USER.index}/${ROUTES.USER.results}`,
       element: <Results />,
    },
 ]

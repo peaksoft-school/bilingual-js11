@@ -85,8 +85,8 @@ const Questions = () => {
                      <Typography className="title">Duration:</Typography>
 
                      <Typography>
-                        {questions && questions.duration
-                           ? questions.duration / 60
+                        {questions && questions?.duration
+                           ? questions.duration
                            : ''}
                      </Typography>
                   </Box>
@@ -103,7 +103,7 @@ const Questions = () => {
 
             <Box className="divider" />
             <StyledTable>
-               {questions && questions.question.length > 0 ? (
+               {questions && questions?.question?.length > 0 ? (
                   <>
                      <Typography>#</Typography>
                      <Typography className="name">Name</Typography>
@@ -115,8 +115,8 @@ const Questions = () => {
                ) : null}
             </StyledTable>
 
-            {questions && questions.question.length > 0 ? (
-               questions.question.map(
+            {questions && questions?.question?.length > 0 ? (
+               questions.question?.map(
                   ({ id, title, duration, questionType, enable }, index) => (
                      <StyledBox key={id}>
                         <Typography className="numbering-props">
@@ -126,7 +126,7 @@ const Questions = () => {
                         <Typography className="name-props">{title}</Typography>
 
                         <Typography className="duration-props">
-                           {duration / 60} s
+                           {duration} s
                         </Typography>
 
                         <Typography className="question-type-props">
@@ -219,7 +219,7 @@ const StyledContainer = styled(Box)(() => ({
          fontFamily: 'Poppins',
          fontSize: '1rem',
          overflow: 'hidden',
-         maxWidth: '20rem',
+         maxWidth: '40rem',
          textOverflow: 'ellipsis',
 
          '& > .title': {

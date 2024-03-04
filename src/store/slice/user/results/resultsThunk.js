@@ -19,10 +19,10 @@ const getResults = createAsyncThunk(
 const deleteResults = createAsyncThunk(
    'myResultsSlice/deleteResults',
 
-   async (resultId, { rejectWithValue }) => {
+   async ({ answerId }, { rejectWithValue, dispatch }) => {
       try {
          const response = await axiosInstance.delete(
-            `/api/result?resultId=${resultId}`
+            `/api/answer?deleteById=${answerId}`
          )
 
          showNotification({
@@ -30,6 +30,8 @@ const deleteResults = createAsyncThunk(
             message: 'Test successfully deleted',
             type: 'success',
          })
+
+         dispatch(getResults())
 
          return response.data
       } catch (error) {
