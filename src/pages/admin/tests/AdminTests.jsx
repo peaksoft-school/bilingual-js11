@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router-dom'
 import { Box, styled } from '@mui/material'
 import { PlusIcon } from '../../../assets/icons'
 import { ROUTES } from '../../../routes/routes'
-import Button from '../../../components/UI/buttons/Button'
-import TestList from '../../../components/admin/tests/TestList'
 import TestContainer from '../../../components/UI/TestContainer'
+import TestList from '../../../components/admin/tests/TestList'
+import Button from '../../../components/UI/buttons/Button'
 
 const AdminTests = () => {
    const navigate = useNavigate()
@@ -17,7 +17,7 @@ const AdminTests = () => {
          <TestContainer>
             <Button
                className="button"
-               icon={<PlusIcon className="plus-icon" />}
+               icon={<PlusIcon className="plus" />}
                onClick={handleNavigate}
             >
                ADD NEW TEST
@@ -36,7 +36,7 @@ const StyledContainer = styled(Box)(() => ({
       marginLeft: '44.3rem',
       width: '12rem',
 
-      '& .plus-icon': {
+      '& > span > .plus': {
          width: '0.9rem',
          height: '0.9rem',
          margin: '0.6rem',

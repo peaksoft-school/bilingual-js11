@@ -9,7 +9,12 @@ const initialState = {
    attempts: 0,
    correctAnswer: '',
    fileUrl: '',
-   options: [],
+   options: {
+      selectRealEnglishWordsOptions: [],
+      listenAndSelectOptions: [],
+      selectTheMainIdea: [],
+      selectTheBestTitle: [],
+   },
    isLoading: false,
 }
 
@@ -18,32 +23,98 @@ const questionSlice = createSlice({
    initialState,
 
    reducers: {
-      addOption: (state, { payload }) => {
-         state.options = [...state.options, payload]
+      addOptionCheck: (state, { payload }) => {
+         state.options[payload.optionName].push(payload.option)
+      },
+
+      addOptionRadio: (state, { payload }) => {
+         const isFirstOption = state.options[payload.optionName]?.length === 0
+
+         const newOption = {
+            ...payload.option,
+            isCorrectOption: isFirstOption,
+         }
+
+         state.options[payload.optionName] = [
+            ...state.options[payload.optionName],
+            newOption,
+         ]
+
+         state.options[payload.optionName] = state.options[
+            payload.optionName
+         ].map((option) => {
+            if (payload.option.isCorrectOption) {
+               if (payload.option.id === option.id) {
+                  return {
+                     ...option,
+                     isCorrectOption: payload.option.isCorrectOption,
+                  }
+               }
+
+               return {
+                  ...option,
+                  isCorrectOption: false,
+               }
+            }
+
+            return option
+         })
+      },
+
+      handleIsChecked: (state, { payload }) => {
+         state.options[payload.optionName] = state.options[
+            payload.optionName
+         ].map((option) => {
+            return {
+               ...option,
+               isCorrectOption: !option.isCorrectOption,
+            }
+         })
       },
 
       handleIsCorrect: (state, { payload }) => {
-         state.options = state.options.map((item) => {
-            if (item.id === payload) {
+         state.options[payload.optionName] = state.options[
+            payload.optionName
+         ].map((option) => {
+            if (option.id === payload) {
                return {
-                  ...item,
-                  isTrueOption: !item.isTrueOption,
+                  ...option,
+                  isCorrectOption: !option.isCorrectOption,
                }
             }
-            return item
+            return {
+               ...option,
+               isCorrectOption: false,
+            }
          })
       },
 
       deleteOption: (state, { payload }) => {
-         state.options = state.options.filter((item) => item.id !== payload)
+         return {
+            ...state,
+            options: {
+               ...state.options,
+               [payload.optionName]: state.options[payload.optionName].filter(
+                  (option) => option.id !== payload.optionId
+               ),
+            },
+         }
       },
 
       clearOptions(state) {
-         state.options = []
+         state.options = {
+            selectRealEnglishWordsOptions: [],
+            listenAndSelectOptions: [],
+            selectTheMainIdea: [],
+            selectTheBestTitle: [],
+         }
       },
 
       updateOptions: (state, { payload }) => {
-         state.options = payload
+         state.options = {
+            ...state.options,
+            [payload.optionName]: payload.options,
+         }
       },
    },
 

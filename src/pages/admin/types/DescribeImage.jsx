@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
-import { QUESTION_TITLE } from '../../../utils/constants'
+import { QUESTION_TITLES } from '../../../utils/constants'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
@@ -24,9 +24,9 @@ const DescribeImage = ({
 
    const navigate = useNavigate()
 
-   const [fileName, setFileName] = useState('')
-   const [answer, setAnswer] = useState('')
    const [image, setImage] = useState(null)
+   const [answer, setAnswer] = useState('')
+   const [fileName, setFileName] = useState('')
 
    const inputFileRef = useRef(null)
    const inputRef = useRef(null)
@@ -38,7 +38,7 @@ const DescribeImage = ({
    const handleGoBack = () => navigate(-1)
 
    const isDisabled =
-      !selectType || !duration || !title.trim() || !image || !answer
+      !selectType || !duration || !title.trim() || !image || !answer || !fileUrl
 
    const handleFileChange = (e) => {
       const file = e.target.files[0]
@@ -67,7 +67,7 @@ const DescribeImage = ({
       ) {
          const requestData = {
             title: title.trim(),
-            duration: +duration * 60,
+            duration: +duration,
             correctAnswer: answer.trim(),
             fileUrl,
          }
@@ -78,14 +78,14 @@ const DescribeImage = ({
 
                data: {
                   testId,
-                  questionType: questionTitle(QUESTION_TITLE.DESCRIBE_IMAGE),
+                  questionType: questionTitle(QUESTION_TITLES.DESCRIBE_IMAGE),
                   navigate,
                },
 
-               setState: {
-                  selectType: setSelectType(selectType),
-                  title: setTitle(title),
-                  duration: setDuration(duration),
+               setStates: {
+                  setSelectType: setSelectType(selectType),
+                  setTitle: setTitle(title),
+                  setDuration: setDuration(duration),
                },
             })
          )
@@ -97,13 +97,13 @@ const DescribeImage = ({
          {image ? (
             <Box className="container-image">
                <Box onClick={handleClick}>
-                  <img src={image} alt="Uploaded" className="image" />
+                  <img src={image} alt="uploaded" className="image" />
                </Box>
 
                <input
                   ref={inputFileRef}
                   type="file"
-                  className="input"
+                  className="input-update"
                   accept=".jpg, .png"
                   onChange={handleFileChange}
                />
@@ -114,7 +114,7 @@ const DescribeImage = ({
             </Box>
          ) : (
             <Box className="upload">
-               <label htmlFor="fileInput" className="title">
+               <InputLabel htmlFor="fileInput" className="title">
                   Upload image
                   <input
                      id="fileInput"
@@ -124,7 +124,7 @@ const DescribeImage = ({
                      accept=".jpg, .png"
                      ref={inputRef}
                   />
-               </label>
+               </InputLabel>
             </Box>
          )}
 
@@ -144,7 +144,7 @@ const DescribeImage = ({
                disabled={isDisabled}
                onClick={onSubmit}
                isLoading={isLoading}
-               colorLoading="secondary"
+               loadingColor="secondary"
             >
                SAVE
             </Button>
@@ -159,26 +159,26 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    fontFamily: 'Arial',
    color: '#4C4859',
 
-   '& .container-image': {
+   '& > .container-image': {
       display: 'flex',
       alignItems: 'center',
       marginBottom: '1.4rem',
       marginTop: '1rem',
    },
 
-   '& .image': {
+   '& > div > div > .image': {
       width: '181.59px',
       height: '177.39px',
       borderRadius: '8px',
       cursor: 'pointer',
    },
 
-   '& .upload': {
+   '& > .upload': {
       display: 'flex',
       alignItems: 'center',
    },
 
-   '& .title': {
+   '& > div > .title': {
       border: '1px solid #D4D0D0',
       borderRadius: '8px',
       padding: '4.6rem 2rem 4.6rem 2rem',
@@ -190,24 +190,28 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       cursor: 'pointer',
    },
 
-   '& .input': {
+   '& > div > label > .input': {
       display: 'none',
    },
 
-   '& .file-name': {
+   '& > div > .input-update': {
+      display: 'none',
+   },
+
+   '& > div > .file-name': {
       marginLeft: '4rem',
       cursor: 'pointer',
    },
 
-   '& .correct-answer': {
+   '& > div > .correct-answer': {
       paddingBottom: '7px',
    },
 
-   '& .answer': {
+   '& > .answer': {
       marginBottom: '2rem',
    },
 
-   '& .buttons': {
+   '& > .buttons': {
       display: 'flex',
       gap: '1.1rem',
       marginLeft: '37.5rem',

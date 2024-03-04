@@ -2,15 +2,15 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { EditIcon, FalseIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
+import { EditIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
 import { questionTypeHandler } from '../../../utils/helpers'
 import { QUESTIONS_THUNKS } from '../../../store/slice/admin/questions/questionsThunk'
-import { NoData } from '../../../assets/images'
+import { NoDataImage } from '../../../assets/images'
 import { ROUTES } from '../../../routes/routes'
-import Modal from '../../../components/UI/Modal'
-import Button from '../../../components/UI/buttons/Button'
-import Switcher from '../../../components/UI/Switcher'
 import TestContainer from '../../../components/UI/TestContainer'
+import Switcher from '../../../components/UI/Switcher'
+import Button from '../../../components/UI/buttons/Button'
+import DeleteModal from '../../../components/UI/modals/DeleteModal'
 
 const Questions = () => {
    const { questions } = useSelector((state) => state.questionsSlice)
@@ -23,6 +23,8 @@ const Questions = () => {
 
    const [isVisible, setIsVisible] = useState(false)
    const [selectedQuestionId, setSelectedQuestionId] = useState(null)
+
+   const handleGoBack = () => navigate('/')
 
    useEffect(() => {
       dispatch(QUESTIONS_THUNKS.getTest({ testId }))
@@ -41,7 +43,6 @@ const Questions = () => {
 
    const handleOpenModal = (questionId) => {
       setSelectedQuestionId(questionId)
-
       setIsVisible((prev) => !prev)
    }
 
@@ -55,41 +56,39 @@ const Questions = () => {
       )
    }
 
-   const handleGoBack = () => navigate('/')
-
    const handleAddQuestionsNavigate = () =>
       navigate(
          `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/${testId}/${ROUTES.ADMIN.createQuestion}`
       )
 
+   const handleDelete = questions?.question?.find(
+      (test) => test.id === selectedQuestionId
+   )?.title
+
    return (
       <StyledContainer>
          <TestContainer>
-            <Box>
-               <Box className="title-container">
-                  <Box className="text">
-                     <Typography className="title">Title:</Typography>
+            <Box className="title-container">
+               <Box className="text">
+                  <Typography className="title">Title:</Typography>
 
-                     <Typography>{questions?.title}</Typography>
-                  </Box>
+                  <Typography>{questions?.title}</Typography>
+               </Box>
 
-                  <Box className="text">
-                     <Typography className="title">
-                        Short Description:
-                     </Typography>
+               <Box className="text">
+                  <Typography className="title">Short Description:</Typography>
 
-                     <Typography>{questions?.shortDescription}</Typography>
-                  </Box>
+                  <Typography>{questions?.shortDescription}</Typography>
+               </Box>
 
-                  <Box className="text">
-                     <Typography className="title">Duration:</Typography>
+               <Box className="text">
+                  <Typography className="title">Duration:</Typography>
 
-                     <Typography>
-                        {questions && questions.duration
-                           ? questions.duration / 60
-                           : ''}
-                     </Typography>
-                  </Box>
+                  <Typography>
+                     {questions && questions?.duration
+                        ? questions.duration % 60
+                        : ''}
+                  </Typography>
                </Box>
             </Box>
 
@@ -103,7 +102,7 @@ const Questions = () => {
 
             <Box className="divider" />
             <StyledTable>
-               {questions && questions.question.length > 0 ? (
+               {questions && questions?.question?.length > 0 ? (
                   <>
                      <Typography>#</Typography>
                      <Typography className="name">Name</Typography>
@@ -115,8 +114,8 @@ const Questions = () => {
                ) : null}
             </StyledTable>
 
-            {questions && questions.question.length > 0 ? (
-               questions.question.map(
+            {questions && questions?.question?.length > 0 ? (
+               questions?.question?.map(
                   ({ id, title, duration, questionType, enable }, index) => (
                      <StyledBox key={id}>
                         <Typography className="numbering-props">
@@ -126,7 +125,7 @@ const Questions = () => {
                         <Typography className="name-props">{title}</Typography>
 
                         <Typography className="duration-props">
-                           {duration / 60} s
+                           {duration} s
                         </Typography>
 
                         <Typography className="question-type-props">
@@ -153,7 +152,7 @@ const Questions = () => {
                )
             ) : (
                <Box className="background-image">
-                  <img src={NoData} alt="no-data" />
+                  <img src={NoDataImage} alt="no-data" />
                </Box>
             )}
 
@@ -166,39 +165,20 @@ const Questions = () => {
             </Button>
          </TestContainer>
 
-         <Modal
+         <DeleteModal
             isCloseIcon
             isVisible={isVisible}
             handleIsVisible={handleOpenModal}
+            handleDelete={() => handleDeleteQuestion(selectedQuestionId)}
          >
-            <FalseIcon />
-
-            <Typography className="modal-title">Do you want delete?</Typography>
-
             <Typography className="title" variant="p">
                <Typography variant="span">Question: </Typography>
 
-               {
-                  questions.question.find(
-                     (test) => test.id === selectedQuestionId
-                  )?.title
-               }
+               {handleDelete}
             </Typography>
 
-            <Typography className="modal-message">
-               You can`t restore this file
-            </Typography>
-
-            <Box className="container-buttons">
-               <Button variant="secondary" onClick={handleOpenModal}>
-                  CANCEL
-               </Button>
-
-               <Button onClick={() => handleDeleteQuestion(selectedQuestionId)}>
-                  DELETE
-               </Button>
-            </Box>
-         </Modal>
+            <Typography className="modal-message">You can`t restore</Typography>
+         </DeleteModal>
       </StyledContainer>
    )
 }
@@ -209,7 +189,7 @@ const StyledContainer = styled(Box)(() => ({
    flexDirection: 'column',
    width: 'auto',
 
-   '& .title-container': {
+   '& > div > .title-container': {
       paddingLeft: '1rem',
       paddingTop: '0.2rem',
 
@@ -219,7 +199,7 @@ const StyledContainer = styled(Box)(() => ({
          fontFamily: 'Poppins',
          fontSize: '1rem',
          overflow: 'hidden',
-         maxWidth: '20rem',
+         maxWidth: '40rem',
          textOverflow: 'ellipsis',
 
          '& > .title': {
@@ -228,13 +208,13 @@ const StyledContainer = styled(Box)(() => ({
       },
    },
 
-   '& .button': {
+   '& > div > .button': {
       padding: '0.75rem 1.5rem 0.75rem 1rem',
       width: 'auto',
       gap: '0.5rem',
       margin: '0 1.75rem 0 40rem',
 
-      '& .plus': {
+      '& > span > .plus': {
          width: '17px',
          height: '17px',
          marginTop: '-1rem',
@@ -252,7 +232,7 @@ const StyledContainer = styled(Box)(() => ({
       },
    },
 
-   '& .go-back-button': {
+   '& > div > .go-back-button': {
       borderRadius: '0.5rem',
       fontSize: '0.875rem',
       color: '#3A10E5',
@@ -285,7 +265,7 @@ const StyledContainer = styled(Box)(() => ({
       },
    },
 
-   '& .divider': {
+   '& > div > .divider': {
       width: 'auto',
       height: '0.0625rem',
       margin: '0.5rem',
@@ -293,12 +273,12 @@ const StyledContainer = styled(Box)(() => ({
       background: '#C4C4C4',
    },
 
-   '& .background-image': {
+   '& > div > .background-image': {
       margin: 'auto',
       maxWidth: '20rem',
       maxHeight: '15rem',
 
-      '& img': {
+      '& > img': {
          width: '100%',
          height: '100%',
       },
@@ -376,21 +356,6 @@ const StyledBox = styled(Box)(() => ({
          '& > path': {
             stroke: '#F61414',
          },
-      },
-   },
-
-   '@media (max-width: 768px)': {
-      '& .name-props': {
-         display: 'none',
-      },
-      '& .duration-props': {
-         display: 'none',
-      },
-      '& .question-type-props': {
-         display: 'none',
-      },
-      '& .icons': {
-         justifyContent: 'center',
       },
    },
 }))

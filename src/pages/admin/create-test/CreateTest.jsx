@@ -4,9 +4,9 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
 import { QUESTIONS_THUNKS } from '../../../store/slice/admin/questions/questionsThunk'
 import { TESTS_THUNKS } from '../../../store/slice/admin/tests/testsThunk'
-import Input from '../../../components/UI/Input'
-import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
+import Button from '../../../components/UI/buttons/Button'
+import Input from '../../../components/UI/Input'
 
 const CreateTest = () => {
    const { questions } = useSelector((state) => state.questionsSlice)
@@ -24,8 +24,12 @@ const CreateTest = () => {
 
    const isNewTest = id === undefined || id === ''
 
+   const isDisabled =
+      testData.title.trim() !== '' && testData.shortDescription.trim() !== ''
+
    const handleInputChange = (e) => {
       const { name, value } = e.target
+
       setTestData({
          ...testData,
          [name]: value,
@@ -59,8 +63,6 @@ const CreateTest = () => {
       }
    }
 
-   const isFormValid = testData.title !== '' && testData.shortDescription !== ''
-
    return (
       <TestContainer>
          <StyledContainer>
@@ -90,7 +92,7 @@ const CreateTest = () => {
                <Button
                   variant="primary"
                   onClick={handleSave}
-                  disabled={!isFormValid}
+                  disabled={!isDisabled}
                >
                   SAVE
                </Button>

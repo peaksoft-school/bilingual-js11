@@ -1,17 +1,20 @@
 import { useRef, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
+import { Howl, Howler } from 'howler'
 import Checkbox from './Checkbox'
 import Radio from './Radio'
-import { SoundIcon, TrashIcon } from '../../assets/icons'
+import { AnimateSoundIcon, SoundIcon, TrashIcon } from '../../assets/icons'
 
 const Option = ({
+   icon,
+   index,
    option,
-   handleChecked,
+   isRadio,
    openModal,
    setOptionId,
-   index,
-   isRadio,
-   icon,
+   handleChecked,
+   selectedOptionId,
+   setSelectedOptionId,
 }) => {
    const { id, fileUrl, optionTitle, isTrueOption } = option
 
@@ -20,43 +23,60 @@ const Option = ({
 
    const audioRef = useRef(null)
 
-   const handleChange = () => {
+   const toggleRadioHandler = () => {
+      setSelectedOptionId(id)
+
+      handleChecked(id)
+   }
+
+   const toggleOptionHandler = () => {
       setIsChecked((prev) => !prev)
 
       handleChecked(id, !isChecked)
    }
 
-   const handleOpen = (id) => {
+   const deleteHandler = () => {
       openModal((prev) => !prev)
 
       setOptionId(id)
    }
 
-   const handleToggle = () => {
-      const audio = audioRef.current
+   const stopSound = () => {
+      Howler.stop()
+      setIsPlaying(false)
+   }
 
-      if (audio.paused) {
-         audio.play().catch((error) => {
-            console.error(error)
-         })
-      } else {
-         audio.pause()
+   const toggleHandlerSound = () => {
+      if (!isPlaying) {
+         stopSound()
       }
 
-      setIsPlaying(!isPlaying)
+      const sound = new Howl({
+         src: fileUrl,
+         html5: true,
+         onend: () => setIsPlaying(false),
+         onstop: () => setIsPlaying(false),
+         onplay: () => setIsPlaying(true),
+      })
+      sound.play()
+
+      setIsPlaying(true)
    }
 
    return (
-      <StyledContainer key={id}>
+      <StyledContainer>
          <Box className="content">
             <Typography>{index + 1}</Typography>
 
-            {icon && (
-               <SoundIcon
-                  onClick={handleToggle}
-                  className={`play-pause ${isPlaying ? 'playing' : ''}`}
-               />
-            )}
+            {icon &&
+               (isPlaying ? (
+                  <AnimateSoundIcon
+                     onClick={stopSound}
+                     className="animation-sound"
+                  />
+               ) : (
+                  <SoundIcon onClick={toggleHandlerSound} className="sound" />
+               ))}
 
             <audio
                ref={audioRef}
@@ -67,18 +87,21 @@ const Option = ({
             >
                <track src="captions.vtt" kind="captions" label="English" />
             </audio>
-
-            <Typography className="title-option">{optionTitle}</Typography>
          </Box>
+
+         <Typography className="title-option">{optionTitle}</Typography>
 
          <Box className="actions">
             {isRadio ? (
-               <Radio onClick={handleChange} checked={isChecked} />
+               <Radio
+                  onClick={toggleRadioHandler}
+                  checked={id === selectedOptionId}
+               />
             ) : (
-               <Checkbox onClick={handleChange} checked={isChecked} />
+               <Checkbox onClick={toggleOptionHandler} checked={isChecked} />
             )}
 
-            <TrashIcon className="trash" onClick={() => handleOpen(id)} />
+            <TrashIcon className="trash" onClick={deleteHandler} />
          </Box>
       </StyledContainer>
    )
@@ -86,55 +109,58 @@ const Option = ({
 
 export default Option
 
-const StyledContainer = styled(Box)(({ theme }) => ({
-   display: 'flex',
+const StyledContainer = styled(Box)(() => ({
+   gap: '2rem',
    border: '1.8px solid #BDBDBD',
+   padding: '0.6rem 1rem 0.6rem 1rem ',
+   display: 'flex',
+   alignItems: 'center',
    borderRadius: '8px',
    justifyContent: 'flex-start',
-   alignItems: 'center',
-   gap: '2rem',
-   padding: '0.6rem 1rem 0.6rem 1rem ',
 
    '& > .content': {
-      display: 'flex',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
       gap: '0.85rem',
+      display: 'flex',
       overflow: 'hidden',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
 
-      '& .title-option': {
-         textOverflow: 'ellipsis',
+      '& > .title-option': {
          overflow: 'hidden',
+         textOverflow: 'ellipsis',
       },
 
-      '& .audio': {
+      '& > .audio': {
          display: 'none',
+      },
+
+      '& > .sound': {
+         cursor: 'pointer',
+      },
+
+      '& > .animation-sound': {
+         cursor: 'pointer',
+         marginTop: '-2px',
       },
    },
 
    '& > .actions': {
+      gap: '0.5rem',
       display: 'flex',
       alignItems: 'center',
-      gap: '0.5rem',
 
       '& > .trash': {
          cursor: 'pointer',
       },
    },
 
-   '& .trash:hover': {
+   '& > div > .trash:hover': {
       '& > path ': {
          stroke: '#F61414',
       },
    },
 
-   '& .play-pause': {
+   '& > .play-pause': {
       cursor: 'pointer',
-   },
-
-   '& .playing': {
-      '& > path': {
-         fill: theme.palette.primary.main,
-      },
    },
 }))

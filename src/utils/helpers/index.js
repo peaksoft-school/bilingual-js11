@@ -1,3 +1,5 @@
+import { QUESTION_TITLES, QUESTION_TYPES } from '../constants'
+
 const showErrorSignUp = (errors) => {
    let errorMessage = null
 
@@ -30,32 +32,32 @@ const showErrorSignIn = (errors) => {
 
 const questionTypeHandler = (type) => {
    switch (type) {
-      case 'SELECT_MAIN_IDEA':
-         return 'Select the main'
+      case QUESTION_TITLES.SELECT_MAIN_IDEA:
+         return QUESTION_TYPES.SELECT_MAIN_IDEA
 
-      case 'SELECT_THE_BEST_TITLE':
-         return 'Select the best title'
+      case QUESTION_TITLES.SELECT_THE_BEST_TITLE:
+         return QUESTION_TYPES.SELECT_THE_BEST_TITLE
 
-      case 'RECORD_SAYING':
-         return 'Record saying statement'
+      case QUESTION_TITLES.RECORD_SAYING:
+         return QUESTION_TYPES.RECORD_SAYING
 
-      case 'DESCRIBE_IMAGE':
-         return 'Describe image'
+      case QUESTION_TITLES.DESCRIBE_IMAGE:
+         return QUESTION_TYPES.DESCRIBE_IMAGE
 
-      case 'SELECT_REAL_ENGLISH_WORD':
-         return 'Select real English word'
+      case QUESTION_TITLES.SELECT_REAL_ENGLISH_WORDS:
+         return QUESTION_TYPES.SELECT_REAL_ENGLISH_WORDS
 
-      case 'LISTEN_AND_SELECT_WORD':
-         return 'Listen and select word'
+      case QUESTION_TITLES.LISTEN_AND_SELECT_WORD:
+         return QUESTION_TYPES.LISTEN_AND_SELECT_WORD
 
-      case 'TYPE_WHAT_YOU_HEAR':
-         return 'Type what you hear'
+      case QUESTION_TITLES.TYPE_WHAT_YOU_HEAR:
+         return QUESTION_TYPES.TYPE_WHAT_YOU_HEAR
 
-      case 'RESPOND_IN_AT_LEAST_N_WORDS':
-         return 'Respond in at N words'
+      case QUESTION_TITLES.RESPOND_IN_AT_LEAST_N_WORDS:
+         return QUESTION_TYPES.RESPOND_IN_AT_LEAST_N_WORDS
 
-      case 'HIGHLIGHTS_THE_ANSWER':
-         return 'Highlight the answer'
+      case QUESTION_TITLES.HIGHLIGHTS_THE_ANSWER:
+         return QUESTION_TYPES.HIGHLIGHTS_THE_ANSWER
 
       default:
          return 'Nothing'

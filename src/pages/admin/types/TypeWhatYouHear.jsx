@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { PauseIcon, PlayIcon } from '../../../assets/icons'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
-import { QUESTION_TITLE } from '../../../utils/constants'
+import { QUESTION_TITLES } from '../../../utils/constants'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
-import Input from '../../../components/UI/Input'
 import Button from '../../../components/UI/buttons/Button'
+import Input from '../../../components/UI/Input'
 
 const TypeWhatYouHear = ({
    duration,
@@ -25,10 +25,10 @@ const TypeWhatYouHear = ({
 
    const navigate = useNavigate()
 
-   const [fileName, setFileName] = useState('')
-   const [isPlaying, setIsPlaying] = useState(false)
    const [file, setFile] = useState('')
+   const [fileName, setFileName] = useState('')
    const [attempts, setAttempts] = useState(0)
+   const [isPlaying, setIsPlaying] = useState(false)
    const [correctAnswer, setCorrectAnswer] = useState('')
 
    const audioRef = useRef(null)
@@ -72,8 +72,9 @@ const TypeWhatYouHear = ({
       !duration ||
       !title.trim() ||
       !correctAnswer.trim() ||
-      !attempts.trim() ||
-      !file
+      !attempts ||
+      !file ||
+      !fileUrl
 
    const onSubmit = () => {
       if (
@@ -99,15 +100,15 @@ const TypeWhatYouHear = ({
                data: {
                   testId,
                   questionType: questionTitle(
-                     QUESTION_TITLE.TYPE_WHAT_YOU_HEAR
+                     QUESTION_TITLES.TYPE_WHAT_YOU_HEAR
                   ),
                   navigate,
                },
 
-               setState: {
-                  selectType: setSelectType(selectType),
-                  title: setTitle(title),
-                  duration: setDuration(duration),
+               setStates: {
+                  setSelectType: setSelectType(selectType),
+                  setTitle: setTitle(title),
+                  setDuration: setDuration(duration),
                },
             })
          )
@@ -198,7 +199,7 @@ const TypeWhatYouHear = ({
                onClick={onSubmit}
                disabled={isDisabled}
                isLoading={isLoading}
-               colorLoading="secondary"
+               loadingColor="secondary"
             >
                SAVE
             </Button>
@@ -223,7 +224,7 @@ const StyledContainer = styled(Box)(() => ({
          display: 'table-column',
 
          '& > .input-replays': {
-            '& .MuiOutlinedInput-root': {
+            '& > .MuiOutlinedInput-root': {
                padding: '.75rem  0.7rem .75rem 0.7rem ',
                width: '4.5rem',
                height: '2.5rem',
@@ -233,9 +234,10 @@ const StyledContainer = styled(Box)(() => ({
          },
       },
 
-      '& .MuiOutlinedInput-input[type="number"]::-webkit-inner-spin-button': {
-         display: 'none',
-      },
+      '& div > .MuiOutlinedInput-input[type="number"]::-webkit-inner-spin-button':
+         {
+            display: 'none',
+         },
 
       '& > .input-file': {
          border: 'none',
@@ -247,7 +249,7 @@ const StyledContainer = styled(Box)(() => ({
          gap: '1rem',
          alignItems: 'center',
 
-         '& .label': {
+         '& > button > .label': {
             fontFamily: 'Poppins',
             fontWeight: '600',
             cursor: 'pointer',

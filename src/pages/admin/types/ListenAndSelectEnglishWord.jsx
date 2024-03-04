@@ -1,17 +1,17 @@
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router-dom'
-import { styled, Box, Typography } from '@mui/material'
+import { styled, Box, Typography, InputLabel } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { CancelIcon, FalseIcon, PlusIcon } from '../../../assets/icons'
+import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
+import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_TITLES } from '../../../utils/constants'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
+import { PlusIcon } from '../../../assets/icons'
+import DeleteModal from '../../../components/UI/modals/DeleteModal'
+import SaveModal from '../../../components/UI/modals/SaveModal'
 import Button from '../../../components/UI/buttons/Button'
 import Option from '../../../components/UI/Option'
-import Modal from '../../../components/UI/Modal'
-import Input from '../../../components/UI/Input'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
-import { QUESTION_TITLE } from '../../../utils/constants'
 
 const ListenAndSelectEnglishWord = ({
    duration,
@@ -22,7 +22,7 @@ const ListenAndSelectEnglishWord = ({
    setSelectType,
 }) => {
    const { fileUrl, isLoading } = useSelector((state) => state.question)
-   const option = useSelector((state) => state.question.options)
+   const { options } = useSelector((state) => state.question)
 
    const { testId } = useParams()
 
@@ -30,64 +30,95 @@ const ListenAndSelectEnglishWord = ({
 
    const dispatch = useDispatch()
 
-   const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
-   const [isOpenModalSave, setIsOpenModalSave] = useState(false)
-   const [fileUploaded, setFileUploaded] = useState(false)
-   const [optionTitle, setOptionTitle] = useState('')
-   const [checkOption, setCheckOption] = useState(false)
-   const [optionId, setOptionId] = useState(null)
    const [files, setFiles] = useState([])
+   const [optionId, setOptionId] = useState(null)
+   const [isUploaded, setIsUploaded] = useState(false)
+   const [optionTitle, setOptionTitle] = useState('')
+   const [checkedOption, setCheckedOption] = useState(false)
+   const [activeOptionId, setActiveOptionId] = useState(null)
 
-   const openModalDelete = () => setIsOpenModalDelete((prevState) => !prevState)
+   const [modals, setModals] = useState({
+      delete: false,
+      save: false,
+   })
 
-   const handleTitle = (e) => setOptionTitle(e.target.value)
+   const handleOptionClick = (id) => setActiveOptionId(id)
+
+   const changeTitle = (e) => setOptionTitle(e.target.value)
 
    const handleGoBack = () => navigate(-1)
 
+   const handleDelete = options.listenAndSelectOptions?.find(
+      (option) => option.id === optionId
+   )?.optionTitle
+
    const isDisabled =
-      !selectType || !duration || !title.trim() || option.length === 0
+      !selectType ||
+      !duration ||
+      !title.trim() ||
+      options.listenAndSelectOptions.length < 2
 
    const isDisabledModal =
-      optionTitle.trim() !== '' && fileUploaded !== false && isLoading !== true
+      optionTitle.trim() !== '' &&
+      isUploaded !== false &&
+      isLoading !== true &&
+      fileUrl !== ''
 
-   const openModalSave = () => {
-      setIsOpenModalSave((prevState) => !prevState)
-      setFileUploaded(false)
+   const toggleModal = (modalName) => {
+      setModals((prevModals) => ({
+         ...prevModals,
+         [modalName]: !prevModals[modalName],
+      }))
+
       setOptionTitle('')
+      setCheckedOption(false)
    }
 
-   const fileChangeHandler = (event) => {
-      const file = event.target.files[0]
-
-      setFiles([file])
+   const fileChangeHandler = (e) => {
+      const file = e.target.files[0]
 
       if (file) {
+         setFiles([file])
+
          const reader = new FileReader()
-
          reader.readAsDataURL(file)
+
+         dispatch(QUESTION_THUNKS.saveFile(file))
+
+         setIsUploaded(true)
       }
-
-      dispatch(QUESTION_THUNKS.saveFile(file))
-
-      setFileUploaded(true)
    }
 
    const deleteOption = () => {
-      dispatch(QUESTION_ACTIONS.deleteOption(optionId))
+      dispatch(
+         QUESTION_ACTIONS.deleteOption({
+            optionId,
+            optionName: 'listenAndSelectOptions',
+         })
+      )
 
-      setIsOpenModalDelete((prevState) => !prevState)
+      toggleModal('delete')
    }
 
    const handleChecked = (id) => {
-      dispatch(QUESTION_ACTIONS.handleIsCorrect(id))
+      dispatch(
+         QUESTION_ACTIONS.handleIsCorrect({
+            id,
+            optionName: 'listenAndSelectOptions',
+         })
+      )
    }
 
    const onSubmit = () => {
       if (selectType !== '' && +duration !== 0 && title !== '') {
          const requestData = {
             title: title.trim(),
-            duration: +duration * 60,
-            option,
+            duration: +duration,
+            option: options.listenAndSelectOptions.map((option) => ({
+               optionTitle: option.optionTitle,
+               fileUrl: option.fileUrl,
+               isCorrectOption: option.isCorrectOption,
+            })),
          }
 
          dispatch(
@@ -96,15 +127,15 @@ const ListenAndSelectEnglishWord = ({
                data: {
                   testId,
                   questionType: questionTitle(
-                     QUESTION_TITLE.LISTEN_AND_SELECT_WORD
+                     QUESTION_TITLES.LISTEN_AND_SELECT_WORD
                   ),
                   navigate,
                },
 
-               setState: {
-                  selectType: setSelectType(selectType),
-                  title: setTitle(title),
-                  duration: setDuration(duration),
+               setStates: {
+                  setSelectType: setSelectType(selectType),
+                  setTitle: setTitle(title),
+                  setDuration: setDuration(duration),
                },
 
                clearOptions: QUESTION_ACTIONS,
@@ -116,41 +147,49 @@ const ListenAndSelectEnglishWord = ({
    const addOptionHandler = () => {
       const option = {
          optionTitle: optionTitle.trim(),
-         isTrueOption: checkOption,
+         isCorrectOption: checkedOption,
          id: uuidv4(),
          fileUrl,
       }
 
-      dispatch(QUESTION_ACTIONS.addOption(option))
+      dispatch(
+         QUESTION_ACTIONS.addOptionCheck({
+            option,
+            optionName: 'listenAndSelectOptions',
+         })
+      )
 
-      openModalSave()
+      toggleModal('save')
 
       setOptionTitle('')
-      setCheckOption(false)
-      setFileUploaded(false)
+      setCheckedOption(false)
+      setIsUploaded(false)
    }
 
    return (
       <StyledContainer>
          <Box className="add-button">
             <Button
-               onClick={openModalSave}
                icon={<PlusIcon className="plus" />}
+               onClick={() => toggleModal('save')}
             >
                ADD OPTIONS
             </Button>
          </Box>
 
          <Box className="cards">
-            {option.map((option, index) => (
+            {options.listenAndSelectOptions?.map((option, index) => (
                <Option
                   key={option.id}
+                  icon
                   index={index}
                   option={option}
-                  openModal={setIsOpenModalDelete}
-                  handleChecked={handleChecked}
+                  openModal={() => toggleModal('delete')}
                   setOptionId={setOptionId}
-                  icon
+                  handleChecked={handleChecked}
+                  activeOptionId={activeOptionId}
+                  setActiveOptionId={setActiveOptionId}
+                  onClick={() => handleOptionClick(option.id)}
                />
             ))}
          </Box>
@@ -165,97 +204,54 @@ const ListenAndSelectEnglishWord = ({
             </Button>
          </Box>
 
-         <Modal
+         <SaveModal
             isCloseIcon
-            handleIsVisible={openModalSave}
-            isVisible={isOpenModalSave}
+            isVisible={modals.save}
+            isLoading={isLoading}
+            optionTitle={optionTitle}
+            isDisabledModal={isDisabledModal}
+            handleIsVisible={() => toggleModal('save')}
+            addOptionHandler={addOptionHandler}
+            handleChangeTitle={changeTitle}
          >
-            <StyledModal>
-               <CancelIcon onClick={openModalSave} className="cancel" />
+            <input
+               type="file"
+               accept="audio/mp3, .wav"
+               id="filed-input"
+               onChange={fileChangeHandler}
+               className="upload-input"
+            />
 
-               <Box className="content-modal-save">
-                  <Typography className="title" variant="label">
-                     Title
-                  </Typography>
-
-                  <Input
-                     value={optionTitle}
-                     onChange={handleTitle}
-                     placeholder="Enter the title..."
-                  />
-               </Box>
-
-               <input
-                  type="file"
-                  accept="audio/mp3"
-                  id="filed-input"
-                  onChange={fileChangeHandler}
-                  className="upload-input"
-               />
-
-               <Box className="upload">
-                  <Button variant="secondary">
-                     <label
-                        htmlFor="filed-input"
-                        className="uploading-button-text"
-                     >
-                        {fileUploaded ? 'Replace' : 'Upload audio file'}
-                     </label>
+            <Box className="upload">
+               <InputLabel htmlFor="filed-input" className="text">
+                  <Button variant="secondary" component="span">
+                     {isUploaded ? 'Replace' : 'Upload audio file'}
                   </Button>
+               </InputLabel>
 
-                  {fileUploaded &&
-                     files.map(({ name }) => (
-                        <Typography key={name} className="file-name">
-                           {name}
-                        </Typography>
-                     ))}
-               </Box>
+               {isUploaded &&
+                  files.map(({ name }) => (
+                     <Typography key={name} className="file-name">
+                        {name}
+                     </Typography>
+                  ))}
+            </Box>
+         </SaveModal>
 
-               <Box className="buttons-modal-container">
-                  <Button onClick={openModalSave} variant="secondary">
-                     GO BACK
-                  </Button>
-
-                  <Button
-                     onClick={addOptionHandler}
-                     variant="primary"
-                     disabled={!isDisabledModal}
-                     isLoading={isLoading}
-                     colorLoading="secondary"
-                  >
-                     SAVE
-                  </Button>
-               </Box>
-            </StyledModal>
-         </Modal>
-
-         <Modal
+         <DeleteModal
+            isVisible={modals.delete}
             isCloseIcon
-            isVisible={isOpenModalDelete}
-            handleIsVisible={openModalDelete}
+            handleDelete={deleteOption}
+            handleIsVisible={() => toggleModal('delete')}
          >
-            <FalseIcon />
-
-            <Typography className="modal-title">
-               Do you want to delete?
-            </Typography>
-
             <Typography className="title" variant="p">
-               <Typography variant="span">Question: </Typography>
+               <Typography variant="span">Option: </Typography>
 
-               {option.find((option) => option.id === optionId)?.optionTitle}
+               {handleDelete}
             </Typography>
 
             <Typography className="modal-message">You can`t restore</Typography>
-
-            <Box className="container-buttons">
-               <Button variant="secondary" onClick={openModalDelete}>
-                  CANCEL
-               </Button>
-
-               <Button onClick={deleteOption}>DELETE</Button>
-            </Box>
-         </Modal>
+         </DeleteModal>
       </StyledContainer>
    )
 }
@@ -268,7 +264,7 @@ const StyledContainer = styled(Box)(() => ({
    '& > .add-button': {
       margin: '2rem 0 1.375rem 41rem',
 
-      '& .plus': {
+      '& > button >  span > .plus': {
          width: '1rem',
          marginBottom: '0.2rem',
          marginRight: '0.6rem',
@@ -288,73 +284,5 @@ const StyledContainer = styled(Box)(() => ({
       alignItems: 'center',
       gap: '1.1rem',
       margin: '1.5rem 0 2rem 0',
-   },
-}))
-
-const StyledModal = styled(Box)(() => ({
-   position: 'absolute',
-   backgroundColor: '#fff',
-   borderRadius: '1.25rem',
-   boxShadow: '0rem 0.25rem 2.4375rem -0.3125rem rgba(196, 196, 196, 0.6)',
-   display: 'flex',
-   justifyContent: 'center',
-   flexDirection: 'column',
-
-   '& > .cancel': {
-      cursor: 'pointer',
-      marginLeft: ' 36rem',
-      marginTop: ' 1rem',
-   },
-
-   '& > .content-modal-save': {
-      width: '32.3125rem',
-      margin: '3rem',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '1.25rem',
-
-      '& .title': {
-         width: '2.33rem',
-         height: '1.125rem',
-         fontFamily: 'Poppins',
-         fontWeight: '500',
-         display: 'flex',
-         alignItems: 'center',
-         color: '#4B4759',
-      },
-   },
-
-   '& > .upload-input': {
-      display: 'none',
-   },
-
-   '& > .upload': {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '1.5rem',
-      marginLeft: '3rem',
-      marginBottom: '4rem',
-      marginTop: '-1rem',
-
-      '& > .file-name': {
-         width: '14rem',
-      },
-
-      '& .uploading-button-text': {
-         fontFamily: 'Poppins',
-         fontWeight: 600,
-      },
-   },
-
-   '& > .buttons-modal-container': {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-      paddingRight: '1.5rem',
-      gap: '1rem',
-      backgroundColor: '#F0F1F1',
-      width: '100%',
-      height: '5rem',
-      borderRadius: '0 0 1rem 1rem',
    },
 }))

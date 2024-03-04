@@ -1,5 +1,5 @@
 import { styled, Modal as MuiModal, Box } from '@mui/material'
-import { CancelIcon } from '../../assets/icons'
+import { CancelIcon } from '../../../assets/icons'
 
 const Modal = ({
    children,
@@ -23,47 +23,47 @@ const Modal = ({
 export default Modal
 
 const StyledModal = styled(MuiModal)(() => ({
-   borderRadius: '1.25rem',
-   borderStyle: 'none',
    display: 'flex',
    alignItems: 'center',
+   borderStyle: 'none',
+   borderRadius: '1.25rem',
    justifyContent: 'center',
 
    '& > .content': {
-      backgroundColor: '#fff',
-      borderRadius: '1.25rem',
-      boxShadow: '0rem 0.25rem 2.4375rem -0.3125rem rgba(196, 196, 196, 0.6)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'column',
       width: '25.4375rem',
+      display: 'flex',
+      boxShadow: '0rem 0.25rem 2.4375rem -0.3125rem rgba(196, 196, 196, 0.6)',
       textAlign: 'center',
+      alignItems: 'center',
+      borderRadius: '1.25rem',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      backgroundColor: '#fff',
 
       '& > .log-out': {
-         padding: '3rem',
-         display: 'flex',
-         flexDirection: 'column',
          gap: '1rem',
+         display: 'flex',
+         padding: '3rem',
          alignItems: 'center',
+         flexDirection: 'column',
 
          '& > .buttons': {
-            display: 'flex',
             gap: '1.2rem',
+            display: 'flex',
          },
       },
 
       '& > .modal-title': {
-         fontWeight: 'bold',
          fontSize: '17px',
          marginTop: '2.2rem',
+         fontWeight: 'bold',
       },
 
       '& > .title': {
          maxWidth: '10rem',
-         fontFamily: 'Poppins',
          fontSize: '1rem',
          overflow: 'hidden',
+         fontFamily: 'Poppins',
          textOverflow: 'ellipsis',
 
          '& > span': {
@@ -73,32 +73,32 @@ const StyledModal = styled(MuiModal)(() => ({
       },
 
       '& > .modal-message': {
+         color: 'red',
          fontSize: '14px',
          marginBottom: '2.2rem',
-         color: 'red',
       },
 
       '& > div > .cancel-icon': {
-         marginLeft: '22rem',
-         marginTop: '1rem',
          cursor: 'pointer',
+         marginTop: '1rem',
+         marginLeft: '22rem',
       },
 
       '& > .container-buttons': {
-         display: 'flex',
          gap: '1rem',
-         justifyContent: 'center',
-         backgroundColor: '#F0F1F1',
-         height: '5rem',
          width: '25.4375rem',
+         height: '5rem',
+         display: 'flex',
          paddingTop: '1rem',
          borderRadius: '0 0 1.25rem 1.25rem',
+         justifyContent: 'center',
+         backgroundColor: '#F0F1F1',
       },
 
       '& .modal-title': {
          display: 'flex',
-         flexDirection: 'column',
          alignItems: 'flex-start',
+         flexDirection: 'column',
       },
    },
 }))

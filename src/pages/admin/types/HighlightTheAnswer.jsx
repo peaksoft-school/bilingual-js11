@@ -3,10 +3,10 @@ import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, InputLabel, TextField, Typography, styled } from '@mui/material'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
-import { QUESTION_TITLE } from '../../../utils/constants'
+import { QUESTION_TITLES } from '../../../utils/constants'
 import { questionTitle } from '../../../utils/helpers/questionTitle'
-import Input from '../../../components/UI/Input'
 import Button from '../../../components/UI/buttons/Button'
+import Input from '../../../components/UI/Input'
 
 const HighlightTheAnswer = ({
    duration,
@@ -16,6 +16,8 @@ const HighlightTheAnswer = ({
    setTitle,
    setSelectType,
 }) => {
+   const [text, setText] = useState('')
+   const [question, setQuestion] = useState('')
    const [answerValue, setAnswerValue] = useState('')
 
    const dispatch = useDispatch()
@@ -23,9 +25,6 @@ const HighlightTheAnswer = ({
    const navigate = useNavigate()
 
    const { testId } = useParams()
-
-   const [text, setText] = useState('')
-   const [question, setQuestion] = useState('')
 
    const handleQuestionChange = (e) => setQuestion(e.target.value)
 
@@ -42,7 +41,7 @@ const HighlightTheAnswer = ({
       !answerValue.trim() ||
       question.trim() === ''
 
-   const saveTestQuestion = () => {
+   const onSubmit = () => {
       if (
          selectType !== '' &&
          +duration !== 0 &&
@@ -52,7 +51,7 @@ const HighlightTheAnswer = ({
       ) {
          const requestData = {
             title: title.trim(),
-            duration: +duration * 60,
+            duration: +duration,
             statement: question.trim(),
             passage: text.trim(),
             correctAnswer: answerValue.trim(),
@@ -65,15 +64,15 @@ const HighlightTheAnswer = ({
                data: {
                   testId,
                   questionType: questionTitle(
-                     QUESTION_TITLE.HIGHLIGHTS_THE_ANSWER
+                     QUESTION_TITLES.HIGHLIGHTS_THE_ANSWER
                   ),
                   navigate,
                },
 
-               setState: {
-                  selectType: setSelectType(selectType),
-                  title: setTitle(title),
-                  duration: setDuration(duration),
+               setStates: {
+                  setSelectType: setSelectType(selectType),
+                  setTitle: setTitle(title),
+                  setDuration: setDuration(duration),
                },
             })
          )
@@ -82,14 +81,16 @@ const HighlightTheAnswer = ({
 
    return (
       <StyledContainer>
-         <Typography className="title">Questions to the Passage</Typography>
+         <Box>
+            <Typography className="title">Questions to the Passage</Typography>
 
-         <Input
-            fullWidth
-            name="question"
-            value={question}
-            onChange={handleQuestionChange}
-         />
+            <Input
+               fullWidth
+               name="question"
+               value={question}
+               onChange={handleQuestionChange}
+            />
+         </Box>
 
          <Box className="passage">
             <InputLabel className="title">Passage</InputLabel>
@@ -116,11 +117,7 @@ const HighlightTheAnswer = ({
                GO BACK
             </Button>
 
-            <Button
-               variant="primary"
-               disabled={isDisabled}
-               onClick={saveTestQuestion}
-            >
+            <Button variant="primary" disabled={isDisabled} onClick={onSubmit}>
                SAVE
             </Button>
          </Box>
@@ -133,7 +130,7 @@ export default HighlightTheAnswer
 const StyledContainer = styled(Box)(({ theme }) => ({
    width: '820px',
 
-   '& .title': {
+   '& > div > .title': {
       fontSize: '1rem',
       fontWeight: 500,
       color: '#4C4859',
@@ -145,13 +142,13 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    '& > .passage': {
       marginTop: '1.6rem',
 
-      '& .MuiOutlinedInput-root': {
+      '& > div > .MuiOutlinedInput-root': {
          borderRadius: '8px',
          fontWeight: 400,
          color: '#5b5867',
 
-         '&.Mui-focused fieldset': {
-            border: `1.53px solid ${theme.palette.primary.main}`,
+         '& > .Mui-focused fieldset': {
+            border: `1px solid ${theme.palette.primary.main}`,
          },
 
          '&:hover fieldset': {
@@ -164,7 +161,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       marginTop: '1.8rem',
       marginBottom: '2rem',
 
-      '& .highlight-text': {
+      '& > .highlight-text': {
          marginBottom: '25px',
          fontWeight: 400,
          color: '#5b5867',
@@ -176,7 +173,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       },
    },
 
-   '& .buttons': {
+   '& > .buttons': {
       display: 'flex',
       gap: '1.1rem',
       marginLeft: '37.4rem',
