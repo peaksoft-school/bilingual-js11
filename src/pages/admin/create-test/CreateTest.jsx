@@ -22,8 +22,6 @@ const CreateTest = () => {
       shortDescription: '',
    })
 
-   console.log(testData)
-
    const isNewTest = id === undefined || id === ''
 
    const handleInputChange = (e) => {

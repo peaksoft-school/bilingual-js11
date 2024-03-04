@@ -14,7 +14,7 @@ import Button from '../../../components/UI/buttons/Button'
 import Modal from '../../../components/UI/Modal'
 import Input from '../../../components/UI/Input'
 
-const SelectTheMainIdea = ({
+const SelectTheBestTitle = ({
    duration,
    setDuration,
    selectType,
@@ -85,7 +85,9 @@ const SelectTheMainIdea = ({
                requestData,
                data: {
                   testId,
-                  questionType: questionTitle(QUESTION_TITLE.SELECT_MAIN_IDEA),
+                  questionType: questionTitle(
+                     QUESTION_TITLE.SELECT_THE_BEST_TITLE
+                  ),
                   navigate,
                },
 
@@ -243,7 +245,7 @@ const SelectTheMainIdea = ({
    )
 }
 
-export default SelectTheMainIdea
+export default SelectTheBestTitle
 
 const StyledContainer = styled(Box)(({ theme }) => ({
    width: '825px',

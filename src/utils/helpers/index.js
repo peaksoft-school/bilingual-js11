@@ -46,7 +46,7 @@ const questionTypeHandler = (type) => {
          return 'Select real English word'
 
       case 'LISTEN_AND_SELECT_WORD':
-         return 'Listen and select English word'
+         return 'Listen and select word'
 
       case 'TYPE_WHAT_YOU_HEAR':
          return 'Type what you hear'
@@ -62,4 +62,22 @@ const questionTypeHandler = (type) => {
    }
 }
 
-export { showErrorSignUp, showErrorSignIn, questionTypeHandler }
+const resultsStatusHandler = (status) => {
+   switch (status) {
+      case 'NOT_EVALUATED':
+         return 'Not evaluated'
+
+      case 'EVALUATED':
+         return 'Evaluated'
+
+      default:
+         return ''
+   }
+}
+
+export {
+   showErrorSignUp,
+   showErrorSignIn,
+   questionTypeHandler,
+   resultsStatusHandler,
+}

@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { axiosInstance } from '../../../configs/axiosInstance'
+import { axiosInstance } from '../../../../configs/axiosInstance'
 
 const getAllTests = createAsyncThunk(
-   'homeSlice/getAllTests',
+   'testsListSlice/getAllTests',
 
    async (_, { rejectWithValue }) => {
       try {
@@ -15,12 +15,11 @@ const getAllTests = createAsyncThunk(
    }
 )
 const getTest = createAsyncThunk(
-   'homeSlice/getTest',
+   'testsListSlice/getTest',
 
    async (testId, { rejectWithValue }) => {
       try {
          const response = await axiosInstance.get(`/api/test?testId=${testId}`)
-         console.log(response.data, 'data')
          return response.data
       } catch (error) {
          return rejectWithValue.message
@@ -28,4 +27,4 @@ const getTest = createAsyncThunk(
    }
 )
 
-export const HOME_TEST = { getAllTests, getTest }
+export const TESTS_LIST_THUNK = { getAllTests, getTest }

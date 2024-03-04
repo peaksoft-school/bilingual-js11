@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { QUESTIONS_THUNKS } from './questionsThunk'
 
 const initialState = {
-   questions: null,
+   questions: [],
    status: '',
    error: '',
 }

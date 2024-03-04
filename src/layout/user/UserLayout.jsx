@@ -1,25 +1,18 @@
-import { useEffect } from 'react'
 import { Box, styled } from '@mui/material'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import Header from '../Header'
 
-const UserLayout = () => {
-   const navigate = useNavigate()
+const UserLayout = () => (
+   <>
+      <Header />
 
-   useEffect(() => navigate('/user/tests'), [])
-
-   return (
-      <>
-         <Header />
-
-         <StyledContainer>
-            <Box className="content">
-               <Outlet />
-            </Box>
-         </StyledContainer>
-      </>
-   )
-}
+      <StyledContainer>
+         <Box className="content">
+            <Outlet />
+         </Box>
+      </StyledContainer>
+   </>
+)
 
 export default UserLayout
 
