@@ -64,4 +64,22 @@ const questionTypeHandler = (type) => {
    }
 }
 
-export { showErrorSignUp, showErrorSignIn, questionTypeHandler }
+const resultsStatusHandler = (status) => {
+   switch (status) {
+      case 'NOT_EVALUATED':
+         return 'Not evaluated'
+
+      case 'EVALUATED':
+         return 'Evaluated'
+
+      default:
+         return ''
+   }
+}
+
+export {
+   showErrorSignUp,
+   showErrorSignIn,
+   questionTypeHandler,
+   resultsStatusHandler,
+}

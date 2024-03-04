@@ -3,7 +3,7 @@ import { Box, Typography, styled } from '@mui/material'
 import { Howl, Howler } from 'howler'
 import Checkbox from './Checkbox'
 import Radio from './Radio'
-import { AnimateSoundIcon, SoundIcon, TrashIcon } from '../../assets/icons'
+import { AnimationSoundIcon, SoundIcon, TrashIcon } from '../../assets/icons'
 
 const Option = ({
    icon,
@@ -70,7 +70,7 @@ const Option = ({
 
             {icon &&
                (isPlaying ? (
-                  <AnimateSoundIcon
+                  <AnimationSoundIcon
                      onClick={stopSound}
                      className="animation-sound"
                   />

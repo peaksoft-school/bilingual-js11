@@ -8,9 +8,9 @@ import { QUESTIONS_THUNKS } from '../../../store/slice/admin/questions/questions
 import { NoDataImage } from '../../../assets/images'
 import { ROUTES } from '../../../routes/routes'
 import TestContainer from '../../../components/UI/TestContainer'
+import DeleteModal from '../../../components/UI/modals/DeleteModal'
 import Switcher from '../../../components/UI/Switcher'
 import Button from '../../../components/UI/buttons/Button'
-import DeleteModal from '../../../components/UI/modals/DeleteModal'
 
 const Questions = () => {
    const { questions } = useSelector((state) => state.questionsSlice)
@@ -86,7 +86,7 @@ const Questions = () => {
 
                   <Typography>
                      {questions && questions?.duration
-                        ? questions.duration % 60
+                        ? questions.duration
                         : ''}
                   </Typography>
                </Box>

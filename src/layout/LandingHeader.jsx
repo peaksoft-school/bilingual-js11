@@ -12,6 +12,7 @@ const LandingHeader = () => {
    const { role } = useSelector((state) => state.auth)
 
    const dispatch = useDispatch()
+
    const navigate = useNavigate()
 
    const [isVisibleModal, setIsVisibleModal] = useState(false)
@@ -54,7 +55,7 @@ const LandingHeader = () => {
                   </>
                ) : (
                   <>
-                     <Link to="/user/tests">
+                     <Link to={`${ROUTES.USER.index}`}>
                         <Button>TESTS</Button>
                      </Link>
 

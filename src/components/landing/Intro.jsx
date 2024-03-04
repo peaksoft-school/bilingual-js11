@@ -17,6 +17,7 @@ import {
    ThirdPaperIcon,
 } from '../../assets/icons'
 import LandingButton from '../UI/buttons/LandingButton'
+import { ROUTES } from '../../routes/routes'
 
 const Intro = () => {
    const { isAuth } = useSelector((state) => state.auth)
@@ -27,9 +28,9 @@ const Intro = () => {
 
    const handleBegin = () => {
       if (isAuth) {
-         navigate('/user/tests', { replace: true })
+         navigate(`${ROUTES.USER.index}`, { replace: true })
       } else {
-         navigate('/sign-in', { replace: true })
+         navigate(`${ROUTES.SIGN_IN}`, { replace: true })
       }
    }
 

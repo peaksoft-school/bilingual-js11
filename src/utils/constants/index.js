@@ -282,81 +282,6 @@ const QUESTIONS = [
    },
 ]
 
-const FAKE_DATA = [
-   {
-      id: 1,
-      date: '11.01.2021',
-      test: 'English advanced test',
-      status: 'Not evaluated',
-      score: 0,
-   },
-   {
-      id: 2,
-      date: '21.01.2021',
-      test: 'English advanced test',
-      status: 'Not evaluated',
-      score: 0,
-   },
-   {
-      id: 3,
-      date: '21.01.2021',
-      test: 'English advanced test',
-      status: 'Evaluated',
-      score: 7,
-   },
-   {
-      id: 4,
-      date: '21.01.2021',
-      test: 'English advanced test',
-      status: 'Evaluated',
-      score: 7,
-   },
-]
-
-const COLUMNS = [
-   {
-      Header: '#',
-      accessor: 'id',
-   },
-   {
-      Header: 'Date of Submition',
-      accessor: 'date',
-   },
-   {
-      Header: 'Test name',
-      accessor: 'test',
-   },
-   {
-      Header: 'Status',
-      accessor: 'status',
-   },
-   {
-      Header: 'Score',
-      accessor: 'score',
-   },
-   {
-      Header: '',
-      accessor: 'action',
-   },
-]
-
-const TEST_DATA = [
-   {
-      id: 1,
-      title: 'Select the real Englisg word in the list...',
-      duration: '1 min',
-      questionType: 'Multiple Choice',
-      enable: false,
-   },
-   {
-      id: 2,
-      title: 'Select the real Englisg word in the list...',
-      duration: '1 min',
-      questionType: 'Essay',
-      enable: !false,
-   },
-]
-
 const CHECKBOX_IMAGE =
    "\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12 5c-.28 0-.53.11-.71.29L7 9.59l-2.29-2.3a1.003 1.003 0 00-1.42 1.42l3 3c.18.18.43.29.71.29s.53-.11.71-.29l5-5A1.003 1.003 0 0012 5z' fill='%23fff'/%3E%3C/svg%3E\""
 
@@ -448,15 +373,12 @@ const QUESTION_TITLES = {
 
 export {
    VIDEOS,
-   COLUMNS,
    OPTIONS,
    OUR_TEAM,
    PARTNERS,
    FEEDBACKS,
    CHECK_OUT,
-   FAKE_DATA,
    QUESTIONS,
-   TEST_DATA,
    CHECKBOX_IMAGE,
    SIGN_UP_INPUTS,
    QUESTION_TYPES,
