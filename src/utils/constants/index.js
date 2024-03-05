@@ -371,6 +371,13 @@ const QUESTION_TITLES = {
    RESPOND_IN_AT_LEAST_N_WORDS: 'RESPOND_IN_AT_LEAST_N_WORDS',
 }
 
+const OPTIONS_NAME = {
+   selectTheMainIdea: 'selectTheMainIdea',
+   selectTheBestTitle: 'selectTheBestTitle',
+   listenAndSelectOptions: 'listenAndSelectOptions',
+   selectRealEnglishWordsOptions: 'selectRealEnglishWordsOptions',
+}
+
 export {
    VIDEOS,
    OPTIONS,
@@ -379,6 +386,7 @@ export {
    FEEDBACKS,
    CHECK_OUT,
    QUESTIONS,
+   OPTIONS_NAME,
    CHECKBOX_IMAGE,
    SIGN_UP_INPUTS,
    QUESTION_TYPES,

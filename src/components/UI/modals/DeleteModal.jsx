@@ -2,16 +2,11 @@ import { styled, Modal, Box, Typography } from '@mui/material'
 import { CancelIcon, FalseIcon } from '../../../assets/icons'
 import Button from '../buttons/Button'
 
-const DeleteModal = ({
-   children,
-   isVisible,
-   handleDelete,
-   handleIsVisible,
-}) => (
-   <StyledModal open={isVisible} onClose={handleIsVisible}>
+const DeleteModal = ({ children, isVisible, deleteHandler, toggleModal }) => (
+   <StyledModal open={isVisible} onClose={toggleModal}>
       <Box className="content">
          <Box>
-            <CancelIcon onClick={handleIsVisible} className="cancel-icon" />
+            <CancelIcon onClick={toggleModal} className="cancel-icon" />
          </Box>
 
          <FalseIcon />
@@ -21,11 +16,11 @@ const DeleteModal = ({
          {children}
 
          <Box className="buttons-box">
-            <Button variant="secondary" onClick={handleIsVisible}>
+            <Button variant="secondary" onClick={toggleModal}>
                CANCEL
             </Button>
 
-            <Button onClick={handleDelete}>DELETE</Button>
+            <Button onClick={deleteHandler}>DELETE</Button>
          </Box>
       </Box>
    </StyledModal>

@@ -1,12 +1,11 @@
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, TextField, Typography, styled } from '@mui/material'
+import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
-import { QUESTION_TITLES } from '../../../utils/constants'
-import { questionTitle } from '../../../utils/helpers/questionTitle'
 import { PlusIcon } from '../../../assets/icons'
 import DeleteModal from '../../../components/UI/modals/DeleteModal'
 import SaveModal from '../../../components/UI/modals/SaveModal'
@@ -58,22 +57,22 @@ const SelectTheMainIdea = ({
       setCheckedOption(false)
    }
 
-   const deleteOption = () => {
+   const deleteHandler = () => {
       dispatch(
          QUESTION_ACTIONS.deleteOption({
             optionId,
-            optionName: 'selectTheMainIdea',
+            optionName: OPTIONS_NAME.selectTheMainIdea,
          })
       )
 
       toggleModal('delete')
    }
 
-   const handleChecked = (id) => {
+   const checkedHandler = (id) => {
       dispatch(
          QUESTION_ACTIONS.handleIsCorrect({
             id,
-            optionName: 'selectTheMainIdea',
+            optionName: OPTIONS_NAME.selectTheMainIdea,
          })
       )
    }
@@ -103,7 +102,7 @@ const SelectTheMainIdea = ({
                requestData,
                data: {
                   testId,
-                  questionType: questionTitle(QUESTION_TITLES.SELECT_MAIN_IDEA),
+                  questionType: QUESTION_TITLES.SELECT_MAIN_IDEA,
                   navigate,
                },
 
@@ -129,7 +128,7 @@ const SelectTheMainIdea = ({
       dispatch(
          QUESTION_ACTIONS.addOptionRadio({
             option,
-            optionName: 'selectTheMainIdea',
+            optionName: OPTIONS_NAME.selectTheMainIdea,
          })
       )
 
@@ -173,9 +172,9 @@ const SelectTheMainIdea = ({
                   index={i}
                   option={option}
                   isRadio
-                  openModal={() => toggleModal('delete')}
+                  toggleModal={() => toggleModal('delete')}
                   setOptionId={setOptionId}
-                  handleChecked={handleChecked}
+                  checkedHandler={checkedHandler}
                   selectedOptionId={selectedOptionId}
                   setSelectedOptionId={setSelectedOptionId}
                />
@@ -193,10 +192,10 @@ const SelectTheMainIdea = ({
          </Box>
 
          <DeleteModal
-            isVisible={modals.delete}
             isCloseIcon
-            handleDelete={deleteOption}
-            handleIsVisible={() => toggleModal('delete')}
+            isVisible={modals.delete}
+            toggleModal={() => toggleModal('delete')}
+            deleteHandler={deleteHandler}
          >
             <Typography className="modal-message">You can`t restore</Typography>
          </DeleteModal>
@@ -204,14 +203,14 @@ const SelectTheMainIdea = ({
          <SaveModal
             isCloseIcon
             checkbox
+            title={optionTitle}
             checked={checkedOption}
             isVisible={modals.save}
-            optionTitle={optionTitle}
-            changeCheckbox={changeCheckbox}
-            handleIsVisible={() => toggleModal('save')}
+            toggleModal={() => toggleModal('save')}
             isDisabledModal={!isDisabledModal}
             addOptionHandler={addOptionHandler}
-            handleChangeTitle={handleChangeTitle}
+            changeTitleHandler={handleChangeTitle}
+            changeCheckboxHandler={changeCheckbox}
          />
       </StyledContainer>
    )

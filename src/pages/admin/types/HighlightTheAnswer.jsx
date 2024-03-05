@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Box, InputLabel, TextField, Typography, styled } from '@mui/material'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
-import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
 
@@ -26,13 +25,13 @@ const HighlightTheAnswer = ({
 
    const { testId } = useParams()
 
-   const handleQuestionChange = (e) => setQuestion(e.target.value)
+   const changeQuestionHandler = (e) => setQuestion(e.target.value)
 
-   const handleTextChange = (e) => setText(e.target.value)
+   const changeTextHandler = (e) => setText(e.target.value)
 
-   const handleMouseUp = () => setAnswerValue(window.getSelection().toString())
+   const mouseUpHandler = () => setAnswerValue(window.getSelection().toString())
 
-   const handleGoBack = () => navigate(-1)
+   const goBackHandler = () => navigate(-1)
 
    const isDisabled =
       !selectType ||
@@ -63,9 +62,7 @@ const HighlightTheAnswer = ({
 
                data: {
                   testId,
-                  questionType: questionTitle(
-                     QUESTION_TITLES.HIGHLIGHTS_THE_ANSWER
-                  ),
+                  questionType: QUESTION_TITLES.HIGHLIGHTS_THE_ANSWER,
                   navigate,
                },
 
@@ -88,7 +85,7 @@ const HighlightTheAnswer = ({
                fullWidth
                name="question"
                value={question}
-               onChange={handleQuestionChange}
+               onChange={changeQuestionHandler}
             />
          </Box>
 
@@ -99,7 +96,7 @@ const HighlightTheAnswer = ({
                multiline
                name="text"
                value={text}
-               onChange={handleTextChange}
+               onChange={changeTextHandler}
                fullWidth
             />
          </Box>
@@ -107,13 +104,13 @@ const HighlightTheAnswer = ({
          <Box className="correct-answer">
             <Typography className="title">Highlight correct answer:</Typography>
 
-            <Typography className="highlight-text" onMouseUp={handleMouseUp}>
+            <Typography className="highlight-text" onMouseUp={mouseUpHandler}>
                {text}
             </Typography>
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={handleGoBack}>
+            <Button variant="secondary" onClick={goBackHandler}>
                GO BACK
             </Button>
 

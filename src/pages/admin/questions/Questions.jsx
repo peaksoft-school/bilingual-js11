@@ -24,13 +24,13 @@ const Questions = () => {
    const [isVisible, setIsVisible] = useState(false)
    const [selectedQuestionId, setSelectedQuestionId] = useState(null)
 
-   const handleGoBack = () => navigate('/')
+   const goBackHandler = () => navigate('/')
 
    useEffect(() => {
       dispatch(QUESTIONS_THUNKS.getTest({ testId }))
    }, [dispatch, testId])
 
-   const handleDeleteQuestion = () => {
+   const deleteQueationHandler = () => {
       dispatch(
          QUESTIONS_THUNKS.deleteQuestion({
             questionId: selectedQuestionId,
@@ -41,12 +41,12 @@ const Questions = () => {
       setIsVisible(false)
    }
 
-   const handleOpenModal = (questionId) => {
+   const toggleModal = (questionId) => {
       setSelectedQuestionId(questionId)
       setIsVisible((prev) => !prev)
    }
 
-   const handleEnable = (params) => {
+   const enableHandler = (params) => {
       dispatch(
          QUESTIONS_THUNKS.updateQuestionByEnable({
             questionId: params.id,
@@ -56,7 +56,7 @@ const Questions = () => {
       )
    }
 
-   const handleAddQuestionsNavigate = () =>
+   const navigateHandler = () =>
       navigate(
          `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/${testId}/${ROUTES.ADMIN.createQuestion}`
       )
@@ -83,19 +83,19 @@ const Questions = () => {
 
                <Box className="text">
                   <Typography className="title">Duration:</Typography>
-
                   <Typography>
                      {questions && questions?.duration
                         ? questions.duration
                         : ''}
                   </Typography>
+                  m
                </Box>
             </Box>
 
             <Button
                icon={<PlusIcon className="plus" />}
                className="button"
-               onClick={handleAddQuestionsNavigate}
+               onClick={navigateHandler}
             >
                ADD MORE QUESTIONS
             </Button>
@@ -137,14 +137,14 @@ const Questions = () => {
                               key={id}
                               className="switcher"
                               checked={enable}
-                              onChange={(value) => handleEnable({ value, id })}
+                              onChange={(value) => enableHandler({ value, id })}
                            />
 
                            <EditIcon className="edit" />
 
                            <TrashIcon
                               className="delete"
-                              onClick={() => handleOpenModal(id)}
+                              onClick={() => toggleModal(id)}
                            />
                         </Box>
                      </StyledBox>
@@ -159,7 +159,7 @@ const Questions = () => {
             <Button
                className="go-back-button"
                variant="secondary"
-               onClick={handleGoBack}
+               onClick={goBackHandler}
             >
                GO BACK
             </Button>
@@ -168,8 +168,8 @@ const Questions = () => {
          <DeleteModal
             isCloseIcon
             isVisible={isVisible}
-            handleIsVisible={handleOpenModal}
-            handleDelete={() => handleDeleteQuestion(selectedQuestionId)}
+            toggleModal={toggleModal}
+            deleteHandler={() => deleteQueationHandler(selectedQuestionId)}
          >
             <Typography className="title" variant="p">
                <Typography variant="span">Question: </Typography>
@@ -304,7 +304,6 @@ const StyledTable = styled(Box)(() => ({
 
 const StyledBox = styled(Box)(() => ({
    width: '100%',
-   height: '4.125rem',
    display: 'flex',
    backgroundColor: '#fff',
    color: '#4C4859',
@@ -324,6 +323,16 @@ const StyledBox = styled(Box)(() => ({
       width: '13rem',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
+      cursor: 'pointer',
+
+      '&:active': {
+         width: 'auto',
+         maxWidth: '13rem',
+         maxHeight: 'none',
+         overflow: 'visible',
+         whiteSpace: 'normal',
+         wordBreak: 'break-all',
+      },
    },
 
    '& > .duration-props': {
@@ -342,6 +351,7 @@ const StyledBox = styled(Box)(() => ({
    '& > .icons': {
       display: 'flex',
       justifyContent: 'flex-end',
+      alignItems: 'flex-start',
       gap: '1.4rem',
       marginLeft: 'auto',
       cursor: 'pointer',

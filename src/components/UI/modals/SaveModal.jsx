@@ -5,21 +5,21 @@ import Button from '../buttons/Button'
 import Input from '../Input'
 
 const SaveModal = ({
+   title,
    checked,
    children,
    checkbox,
    isLoading,
    isVisible,
-   optionTitle,
-   changeCheckbox,
+   toggleModal,
    isDisabledModal,
-   handleIsVisible,
    addOptionHandler,
-   handleChangeTitle,
+   changeTitleHandler,
+   changeCheckboxHandler,
 }) => (
-   <StyledContainer open={isVisible} onClose={handleIsVisible}>
+   <StyledContainer open={isVisible} onClose={toggleModal}>
       <StyledModal>
-         <CancelIcon onClick={handleIsVisible} className="cancel" />
+         <CancelIcon onClick={toggleModal} className="cancel" />
 
          <Box className="content">
             <Typography className="title" variant="label">
@@ -27,10 +27,9 @@ const SaveModal = ({
             </Typography>
 
             <Input
-               type="text"
                placeholder="Enter the title ..."
-               value={optionTitle}
-               onChange={handleChangeTitle}
+               value={title}
+               onChange={changeTitleHandler}
             />
 
             {children}
@@ -41,13 +40,16 @@ const SaveModal = ({
                      Is true option ?
                   </Typography>
 
-                  <Checkbox checked={checked} onChange={changeCheckbox} />
+                  <Checkbox
+                     checked={checked}
+                     onChange={changeCheckboxHandler}
+                  />
                </Box>
             )}
          </Box>
 
          <Box className="buttons-box">
-            <Button onClick={handleIsVisible} variant="secondary">
+            <Button onClick={toggleModal} variant="secondary">
                GO BACK
             </Button>
 

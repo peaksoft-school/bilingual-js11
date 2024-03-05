@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
-import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
 
@@ -24,9 +23,9 @@ const RecordSayingStatement = ({
 
    const { testId } = useParams()
 
-   const handleChange = (e) => setStatement(e.target.value)
+   const statementChangeHandler = (e) => setStatement(e.target.value)
 
-   const handleGoBack = () => navigate(-1)
+   const goBackHandler = () => navigate(-1)
 
    const isDisabled =
       !selectType || !duration || !title.trim() || !statement.trim()
@@ -45,7 +44,7 @@ const RecordSayingStatement = ({
 
                data: {
                   testId,
-                  questionType: questionTitle(QUESTION_TITLES.RECORD_SAYING),
+                  questionType: QUESTION_TITLES.RECORD_SAYING,
                   navigate,
                },
 
@@ -64,11 +63,15 @@ const RecordSayingStatement = ({
          <Box className="statement">
             <Typography className="text">Statement</Typography>
 
-            <Input type="text" value={statement} onChange={handleChange} />
+            <Input
+               type="text"
+               value={statement}
+               onChange={statementChangeHandler}
+            />
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={handleGoBack}>
+            <Button variant="secondary" onClick={goBackHandler}>
                GO BACK
             </Button>
 

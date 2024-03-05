@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
-import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
 
@@ -31,16 +30,16 @@ const DescribeImage = ({
    const inputFileRef = useRef(null)
    const inputRef = useRef(null)
 
-   const handleClick = () => inputFileRef.current.click()
+   const changeAnswerHandler = (e) => setAnswer(e.target.value)
 
-   const handleAnswerChange = (e) => setAnswer(e.target.value)
+   const goBackHandler = () => navigate(-1)
 
-   const handleGoBack = () => navigate(-1)
+   const clickHandler = () => inputFileRef.current.click()
 
    const isDisabled =
       !selectType || !duration || !title.trim() || !image || !answer || !fileUrl
 
-   const handleFileChange = (e) => {
+   const changeFileHandler = (e) => {
       const file = e.target.files[0]
 
       if (file) {
@@ -78,7 +77,7 @@ const DescribeImage = ({
 
                data: {
                   testId,
-                  questionType: questionTitle(QUESTION_TITLES.DESCRIBE_IMAGE),
+                  questionType: QUESTION_TITLES.DESCRIBE_IMAGE,
                   navigate,
                },
 
@@ -96,7 +95,7 @@ const DescribeImage = ({
       <StyledContainer>
          {image ? (
             <Box className="container-image">
-               <Box onClick={handleClick}>
+               <Box onClick={clickHandler}>
                   <img src={image} alt="uploaded" className="image" />
                </Box>
 
@@ -105,10 +104,10 @@ const DescribeImage = ({
                   type="file"
                   className="input-update"
                   accept=".jpg, .png"
-                  onChange={handleFileChange}
+                  onChange={changeFileHandler}
                />
 
-               <Typography className="file-name" onClick={handleClick}>
+               <Typography className="file-name" onClick={clickHandler}>
                   {fileName}
                </Typography>
             </Box>
@@ -120,7 +119,7 @@ const DescribeImage = ({
                      id="fileInput"
                      type="file"
                      className="input"
-                     onChange={handleFileChange}
+                     onChange={changeFileHandler}
                      accept=".jpg, .png"
                      ref={inputRef}
                   />
@@ -131,11 +130,11 @@ const DescribeImage = ({
          <Box className="answer">
             <InputLabel className="correct-answer">Correct answer</InputLabel>
 
-            <Input value={answer} onChange={handleAnswerChange} />
+            <Input value={answer} onChange={changeAnswerHandler} />
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={handleGoBack}>
+            <Button variant="secondary" onClick={goBackHandler}>
                GO BACK
             </Button>
 

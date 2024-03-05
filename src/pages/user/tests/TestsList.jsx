@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { TESTS_LIST_THUNK } from '../../../store/slice/user/tests/testsListThunk'
 import { ListIcon } from '../../../assets/icons'
 import { ROUTES } from '../../../routes/routes'
-import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
+import Button from '../../../components/UI/buttons/Button'
 
 const TestsList = () => {
    const { tests } = useSelector((state) => state.testsListSlice)
@@ -19,7 +19,7 @@ const TestsList = () => {
       dispatch(TESTS_LIST_THUNK.getAllTests())
    }, [dispatch])
 
-   const handleTryTest = (id) =>
+   const navigateHandler = (id) =>
       navigate(`${ROUTES.USER.index}/${ROUTES.USER.tests}/${id}`)
 
    return (
@@ -43,7 +43,7 @@ const TestsList = () => {
                      <Box className="button-conteiner">
                         <Button
                            variant="secondary"
-                           onClick={() => handleTryTest(id)}
+                           onClick={() => navigateHandler(id)}
                         >
                            TRY TEST
                         </Button>

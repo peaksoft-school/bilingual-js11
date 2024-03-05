@@ -19,19 +19,19 @@ const TestList = () => {
    const [isVisible, setIsVisible] = useState(false)
    const [selectedTestId, setSelectedTestId] = useState(null)
 
-   const handleWithStopPropagation = (e) => e.stopPropagation()
+   const stopPropagationHandler = (e) => e.stopPropagation()
 
    useEffect(() => {
       dispatch(TESTS_THUNKS.getAllTests())
    }, [dispatch])
 
-   const handleDeleteTest = (testId) => {
+   const deleteTestHandler = (testId) => {
       dispatch(TESTS_THUNKS.deleteTest(testId))
 
       setIsVisible(false)
    }
 
-   const handleIsVisible = (e, testId) => {
+   const isVisibleHandler = (e, testId) => {
       e.preventDefault()
 
       setSelectedTestId(testId)
@@ -39,7 +39,7 @@ const TestList = () => {
       setIsVisible((prev) => !prev)
    }
 
-   const handleEnable = ({ id, value }) => {
+   const enableHandler = ({ id, value }) => {
       dispatch(
          TESTS_THUNKS.updateTetsByEnable({
             testId: id,
@@ -48,7 +48,7 @@ const TestList = () => {
       )
    }
 
-   const handleEdit = (e, id) => {
+   const navigateHandler = (e, id) => {
       e.preventDefault()
 
       navigate(`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.updateTest}/${id}`)
@@ -69,21 +69,21 @@ const TestList = () => {
                      <Typography className="title">{title}</Typography>
 
                      <Box className="icons">
-                        <Box onClick={handleWithStopPropagation}>
+                        <Box onClick={stopPropagationHandler}>
                            <Switcher
                               checked={enable}
-                              onChange={(value) => handleEnable({ value, id })}
+                              onChange={(value) => enableHandler({ value, id })}
                            />
                         </Box>
 
                         <EditIcon
                            className="edit"
-                           onClick={(e) => handleEdit(e, id)}
+                           onClick={(e) => navigateHandler(e, id)}
                         />
 
                         <TrashIcon
                            className="delete"
-                           onClick={(e) => handleIsVisible(e, id)}
+                           onClick={(e) => isVisibleHandler(e, id)}
                         />
                      </Box>
                   </Box>
@@ -91,14 +91,14 @@ const TestList = () => {
             ))
          ) : (
             <Box className="background-image">
-               <img src={NoDataImage} alt="search" />
+               <img src={NoDataImage} alt="no-data" />
             </Box>
          )}
 
          <DeleteModal
             isVisible={isVisible}
-            handleIsVisible={handleIsVisible}
-            handleDelete={() => handleDeleteTest(selectedTestId)}
+            toggleModal={isVisibleHandler}
+            deleteHandler={() => deleteTestHandler(selectedTestId)}
          >
             <Typography className="title">
                <Typography variant="span">Test: </Typography>

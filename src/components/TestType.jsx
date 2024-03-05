@@ -9,7 +9,7 @@ import RecordSayingStatement from '../pages/admin/types/RecordSayingStatement'
 import RespondInAtLeastNWords from '../pages/admin/types/RespondInAtLeastNWords'
 import ListenAndSelectEnglishWord from '../pages/admin/types/ListenAndSelectEnglishWord'
 
-const TesType = (props) => {
+const TestType = (props) => {
    switch (props.selectType) {
       case QUESTION_TYPES.SELECT_REAL_ENGLISH_WORDS:
          return <SelectRealEnglish {...props} />
@@ -42,4 +42,4 @@ const TesType = (props) => {
    }
 }
 
-export default TesType
+export default TestType

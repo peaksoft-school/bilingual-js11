@@ -4,7 +4,6 @@ import { InputLabel, styled, Box } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
-import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
 
@@ -27,9 +26,9 @@ const RespondInAtLeastNWords = ({
    const [attempts, setAttempts] = useState(0)
    const [statement, setStatement] = useState('')
 
-   const handleStatementChange = (e) => setStatement(e.target.value)
+   const statementChangeHandler = (e) => setStatement(e.target.value)
 
-   const handleAttemptsChange = (e) => setAttempts(e.target.value)
+   const attemptsChangeHandler = (e) => setAttempts(e.target.value)
 
    const isDisabled =
       !selectType ||
@@ -59,9 +58,7 @@ const RespondInAtLeastNWords = ({
 
                data: {
                   testId,
-                  questionType: questionTitle(
-                     QUESTION_TITLES.RESPOND_IN_AT_LEAST_N_WORDS
-                  ),
+                  questionType: QUESTION_TITLES.RESPOND_IN_AT_LEAST_N_WORDS,
                   navigate,
                },
 
@@ -80,7 +77,7 @@ const RespondInAtLeastNWords = ({
          <Box>
             <InputLabel>Question statement</InputLabel>
 
-            <Input value={statement} onChange={handleStatementChange} />
+            <Input value={statement} onChange={statementChangeHandler} />
          </Box>
 
          <Box>
@@ -93,7 +90,7 @@ const RespondInAtLeastNWords = ({
                className="input-number"
                type="number"
                value={attempts}
-               onChange={handleAttemptsChange}
+               onChange={attemptsChangeHandler}
                inputProps={{ min: 0, max: 15 }}
             />
          </Box>

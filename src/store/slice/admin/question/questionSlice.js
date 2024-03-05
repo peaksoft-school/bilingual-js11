@@ -65,9 +65,12 @@ const questionSlice = createSlice({
          state.options[payload.optionName] = state.options[
             payload.optionName
          ].map((option) => {
+            if (option.id === payload.id) {
+               return { ...option, isCorrectOption: !option.isCorrectOption }
+            }
             return {
                ...option,
-               isCorrectOption: !option.isCorrectOption,
+               isCorrectOption: option.isCorrectOption,
             }
          })
       },
@@ -76,7 +79,7 @@ const questionSlice = createSlice({
          state.options[payload.optionName] = state.options[
             payload.optionName
          ].map((option) => {
-            if (option.id === payload) {
+            if (option.id === payload.id) {
                return {
                   ...option,
                   isCorrectOption: !option.isCorrectOption,

@@ -94,11 +94,5 @@ const StyledModal = styled(MuiModal)(() => ({
          justifyContent: 'center',
          backgroundColor: '#F0F1F1',
       },
-
-      '& .modal-title': {
-         display: 'flex',
-         alignItems: 'flex-start',
-         flexDirection: 'column',
-      },
    },
 }))

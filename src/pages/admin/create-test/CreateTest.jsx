@@ -27,7 +27,7 @@ const CreateTest = () => {
    const isDisabled =
       testData.title.trim() !== '' && testData.shortDescription.trim() !== ''
 
-   const handleInputChange = (e) => {
+   const formChangeHandler = (e) => {
       const { name, value } = e.target
 
       setTestData({
@@ -51,7 +51,7 @@ const CreateTest = () => {
       }
    }, [isNewTest, questions, id])
 
-   const handleSave = () => {
+   const saveHandler = () => {
       const testToSave = { ...testData }
 
       if (isNewTest) {
@@ -72,7 +72,7 @@ const CreateTest = () => {
                className="input"
                name="title"
                value={testData.title}
-               onChange={handleInputChange}
+               onChange={formChangeHandler}
             />
 
             <Typography className="label">Short Description</Typography>
@@ -81,7 +81,7 @@ const CreateTest = () => {
                className="input"
                name="shortDescription"
                value={testData.shortDescription}
-               onChange={handleInputChange}
+               onChange={formChangeHandler}
             />
 
             <Box className="container-buttons">
@@ -91,7 +91,7 @@ const CreateTest = () => {
 
                <Button
                   variant="primary"
-                  onClick={handleSave}
+                  onClick={saveHandler}
                   disabled={!isDisabled}
                >
                   SAVE

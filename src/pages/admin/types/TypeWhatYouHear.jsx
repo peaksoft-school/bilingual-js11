@@ -5,7 +5,6 @@ import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { PauseIcon, PlayIcon } from '../../../assets/icons'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
-import { questionTitle } from '../../../utils/helpers/questionTitle'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
 
@@ -33,13 +32,13 @@ const TypeWhatYouHear = ({
 
    const audioRef = useRef(null)
 
-   const handleAttemptsChange = (e) => setAttempts(e.target.value)
+   const goBackHandler = () => navigate(-1)
 
-   const handleCorrectAnswerChange = (e) => setCorrectAnswer(e.target.value)
+   const attemptsChangeHandler = (e) => setAttempts(e.target.value)
 
-   const hadleGoBack = () => navigate(-1)
+   const correctAnswerChangeHandler = (e) => setCorrectAnswer(e.target.value)
 
-   const handleToggle = () => {
+   const toggleHandler = () => {
       if (isPlaying) {
          audioRef.current.pause()
       } else {
@@ -48,7 +47,7 @@ const TypeWhatYouHear = ({
       setIsPlaying(!isPlaying)
    }
 
-   const handleFileChange = (e) => {
+   const changeFileHandler = (e) => {
       const file = e.target.files[0]
 
       if (file) {
@@ -99,9 +98,7 @@ const TypeWhatYouHear = ({
 
                data: {
                   testId,
-                  questionType: questionTitle(
-                     QUESTION_TITLES.TYPE_WHAT_YOU_HEAR
-                  ),
+                  questionType: QUESTION_TITLES.TYPE_WHAT_YOU_HEAR,
                   navigate,
                },
 
@@ -130,39 +127,36 @@ const TypeWhatYouHear = ({
                   name="attempts"
                   inputProps={{ min: 0, max: 15 }}
                   value={attempts}
-                  onChange={handleAttemptsChange}
+                  onChange={attemptsChangeHandler}
                />
             </Box>
 
             <Box className="file">
-               <Button type="button">
-                  <InputLabel htmlFor="filedInput" className="label">
+               <InputLabel htmlFor="filedInput" className="label">
+                  <Button type="button" component="span">
                      {file ? 'REPLACE' : 'UPPLOAD'}
-                  </InputLabel>
-               </Button>
+                  </Button>
+               </InputLabel>
 
                <input
                   type="file"
                   id="filedInput"
                   name="fileUrl"
                   accept="audio/mp3"
-                  onChange={handleFileChange}
+                  onChange={changeFileHandler}
                />
-
                {file && (
                   <button
                      type="button"
-                     onClick={handleToggle}
+                     onClick={toggleHandler}
                      className="playing"
                   >
                      {isPlaying ? <PlayIcon /> : <PauseIcon />}
                   </button>
                )}
-
                <Typography variant="span" className="file-name">
                   {fileName}
                </Typography>
-
                <audio
                   className="audio"
                   ref={audioRef}
@@ -185,12 +179,12 @@ const TypeWhatYouHear = ({
                type="text"
                name="correctAnswer"
                value={correctAnswer}
-               onChange={handleCorrectAnswerChange}
+               onChange={correctAnswerChangeHandler}
             />
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={hadleGoBack}>
+            <Button variant="secondary" onClick={goBackHandler}>
                GO BACK
             </Button>
 

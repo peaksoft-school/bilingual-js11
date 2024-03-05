@@ -10,15 +10,15 @@ const Option = ({
    index,
    option,
    isRadio,
-   openModal,
+   toggleModal,
    setOptionId,
-   handleChecked,
+   checkedHandler,
    selectedOptionId,
    setSelectedOptionId,
 }) => {
-   const { id, fileUrl, optionTitle, isTrueOption } = option
+   const { id, fileUrl, optionTitle: title, isCorrectOption } = option
 
-   const [isChecked, setIsChecked] = useState(isTrueOption)
+   const [isChecked, setIsChecked] = useState(isCorrectOption)
    const [isPlaying, setIsPlaying] = useState(false)
 
    const audioRef = useRef(null)
@@ -26,29 +26,23 @@ const Option = ({
    const toggleRadioHandler = () => {
       setSelectedOptionId(id)
 
-      handleChecked(id)
+      checkedHandler(id)
    }
 
-   const toggleOptionHandler = () => {
+   const toggleCheckedHandler = () => {
       setIsChecked((prev) => !prev)
 
-      handleChecked(id, !isChecked)
+      checkedHandler(id)
    }
 
-   const deleteHandler = () => {
-      openModal((prev) => !prev)
-
-      setOptionId(id)
-   }
-
-   const stopSound = () => {
+   const stopSoundHandler = () => {
       Howler.stop()
       setIsPlaying(false)
    }
 
-   const toggleHandlerSound = () => {
+   const startSoundHandler = () => {
       if (!isPlaying) {
-         stopSound()
+         stopSoundHandler()
       }
 
       const sound = new Howl({
@@ -63,19 +57,27 @@ const Option = ({
       setIsPlaying(true)
    }
 
+   const deleteHandler = () => {
+      toggleModal((prev) => !prev)
+
+      setOptionId(id)
+
+      stopSoundHandler()
+   }
+
    return (
-      <StyledContainer>
+      <StyledContainer className="option">
          <Box className="content">
             <Typography>{index + 1}</Typography>
 
             {icon &&
                (isPlaying ? (
                   <AnimationSoundIcon
-                     onClick={stopSound}
+                     onClick={stopSoundHandler}
                      className="animation-sound"
                   />
                ) : (
-                  <SoundIcon onClick={toggleHandlerSound} className="sound" />
+                  <SoundIcon onClick={startSoundHandler} className="sound" />
                ))}
 
             <audio
@@ -89,7 +91,7 @@ const Option = ({
             </audio>
          </Box>
 
-         <Typography className="title-option">{optionTitle}</Typography>
+         <Typography className="title-option">{title}</Typography>
 
          <Box className="actions">
             {isRadio ? (
@@ -98,7 +100,7 @@ const Option = ({
                   checked={id === selectedOptionId}
                />
             ) : (
-               <Checkbox onClick={toggleOptionHandler} checked={isChecked} />
+               <Checkbox onClick={toggleCheckedHandler} checked={isChecked} />
             )}
 
             <TrashIcon className="trash" onClick={deleteHandler} />
@@ -117,11 +119,12 @@ const StyledContainer = styled(Box)(() => ({
    alignItems: 'center',
    borderRadius: '8px',
    justifyContent: 'flex-start',
+   overflow: 'hidden',
+   textOverflow: 'ellipsis',
 
    '& > .content': {
       gap: '0.85rem',
       display: 'flex',
-      overflow: 'hidden',
       alignItems: 'center',
       justifyContent: 'flex-start',
 

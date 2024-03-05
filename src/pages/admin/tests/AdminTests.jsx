@@ -9,7 +9,7 @@ import Button from '../../../components/UI/buttons/Button'
 const AdminTests = () => {
    const navigate = useNavigate()
 
-   const handleNavigate = () =>
+   const navigateHandler = () =>
       navigate(`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.createTest}`)
 
    return (
@@ -18,7 +18,7 @@ const AdminTests = () => {
             <Button
                className="button"
                icon={<PlusIcon className="plus" />}
-               onClick={handleNavigate}
+               onClick={navigateHandler}
             >
                ADD NEW TEST
             </Button>

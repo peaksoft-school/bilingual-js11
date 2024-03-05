@@ -1,12 +1,11 @@
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router-dom'
-import { styled, Box, Typography, InputLabel } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
+import { styled, Box, Typography, InputLabel } from '@mui/material'
+import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
-import { QUESTION_TITLES } from '../../../utils/constants'
-import { questionTitle } from '../../../utils/helpers/questionTitle'
 import { PlusIcon } from '../../../assets/icons'
 import DeleteModal from '../../../components/UI/modals/DeleteModal'
 import SaveModal from '../../../components/UI/modals/SaveModal'
@@ -42,13 +41,13 @@ const ListenAndSelectEnglishWord = ({
       save: false,
    })
 
-   const handleOptionClick = (id) => setActiveOptionId(id)
+   const optionClickHandler = (id) => setActiveOptionId(id)
 
-   const changeTitle = (e) => setOptionTitle(e.target.value)
+   const changeTitleHandler = (e) => setOptionTitle(e.target.value)
 
-   const handleGoBack = () => navigate(-1)
+   const goBackHandler = () => navigate(-1)
 
-   const handleDelete = options.listenAndSelectOptions?.find(
+   const deleteOption = options.listenAndSelectOptions?.find(
       (option) => option.id === optionId
    )?.optionTitle
 
@@ -89,22 +88,22 @@ const ListenAndSelectEnglishWord = ({
       }
    }
 
-   const deleteOption = () => {
+   const deleteHandler = () => {
       dispatch(
          QUESTION_ACTIONS.deleteOption({
             optionId,
-            optionName: 'listenAndSelectOptions',
+            optionName: OPTIONS_NAME.listenAndSelectOptions,
          })
       )
 
       toggleModal('delete')
    }
 
-   const handleChecked = (id) => {
+   const checkedHandler = (id) => {
       dispatch(
          QUESTION_ACTIONS.handleIsCorrect({
             id,
-            optionName: 'listenAndSelectOptions',
+            optionName: OPTIONS_NAME.listenAndSelectOptions,
          })
       )
    }
@@ -126,9 +125,7 @@ const ListenAndSelectEnglishWord = ({
                requestData,
                data: {
                   testId,
-                  questionType: questionTitle(
-                     QUESTION_TITLES.LISTEN_AND_SELECT_WORD
-                  ),
+                  questionType: QUESTION_TITLES.LISTEN_AND_SELECT_WORD,
                   navigate,
                },
 
@@ -155,7 +152,7 @@ const ListenAndSelectEnglishWord = ({
       dispatch(
          QUESTION_ACTIONS.addOptionCheck({
             option,
-            optionName: 'listenAndSelectOptions',
+            optionName: OPTIONS_NAME.listenAndSelectOptions,
          })
       )
 
@@ -184,18 +181,18 @@ const ListenAndSelectEnglishWord = ({
                   icon
                   index={index}
                   option={option}
-                  openModal={() => toggleModal('delete')}
+                  toggleModal={() => toggleModal('delete')}
                   setOptionId={setOptionId}
-                  handleChecked={handleChecked}
+                  checkedHandler={checkedHandler}
                   activeOptionId={activeOptionId}
                   setActiveOptionId={setActiveOptionId}
-                  onClick={() => handleOptionClick(option.id)}
+                  onClick={() => optionClickHandler(option.id)}
                />
             ))}
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={handleGoBack}>
+            <Button variant="secondary" onClick={goBackHandler}>
                GO BACK
             </Button>
 
@@ -206,13 +203,13 @@ const ListenAndSelectEnglishWord = ({
 
          <SaveModal
             isCloseIcon
+            title={optionTitle}
             isVisible={modals.save}
             isLoading={isLoading}
-            optionTitle={optionTitle}
+            toggleModal={() => toggleModal('save')}
             isDisabledModal={isDisabledModal}
-            handleIsVisible={() => toggleModal('save')}
             addOptionHandler={addOptionHandler}
-            handleChangeTitle={changeTitle}
+            changeTitleHandler={changeTitleHandler}
          >
             <input
                type="file"
@@ -241,13 +238,13 @@ const ListenAndSelectEnglishWord = ({
          <DeleteModal
             isVisible={modals.delete}
             isCloseIcon
-            handleDelete={deleteOption}
-            handleIsVisible={() => toggleModal('delete')}
+            toggleModal={() => toggleModal('delete')}
+            deleteHandler={deleteHandler}
          >
             <Typography className="title" variant="p">
                <Typography variant="span">Option: </Typography>
 
-               {handleDelete}
+               {deleteOption}
             </Typography>
 
             <Typography className="modal-message">You can`t restore</Typography>
@@ -281,8 +278,29 @@ const StyledContainer = styled(Box)(() => ({
       display: 'flex',
       flexWrap: 'wrap',
       justifyContent: 'center',
-      alignItems: 'center',
+      alignItems: 'flex-start',
       gap: '1.1rem',
       margin: '1.5rem 0 2rem 0',
+
+      '& > .option': {
+         width: '261px',
+
+         '& > .title-option': {
+            width: '13rem',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+
+            '&:active': {
+               maxWidth: '261px',
+               maxHeight: 'none',
+               overflow: 'visible',
+               textOverflow: 'unset',
+               whiteSpace: 'normal',
+               wordBreak: 'break-all',
+            },
+         },
+      },
    },
 }))

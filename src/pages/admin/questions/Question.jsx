@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
-import { questionTitle } from '../../../utils/helpers/questionTitle'
 import { OPTIONS } from '../../../utils/constants'
 import TestContainer from '../../../components/UI/TestContainer'
 import TestType from '../../../components/TestType'
@@ -14,15 +13,15 @@ const Question = () => {
 
    const dispatch = useDispatch()
 
-   const [selectType, setSelectType] = useState(questionTitle(''))
    const [title, setTitle] = useState('')
    const [duration, setDuration] = useState(0)
+   const [selectType, setSelectType] = useState('')
 
-   const handleSelectTypeChange = (e) => setSelectType(e.target.value)
+   const changeSelecTypeHandler = (e) => setSelectType(e.target.value)
 
-   const handleChangeTitle = (e) => setTitle(e.target.value)
+   const changeDurationHandler = (e) => setDuration(e.target.value)
 
-   const handleDurationChange = (e) => setDuration(e.target.value)
+   const changeTitleHandler = (e) => setTitle(e.target.value)
 
    useEffect(() => {
       dispatch(QUESTION_ACTIONS.updateOptions(options || []))
@@ -40,7 +39,7 @@ const Question = () => {
                   <Input
                      className="input-title"
                      placeholder="Enter the title ....."
-                     onChange={handleChangeTitle}
+                     onChange={changeTitleHandler}
                      value={title}
                   />
 
@@ -53,7 +52,7 @@ const Question = () => {
                         className="duration-input"
                         placeholder="15:00"
                         value={duration}
-                        onChange={handleDurationChange}
+                        onChange={changeDurationHandler}
                         inputProps={{ min: 0, max: 15 }}
                         type="number"
                      />
@@ -68,7 +67,7 @@ const Question = () => {
                   <Dropdown
                      className="dropdown"
                      value={selectType}
-                     onChange={handleSelectTypeChange}
+                     onChange={changeSelecTypeHandler}
                      options={OPTIONS}
                   />
                </Box>
