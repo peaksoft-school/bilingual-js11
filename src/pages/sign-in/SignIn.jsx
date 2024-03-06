@@ -138,7 +138,7 @@ const SignIn = () => {
                   <Typography> </Typography>
                )}
 
-               <Button colorLoading="secondary" isLoading={isLoading}>
+               <Button loadingColor="secondary" isLoading={isLoading}>
                   Sign in
                </Button>
 

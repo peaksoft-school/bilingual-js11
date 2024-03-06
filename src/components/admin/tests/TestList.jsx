@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { Box, Typography, styled } from '@mui/material'
+import { Box, Skeleton, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { EditIcon, TrashIcon } from '../../../assets/icons'
 import { TESTS_THUNKS } from '../../../store/slice/admin/tests/testsThunk'
@@ -10,7 +10,7 @@ import DeleteModal from '../../UI/modals/DeleteModal'
 import Switcher from '../../UI/Switcher'
 
 const TestList = () => {
-   const { tests } = useSelector((state) => state.testsSlice)
+   const { tests, isLoading } = useSelector((state) => state.testsSlice)
 
    const dispatch = useDispatch()
 
@@ -54,7 +54,7 @@ const TestList = () => {
       navigate(`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.updateTest}/${id}`)
    }
 
-   const handleDelete = tests?.find((test) => test.id === selectedTestId)?.title
+   const deleteTest = tests?.find((test) => test.id === selectedTestId)?.title
 
    return (
       <StyledContainer>
@@ -65,28 +65,41 @@ const TestList = () => {
                   key={id}
                   className="test-link"
                >
-                  <Box className="test">
-                     <Typography className="title">{title}</Typography>
+                  {isLoading ? (
+                     <Skeleton
+                        key={id}
+                        variant="rounded"
+                        width={900}
+                        height={66}
+                        animation="wave"
+                        className="skeleton-box"
+                     />
+                  ) : (
+                     <Box className="test">
+                        <Typography className="title">{title}</Typography>
 
-                     <Box className="icons">
-                        <Box onClick={stopPropagationHandler}>
-                           <Switcher
-                              checked={enable}
-                              onChange={(value) => enableHandler({ value, id })}
+                        <Box className="icons">
+                           <Box onClick={stopPropagationHandler}>
+                              <Switcher
+                                 checked={enable}
+                                 onChange={(value) =>
+                                    enableHandler({ value, id })
+                                 }
+                              />
+                           </Box>
+
+                           <EditIcon
+                              className="edit"
+                              onClick={(e) => navigateHandler(e, id)}
+                           />
+
+                           <TrashIcon
+                              className="delete"
+                              onClick={(e) => isVisibleHandler(e, id)}
                            />
                         </Box>
-
-                        <EditIcon
-                           className="edit"
-                           onClick={(e) => navigateHandler(e, id)}
-                        />
-
-                        <TrashIcon
-                           className="delete"
-                           onClick={(e) => isVisibleHandler(e, id)}
-                        />
                      </Box>
-                  </Box>
+                  )}
                </Link>
             ))
          ) : (
@@ -103,7 +116,7 @@ const TestList = () => {
             <Typography className="title">
                <Typography variant="span">Test: </Typography>
 
-               {handleDelete}
+               {deleteTest}
             </Typography>
 
             <Typography className="modal-message">
@@ -131,6 +144,11 @@ const StyledContainer = styled(Box)(() => ({
    '& > .test-link': {
       textDecoration: 'none',
       color: 'inherit',
+
+      '& > .skeleton-box': {
+         backgroundColor: '#e5e5e567',
+         marginBottom: '0.5rem',
+      },
 
       '& > .test': {
          width: '100%',

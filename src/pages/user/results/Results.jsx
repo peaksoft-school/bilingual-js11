@@ -7,7 +7,7 @@ import { COLUMNS } from '../../../utils/constants/columns'
 import Table from '../../../components/UI/Table'
 
 const Results = () => {
-   const { results } = useSelector((state) => state.resultsSlice)
+   const { results, isLoading } = useSelector((state) => state.resultsSlice)
 
    const dispatch = useDispatch()
 
@@ -23,7 +23,7 @@ const Results = () => {
       )
    }
 
-   return <Table columns={COLUMNS} data={results} />
+   return <Table columns={COLUMNS} data={results} isLoading={isLoading} />
 }
 
 export default Results

@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { useDropzone } from 'react-dropzone'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
@@ -57,6 +58,30 @@ const DescribeImage = ({
       }
    }
 
+   const onDrop = (acceptedFiles) => {
+      const file = acceptedFiles[0]
+
+      if (file) {
+         const reader = new FileReader()
+
+         reader.onloadend = () => {
+            setImage(reader.result)
+         }
+         reader.readAsDataURL(file)
+
+         setFileName(file.name)
+
+         dispatch(QUESTION_THUNKS.saveFile(file))
+      }
+   }
+
+   const { getRootProps, getInputProps } = useDropzone({
+      onDrop,
+      accept: 'image/*',
+      maxFiles: 1,
+      maxSize: 5000000,
+   })
+
    const onSubmit = () => {
       if (
          selectType !== '' &&
@@ -94,8 +119,8 @@ const DescribeImage = ({
    return (
       <StyledContainer>
          {image ? (
-            <Box className="container-image">
-               <Box onClick={clickHandler}>
+            <Box className="container-image" {...getRootProps()}>
+               <Box onClick={clickHandler} {...getRootProps()}>
                   <img src={image} alt="uploaded" className="image" />
                </Box>
 
@@ -105,6 +130,7 @@ const DescribeImage = ({
                   className="input-update"
                   accept=".jpg, .png"
                   onChange={changeFileHandler}
+                  {...getInputProps()}
                />
 
                <Typography className="file-name" onClick={clickHandler}>
@@ -112,7 +138,7 @@ const DescribeImage = ({
                </Typography>
             </Box>
          ) : (
-            <Box className="upload">
+            <Box className="upload" {...getRootProps()}>
                <InputLabel htmlFor="fileInput" className="title">
                   Upload image
                   <input
@@ -122,6 +148,7 @@ const DescribeImage = ({
                      onChange={changeFileHandler}
                      accept=".jpg, .png"
                      ref={inputRef}
+                     {...getInputProps()}
                   />
                </InputLabel>
             </Box>

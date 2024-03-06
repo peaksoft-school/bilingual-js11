@@ -103,7 +103,7 @@ const RespondInAtLeastNWords = ({
                onClick={onSubmit}
                isLoading={isLoading}
                disabled={isDisabled}
-               colorLoading="secondary"
+               loadingColor="secondary"
             >
                SAVE
             </Button>
@@ -119,7 +119,7 @@ const StyledContainer = styled(Box)(() => ({
    flexDirection: 'column',
    gap: '2rem',
    marginTop: '2rem',
-   width: '90%',
+   width: '822px',
 
    '& > .MuiInputLabel-root': {
       fontFamily: 'Poppins',

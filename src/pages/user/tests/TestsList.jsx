@@ -7,9 +7,10 @@ import { ListIcon } from '../../../assets/icons'
 import { ROUTES } from '../../../routes/routes'
 import TestContainer from '../../../components/UI/TestContainer'
 import Button from '../../../components/UI/buttons/Button'
+import Loading from '../../../components/Loading'
 
 const TestsList = () => {
-   const { tests } = useSelector((state) => state.testsListSlice)
+   const { tests, isLoading } = useSelector((state) => state.testsListSlice)
 
    const navigate = useNavigate()
 
@@ -24,6 +25,8 @@ const TestsList = () => {
 
    return (
       <TestContainer>
+         {isLoading && <Loading />}
+
          <MainContent>
             {Array.isArray(tests) &&
                tests?.map(({ id, duration, title, shortDescription }) => (

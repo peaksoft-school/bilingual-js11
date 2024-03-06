@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { QUESTION_THUNKS } from './questionThunk'
+import { showNotification } from '../../../../utils/helpers/notification'
 
 const initialState = {
    title: '',
@@ -136,6 +137,13 @@ const questionSlice = createSlice({
          .addCase(QUESTION_THUNKS.saveTest.pending, (state) => {
             state.isLoading = true
             state.error = null
+
+            showNotification({
+               title: 'Pending',
+               message: false,
+               type: 'warning',
+               duration: 200,
+            })
          })
 
          .addCase(QUESTION_THUNKS.saveFile.pending, (state) => {

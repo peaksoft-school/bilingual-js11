@@ -86,7 +86,7 @@ const TypeWhatYouHear = ({
       ) {
          const requestData = {
             title: title.trim(),
-            duration: +duration * 60,
+            duration: +duration,
             attempts: attempts.trim(),
             correctAnswer: correctAnswer.trim(),
             fileUrl,
@@ -243,7 +243,7 @@ const StyledContainer = styled(Box)(() => ({
          gap: '1rem',
          alignItems: 'center',
 
-         '& > button > .label': {
+         '&  > .label': {
             fontFamily: 'Poppins',
             fontWeight: '600',
             cursor: 'pointer',
@@ -258,7 +258,7 @@ const StyledContainer = styled(Box)(() => ({
          '& > .playing': {
             border: 'none',
             backgroundColor: 'white',
-            marginTop: '0.3rem',
+            marginTop: '0.1rem',
             cursor: 'pointer',
          },
 

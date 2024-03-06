@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Box, Typography, styled } from '@mui/material'
+import { Box, Skeleton, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { EditIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
 import { questionTypeHandler } from '../../../utils/helpers'
@@ -13,7 +13,7 @@ import Switcher from '../../../components/UI/Switcher'
 import Button from '../../../components/UI/buttons/Button'
 
 const Questions = () => {
-   const { questions } = useSelector((state) => state.questionsSlice)
+   const { questions, isLoading } = useSelector((state) => state.questionsSlice)
 
    const { testId } = useParams()
 
@@ -30,7 +30,7 @@ const Questions = () => {
       dispatch(QUESTIONS_THUNKS.getTest({ testId }))
    }, [dispatch, testId])
 
-   const deleteQueationHandler = () => {
+   const deleteQuestionHandler = () => {
       dispatch(
          QUESTIONS_THUNKS.deleteQuestion({
             questionId: selectedQuestionId,
@@ -61,7 +61,7 @@ const Questions = () => {
          `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/${testId}/${ROUTES.ADMIN.createQuestion}`
       )
 
-   const handleDelete = questions?.question?.find(
+   const deleteQuestion = questions?.question?.find(
       (test) => test.id === selectedQuestionId
    )?.title
 
@@ -69,27 +69,56 @@ const Questions = () => {
       <StyledContainer>
          <TestContainer>
             <Box className="title-container">
-               <Box className="text">
-                  <Typography className="title">Title:</Typography>
+               {isLoading ? (
+                  <Skeleton
+                     variant="rounded"
+                     width={480}
+                     height={20}
+                     className="skeleton-box"
+                  />
+               ) : (
+                  <Box className="text">
+                     <Typography className="title">Title:</Typography>
 
-                  <Typography>{questions?.title}</Typography>
-               </Box>
+                     <Typography>{questions?.title}</Typography>
+                  </Box>
+               )}
 
-               <Box className="text">
-                  <Typography className="title">Short Description:</Typography>
+               {isLoading ? (
+                  <Skeleton
+                     variant="rounded"
+                     width={400}
+                     height={20}
+                     className="skeleton-box"
+                  />
+               ) : (
+                  <Box className="text">
+                     <Typography className="title">
+                        Short Description:
+                     </Typography>
 
-                  <Typography>{questions?.shortDescription}</Typography>
-               </Box>
+                     <Typography>{questions?.shortDescription}</Typography>
+                  </Box>
+               )}
 
-               <Box className="text">
-                  <Typography className="title">Duration:</Typography>
-                  <Typography>
-                     {questions && questions?.duration
-                        ? questions.duration
-                        : ''}
-                  </Typography>
-                  m
-               </Box>
+               {isLoading ? (
+                  <Skeleton
+                     variant="rounded"
+                     width={200}
+                     height={20}
+                     className="skeleton-box"
+                  />
+               ) : (
+                  <Box className="text">
+                     <Typography className="title">Duration:</Typography>
+                     <Typography>
+                        {questions && questions?.duration
+                           ? questions.duration % 60
+                           : ''}
+                     </Typography>
+                     m
+                  </Box>
+               )}
             </Box>
 
             <Button
@@ -101,6 +130,7 @@ const Questions = () => {
             </Button>
 
             <Box className="divider" />
+
             <StyledTable>
                {questions && questions?.question?.length > 0 ? (
                   <>
@@ -113,42 +143,55 @@ const Questions = () => {
                   </>
                ) : null}
             </StyledTable>
-
             {questions && questions?.question?.length > 0 ? (
                questions?.question?.map(
-                  ({ id, title, duration, questionType, enable }, index) => (
-                     <StyledBox key={id}>
-                        <Typography className="numbering-props">
-                           {index + 1}
-                        </Typography>
+                  ({ id, title, duration, questionType, enable }, index) =>
+                     isLoading ? (
+                        <Skeleton
+                           key={id}
+                           variant="rounded"
+                           width={900}
+                           height={66}
+                           animation="wave"
+                           className="skeleton-questions"
+                        />
+                     ) : (
+                        <StyledBox key={id}>
+                           <Typography className="numbering-props">
+                              {index + 1}
+                           </Typography>
 
-                        <Typography className="name-props">{title}</Typography>
+                           <Typography className="name-props">
+                              {title}
+                           </Typography>
 
-                        <Typography className="duration-props">
-                           {duration} s
-                        </Typography>
+                           <Typography className="duration-props">
+                              {duration} s
+                           </Typography>
 
-                        <Typography className="question-type-props">
-                           {questionTypeHandler(questionType)}
-                        </Typography>
+                           <Typography className="question-type-props">
+                              {questionTypeHandler(questionType)}
+                           </Typography>
 
-                        <Box className="icons">
-                           <Switcher
-                              key={id}
-                              className="switcher"
-                              checked={enable}
-                              onChange={(value) => enableHandler({ value, id })}
-                           />
+                           <Box className="icons">
+                              <Switcher
+                                 key={id}
+                                 className="switcher"
+                                 checked={enable}
+                                 onChange={(value) =>
+                                    enableHandler({ value, id })
+                                 }
+                              />
 
-                           <EditIcon className="edit" />
+                              <EditIcon className="edit" />
 
-                           <TrashIcon
-                              className="delete"
-                              onClick={() => toggleModal(id)}
-                           />
-                        </Box>
-                     </StyledBox>
-                  )
+                              <TrashIcon
+                                 className="delete"
+                                 onClick={() => toggleModal(id)}
+                              />
+                           </Box>
+                        </StyledBox>
+                     )
                )
             ) : (
                <Box className="background-image">
@@ -169,12 +212,12 @@ const Questions = () => {
             isCloseIcon
             isVisible={isVisible}
             toggleModal={toggleModal}
-            deleteHandler={() => deleteQueationHandler(selectedQuestionId)}
+            deleteHandler={() => deleteQuestionHandler(selectedQuestionId)}
          >
             <Typography className="title" variant="p">
                <Typography variant="span">Question: </Typography>
 
-               {handleDelete}
+               {deleteQuestion}
             </Typography>
 
             <Typography className="modal-message">You can`t restore</Typography>
@@ -206,6 +249,16 @@ const StyledContainer = styled(Box)(() => ({
             color: '#3752B4',
          },
       },
+
+      '& > .skeleton-box': {
+         backgroundColor: '#e5e5e567',
+         marginBottom: '0.5rem',
+      },
+   },
+
+   '& > div > .skeleton-questions': {
+      backgroundColor: '#e5e5e546',
+      borderRadius: '8px',
    },
 
    '& > div > .button': {
@@ -326,7 +379,6 @@ const StyledBox = styled(Box)(() => ({
       cursor: 'pointer',
 
       '&:active': {
-         width: 'auto',
          maxWidth: '13rem',
          maxHeight: 'none',
          overflow: 'visible',
