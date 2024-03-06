@@ -6,14 +6,11 @@ import Button from '../../../../components/UI/buttons/Button'
 import { GradientListenerIcon } from '../../../../assets/icons'
 import { userQuestionActions } from '../../../../store/slice/user/userSlice'
 
-const TypeWhatYouHear = ({ id }) => {
+const TypeWhatYouHear = ({ id, FILE_URL, numberOfReplays }) => {
    const [textArea, setTextArea] = useState('')
-   const [replaysLeft, setReplaysLeft] = useState(3)
+   const [replaysLeft, setReplaysLeft] = useState(numberOfReplays)
    const soundRef = useRef(null)
    const [isPlaying, setIsPlaying] = useState(false)
-
-   const FILE_URL =
-      'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3'
 
    const textAreaHandler = (e) => setTextArea(e.target.value)
 
