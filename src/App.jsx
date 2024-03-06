@@ -1,6 +1,6 @@
 import './App.css'
-import UserTypeWhatYouHear from './pages/user/tests/types/UserTypeWhatYouHear'
+import TypeWhatYouHear from './pages/user/tests/types/TypeWhatYouHear'
 
-const App = () => <UserTypeWhatYouHear />
+const App = () => <TypeWhatYouHear />
 
 export default App

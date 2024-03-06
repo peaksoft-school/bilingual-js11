@@ -1,46 +1,52 @@
 import { useDispatch } from 'react-redux'
 import { useRef, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
-import TextArea from '../../../../components/UI/TextArea'
-import Button from '../../../../components/UI/buttons/Button'
 import { GradientListenerIcon } from '../../../../assets/icons'
 import { userQuestionActions } from '../../../../store/slice/user/userSlice'
+import Button from '../../../../components/UI/buttons/Button'
+import TextArea from '../../../../components/UI/TextArea'
 
 const TypeWhatYouHear = ({ id, FILE_URL, numberOfReplays }) => {
+   const dispatch = useDispatch()
+
    const [textArea, setTextArea] = useState('')
-   const [replaysLeft, setReplaysLeft] = useState(numberOfReplays)
-   const soundRef = useRef(null)
    const [isPlaying, setIsPlaying] = useState(false)
+   const [replaysLeft, setReplaysLeft] = useState(numberOfReplays)
+
+   const soundRef = useRef(null)
 
    const textAreaHandler = (e) => setTextArea(e.target.value)
-
-   const dispatch = useDispatch()
 
    const soundHandler = () => {
       if (FILE_URL) {
          if (isPlaying) {
             soundRef.current.pause()
             soundRef.current.currentTime = 0
+
             setIsPlaying(false)
          } else {
             soundRef.current.play()
+
             setIsPlaying(true)
             if (replaysLeft !== 0) {
                setReplaysLeft((prevReplays) => prevReplays - 1)
             }
+
             if (replaysLeft === 0) {
                soundRef.current.pause()
             }
          }
       }
    }
+
    const nextHandler = () => {
       const dataAnswer = {
-         data: textArea,
-         id,
-         replaysLeft,
+         input: textArea,
+         questionId: id,
       }
+
       dispatch(userQuestionActions.addAnswer(dataAnswer))
+
       setTextArea('')
    }
 
