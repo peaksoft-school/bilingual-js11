@@ -122,6 +122,7 @@ const SignIn = () => {
                      name="rememberMe"
                      checked={values.rememberMe}
                      onChange={handleChange}
+                     className="check"
                   />
 
                   <Typography variant="span" className="text-checkbox">
@@ -215,6 +216,10 @@ const StyledContainer = styled(Box)(({ theme }) => ({
                fontWeight: '500',
                marginBottom: '2rem',
             },
+         },
+
+         '& .check': {
+            marginRight: '9px',
          },
 
          '& .MuiOutlinedInput-root': {

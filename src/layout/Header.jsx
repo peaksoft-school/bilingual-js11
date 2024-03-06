@@ -1,12 +1,12 @@
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { AppBar, Box, Typography, styled } from '@mui/material'
 import { AUTH_ACTIONS } from '../store/slice/auth/authSlice'
 import { LogoImage } from '../assets/images'
+import { ROUTES } from '../routes/routes'
 import Modal from '../components/UI/Modal'
 import Button from '../components/UI/buttons/Button'
-import { ROUTES } from '../routes/routes'
 
 const Header = () => {
    const { role } = useSelector((state) => state.auth)
@@ -29,25 +29,34 @@ const Header = () => {
          <Box className="actions">
             {role === 'ADMIN' ? (
                <>
-                  <NavLink className="navigation" to={`${ROUTES.ADMIN.index}`}>
-                     <Typography>TESTS</Typography>
+                  <NavLink
+                     className="navigation"
+                     to={`${ROUTES.ADMIN.index}/tests`}
+                  >
+                     TESTS
                   </NavLink>
 
                   <NavLink
                      className="navigation"
-                     to={`${ROUTES.ADMIN.index}/results`}
+                     to={`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.results}`}
                   >
-                     <Typography> SUBMITTED RESULTS</Typography>
+                     SUBMITTED RESULTS
                   </NavLink>
                </>
             ) : (
                <>
-                  <NavLink className="navigation" to="/user/tests">
-                     <Typography>TESTS</Typography>
+                  <NavLink
+                     className="navigation"
+                     to={`${ROUTES.USER.index}/tests`}
+                  >
+                     TESTS
                   </NavLink>
 
-                  <NavLink className="navigation" to="/user/results">
-                     <Typography>MY RESULTS</Typography>
+                  <NavLink
+                     className="navigation"
+                     to={`${ROUTES.USER.index}/${ROUTES.USER.results}`}
+                  >
+                     MY RESULTS
                   </NavLink>
                </>
             )}
@@ -95,6 +104,7 @@ const StyledContainer = styled(AppBar)(({ theme }) => ({
    '&  .logo': {
       width: '10.875rem',
       height: '2.625rem',
+      fontFamily: 'Gilroy',
    },
 
    '& > .actions': {
@@ -108,9 +118,10 @@ const StyledContainer = styled(AppBar)(({ theme }) => ({
          cursor: 'pointer',
       },
 
-      '& .navigation': {
+      '& .navigation ': {
          textDecoration: 'none',
          color: '#4c4859',
+         fontFamily: 'Gilroy',
 
          '&.active': { color: '#3A10E5' },
       },

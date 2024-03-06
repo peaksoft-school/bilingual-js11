@@ -1,38 +1,38 @@
 import { QUESTION_TYPES } from '../../utils/constants'
-import DescribeImage from './type/DescribeImage'
-import TypeWhatYouHear from './type/TypeWhatYouHear'
-import SelectRealEnglish from './type/SelectRealEnglish'
-import RecordSayingStatement from './type/RecordSayingStatement'
-import HighlightTheAnswer from './type/HighlightTheAnswer'
+import DescribeImage from './types/DescribeImage'
+import TypeWhatYouHear from './types/TypeWhatYouHear'
+import RecordSayingStatement from './types/RecordSayingStatement'
+import HighlightTheAnswer from './types/HighlightTheAnswer'
+import RespondInAtLeastNWords from './types/RespondInAtLeastNWords'
+import SelectTheMainIdea from './types/SelectTheMainIdea'
+import SelectRealEnglish from './types/SelectRealEnglish'
+import SelectTheBestTitle from './types/SelectTheBestTitle'
 
 const TypeTest = (props) => {
-   const { duration, setDuration, selectType, title, setTitle, setSelectType } =
-      props
+   switch (props.selectType) {
+      case QUESTION_TYPES.SELECT_REAL_ENGLISH_WORDS:
+         return <SelectRealEnglish {...props} />
 
-   const commonProps = {
-      duration,
-      setDuration,
-      selectType,
-      title,
-      setTitle,
-      setSelectType,
-   }
+      case QUESTION_TYPES.TYPE_WHAT_YOU_HEAR:
+         return <TypeWhatYouHear {...props} />
 
-   switch (selectType) {
-      case QUESTION_TYPES.SelectRealEnglishWords:
-         return <SelectRealEnglish {...commonProps} />
+      case QUESTION_TYPES.DESCRIBE_IMAGE:
+         return <DescribeImage {...props} />
 
-      case QUESTION_TYPES.TypeWhatYouHear:
-         return <TypeWhatYouHear {...commonProps} />
+      case QUESTION_TYPES.RECORD_SAYING:
+         return <RecordSayingStatement {...props} />
 
-      case QUESTION_TYPES.DescribeImage:
-         return <DescribeImage {...commonProps} />
+      case QUESTION_TYPES.RESPOND_IN_AT_LEAST_N_WORDS:
+         return <RespondInAtLeastNWords {...props} />
 
-      case QUESTION_TYPES.RecordSayingStatement:
-         return <RecordSayingStatement {...commonProps} />
+      case QUESTION_TYPES.HIGHLIGHTS_THE_ANSWER:
+         return <HighlightTheAnswer {...props} />
 
-      case QUESTION_TYPES.HighlightTheAnswer:
-         return <HighlightTheAnswer {...commonProps} />
+      case QUESTION_TYPES.SELECT_MAIN_IDEA:
+         return <SelectTheMainIdea {...props} />
+
+      case QUESTION_TYPES.SELECT_THE_BEST_TITLE:
+         return <SelectTheBestTitle {...props} />
       default:
          return <div />
    }

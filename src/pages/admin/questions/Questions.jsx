@@ -85,8 +85,8 @@ const Questions = () => {
                      <Typography className="title">Duration:</Typography>
 
                      <Typography>
-                        {questions && questions.duration
-                           ? questions.duration / 60
+                        {questions && questions?.duration
+                           ? questions.duration
                            : ''}
                      </Typography>
                   </Box>
@@ -103,7 +103,7 @@ const Questions = () => {
 
             <Box className="divider" />
             <StyledTable>
-               {questions && questions.question.length > 0 ? (
+               {questions && questions?.question?.length > 0 ? (
                   <>
                      <Typography>#</Typography>
                      <Typography className="name">Name</Typography>
@@ -115,16 +115,18 @@ const Questions = () => {
                ) : null}
             </StyledTable>
 
-            {questions && questions.question.length > 0 ? (
-               questions.question.map(
+            {questions && questions?.question?.length > 0 ? (
+               questions.question?.map(
                   ({ id, title, duration, questionType, enable }, index) => (
                      <StyledBox key={id}>
-                        <Typography>{index + 1}</Typography>
+                        <Typography className="numbering-props">
+                           {index + 1}
+                        </Typography>
 
                         <Typography className="name-props">{title}</Typography>
 
                         <Typography className="duration-props">
-                           {duration / 60}
+                           {duration} s
                         </Typography>
 
                         <Typography className="question-type-props">
@@ -173,6 +175,16 @@ const Questions = () => {
 
             <Typography className="modal-title">Do you want delete?</Typography>
 
+            <Typography className="title" variant="p">
+               <Typography variant="span">Test: </Typography>
+
+               {
+                  questions?.question?.find(
+                     (question) => question?.id === selectedQuestionId
+                  )?.title
+               }
+            </Typography>
+
             <Typography className="modal-message">
                You can`t restore this file
             </Typography>
@@ -207,7 +219,7 @@ const StyledContainer = styled(Box)(() => ({
          fontFamily: 'Poppins',
          fontSize: '1rem',
          overflow: 'hidden',
-         maxWidth: '20rem',
+         maxWidth: '40rem',
          textOverflow: 'ellipsis',
 
          '& > .title': {
@@ -295,22 +307,18 @@ const StyledContainer = styled(Box)(() => ({
 
 const StyledTable = styled(Box)(() => ({
    display: 'flex',
-   justifyContent: 'space-around',
    margin: '0 1.5rem',
 
    '& > .name': {
-      margin: 'auto',
-      marginLeft: '1.12rem',
+      marginLeft: '2.5rem',
    },
 
    '& > .duration-time': {
-      margin: 'auto',
-      marginLeft: '-4.8rem',
+      marginLeft: '16.5rem',
    },
 
    '& > .question-type': {
-      margin: 'auto',
-      marginLeft: '-17rem',
+      marginLeft: '3.8rem',
    },
 }))
 
@@ -326,8 +334,12 @@ const StyledBox = styled(Box)(() => ({
       '0px 4px 10px 0px rgba(0, 0, 0, 0.06), 0px -4px 10px 0px rgba(0, 0, 0, 0.06)',
    margin: 'auto',
 
+   '& > .numbering-props': {
+      width: '1rem',
+   },
+
    '& > .name-props': {
-      margin: '0 1.2rem',
+      margin: '0 2rem',
       whiteSpace: 'nowrap',
       width: '13rem',
       overflow: 'hidden',
@@ -336,6 +348,7 @@ const StyledBox = styled(Box)(() => ({
 
    '& > .duration-props': {
       margin: '0 4.4rem',
+      width: '2rem',
    },
 
    '& > .question-type-props': {

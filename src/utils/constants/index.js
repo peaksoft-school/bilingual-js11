@@ -282,81 +282,6 @@ const QUESTIONS = [
    },
 ]
 
-const FAKE_DATA = [
-   {
-      id: 1,
-      date: '11.01.2021',
-      test: 'English advanced test',
-      status: 'Not evaluated',
-      score: 0,
-   },
-   {
-      id: 2,
-      date: '21.01.2021',
-      test: 'English advanced test',
-      status: 'Not evaluated',
-      score: 0,
-   },
-   {
-      id: 3,
-      date: '21.01.2021',
-      test: 'English advanced test',
-      status: 'Evaluated',
-      score: 7,
-   },
-   {
-      id: 4,
-      date: '21.01.2021',
-      test: 'English advanced test',
-      status: 'Evaluated',
-      score: 7,
-   },
-]
-
-const COLUMNS = [
-   {
-      Header: '#',
-      accessor: 'id',
-   },
-   {
-      Header: 'Date of Submition',
-      accessor: 'date',
-   },
-   {
-      Header: 'Test name',
-      accessor: 'test',
-   },
-   {
-      Header: 'Status',
-      accessor: 'status',
-   },
-   {
-      Header: 'Score',
-      accessor: 'score',
-   },
-   {
-      Header: '',
-      accessor: 'action',
-   },
-]
-
-const TEST_DATA = [
-   {
-      id: 1,
-      title: 'Select the real Englisg word in the list...',
-      duration: '1 min',
-      questionType: 'Multiple Choice',
-      enable: false,
-   },
-   {
-      id: 2,
-      title: 'Select the real Englisg word in the list...',
-      duration: '1 min',
-      questionType: 'Essay',
-      enable: !false,
-   },
-]
-
 const CHECKBOX_IMAGE =
    "\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12 5c-.28 0-.53.11-.71.29L7 9.59l-2.29-2.3a1.003 1.003 0 00-1.42 1.42l3 3c.18.18.43.29.71.29s.53-.11.71-.29l5-5A1.003 1.003 0 0012 5z' fill='%23fff'/%3E%3C/svg%3E\""
 
@@ -402,28 +327,51 @@ const OPTIONS = [
    },
    {
       id: 5,
-      title: 'Respond in at least N words',
-   },
-   {
-      id: 6,
       title: 'Record saying statement',
    },
    {
+      id: 6,
+      title: 'Respond in at least N words',
+   },
+   {
       id: 7,
-      title: 'Highlight the answer',
+      title: 'Highlights the answer',
+   },
+   {
+      id: 8,
+      title: 'Select the main idea',
+   },
+   {
+      id: 9,
+      title: 'Select the best title',
    },
 ]
 
 const QUESTION_TYPES = {
-   SelectRealEnglishWords: 'Select real english words',
-   TypeWhatYouHear: 'Type what you hear',
-   DescribeImage: 'Describe image',
-   HighlightTheAnswer: 'Highlight the answer',
-   RecordSayingStatement: 'Record saying statement',
+   SELECT_REAL_ENGLISH_WORDS: 'Select real english words',
+   TYPE_WHAT_YOU_HEAR: 'Type what you hear',
+   DESCRIBE_IMAGE: 'Describe image',
+   RESPOND_IN_AT_LEAST_N_WORDS: 'Respond in at least N words',
+   HIGHLIGHTS_THE_ANSWER: 'Highlights the answer',
+   RECORD_SAYING: 'Record saying statement',
+   SELECT_MAIN_IDEA: 'Select the main idea',
+   SELECT_THE_BEST_TITLE: 'Select the best title',
+}
+
+const QUESTION_TITLE = {
+   SELECT_REAL_ENGLISH_WORDS: 'SELECT_REAL_ENGLISH_WORD',
+   TYPE_WHAT_YOU_HEAR: 'TYPE_WHAT_YOU_HEAR',
+   DESCRIBE_IMAGE: 'DESCRIBE_IMAGE',
+   RESPOND_IN_AT_LEAST_N_WORDS: 'RESPOND_IN_AT_LEAST_N_WORDS',
+   HIGHLIGHTS_THE_ANSWER: 'HIGHLIGHTS_THE_ANSWER',
+   RECORD_SAYING: 'RECORD_SAYING',
+   SELECT_MAIN_IDEA: 'SELECT_MAIN_IDEA',
+   SELECT_THE_BEST_TITLE: 'SELECT_THE_BEST_TITLE',
 }
 
 export {
    QUESTION_TYPES,
+   QUESTION_TITLE,
    OPTIONS,
    VIDEOS,
    CHECKBOX_IMAGE,
@@ -431,9 +379,6 @@ export {
    FEEDBACKS,
    OUR_TEAM,
    QUESTIONS,
-   COLUMNS,
-   FAKE_DATA,
    PARTNERS,
    SIGN_UP_INPUTS,
-   TEST_DATA,
 }

@@ -1,42 +1,60 @@
 import { useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
-import { TrashIcon } from '../../assets/icons'
 import Checkbox from './Checkbox'
+import Radio from './Radio'
+import { TrashIcon } from '../../assets/icons'
 
-const Option = ({ option, handleChecked, openModal, setOptionId, index }) => {
-   const [isChecked, setIsChecked] = useState(option.isCorrect)
+const Option = ({
+   option,
+   handleChecked,
+   openModal,
+   setOptionId,
+   index,
+   isRadio,
+   setSelectedOptionId,
+   selectedOptionId,
+}) => {
+   const { id, optionTitle, isTrueOption } = option
 
-   const handleCheckboxChange = (e) => {
-      const newCheckedValue = e.target.checked
+   const [isChecked, setIsChecked] = useState(isTrueOption)
 
-      setIsChecked(newCheckedValue)
+   const handleChangeRadio = () => {
+      setSelectedOptionId(id)
 
-      handleChecked(e, option.id, newCheckedValue)
+      handleChecked(id)
    }
 
-   const handleOpen = (id) => {
+   const handleChange = () => {
+      setIsChecked((prev) => !prev)
+
+      handleChecked(id, !isChecked)
+   }
+
+   const handleOpen = () => {
       openModal((prev) => !prev)
 
       setOptionId(id)
    }
 
    return (
-      <StyledContainer key={option.id}>
+      <StyledContainer>
          <Box className="content">
             <Typography>{index + 1}</Typography>
 
-            <Typography className="title-option">
-               {option.optionTitle}
-            </Typography>
+            <Typography className="title-option">{optionTitle}</Typography>
          </Box>
 
          <Box className="actions">
-            <Checkbox onClick={handleCheckboxChange} checked={isChecked} />
+            {isRadio ? (
+               <Radio
+                  onClick={handleChangeRadio}
+                  checked={id === selectedOptionId}
+               />
+            ) : (
+               <Checkbox onClick={handleChange} checked={isChecked} />
+            )}
 
-            <TrashIcon
-               className="trash"
-               onClick={() => handleOpen(option.id)}
-            />
+            <TrashIcon className="trash" onClick={handleOpen} />
          </Box>
       </StyledContainer>
    )
@@ -46,23 +64,19 @@ export default Option
 
 const StyledContainer = styled(Box)(() => ({
    display: 'flex',
-   maxWidth: '250px',
-   width: '100%',
-   maxHeight: '46px',
-   height: '100%',
    border: '1.8px solid #BDBDBD',
    borderRadius: '8px',
-   justifyContent: 'center',
+   justifyContent: 'flex-start',
    alignItems: 'center',
    gap: '3rem',
-   padding: '1rem',
+   padding: '0.6rem 1rem 0.6rem 1rem ',
 
    '& > .content': {
       display: 'flex',
-      alignItems: 'center',
       justifyContent: 'flex-start',
+      alignItems: 'center',
       gap: '0.85rem',
-      width: '50%',
+      overflow: 'hidden',
 
       '& .title-option': {
          textOverflow: 'ellipsis',
@@ -77,6 +91,12 @@ const StyledContainer = styled(Box)(() => ({
 
       '& > .trash': {
          cursor: 'pointer',
+      },
+   },
+
+   '& .trash:hover': {
+      '& > path ': {
+         stroke: '#F61414',
       },
    },
 }))

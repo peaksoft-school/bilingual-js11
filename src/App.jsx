@@ -1,5 +1,5 @@
 import './App.css'
-import UserTypeWhatYouHear from './components/UI/UserTypeWhatYouHear'
+import UserTypeWhatYouHear from './pages/user/tests/types/UserTypeWhatYouHear'
 
 const App = () => <UserTypeWhatYouHear />
 

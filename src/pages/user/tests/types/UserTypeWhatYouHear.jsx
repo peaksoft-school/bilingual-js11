@@ -1,12 +1,12 @@
 import { useDispatch } from 'react-redux'
 import { useRef, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
-import TextArea from './TextArea'
-import Button from './buttons/Button'
-import { VolumeIcon } from '../../assets/icons'
-import { userQuestionActions } from '../../store/slice/user/userSlice'
+import TextArea from '../../../../components/UI/TextArea'
+import Button from '../../../../components/UI/buttons/Button'
+import { GradientListenerIcon } from '../../../../assets/icons'
+import { userQuestionActions } from '../../../../store/slice/user/userSlice'
 
-const UserTypeWhatYouHear = () => {
+const TypeWhatYouHear = ({ id }) => {
    const [textArea, setTextArea] = useState('')
    const [replaysLeft, setReplaysLeft] = useState(3)
    const soundRef = useRef(null)
@@ -23,10 +23,11 @@ const UserTypeWhatYouHear = () => {
       if (FILE_URL) {
          if (isPlaying) {
             soundRef.current.pause()
-            setIsPlaying((prevIsPlaying) => !prevIsPlaying)
+            soundRef.current.currentTime = 0
+            setIsPlaying(false)
          } else {
             soundRef.current.play()
-            setIsPlaying((prevIsPlaying) => !prevIsPlaying)
+            setIsPlaying(true)
             if (replaysLeft !== 0) {
                setReplaysLeft((prevReplays) => prevReplays - 1)
             }
@@ -36,10 +37,11 @@ const UserTypeWhatYouHear = () => {
          }
       }
    }
-
    const nextHandler = () => {
       const dataAnswer = {
          data: textArea,
+         id,
+         replaysLeft,
       }
       dispatch(userQuestionActions.addAnswer(dataAnswer))
       setTextArea('')
@@ -66,7 +68,7 @@ const UserTypeWhatYouHear = () => {
                   <source src={FILE_URL} type="audio/mp3" />
                </audio>
                <Box className="volume-block">
-                  <VolumeIcon
+                  <GradientListenerIcon
                      className={`volume-icon ${
                         replaysLeft === 0 ? 'gray' : ''
                      }`}
@@ -101,7 +103,7 @@ const UserTypeWhatYouHear = () => {
    )
 }
 
-export default UserTypeWhatYouHear
+export default TypeWhatYouHear
 
 const Container = styled(Box)(() => ({
    display: 'flex',

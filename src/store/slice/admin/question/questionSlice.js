@@ -9,7 +9,7 @@ const initialState = {
    attempts: 0,
    correctAnswer: '',
    fileUrl: '',
-   option: [],
+   options: [],
    isLoading: false,
 }
 
@@ -18,34 +18,60 @@ const questionSlice = createSlice({
    initialState,
 
    reducers: {
-      addOption: (state, action) => {
-         state.option = [...state.option, action.payload]
+      addOption: (state, { payload }) => {
+         const isFirstOption = state.options.length === 0
+
+         const newOption = {
+            ...payload,
+            isTrueOption: isFirstOption,
+         }
+
+         state.options = [...state.options, newOption]
+
+         state.options = state.options.map((option) => {
+            if (payload.isTrueOption) {
+               if (payload.id === option.id) {
+                  return {
+                     ...option,
+                     isTrueOption: payload.isTrueOption,
+                  }
+               }
+
+               return {
+                  ...option,
+                  isTrueOption: false,
+               }
+            }
+
+            return option
+         })
       },
 
-      changeTrueOption: (state, action) => {
-         state.option = state.option.map((item) => {
-            if (item.id === action.payload) {
+      handleIsCorrect: (state, { payload }) => {
+         state.options = state.options.map((item) => {
+            if (item.id === payload) {
                return {
                   ...item,
                   isTrueOption: !item.isTrueOption,
                }
             }
-            return item
+            return {
+               ...item,
+               isTrueOption: false,
+            }
          })
       },
 
-      deleteOption: (state, action) => {
-         state.option = state.option.filter(
-            (item) => item.id !== action.payload
-         )
+      deleteOption: (state, { payload }) => {
+         state.options = state.options.filter((item) => item.id !== payload)
       },
 
       clearOptions(state) {
-         state.option = []
+         state.options = []
       },
 
-      updateOptions: (state, action) => {
-         state.option = action.payload
+      updateOptions: (state, { payload }) => {
+         state.options = payload
       },
    },
 
@@ -56,9 +82,9 @@ const questionSlice = createSlice({
             state.error = null
          })
 
-         .addCase(QUESTION_THUNKS.saveTest.rejected, (state, action) => {
+         .addCase(QUESTION_THUNKS.saveTest.rejected, (state, { payload }) => {
             state.isLoading = false
-            state.error = action.payload
+            state.error = payload
          })
 
          .addCase(QUESTION_THUNKS.saveTest.pending, (state) => {
@@ -66,22 +92,19 @@ const questionSlice = createSlice({
             state.error = null
          })
 
-         .addCase(QUESTION_THUNKS.postFileRequest.pending, (state) => {
+         .addCase(QUESTION_THUNKS.saveFile.pending, (state) => {
             state.isLoading = true
             state.error = null
          })
 
-         .addCase(
-            QUESTION_THUNKS.postFileRequest.fulfilled,
-            (state, action) => {
-               state.isLoading = false
-               state.fileUrl = action.payload.link
-            }
-         )
-
-         .addCase(QUESTION_THUNKS.postFileRequest.rejected, (state, action) => {
+         .addCase(QUESTION_THUNKS.saveFile.fulfilled, (state, action) => {
             state.isLoading = false
-            state.error = action.payload
+            state.fileUrl = action.payload.link
+         })
+
+         .addCase(QUESTION_THUNKS.saveFile.rejected, (state, { payload }) => {
+            state.isLoading = false
+            state.error = payload
          })
    },
 })
