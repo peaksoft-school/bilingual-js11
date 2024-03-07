@@ -20,6 +20,7 @@ const ProgressBar = ({ duration, minutes, seconds }) => {
             <Typography className="duration">
                {minutes}:{seconds}
             </Typography>
+
             <DurationLine value={timeProgress} max={duration} />
          </Box>
       </StyledContainer>
@@ -31,11 +32,13 @@ export default ProgressBar
 const StyledContainer = styled(Box)(() => ({
    width: '100%',
    paddingTop: '1px',
-   '& .block-progress-bar': {
+
+   '& > .block-progress-bar': {
       width: '100%',
       height: '52px',
    },
-   '& .duration': {
+
+   '& > .duration': {
       color: '#4C4859',
       marginBottom: '20px',
       fontFamily: 'Poppins',

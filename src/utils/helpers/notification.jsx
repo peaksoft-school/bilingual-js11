@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify'
-import { Box, Typography, styled } from '@mui/material'
+import { Box, CircularProgress, Typography, styled } from '@mui/material'
 import {
    ExitIcon,
    NotificationErrorIcon,
@@ -12,12 +12,15 @@ export const showNotification = ({
    type = 'success',
    duration = 4000,
 }) => {
-   const icon =
-      type === 'success' ? (
-         <NotificationSuccessIcon />
-      ) : (
-         <NotificationErrorIcon />
-      )
+   let icon
+
+   if (type === 'success') {
+      icon = <NotificationSuccessIcon />
+   } else if (type === 'error') {
+      icon = <NotificationErrorIcon />
+   } else if (type === 'warning') {
+      icon = <CircularProgress color="inherit" />
+   }
 
    toast[type](
       <>
@@ -30,13 +33,6 @@ export const showNotification = ({
          autoClose: duration,
          closeOnClick: true,
          closeToast: <ExitIcon />,
-
-         style: {
-            padding: '1.5rem 0.5rem 1.5rem 0.5rem ',
-            background: type === 'success' ? '#EAFBE7' : '#FFF1F0',
-            border:
-               type === 'success' ? '1px solid #8CDB95' : '1px solid #fb9998',
-         },
       }
    )
 }
@@ -50,6 +46,17 @@ const StyledIcon = styled(Box)(() => ({
    '&.error': {
       position: 'absolute',
       top: '30px',
+   },
+
+   '&.warning': {
+      position: 'absolute',
+      top: '30px',
+      color: '#8caaec',
+
+      '& > .MuiCircularProgress-root': {
+         width: '1.6rem !important',
+         height: '1.6rem !important',
+      },
    },
 }))
 

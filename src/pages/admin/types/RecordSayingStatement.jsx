@@ -3,10 +3,9 @@ import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
-import { QUESTION_TITLE } from '../../../utils/constants'
-import { questionTitle } from '../../../utils/helpers/questionTitle'
-import Input from '../../../components/UI/Input'
+import { QUESTION_TITLES } from '../../../utils/constants'
 import Button from '../../../components/UI/buttons/Button'
+import Input from '../../../components/UI/Input'
 
 const RecordSayingStatement = ({
    duration,
@@ -24,9 +23,9 @@ const RecordSayingStatement = ({
 
    const { testId } = useParams()
 
-   const handleChange = (e) => setStatement(e.target.value)
+   const statementChangeHandler = (e) => setStatement(e.target.value)
 
-   const handleGoBack = () => navigate(-1)
+   const goBackHandler = () => navigate(-1)
 
    const isDisabled =
       !selectType || !duration || !title.trim() || !statement.trim()
@@ -35,7 +34,7 @@ const RecordSayingStatement = ({
       if (selectType !== '' && +duration !== 0 && title !== '') {
          const requestData = {
             title: title.trim(),
-            duration: +duration * 60,
+            duration: +duration,
             correctAnswer: statement.trim(),
          }
 
@@ -45,14 +44,14 @@ const RecordSayingStatement = ({
 
                data: {
                   testId,
-                  questionType: questionTitle(QUESTION_TITLE.RECORD_SAYING),
+                  questionType: QUESTION_TITLES.RECORD_SAYING,
                   navigate,
                },
 
-               setState: {
-                  selectType: setSelectType(selectType),
-                  title: setTitle(title),
-                  duration: setDuration(duration),
+               setStates: {
+                  setSelectType: setSelectType(selectType),
+                  setTitle: setTitle(title),
+                  setDuration: setDuration(duration),
                },
             })
          )
@@ -64,11 +63,15 @@ const RecordSayingStatement = ({
          <Box className="statement">
             <Typography className="text">Statement</Typography>
 
-            <Input type="text" value={statement} onChange={handleChange} />
+            <Input
+               type="text"
+               value={statement}
+               onChange={statementChangeHandler}
+            />
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={handleGoBack}>
+            <Button variant="secondary" onClick={goBackHandler}>
                GO BACK
             </Button>
 
@@ -85,17 +88,17 @@ export default RecordSayingStatement
 const StyledContainer = styled(Box)(() => ({
    width: '825px',
 
-   '& .statement': {
+   '& > .statement': {
       marginTop: '1.4rem',
       marginBottom: '2rem',
 
-      '& .text': {
+      '& > .text': {
          fontFamily: 'Poppins',
          fontWeight: '500',
       },
    },
 
-   '& .buttons': {
+   '& > .buttons': {
       display: 'flex',
       gap: '1.1rem',
       marginLeft: '37.5rem',
