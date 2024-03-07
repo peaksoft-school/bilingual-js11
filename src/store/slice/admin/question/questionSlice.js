@@ -13,8 +13,8 @@ const initialState = {
    options: {
       selectRealEnglishWordsOptions: [],
       listenAndSelectOptions: [],
-      selectTheMainIdea: [],
-      selectTheBestTitle: [],
+      selectTheMainIdeaOptions: [],
+      selectTheBestTitleOptions: [],
    },
    isLoading: false,
 }

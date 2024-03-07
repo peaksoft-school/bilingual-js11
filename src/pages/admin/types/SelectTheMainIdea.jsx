@@ -13,11 +13,11 @@ import Option from '../../../components/UI/Option'
 import Button from '../../../components/UI/buttons/Button'
 
 const SelectTheMainIdea = ({
-   duration,
-   setDuration,
-   selectType,
    title,
+   duration,
    setTitle,
+   selectType,
+   setDuration,
    setSelectType,
 }) => {
    const { options } = useSelector((state) => state.question)
@@ -39,13 +39,13 @@ const SelectTheMainIdea = ({
 
    const { testId } = useParams()
 
+   const changeCheckbox = (e) => setCheckedOption(e.target.checked)
+
    const handleChangeTitle = (e) => setOptionTitle(e.target.value)
 
    const handleChangeTextArea = (e) => setPassage(e.target.value)
 
-   const changeCheckbox = (e) => setCheckedOption(e.target.checked)
-
-   const handleGoBack = () => navigate(-1)
+   const navigateGoBackHandler = () => navigate(-1)
 
    const toggleModal = (modalName) => {
       setModals((prevModals) => ({
@@ -61,7 +61,7 @@ const SelectTheMainIdea = ({
       dispatch(
          QUESTION_ACTIONS.deleteOption({
             optionId,
-            optionName: OPTIONS_NAME.selectTheMainIdea,
+            optionName: OPTIONS_NAME.selectTheMainIdeaOptions,
          })
       )
 
@@ -72,7 +72,7 @@ const SelectTheMainIdea = ({
       dispatch(
          QUESTION_ACTIONS.handleIsCorrect({
             id,
-            optionName: OPTIONS_NAME.selectTheMainIdea,
+            optionName: OPTIONS_NAME.selectTheMainIdeaOptions,
          })
       )
    }
@@ -82,7 +82,7 @@ const SelectTheMainIdea = ({
       !duration ||
       !title.trim() ||
       !passage.trim() ||
-      options.selectTheMainIdea?.length < 2
+      options.selectTheMainIdeaOptions?.length < 2
 
    const isDisabledModal = !optionTitle.trim()
 
@@ -91,7 +91,7 @@ const SelectTheMainIdea = ({
          const requestData = {
             title: title.trim(),
             duration: +duration,
-            option: options.selectTheMainIdea.map((option) => ({
+            option: options.selectTheMainIdeaOptions.map((option) => ({
                optionTitle: option.optionTitle,
                isCorrectOption: option.isCorrectOption,
             })),
@@ -128,7 +128,7 @@ const SelectTheMainIdea = ({
       dispatch(
          QUESTION_ACTIONS.addOptionRadio({
             option,
-            optionName: OPTIONS_NAME.selectTheMainIdea,
+            optionName: OPTIONS_NAME.selectTheMainIdeaOptions,
          })
       )
 
@@ -137,7 +137,7 @@ const SelectTheMainIdea = ({
       setOptionTitle('')
       setCheckedOption(false)
 
-      if (options.selectTheMainIdea.length === 0 || checkedOption) {
+      if (options.selectTheMainIdeaOptions.length === 0 || checkedOption) {
          setSelectedOptionId(option.id)
       }
    }
@@ -166,7 +166,7 @@ const SelectTheMainIdea = ({
          </Box>
 
          <Box className="cards">
-            {options.selectTheMainIdea?.map((option, i) => (
+            {options.selectTheMainIdeaOptions?.map((option, i) => (
                <Option
                   key={option.id}
                   index={i}
@@ -182,7 +182,7 @@ const SelectTheMainIdea = ({
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={handleGoBack}>
+            <Button variant="secondary" onClick={navigateGoBackHandler}>
                GO BACK
             </Button>
 

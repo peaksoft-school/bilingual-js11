@@ -372,9 +372,9 @@ const QUESTION_TITLES = {
 }
 
 const OPTIONS_NAME = {
-   selectTheMainIdea: 'selectTheMainIdea',
-   selectTheBestTitle: 'selectTheBestTitle',
    listenAndSelectOptions: 'listenAndSelectOptions',
+   selectTheMainIdeaOptions: 'selectTheMainIdeaOptions',
+   selectTheBestTitleOptions: 'selectTheBestTitleOptions',
    selectRealEnglishWordsOptions: 'selectRealEnglishWordsOptions',
 }
 

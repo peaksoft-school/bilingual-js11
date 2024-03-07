@@ -37,11 +37,11 @@ const SelectRealEnglish = ({
 
    const navigate = useNavigate()
 
-   const changeTitleHandler = (e) => setOptionTitle(e.target.value)
-
    const changeCheckbox = (e) => setCheckedOption(e.target.checked)
 
-   const goBackHandler = () => navigate(-1)
+   const changeTitleHandler = (e) => setOptionTitle(e.target.value)
+
+   const navigateGoBackHandler = () => navigate(-1)
 
    const toggleModal = (modalName) => {
       setModals((prevModals) => ({
@@ -164,7 +164,7 @@ const SelectRealEnglish = ({
             </Box>
 
             <Box className="buttons">
-               <Button variant="secondary" onClick={goBackHandler}>
+               <Button variant="secondary" onClick={navigateGoBackHandler}>
                   GO BACK
                </Button>
 

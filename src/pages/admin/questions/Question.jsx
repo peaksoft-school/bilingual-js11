@@ -17,11 +17,11 @@ const Question = () => {
    const [duration, setDuration] = useState(0)
    const [selectType, setSelectType] = useState('')
 
-   const changeSelecTypeHandler = (e) => setSelectType(e.target.value)
+   const changeTitleHandler = (e) => setTitle(e.target.value)
 
    const changeDurationHandler = (e) => setDuration(e.target.value)
 
-   const changeTitleHandler = (e) => setTitle(e.target.value)
+   const changeSelecTypeHandler = (e) => setSelectType(e.target.value)
 
    useEffect(() => {
       dispatch(QUESTION_ACTIONS.updateOptions(options || []))
@@ -102,7 +102,7 @@ const StyledContainer = styled(Box)(() => ({
       flexDirection: 'column',
       gap: '1.25rem',
 
-      '& .text': {
+      '& > .text': {
          fontFamily: 'Poppins',
          fontWeight: '500',
       },
