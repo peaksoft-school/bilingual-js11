@@ -10,7 +10,7 @@ const Button = forwardRef(
          children,
          icon,
          variant,
-         colorLoading,
+         loadingColor,
          isLoading,
          ...rest
       },
@@ -26,7 +26,7 @@ const Button = forwardRef(
             {...rest}
          >
             {isLoading ? (
-               <CircularProgress color={colorLoading} />
+               <CircularProgress color={loadingColor} />
             ) : (
                <>
                   {icon && <span className="icon">{icon}</span>}

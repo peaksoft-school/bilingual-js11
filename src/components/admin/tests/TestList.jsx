@@ -1,17 +1,16 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { Box, Typography, styled } from '@mui/material'
+import { Box, Skeleton, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { EditIcon, FalseIcon, TrashIcon } from '../../../assets/icons'
+import { EditIcon, TrashIcon } from '../../../assets/icons'
 import { TESTS_THUNKS } from '../../../store/slice/admin/tests/testsThunk'
+import { NoDataImage } from '../../../assets/images'
 import { ROUTES } from '../../../routes/routes'
-import { NoData } from '../../../assets/images'
-import Modal from '../../UI/Modal'
+import DeleteModal from '../../UI/modals/DeleteModal'
 import Switcher from '../../UI/Switcher'
-import Button from '../../UI/buttons/Button'
 
 const TestList = () => {
-   const { tests } = useSelector((state) => state.testsSlice)
+   const { tests, isLoading } = useSelector((state) => state.testsSlice)
 
    const dispatch = useDispatch()
 
@@ -20,16 +19,19 @@ const TestList = () => {
    const [isVisible, setIsVisible] = useState(false)
    const [selectedTestId, setSelectedTestId] = useState(null)
 
+   const stopPropagationHandler = (e) => e.stopPropagation()
+
    useEffect(() => {
       dispatch(TESTS_THUNKS.getAllTests())
    }, [dispatch])
 
-   const handleDeleteTest = (testId) => {
+   const deleteTestHandler = (testId) => {
       dispatch(TESTS_THUNKS.deleteTest(testId))
+
       setIsVisible(false)
    }
 
-   const handleIsVisible = (e, testId) => {
+   const isVisibleHandler = (e, testId) => {
       e.preventDefault()
 
       setSelectedTestId(testId)
@@ -37,7 +39,7 @@ const TestList = () => {
       setIsVisible((prev) => !prev)
    }
 
-   const handleEnable = ({ id, value }) => {
+   const enableHandler = ({ id, value }) => {
       dispatch(
          TESTS_THUNKS.updateTetsByEnable({
             testId: id,
@@ -46,13 +48,13 @@ const TestList = () => {
       )
    }
 
-   const handleWithStopPropagation = (e) => e.stopPropagation()
-
-   const handleEdit = (e, id) => {
+   const navigateHandler = (e, id) => {
       e.preventDefault()
 
       navigate(`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.updateTest}/${id}`)
    }
+
+   const deleteTest = tests?.find((test) => test.id === selectedTestId)?.title
 
    return (
       <StyledContainer>
@@ -63,65 +65,64 @@ const TestList = () => {
                   key={id}
                   className="test-link"
                >
-                  <Box className="test">
-                     <Typography className="title">{title}</Typography>
+                  {isLoading ? (
+                     <Skeleton
+                        key={id}
+                        variant="rounded"
+                        width={900}
+                        height={66}
+                        animation="wave"
+                        className="skeleton-box"
+                     />
+                  ) : (
+                     <Box className="test">
+                        <Typography className="title">{title}</Typography>
 
-                     <Box className="icons">
-                        <Box onClick={handleWithStopPropagation}>
-                           <Switcher
-                              checked={enable}
-                              onChange={(value) => handleEnable({ value, id })}
+                        <Box className="icons">
+                           <Box onClick={stopPropagationHandler}>
+                              <Switcher
+                                 checked={enable}
+                                 onChange={(value) =>
+                                    enableHandler({ value, id })
+                                 }
+                              />
+                           </Box>
+
+                           <EditIcon
+                              className="edit"
+                              onClick={(e) => navigateHandler(e, id)}
+                           />
+
+                           <TrashIcon
+                              className="delete"
+                              onClick={(e) => isVisibleHandler(e, id)}
                            />
                         </Box>
-
-                        <EditIcon
-                           className="edit"
-                           onClick={(e) => handleEdit(e, id)}
-                        />
-
-                        <TrashIcon
-                           className="delete"
-                           onClick={(e) => handleIsVisible(e, id)}
-                        />
                      </Box>
-                  </Box>
+                  )}
                </Link>
             ))
          ) : (
             <Box className="background-image">
-               <img src={NoData} alt="search" />
+               <img src={NoDataImage} alt="no-data" />
             </Box>
          )}
 
-         <Modal
-            isCloseIcon
+         <DeleteModal
             isVisible={isVisible}
-            handleIsVisible={handleIsVisible}
+            toggleModal={isVisibleHandler}
+            deleteHandler={() => deleteTestHandler(selectedTestId)}
          >
-            <FalseIcon />
-
-            <Typography className="modal-title">Do you want delete?</Typography>
-
             <Typography className="title">
                <Typography variant="span">Test: </Typography>
 
-               {tests?.find((test) => test?.id === selectedTestId)?.title}
+               {deleteTest}
             </Typography>
 
             <Typography className="modal-message">
                You can`t restore this test
             </Typography>
-
-            <Box className="container-buttons">
-               <Button variant="secondary" onClick={handleIsVisible}>
-                  CANCEL
-               </Button>
-
-               <Button onClick={() => handleDeleteTest(selectedTestId)}>
-                  DELETE
-               </Button>
-            </Box>
-         </Modal>
+         </DeleteModal>
       </StyledContainer>
    )
 }
@@ -134,7 +135,7 @@ const StyledContainer = styled(Box)(() => ({
       maxWidth: '20rem',
       maxHeight: '18rem',
 
-      '& img': {
+      '& > img': {
          width: '100%',
          height: '100%',
       },
@@ -143,6 +144,11 @@ const StyledContainer = styled(Box)(() => ({
    '& > .test-link': {
       textDecoration: 'none',
       color: 'inherit',
+
+      '& > .skeleton-box': {
+         backgroundColor: '#e5e5e567',
+         marginBottom: '0.5rem',
+      },
 
       '& > .test': {
          width: '100%',
@@ -178,7 +184,7 @@ const StyledContainer = styled(Box)(() => ({
             display: 'flex',
             gap: '1.4rem',
 
-            '& .edit:hover': {
+            '& > .edit:hover': {
                '& > g > path': {
                   stroke: '#0F85F1',
                },

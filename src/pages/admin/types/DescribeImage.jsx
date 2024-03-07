@@ -1,10 +1,10 @@
 import { useState, useRef } from 'react'
+import { useDropzone } from 'react-dropzone'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
-import { QUESTION_TITLE } from '../../../utils/constants'
-import { questionTitle } from '../../../utils/helpers/questionTitle'
+import { QUESTION_TITLES } from '../../../utils/constants'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
 
@@ -24,23 +24,23 @@ const DescribeImage = ({
 
    const navigate = useNavigate()
 
-   const [fileName, setFileName] = useState('')
-   const [answer, setAnswer] = useState('')
    const [image, setImage] = useState(null)
+   const [answer, setAnswer] = useState('')
+   const [fileName, setFileName] = useState('')
 
    const inputFileRef = useRef(null)
    const inputRef = useRef(null)
 
-   const handleClick = () => inputFileRef.current.click()
+   const changeAnswerHandler = (e) => setAnswer(e.target.value)
 
-   const handleAnswerChange = (e) => setAnswer(e.target.value)
+   const goBackHandler = () => navigate(-1)
 
-   const handleGoBack = () => navigate(-1)
+   const clickHandler = () => inputFileRef.current.click()
 
    const isDisabled =
-      !selectType || !duration || !title.trim() || !image || !answer
+      !selectType || !duration || !title.trim() || !image || !answer || !fileUrl
 
-   const handleFileChange = (e) => {
+   const changeFileHandler = (e) => {
       const file = e.target.files[0]
 
       if (file) {
@@ -58,6 +58,30 @@ const DescribeImage = ({
       }
    }
 
+   const onDrop = (acceptedFiles) => {
+      const file = acceptedFiles[0]
+
+      if (file) {
+         const reader = new FileReader()
+
+         reader.onloadend = () => {
+            setImage(reader.result)
+         }
+         reader.readAsDataURL(file)
+
+         setFileName(file.name)
+
+         dispatch(QUESTION_THUNKS.saveFile(file))
+      }
+   }
+
+   const { getRootProps, getInputProps } = useDropzone({
+      onDrop,
+      accept: 'image/*',
+      maxFiles: 1,
+      maxSize: 5000000,
+   })
+
    const onSubmit = () => {
       if (
          selectType !== '' &&
@@ -67,7 +91,7 @@ const DescribeImage = ({
       ) {
          const requestData = {
             title: title.trim(),
-            duration: +duration * 60,
+            duration: +duration,
             correctAnswer: answer.trim(),
             fileUrl,
          }
@@ -78,14 +102,14 @@ const DescribeImage = ({
 
                data: {
                   testId,
-                  questionType: questionTitle(QUESTION_TITLE.DESCRIBE_IMAGE),
+                  questionType: QUESTION_TITLES.DESCRIBE_IMAGE,
                   navigate,
                },
 
-               setState: {
-                  selectType: setSelectType(selectType),
-                  title: setTitle(title),
-                  duration: setDuration(duration),
+               setStates: {
+                  setSelectType: setSelectType(selectType),
+                  setTitle: setTitle(title),
+                  setDuration: setDuration(duration),
                },
             })
          )
@@ -95,47 +119,49 @@ const DescribeImage = ({
    return (
       <StyledContainer>
          {image ? (
-            <Box className="container-image">
-               <Box onClick={handleClick}>
-                  <img src={image} alt="Uploaded" className="image" />
+            <Box className="container-image" {...getRootProps()}>
+               <Box onClick={clickHandler} {...getRootProps()}>
+                  <img src={image} alt="uploaded" className="image" />
                </Box>
 
                <input
                   ref={inputFileRef}
                   type="file"
-                  className="input"
+                  className="input-update"
                   accept=".jpg, .png"
-                  onChange={handleFileChange}
+                  onChange={changeFileHandler}
+                  {...getInputProps()}
                />
 
-               <Typography className="file-name" onClick={handleClick}>
+               <Typography className="file-name" onClick={clickHandler}>
                   {fileName}
                </Typography>
             </Box>
          ) : (
-            <Box className="upload">
-               <label htmlFor="fileInput" className="title">
+            <Box className="upload" {...getRootProps()}>
+               <InputLabel htmlFor="fileInput" className="title">
                   Upload image
                   <input
                      id="fileInput"
                      type="file"
                      className="input"
-                     onChange={handleFileChange}
+                     onChange={changeFileHandler}
                      accept=".jpg, .png"
                      ref={inputRef}
+                     {...getInputProps()}
                   />
-               </label>
+               </InputLabel>
             </Box>
          )}
 
          <Box className="answer">
             <InputLabel className="correct-answer">Correct answer</InputLabel>
 
-            <Input value={answer} onChange={handleAnswerChange} />
+            <Input value={answer} onChange={changeAnswerHandler} />
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={handleGoBack}>
+            <Button variant="secondary" onClick={goBackHandler}>
                GO BACK
             </Button>
 
@@ -144,7 +170,7 @@ const DescribeImage = ({
                disabled={isDisabled}
                onClick={onSubmit}
                isLoading={isLoading}
-               colorLoading="secondary"
+               loadingColor="secondary"
             >
                SAVE
             </Button>
@@ -159,26 +185,26 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    fontFamily: 'Arial',
    color: '#4C4859',
 
-   '& .container-image': {
+   '& > .container-image': {
       display: 'flex',
       alignItems: 'center',
       marginBottom: '1.4rem',
       marginTop: '1rem',
    },
 
-   '& .image': {
+   '& > div > div > .image': {
       width: '181.59px',
       height: '177.39px',
       borderRadius: '8px',
       cursor: 'pointer',
    },
 
-   '& .upload': {
+   '& > .upload': {
       display: 'flex',
       alignItems: 'center',
    },
 
-   '& .title': {
+   '& > div > .title': {
       border: '1px solid #D4D0D0',
       borderRadius: '8px',
       padding: '4.6rem 2rem 4.6rem 2rem',
@@ -190,24 +216,28 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       cursor: 'pointer',
    },
 
-   '& .input': {
+   '& > div > label > .input': {
       display: 'none',
    },
 
-   '& .file-name': {
+   '& > div > .input-update': {
+      display: 'none',
+   },
+
+   '& > div > .file-name': {
       marginLeft: '4rem',
       cursor: 'pointer',
    },
 
-   '& .correct-answer': {
+   '& > div > .correct-answer': {
       paddingBottom: '7px',
    },
 
-   '& .answer': {
+   '& > .answer': {
       marginBottom: '2rem',
    },
 
-   '& .buttons': {
+   '& > .buttons': {
       display: 'flex',
       gap: '1.1rem',
       marginLeft: '37.5rem',
