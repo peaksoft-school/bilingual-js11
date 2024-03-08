@@ -1,6 +1,6 @@
 import './App.css'
-import AppRoutes from './routes/AppRoutes'
+import RecordingComponent from './components/UI/RecordSayingStatement'
 
-const App = () => <AppRoutes />
+const App = () => <RecordingComponent />
 
 export default App
