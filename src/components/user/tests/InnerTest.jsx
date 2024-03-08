@@ -5,11 +5,12 @@ import { Box, ListItem, Typography, styled } from '@mui/material'
 import { LeptopIcon, PhotoIcon, TimeIcon } from '../../../assets/icons'
 import { TESTS_LIST_THUNK } from '../../../store/slice/user/tests/testsListThunk'
 import { TestImage } from '../../../assets/images'
-import Button from '../../UI/buttons/Button'
 import TestContainer from '../../UI/TestContainer'
+import Button from '../../UI/buttons/Button'
+import Loading from '../../Loading'
 
 const InnerTest = () => {
-   const { tests } = useSelector((state) => state.testsListSlice)
+   const { tests, isLoading } = useSelector((state) => state.testsListSlice)
 
    const { testId } = useParams()
 
@@ -27,6 +28,8 @@ const InnerTest = () => {
 
    return (
       <TestContainer>
+         {isLoading && <Loading />}
+
          <MainContent key={id}>
             <Typography className="title">{title} </Typography>
 

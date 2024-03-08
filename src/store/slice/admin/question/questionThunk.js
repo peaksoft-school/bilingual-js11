@@ -11,7 +11,7 @@ const saveTest = createAsyncThunk(
       {
          requestData,
          data: { testId, questionType, navigate },
-         setState: { selectType, title, duration },
+         setStates: { setSelectType, setTitle, setDuration },
          clearOptions,
       },
       { rejectWithValue, dispatch }
@@ -40,9 +40,9 @@ const saveTest = createAsyncThunk(
             type: 'error',
          })
 
-         selectType()
-         title()
-         duration()
+         setSelectType()
+         setTitle()
+         setDuration()
 
          return rejectWithValue('Something went wrong')
       }

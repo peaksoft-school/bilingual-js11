@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AUTH_ACTIONS } from '../store/slice/auth/authSlice'
 import { LogoImage } from '../assets/images'
 import { ROUTES } from '../routes/routes'
-import Modal from '../components/UI/Modal'
 import Button from '../components/UI/buttons/Button'
+import Modal from '../components/UI/modals/Modal'
 
 const LandingHeader = () => {
    const { role } = useSelector((state) => state.auth)
