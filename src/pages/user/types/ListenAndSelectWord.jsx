@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Howl, Howler } from 'howler'
-import { Box, Divider, Typography, styled } from '@mui/material'
+import { Box, Typography, styled } from '@mui/material'
 import { AnimationSoundIcon, CheckIcon, SoundIcon } from '../../../assets/icons'
 import TestContainer from '../../../components/UI/TestContainer'
 import ProgressBar from '../../../components/UI/ProgressBar'
@@ -161,7 +161,7 @@ const ListenAndSelectWord = () => {
                ))}
             </Box>
 
-            <Divider className="divider" />
+            <Box className="line" />
 
             <Button className="button" disabled={isDisabled}>
                NEXT
@@ -191,9 +191,10 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       marginBottom: '2.5rem',
    },
 
-   '& > .divider': {
+   '& > .line': {
       marginTop: '4rem',
       marginBottom: '2rem',
+      borderBottom: '1.53px solid #D4D0D0',
    },
 
    '& > .button': {
