@@ -6,15 +6,17 @@ import { userQuestionActions } from '../../../../store/slice/user/userSlice'
 import Button from '../../../../components/UI/buttons/Button'
 import TextArea from '../../../../components/UI/TextArea'
 
-const TypeWhatYouHear = ({ id, FILE_URL, numberOfReplays }) => {
+const TypeWhatYouHear = ({ id }) => {
    const dispatch = useDispatch()
 
    const [textArea, setTextArea] = useState('')
    const [isPlaying, setIsPlaying] = useState(false)
-   const [replaysLeft, setReplaysLeft] = useState(numberOfReplays)
+   const [replaysLeft, setReplaysLeft] = useState(1)
 
    const soundRef = useRef(null)
 
+   const FILE_URL =
+      'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3'
    const textAreaHandler = (e) => setTextArea(e.target.value)
 
    const soundHandler = () => {
@@ -86,9 +88,15 @@ const TypeWhatYouHear = ({ id, FILE_URL, numberOfReplays }) => {
                         value={textArea}
                         handleChange={textAreaHandler}
                      />
-                     <NumberOfReplaysLeft>
-                        Number of replays left: {replaysLeft}
-                     </NumberOfReplaysLeft>
+                     <Typography
+                        className={
+                           replaysLeft !== 0 ? 'number-of-replays' : 'attempts'
+                        }
+                     >
+                        {!replaysLeft
+                           ? 'Your attempts are over !'
+                           : `Number of replays left: ${replaysLeft}`}
+                     </Typography>
                   </Box>
                </Box>
             </Box>
@@ -114,14 +122,14 @@ const Container = styled(Box)(() => ({
    justifyContent: 'center',
 }))
 const StyledContainer = styled(Box)(({ theme, disabled }) => ({
-   width: '900px',
+   width: '56.25rem',
    height: '100%',
    display: 'flex',
    flexDirection: 'column',
    alignItems: 'center',
-   marginTop: '50px',
-   borderRadius: '8px',
-   boxShadow: '0 2px 6px rgba(0, 0, 0, 0.2)',
+   marginTop: '3.125rem',
+   borderRadius: '0.5rem',
+   boxShadow: '0 0.125rem 0.375rem rgba(0, 0, 0, 0.2)',
    '& .title': {
       fontFamily: 'Poppins',
       fontStyle: 'inherit',
@@ -129,14 +137,32 @@ const StyledContainer = styled(Box)(({ theme, disabled }) => ({
       fontSize: '1.75rem',
       color: '#4C4859',
       marginLeft: '14.5rem',
-      marginTop: '50px',
+      marginTop: '3.125rem',
    },
    '& .audio': {
       display: 'none',
    },
+   '& .number-of-replays': {
+      width: '49%',
+      height: '1.25rem',
+      marginTop: '0.5rem',
+      fontFamily: 'Poppins',
+      fontWeight: '400',
+      fontSize: '1rem',
+      color: '#AFAFAF',
+   },
+   '& .attempts': {
+      width: '49%',
+      height: '1.25rem',
+      marginTop: '0.5rem',
+      fontFamily: 'Poppins',
+      fontWeight: '400',
+      fontSize: '1rem',
+      color: 'red',
+   },
    '& .volume-icon': {
-      width: '88px',
-      height: '88px',
+      width: '5.5rem',
+      height: '5.5rem',
       cursor: 'pointer',
       pointerEvents: disabled ? 'none' : '',
       color: 'primary',
@@ -166,12 +192,12 @@ const StyledContainer = styled(Box)(({ theme, disabled }) => ({
    },
    '& .text-area-and-replays': {
       width: '81.98%',
-      marginTop: '40px',
-      marginLeft: '115px',
+      marginTop: '2.5rem',
+      marginLeft: '7.1875rem',
    },
    '& .type-what-you-hear': {
       width: '91.5%',
-      marginTop: '40px',
+      marginTop: '2.5rem',
       display: 'flex',
       flexDirection: 'column',
    },
@@ -180,31 +206,20 @@ const StyledContainer = styled(Box)(({ theme, disabled }) => ({
       display: 'flex',
       justifyContent: 'end',
       marginTop: '3.75rem',
-      borderTop: '1.5296px solid #D4D0D0',
-      padding: '32px 0  0 0 ',
-      marginBottom: '50px',
+      borderTop: '0.0956rem solid #D4D0D0',
+      padding: '2rem 0  0 0 ',
+      marginBottom: '3.125rem',
    },
    '& .text-area': {
-      width: '480px ',
+      width: '30rem',
       height: '100%',
       fontFamily: 'Poppins',
       '& .MuiInputBase-root': {
          fontFamily: 'Poppins',
-         borderRadius: '8px',
+         borderRadius: '0.5rem',
       },
       ' & .MuiInputBase-input': {
          fontFamily: 'Poppins',
       },
    },
-}))
-
-const NumberOfReplaysLeft = styled(Box)(() => ({
-   width: '49%',
-   height: '20px',
-   marginTop: '8px',
-   fontFamily: 'Poppins',
-   fontStyle: 'normal',
-   fontWeight: 400,
-   fontSize: '1rem',
-   color: '#AFAFAF',
 }))

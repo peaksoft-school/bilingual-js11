@@ -15,7 +15,7 @@ export const userSlice = createSlice({
    initialState,
    reducers: {
       addAnswer: (state, action) => {
-         state.answers.push(action.payload)
+         state.optionId.push(action.payload)
       },
    },
 })
