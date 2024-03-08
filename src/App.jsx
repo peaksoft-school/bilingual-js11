@@ -1,6 +1,6 @@
 import './App.css'
-import TypeWhatYouHearss from './pages/user/tests/types/TypeWhatYouHear'
+import AppRoutes from './routes/AppRoutes'
 
-const App = () => <TypeWhatYouHearss />
+const App = () => <AppRoutes />
 
 export default App
