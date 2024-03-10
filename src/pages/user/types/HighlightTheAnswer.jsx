@@ -5,9 +5,10 @@ import ProgressBar from '../../../components/UI/ProgressBar'
 import Button from '../../../components/UI/buttons/Button'
 
 const HighlightTheAnswer = () => {
-   const [answerValue, setAnswerValue] = useState('')
+   const [highlightAnswer, setHighlightAnswer] = useState('')
 
-   const mouseUpHandler = () => setAnswerValue(window.getSelection().toString())
+   const mouseUpHandler = () =>
+      setHighlightAnswer(window.getSelection().toString())
 
    return (
       <TestContainer>
@@ -18,10 +19,7 @@ const HighlightTheAnswer = () => {
                <Box className="correct-answer">
                   <Typography className="title">PASSAGE</Typography>
 
-                  <Typography
-                     onMouseUp={mouseUpHandler}
-                     className="highlight-text"
-                  >
+                  <Typography onMouseUp={mouseUpHandler} className="passage">
                      Sed ut perspiciatis unde omnis iste natus error sit
                      voluptatem accusantium doloremque laudantium, totam rem
                      aperiam, eaque ipsa quae ab illo inventore veritatis et
@@ -48,16 +46,16 @@ const HighlightTheAnswer = () => {
 
                   <textarea
                      name="text"
-                     value={answerValue}
+                     defaultValue={highlightAnswer}
                      placeholder="Highlight text in the passage to set an answer"
-                     className={`input ${
-                        answerValue.length > 0 ? 'active-input' : ''
+                     className={`textarea ${
+                        highlightAnswer.length > 0 ? 'highlighted-textarea' : ''
                      }`}
                   />
                </Box>
             </Box>
 
-            <Button className="button" disabled={!answerValue}>
+            <Button className="button" disabled={!highlightAnswer}>
                NEXT
             </Button>
          </StyledContainer>
@@ -87,31 +85,31 @@ const StyledContainer = styled(Box)(({ theme }) => ({
          width: '23.5rem',
       },
 
-      '& > div > .input': {
-         width: '25rem',
-         padding: '0 0 1rem 2rem',
+      '& > div > .textarea': {
+         width: '23rem',
+         margin: '0 0 1rem 2rem',
+         resize: 'none',
+         fontFamily: 'Poppins',
+         padding: '0.8rem 1rem',
+         height: '2.875rem',
+         border: '1px solid #D4D0D0',
+         backgroundColor: '#F7F7F7',
+         transition: 'border-color 0.2s ease-in-out',
+         borderRadius: '8px',
 
-         '& > div > .MuiOutlinedInput-input': {
-            backgroundColor: '#F7F7F7',
-            border: '1px solid transparent',
-            transition: 'border-color 0.2s ease-in-out',
-            borderRadius: '8px',
+         '&:focus': {
+            outline: 'none',
          },
       },
 
-      '& > div > .active-input': {
-         '& > div > .MuiOutlinedInput-input': {
-            borderColor: theme.palette.primary.main,
-            borderRadius: '8px',
-            backgroundColor: '#FFFCFC',
-            wordWrap: 'break-word',
-            whiteSpace: 'pre-wrap !important',
-            height: 'auto',
-            padding: '8px 12px',
-            resize: 'none',
-            overflow: 'hidden',
-            maxWidth: '25rem',
-         },
+      '& > div > .highlighted-textarea': {
+         borderColor: theme.palette.primary.main,
+         borderRadius: '8px',
+         backgroundColor: '#FFFCFC',
+         wordWrap: 'break-word',
+         padding: '0.8rem',
+         height: '100%',
+         maxHeight: '10rem',
       },
    },
 
@@ -134,7 +132,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
          padding: '1rem',
       },
 
-      '& > .highlight-text': {
+      '& > .passage': {
          marginBottom: '25px',
          fontWeight: 400,
          color: '#5b5867',
