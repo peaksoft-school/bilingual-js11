@@ -22,7 +22,7 @@ const RespondInAtLeastWord = () => {
 
    const wordsCount = countWords(text)
 
-   const isDisabled = wordsCount < 20
+   const isDisabled = wordsCount < 50
 
    return (
       <TestContainer>
@@ -48,7 +48,7 @@ const RespondInAtLeastWord = () => {
                   />
                   <Typography
                      className={`${
-                        wordsCount >= 20 ? 'highlight-word' : 'word-length'
+                        wordsCount >= 50 ? 'highlight-word' : 'word-length'
                      }`}
                   >
                      Word: {wordsCount}
