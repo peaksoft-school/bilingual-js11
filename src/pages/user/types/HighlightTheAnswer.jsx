@@ -3,12 +3,18 @@ import { Box, Typography, styled } from '@mui/material'
 import TestContainer from '../../../components/UI/TestContainer'
 import ProgressBar from '../../../components/UI/ProgressBar'
 import Button from '../../../components/UI/buttons/Button'
+import Input from '../../../components/UI/Input'
 
 const HighlightTheAnswer = () => {
    const [highlightAnswer, setHighlightAnswer] = useState('')
 
-   const mouseUpHandler = () =>
-      setHighlightAnswer(window.getSelection().toString())
+   const mouseUpHandler = () => {
+      const selection = window.getSelection().toString().trim()
+
+      if (selection !== '') {
+         setHighlightAnswer(selection)
+      }
+   }
 
    return (
       <TestContainer>
@@ -44,20 +50,21 @@ const HighlightTheAnswer = () => {
                      What did residents think could happen with the new bridge?
                   </Typography>
 
-                  <textarea
-                     name="text"
-                     defaultValue={highlightAnswer}
+                  <Input
+                     readOnly
+                     value={highlightAnswer}
+                     multiline
                      placeholder="Highlight text in the passage to set an answer"
-                     className={`textarea ${
-                        highlightAnswer.length > 0 ? 'highlighted-textarea' : ''
+                     className={`input ${
+                        highlightAnswer.length > 0 ? 'highlighted-input' : ''
                      }`}
                   />
+
+                  <Button className="button" disabled={!highlightAnswer}>
+                     NEXT
+                  </Button>
                </Box>
             </Box>
-
-            <Button className="button" disabled={!highlightAnswer}>
-               NEXT
-            </Button>
          </StyledContainer>
       </TestContainer>
    )
@@ -69,59 +76,8 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    color: '#4C4859',
    fontFamily: 'Poppins',
 
-   '& > .content-box': {
-      display: 'flex',
-      width: '67rem',
-
-      '& >  div > .instruction': {
-         width: '24.375rem',
-         marginTop: '1.8rem',
-         fontSize: '22px',
-         padding: '0 0 1rem 2rem',
-      },
-
-      '& > div > .question': {
-         padding: '0 0 1rem 2rem',
-         width: '23.5rem',
-      },
-
-      '& > div > .textarea': {
-         width: '23rem',
-         margin: '0 0 1rem 2rem',
-         resize: 'none',
-         fontFamily: 'Poppins',
-         padding: '0.8rem 1rem',
-         height: '2.875rem',
-         border: '1px solid #D4D0D0',
-         backgroundColor: '#F7F7F7',
-         transition: 'border-color 0.2s ease-in-out',
-         borderRadius: '8px',
-
-         '&:focus': {
-            outline: 'none',
-         },
-      },
-
-      '& > div > .highlighted-textarea': {
-         borderColor: theme.palette.primary.main,
-         borderRadius: '8px',
-         backgroundColor: '#FFFCFC',
-         wordWrap: 'break-word',
-         padding: '0.8rem',
-         height: '100%',
-         maxHeight: '10rem',
-      },
-   },
-
-   '& > .button': {
-      marginLeft: '47.5rem',
-      marginTop: '-8.2rem',
-      width: '143px',
-   },
-
    '& > div > .correct-answer': {
       marginTop: '1.8rem',
-      marginBottom: '2rem',
       border: '1px solid #D4D0D0',
       borderRadius: '8px',
       width: '31.688rem',
@@ -142,6 +98,62 @@ const StyledContainer = styled(Box)(({ theme }) => ({
          '::selection': {
             backgroundColor: '#3A10E52E',
             opacity: '0.3',
+         },
+      },
+   },
+
+   '& > .content-box': {
+      display: 'flex',
+      width: '67rem',
+      padding: '1rem',
+
+      '& > div > .button': {
+         marginTop: '1rem',
+         width: '143px',
+         marginLeft: '16.1rem',
+      },
+
+      '& >  div > .instruction': {
+         width: '24.375rem',
+         marginTop: '1.8rem',
+         fontSize: '22px',
+         padding: '0 0 1rem 2rem',
+      },
+
+      '& > div > .question': {
+         padding: '0 0 1rem 2rem',
+         width: '23.5rem',
+      },
+
+      '& > div > .input': {
+         '.MuiOutlinedInput-root': {
+            width: '23rem',
+            margin: '0 0 1rem 2rem',
+            fontFamily: 'Poppins',
+            fontSize: '14px',
+            height: '2.875rem',
+            backgroundColor: '#F7F7F7',
+            borderRadius: '8px',
+            outline: 'none',
+
+            '&:focus': {
+               outline: 'none',
+            },
+         },
+      },
+
+      '& > div > .highlighted-input': {
+         height: 'auto',
+
+         '.MuiOutlinedInput-root': {
+            borderRadius: '8px',
+            backgroundColor: '#FFFCFC',
+            padding: '0.8rem',
+            height: 'auto',
+         },
+
+         '& > div > .MuiOutlinedInput-notchedOutline': {
+            borderColor: `${theme.palette.primary.main} !important`,
          },
       },
    },
