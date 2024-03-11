@@ -1,6 +1,7 @@
 import './App.css'
-import AppRoutes from './routes/AppRoutes'
+import DescribImage from './components/user/tests/UserTestDescribImage'
+// import AppRoutes from './routes/AppRoutes'
 
-const App = () => <AppRoutes />
+const App = () => <DescribImage />
 
 export default App

@@ -43,6 +43,15 @@ export const testsListSlice = createSlice({
             state.status = 'failed'
             state.error = action.error.message
          })
+
+      fetch('/question')
+         .then((data) => {
+            const describeImageQuestion = data.find(
+               (question) => question.questionType === 'DESCRIBE_IMAGE'
+            )
+            console.log(describeImageQuestion)
+         })
+         .catch((error) => console.error('Error fetching questions:', error))
    },
 })
 
