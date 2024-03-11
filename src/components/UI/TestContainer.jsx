@@ -10,6 +10,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    margin: 'auto',
    marginTop: '4.25rem',
    maxWidth: '66.25rem',
+   width: '100%',
    display: 'flex',
    flexDirection: 'column',
    gap: '15px',
