@@ -36,6 +36,11 @@ const OPTIONS = [
       title: 'Word 5',
       fileUrl: 'https://rpg.hamsterrepublic.com/wiki-images/d/d7/Oddbounce.ogg',
    },
+   {
+      id: 6,
+      title: 'Word 5',
+      fileUrl: 'https://rpg.hamsterrepublic.com/wiki-images/d/d7/Oddbounce.ogg',
+   },
 ]
 
 const ListenAndSelectWord = () => {
@@ -90,14 +95,14 @@ const ListenAndSelectWord = () => {
          (option) => option.isChecked
       ).length
 
-      if (selectedCount >= 1 && !optionState[id]?.isChecked) return
+      if (selectedCount >= 2 && !optionState[id]?.isChecked) return
 
-      setOptionState((prevState) => {
+      setOptionState((prev) => {
          const newState = {
-            ...prevState,
+            ...prev,
             [id]: {
-               ...prevState[id],
-               isChecked: !prevState?.[id]?.isChecked,
+               ...prev[id],
+               isChecked: !prev?.[id]?.isChecked,
             },
          }
 
@@ -105,6 +110,7 @@ const ListenAndSelectWord = () => {
             const firstSelectedId = Object.keys(newState).find(
                (key) => newState[key].isChecked
             )
+
             if (firstSelectedId) {
                newState[firstSelectedId].isChecked = false
             }
@@ -127,7 +133,7 @@ const ListenAndSelectWord = () => {
                Select the real English words in this list
             </Typography>
 
-            <Box className="container">
+            <Box className="options-box">
                {OPTIONS.map(({ id, fileUrl, title }) => (
                   <Box
                      key={id}
@@ -174,7 +180,7 @@ const ListenAndSelectWord = () => {
 export default ListenAndSelectWord
 
 const StyledContainer = styled(Box)(({ theme }) => ({
-   '& > .container': {
+   '& > .options-box': {
       width: '820px',
       display: 'flex',
       flexWrap: 'wrap',
