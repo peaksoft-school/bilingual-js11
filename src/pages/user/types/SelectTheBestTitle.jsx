@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
+import { PRACTICE_TEST_ACTIONS } from '../../../store/slice/user/practice-test/practiceTestSlice'
 import TestContainer from '../../../components/UI/TestContainer'
 import ProgressBar from '../../../components/UI/ProgressBar'
 import Button from '../../../components/UI/buttons/Button'
@@ -28,9 +29,15 @@ const OPTIONS = [
 ]
 
 const SelectTheBestTitle = () => {
-   const [selectedOption, setSelectedOption] = useState(null)
+   const selectedOption = useSelector(
+      (state) => state.practiceTest.selectedOptionId
+   )
 
-   const handleOptionSelect = (id) => setSelectedOption(id)
+   const dispatch = useDispatch()
+
+   const optionSelectHandler = (id) => {
+      dispatch(PRACTICE_TEST_ACTIONS.handleIsCorrect({ id }))
+   }
 
    const isDisabled = selectedOption === null
 
@@ -68,9 +75,11 @@ const SelectTheBestTitle = () => {
                         className={`option ${
                            selectedOption === id ? 'selected' : ''
                         }`}
-                        onClick={() => handleOptionSelect(id)}
                      >
-                        <Radio />
+                        <Radio
+                           checked={selectedOption === id}
+                           onClick={() => optionSelectHandler(id)}
+                        />
 
                         <Typography className="title">{title}</Typography>
                      </Box>
@@ -109,7 +118,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 
       '& > div > .option': {
          display: 'flex',
-         width: '25.688rem',
+         width: '24rem',
          border: '1px solid #D4D0D0',
          borderRadius: '8px',
          padding: '0.6rem 1rem 0.6rem 1rem',
@@ -129,7 +138,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       },
 
       '& > div > .button': {
-         marginLeft: '19rem',
+         marginLeft: '17.1rem',
          marginTop: '1rem',
          width: '143px',
       },
