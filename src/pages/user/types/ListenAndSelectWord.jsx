@@ -91,12 +91,6 @@ const ListenAndSelectWord = () => {
    }
 
    const toggleCheckboxHandler = (id) => {
-      const selectedCount = Object.values(optionState).filter(
-         (option) => option.isChecked
-      ).length
-
-      if (selectedCount >= 2 && !optionState[id]?.isChecked) return
-
       setOptionState((prev) => {
          const newState = {
             ...prev,
@@ -104,16 +98,6 @@ const ListenAndSelectWord = () => {
                ...prev[id],
                isChecked: !prev?.[id]?.isChecked,
             },
-         }
-
-         if (selectedCount >= 2 && newState[id].isChecked) {
-            const firstSelectedId = Object.keys(newState).find(
-               (key) => newState[key].isChecked
-            )
-
-            if (firstSelectedId) {
-               newState[firstSelectedId].isChecked = false
-            }
          }
 
          return newState
