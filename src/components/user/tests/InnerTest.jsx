@@ -8,9 +8,10 @@ import { TestImage } from '../../../assets/images'
 import { ROUTES } from '../../../routes/routes'
 import Button from '../../UI/buttons/Button'
 import TestContainer from '../../UI/TestContainer'
+import Loading from '../../Loading'
 
 const InnerTest = () => {
-   const { tests } = useSelector((state) => state.testsListSlice)
+   const { tests, isLoading } = useSelector((state) => state.testsListSlice)
 
    const { testId } = useParams()
 
@@ -31,7 +32,9 @@ const InnerTest = () => {
 
    return (
       <TestContainer>
-         <MainContent>
+         {isLoading && <Loading />}
+
+         <MainContent key={tests.id}>
             <Typography className="title">{tests.title} </Typography>
 
             <Box className="content">

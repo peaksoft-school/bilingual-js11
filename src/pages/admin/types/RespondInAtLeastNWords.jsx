@@ -3,17 +3,16 @@ import { useNavigate, useParams } from 'react-router'
 import { InputLabel, styled, Box } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
-import { QUESTION_TITLE } from '../../../utils/constants'
-import { questionTitle } from '../../../utils/helpers/questionTitle'
-import Input from '../../../components/UI/Input'
+import { QUESTION_TITLES } from '../../../utils/constants'
 import Button from '../../../components/UI/buttons/Button'
+import Input from '../../../components/UI/Input'
 
 const RespondInAtLeastNWords = ({
-   duration,
-   setDuration,
-   selectType,
    title,
+   duration,
    setTitle,
+   selectType,
+   setDuration,
    setSelectType,
 }) => {
    const { isLoading } = useSelector((state) => state.question)
@@ -24,12 +23,14 @@ const RespondInAtLeastNWords = ({
 
    const navigate = useNavigate()
 
-   const [statement, setStatement] = useState('')
    const [attempts, setAttempts] = useState(0)
+   const [statement, setStatement] = useState('')
 
-   const handleStatementChange = (e) => setStatement(e.target.value)
+   const statementChangeHandler = (e) => setStatement(e.target.value)
 
-   const handleAttemptsChange = (e) => setAttempts(e.target.value)
+   const attemptsChangeHandler = (e) => setAttempts(e.target.value)
+
+   const navigateGoBackHandler = () => navigate(-1)
 
    const isDisabled =
       !selectType ||
@@ -48,7 +49,7 @@ const RespondInAtLeastNWords = ({
       ) {
          const requestData = {
             title: title.trim(),
-            duration: +duration * 60,
+            duration: +duration,
             statement: statement.trim(),
             attempts: attempts.trim(),
          }
@@ -59,16 +60,14 @@ const RespondInAtLeastNWords = ({
 
                data: {
                   testId,
-                  questionType: questionTitle(
-                     QUESTION_TITLE.RESPOND_IN_AT_LEAST_N_WORDS
-                  ),
+                  questionType: QUESTION_TITLES.RESPOND_IN_AT_LEAST_N_WORDS,
                   navigate,
                },
 
-               setState: {
-                  selectType: setSelectType(selectType),
-                  title: setTitle(title),
-                  duration: setDuration(duration),
+               setStates: {
+                  setSelectType: setSelectType(selectType),
+                  setTitle: setTitle(title),
+                  setDuration: setDuration(duration),
                },
             })
          )
@@ -80,7 +79,7 @@ const RespondInAtLeastNWords = ({
          <Box>
             <InputLabel>Question statement</InputLabel>
 
-            <Input value={statement} onChange={handleStatementChange} />
+            <Input value={statement} onChange={statementChangeHandler} />
          </Box>
 
          <Box>
@@ -93,20 +92,22 @@ const RespondInAtLeastNWords = ({
                className="input-number"
                type="number"
                value={attempts}
-               onChange={handleAttemptsChange}
+               onChange={attemptsChangeHandler}
                inputProps={{ min: 0, max: 15 }}
             />
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary">GO BACK</Button>
+            <Button variant="secondary" onClick={navigateGoBackHandler}>
+               GO BACK
+            </Button>
 
             <Button
                variant="primary"
                onClick={onSubmit}
                isLoading={isLoading}
                disabled={isDisabled}
-               colorLoading="secondary"
+               loadingColor="secondary"
             >
                SAVE
             </Button>
@@ -122,7 +123,7 @@ const StyledContainer = styled(Box)(() => ({
    flexDirection: 'column',
    gap: '2rem',
    marginTop: '2rem',
-   width: '90%',
+   width: '822px',
 
    '& > .MuiInputLabel-root': {
       fontFamily: 'Poppins',
@@ -131,7 +132,7 @@ const StyledContainer = styled(Box)(() => ({
       marginBottom: '0.5rem',
    },
 
-   '& .input-number': {
+   '& > div > .input-number': {
       '& > .MuiOutlinedInput-root': {
          padding: '.75rem  0.1rem .75rem 0.1rem ',
          width: '3.5rem',
@@ -141,9 +142,10 @@ const StyledContainer = styled(Box)(() => ({
       },
    },
 
-   '& > .MuiOutlinedInput-input[type="number"]::-webkit-inner-spin-button': {
-      display: 'none',
-   },
+   '& div > .MuiOutlinedInput-input[type="number"]::-webkit-inner-spin-button':
+      {
+         display: 'none',
+      },
 
    '& > .buttons': {
       display: 'flex',

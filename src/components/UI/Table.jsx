@@ -8,9 +8,10 @@ import {
    TableHead,
    TableRow,
    Table as MuiTable,
+   Skeleton,
 } from '@mui/material'
 
-const Table = ({ columns: headers, data }) => {
+const Table = ({ columns: headers, data, isLoading }) => {
    const columns = useMemo(() => headers, [])
 
    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -22,30 +23,47 @@ const Table = ({ columns: headers, data }) => {
    return (
       <StyledTableContainer>
          <StyledTable {...getTableProps()}>
-            <TableHead>
-               {headerGroups.map((headerGroup, i) => (
-                  <TableRow
-                     {...headerGroup.getHeaderGroupProps()}
-                     key={headerGroup.headers[i].Header}
-                  >
-                     {headerGroup.headers.map((column) => (
-                        <StyledCellTh
-                           {...column.getHeaderProps({
-                              style: { ...column.style },
-                           })}
-                           key={column.id}
-                        >
-                           {column.render('Header')}
-                        </StyledCellTh>
-                     ))}
-                  </TableRow>
-               ))}
-            </TableHead>
+            {isLoading ? (
+               <Skeleton
+                  variant="rounded"
+                  width={933}
+                  height={25}
+                  className="skeleton-box"
+               />
+            ) : (
+               <TableHead>
+                  {headerGroups.map((headerGroup, i) => (
+                     <TableRow
+                        {...headerGroup.getHeaderGroupProps()}
+                        key={headerGroup.headers[i].Header}
+                     >
+                        {headerGroup.headers.map((column) => (
+                           <StyledCellTh
+                              {...column.getHeaderProps({
+                                 style: { ...column.style },
+                              })}
+                              key={column.id}
+                           >
+                              {column.render('Header')}
+                           </StyledCellTh>
+                        ))}
+                     </TableRow>
+                  ))}
+               </TableHead>
+            )}
 
             <TableBody {...getTableBodyProps()}>
                {rows.map((row) => {
                   prepareRow(row)
-                  return (
+                  return isLoading ? (
+                     <Skeleton
+                        key={row.id}
+                        variant="rounded"
+                        width={933}
+                        height={66}
+                        className="skeleton-box"
+                     />
+                  ) : (
                      <StyledCellTr
                         {...row.getRowProps()}
                         key={row.id}
@@ -93,6 +111,11 @@ const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
    [theme.breakpoints.down('lg')]: {
       width: '60rem',
       padding: '1.13rem 3.13rem',
+   },
+
+   '& > table > tbody > .skeleton-box': {
+      marginBottom: '0.87rem',
+      borderRadius: '8px',
    },
 }))
 

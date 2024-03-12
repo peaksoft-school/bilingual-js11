@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { QUESTION_THUNKS } from './questionThunk'
+import { showNotification } from '../../../../utils/helpers/notification'
 
 const initialState = {
    title: '',
@@ -9,7 +10,12 @@ const initialState = {
    attempts: 0,
    correctAnswer: '',
    fileUrl: '',
-   options: [],
+   options: {
+      selectRealEnglishWordsOptions: [],
+      listenAndSelectOptions: [],
+      selectTheMainIdeaOptions: [],
+      selectTheBestTitleOptions: [],
+   },
    isLoading: false,
 }
 
@@ -18,28 +24,37 @@ const questionSlice = createSlice({
    initialState,
 
    reducers: {
-      addOption: (state, { payload }) => {
-         const isFirstOption = state.options.length === 0
+      addOptionCheck: (state, { payload }) => {
+         state.options[payload.optionName].push(payload.option)
+      },
+
+      addOptionRadio: (state, { payload }) => {
+         const isFirstOption = state.options[payload.optionName]?.length === 0
 
          const newOption = {
-            ...payload,
-            isTrueOption: isFirstOption,
+            ...payload.option,
+            isCorrectOption: isFirstOption,
          }
 
-         state.options = [...state.options, newOption]
+         state.options[payload.optionName] = [
+            ...state.options[payload.optionName],
+            newOption,
+         ]
 
-         state.options = state.options.map((option) => {
-            if (payload.isTrueOption) {
-               if (payload.id === option.id) {
+         state.options[payload.optionName] = state.options[
+            payload.optionName
+         ].map((option) => {
+            if (payload.option.isCorrectOption) {
+               if (payload.option.id === option.id) {
                   return {
                      ...option,
-                     isTrueOption: payload.isTrueOption,
+                     isCorrectOption: payload.option.isCorrectOption,
                   }
                }
 
                return {
                   ...option,
-                  isTrueOption: false,
+                  isCorrectOption: false,
                }
             }
 
@@ -47,31 +62,63 @@ const questionSlice = createSlice({
          })
       },
 
+      handleIsChecked: (state, { payload }) => {
+         state.options[payload.optionName] = state.options[
+            payload.optionName
+         ].map((option) => {
+            if (option.id === payload.id) {
+               return { ...option, isCorrectOption: !option.isCorrectOption }
+            }
+            return {
+               ...option,
+               isCorrectOption: option.isCorrectOption,
+            }
+         })
+      },
+
       handleIsCorrect: (state, { payload }) => {
-         state.options = state.options.map((item) => {
-            if (item.id === payload) {
+         state.options[payload.optionName] = state.options[
+            payload.optionName
+         ].map((option) => {
+            if (option.id === payload.id) {
                return {
-                  ...item,
-                  isTrueOption: !item.isTrueOption,
+                  ...option,
+                  isCorrectOption: !option.isCorrectOption,
                }
             }
             return {
-               ...item,
-               isTrueOption: false,
+               ...option,
+               isCorrectOption: false,
             }
          })
       },
 
       deleteOption: (state, { payload }) => {
-         state.options = state.options.filter((item) => item.id !== payload)
+         return {
+            ...state,
+            options: {
+               ...state.options,
+               [payload.optionName]: state.options[payload.optionName].filter(
+                  (option) => option.id !== payload.optionId
+               ),
+            },
+         }
       },
 
       clearOptions(state) {
-         state.options = []
+         state.options = {
+            selectRealEnglishWordsOptions: [],
+            listenAndSelectOptions: [],
+            selectTheMainIdea: [],
+            selectTheBestTitle: [],
+         }
       },
 
       updateOptions: (state, { payload }) => {
-         state.options = payload
+         state.options = {
+            ...state.options,
+            [payload.optionName]: payload.options,
+         }
       },
    },
 
@@ -90,6 +137,13 @@ const questionSlice = createSlice({
          .addCase(QUESTION_THUNKS.saveTest.pending, (state) => {
             state.isLoading = true
             state.error = null
+
+            showNotification({
+               title: 'Pending',
+               message: false,
+               type: 'warning',
+               duration: 200,
+            })
          })
 
          .addCase(QUESTION_THUNKS.saveFile.pending, (state) => {

@@ -1,18 +1,18 @@
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Box, TextField, Typography, styled } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
+import { styled, Box, Typography, InputLabel } from '@mui/material'
 import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
 import { PlusIcon } from '../../../assets/icons'
 import DeleteModal from '../../../components/UI/modals/DeleteModal'
 import SaveModal from '../../../components/UI/modals/SaveModal'
-import Option from '../../../components/UI/Option'
 import Button from '../../../components/UI/buttons/Button'
+import Option from '../../../components/UI/Option'
 
-const SelectTheBestTitle = ({
+const ListenAndSelectEnglishWord = ({
    title,
    duration,
    setTitle,
@@ -20,32 +20,48 @@ const SelectTheBestTitle = ({
    setDuration,
    setSelectType,
 }) => {
+   const { fileUrl, isLoading } = useSelector((state) => state.question)
    const { options } = useSelector((state) => state.question)
 
-   const [passage, setPassage] = useState('')
+   const { testId } = useParams()
+
+   const navigate = useNavigate()
+
+   const dispatch = useDispatch()
+
+   const [files, setFiles] = useState([])
    const [optionId, setOptionId] = useState(null)
+   const [isUploaded, setIsUploaded] = useState(false)
    const [optionTitle, setOptionTitle] = useState('')
    const [checkedOption, setCheckedOption] = useState(false)
-   const [selectedOptionId, setSelectedOptionId] = useState(null)
+   const [activeOptionId, setActiveOptionId] = useState(null)
 
    const [modals, setModals] = useState({
       delete: false,
       save: false,
    })
 
-   const dispatch = useDispatch()
-
-   const navigate = useNavigate()
-
-   const { testId } = useParams()
+   const optionClickHandler = (id) => setActiveOptionId(id)
 
    const changeTitleHandler = (e) => setOptionTitle(e.target.value)
 
-   const textAreaChangeHandler = (e) => setPassage(e.target.value)
-
-   const changeCheckboxHandler = (e) => setCheckedOption(e.target.checked)
-
    const navigateGoBackHandler = () => navigate(-1)
+
+   const deleteOption = options.listenAndSelectOptions?.find(
+      (option) => option.id === optionId
+   )?.optionTitle
+
+   const isDisabled =
+      !selectType ||
+      !duration ||
+      !title.trim() ||
+      options.listenAndSelectOptions.length < 2
+
+   const isDisabledModal =
+      optionTitle.trim() !== '' &&
+      isUploaded !== false &&
+      isLoading !== true &&
+      fileUrl !== ''
 
    const toggleModal = (modalName) => {
       setModals((prevModals) => ({
@@ -57,11 +73,26 @@ const SelectTheBestTitle = ({
       setCheckedOption(false)
    }
 
+   const fileChangeHandler = (e) => {
+      const file = e.target.files[0]
+
+      if (file) {
+         setFiles([file])
+
+         const reader = new FileReader()
+         reader.readAsDataURL(file)
+
+         dispatch(QUESTION_THUNKS.saveFile(file))
+
+         setIsUploaded(true)
+      }
+   }
+
    const deleteHandler = () => {
       dispatch(
          QUESTION_ACTIONS.deleteOption({
             optionId,
-            optionName: OPTIONS_NAME.selectTheBestTitleOptions,
+            optionName: OPTIONS_NAME.listenAndSelectOptions,
          })
       )
 
@@ -72,27 +103,19 @@ const SelectTheBestTitle = ({
       dispatch(
          QUESTION_ACTIONS.handleIsCorrect({
             id,
-            optionName: OPTIONS_NAME.selectTheBestTitleOptions,
+            optionName: OPTIONS_NAME.listenAndSelectOptions,
          })
       )
    }
-
-   const isDisabled =
-      !selectType ||
-      !duration ||
-      !title.trim() ||
-      options.selectTheBestTitleOptions.length < 2 ||
-      !passage.trim()
-
-   const isDisabledModal = !optionTitle.trim()
 
    const onSubmit = () => {
       if (selectType !== '' && +duration !== 0 && title !== '') {
          const requestData = {
             title: title.trim(),
             duration: +duration,
-            option: options.selectTheBestTitleOptions.map((option) => ({
+            option: options.listenAndSelectOptions.map((option) => ({
                optionTitle: option.optionTitle,
+               fileUrl: option.fileUrl,
                isCorrectOption: option.isCorrectOption,
             })),
          }
@@ -102,7 +125,7 @@ const SelectTheBestTitle = ({
                requestData,
                data: {
                   testId,
-                  questionType: QUESTION_TITLES.SELECT_THE_BEST_TITLE,
+                  questionType: QUESTION_TITLES.LISTEN_AND_SELECT_WORD,
                   navigate,
                },
 
@@ -123,12 +146,13 @@ const SelectTheBestTitle = ({
          optionTitle: optionTitle.trim(),
          isCorrectOption: checkedOption,
          id: uuidv4(),
+         fileUrl,
       }
 
       dispatch(
-         QUESTION_ACTIONS.addOptionRadio({
+         QUESTION_ACTIONS.addOptionCheck({
             option,
-            optionName: OPTIONS_NAME.selectTheBestTitleOptions,
+            optionName: OPTIONS_NAME.listenAndSelectOptions,
          })
       )
 
@@ -136,26 +160,11 @@ const SelectTheBestTitle = ({
 
       setOptionTitle('')
       setCheckedOption(false)
-
-      if (options.selectTheBestTitleOptions.length === 0 || checkedOption) {
-         setSelectedOptionId(option.id)
-      }
+      setIsUploaded(false)
    }
 
    return (
       <StyledContainer>
-         <Box className="passage">
-            <Typography className="title">Passage</Typography>
-
-            <TextField
-               name="text"
-               value={passage}
-               onChange={textAreaChangeHandler}
-               multiline
-               fullWidth
-            />
-         </Box>
-
          <Box className="add-button">
             <Button
                icon={<PlusIcon className="plus" />}
@@ -166,17 +175,18 @@ const SelectTheBestTitle = ({
          </Box>
 
          <Box className="cards">
-            {options.selectTheBestTitleOptions?.map((option, i) => (
+            {options.listenAndSelectOptions?.map((option, index) => (
                <Option
                   key={option.id}
-                  index={i}
+                  icon
+                  index={index}
                   option={option}
-                  isRadio
                   toggleModal={() => toggleModal('delete')}
                   setOptionId={setOptionId}
                   checkedHandler={checkedHandler}
-                  selectedOptionId={selectedOptionId}
-                  setSelectedOptionId={setSelectedOptionId}
+                  activeOptionId={activeOptionId}
+                  setActiveOptionId={setActiveOptionId}
+                  onClick={() => optionClickHandler(option.id)}
                />
             ))}
          </Box>
@@ -191,34 +201,61 @@ const SelectTheBestTitle = ({
             </Button>
          </Box>
 
-         <DeleteModal
+         <SaveModal
             isCloseIcon
+            title={optionTitle}
+            isVisible={modals.save}
+            isLoading={isLoading}
+            toggleModal={() => toggleModal('save')}
+            isDisabledModal={isDisabledModal}
+            addOptionHandler={addOptionHandler}
+            changeTitleHandler={changeTitleHandler}
+         >
+            <input
+               type="file"
+               accept="audio/mp3, .wav"
+               id="filed-input"
+               onChange={fileChangeHandler}
+               className="upload-input"
+            />
+
+            <Box className="upload">
+               <InputLabel htmlFor="filed-input" className="text">
+                  <Button variant="secondary" component="span">
+                     {isUploaded ? 'Replace' : 'Upload audio file'}
+                  </Button>
+               </InputLabel>
+
+               {isUploaded &&
+                  files.map(({ name }) => (
+                     <Typography key={name} className="file-name">
+                        {name}
+                     </Typography>
+                  ))}
+            </Box>
+         </SaveModal>
+
+         <DeleteModal
             isVisible={modals.delete}
+            isCloseIcon
             toggleModal={() => toggleModal('delete')}
             deleteHandler={deleteHandler}
          >
+            <Typography className="title" variant="p">
+               <Typography variant="span">Option: </Typography>
+
+               {deleteOption}
+            </Typography>
+
             <Typography className="modal-message">You can`t restore</Typography>
          </DeleteModal>
-
-         <SaveModal
-            isCloseIcon
-            checkbox
-            title={optionTitle}
-            checked={checkedOption}
-            isVisible={modals.save}
-            toggleModal={() => toggleModal('save')}
-            isDisabledModal={!isDisabledModal}
-            addOptionHandler={addOptionHandler}
-            changeTitleHandler={changeTitleHandler}
-            changeCheckboxHandler={changeCheckboxHandler}
-         />
       </StyledContainer>
    )
 }
 
-export default SelectTheBestTitle
+export default ListenAndSelectEnglishWord
 
-const StyledContainer = styled(Box)(({ theme }) => ({
+const StyledContainer = styled(Box)(() => ({
    width: '822px',
 
    '& > .add-button': {
@@ -231,38 +268,39 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       },
    },
 
-   '& > .passage': {
-      marginTop: '1.6rem',
-
-      '& > div > .MuiOutlinedInput-root': {
-         borderRadius: '8px',
-         fontWeight: 400,
-
-         '& > .Mui-focused fieldset': {
-            border: `1px solid ${theme.palette.primary.main}`,
-         },
-
-         '&:hover fieldset': {
-            border: `1px solid ${theme.palette.primary.main}`,
-         },
-      },
+   '& > .buttons': {
+      display: 'flex',
+      gap: '1.1rem',
+      marginLeft: '37.5rem',
    },
 
    '& > .cards': {
       display: 'flex',
-      width: '100%',
-      flexDirection: 'column',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      alignItems: 'flex-start',
       gap: '1.1rem',
       margin: '1.5rem 0 2rem 0',
 
-      '& > div > .actions': {
-         marginLeft: 'auto',
-      },
-   },
+      '& > .option': {
+         width: '261px',
 
-   '& > .buttons': {
-      display: 'flex',
-      gap: '1.1rem',
-      marginLeft: '37.4rem',
+         '& > .title-option': {
+            width: '13rem',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+
+            '&:active': {
+               maxWidth: '261px',
+               maxHeight: 'none',
+               overflow: 'visible',
+               textOverflow: 'unset',
+               whiteSpace: 'normal',
+               wordBreak: 'break-all',
+            },
+         },
+      },
    },
 }))
