@@ -1,12 +1,9 @@
-import { useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
-import Button from '../../UI/buttons/Button'
-import Input from '../../UI/Input'
-import TestContainer from '../../UI/TestContainer'
+import TestContainer from '../../../components/UI/TestContainer'
+import Button from '../../../components/UI/buttons/Button'
+import Input from '../../../components/UI/Input'
 
-const DescribImage = () => {
-   const fileUrl = useSelector((state) => state.imageQuestion)
-
+const DescribeImage = () => {
    return (
       <StyledContainer>
          <TestContainer>
@@ -16,23 +13,25 @@ const DescribImage = () => {
                </Typography>
 
                <Box className="img-container">
-                  <img src={fileUrl} alt="" className="image" />
+                  <img
+                     src="https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg?w=600&quality=80"
+                     alt=""
+                     className="image"
+                  />
                   <Input className="input-text" />
                </Box>
             </Box>
 
-            <Box className="container-button">
-               <Button>NEXT</Button>
-            </Box>
+            <Button className="button">NEXT</Button>
          </TestContainer>
       </StyledContainer>
    )
 }
 
-export default DescribImage
+export default DescribeImage
 
 const StyledContainer = styled(Box)(() => ({
-   '& .content': {
+   '& > div > .content': {
       width: '78.72%',
       height: 'auto',
       boxSizing: 'border-box',
@@ -48,7 +47,7 @@ const StyledContainer = styled(Box)(() => ({
          fontSize: '1.75rem',
       },
 
-      '& .input-text': {
+      '& > div > .input-text': {
          width: '64.1%',
          height: '11.563rem',
          '& > .MuiInputBase-root': { height: '11.563rem' },
@@ -69,7 +68,7 @@ const StyledContainer = styled(Box)(() => ({
       },
    },
 
-   '& .container-button': {
+   '& > div > .container-button': {
       display: 'flex',
       justifyContent: 'end',
       marginTop: '3.75rem',
