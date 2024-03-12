@@ -1,5 +1,5 @@
-import DeleteResults from '../../components/admin/results/DeleteResults'
-import DataOfSubmission from '../../components/admin/results/DataOfSubmission'
+import DeleteResults from '../../components/user/results/DeleteResults'
+import DataOfSubmission from '../../components/user/results/DataOfSubmission'
 import { resultsStatusHandler } from '../helpers'
 
 const COLUMNS = [
@@ -11,7 +11,7 @@ const COLUMNS = [
    },
 
    {
-      Header: 'Date of Submition',
+      Header: 'Date of Submition',
       accessor: 'dateOfSubmission',
 
       Cell: ({ row }) => <DataOfSubmission row={row} />,
@@ -38,7 +38,7 @@ const COLUMNS = [
       Header: ' ',
       accessor: 'action',
 
-      Cell: ({ row }) => <DeleteResults resultId={row.original.id} row={row} />,
+      Cell: ({ row }) => <DeleteResults answerId={row.original.answerId} />,
    },
 ]
 

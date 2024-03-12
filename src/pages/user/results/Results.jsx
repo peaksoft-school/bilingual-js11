@@ -1,7 +1,7 @@
 import { Box, styled } from '@mui/material'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { MY_RESULTS_THUNK } from '../../../store/slice/user/results/resultsThunk'
+import { MY_RESULTS_THUNKS } from '../../../store/slice/user/results/resultsThunk'
 import { COLUMNS } from '../../../utils/constants/columns'
 import Table from '../../../components/UI/Table'
 import { NoData } from '../../../assets/images'
@@ -12,7 +12,7 @@ const Results = () => {
    const dispatch = useDispatch()
 
    useEffect(() => {
-      dispatch(MY_RESULTS_THUNK.getResults())
+      dispatch(MY_RESULTS_THUNKS.getResults())
    }, [dispatch])
 
    if (results.length === 0) {

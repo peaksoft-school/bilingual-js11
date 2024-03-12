@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { MY_RESULTS_THUNK } from './resultsThunk'
+import { MY_RESULTS_THUNKS } from './resultsThunk'
 
 const initialState = {
    results: [],
@@ -14,25 +14,25 @@ export const resultsSlice = createSlice({
 
    extraReducers: (builder) => {
       builder
-         .addCase(MY_RESULTS_THUNK.getResults.pending, (state) => {
+         .addCase(MY_RESULTS_THUNKS.getResults.pending, (state) => {
             state.status = 'loading'
          })
 
-         .addCase(MY_RESULTS_THUNK.getResults.fulfilled, (state, action) => {
+         .addCase(MY_RESULTS_THUNKS.getResults.fulfilled, (state, action) => {
             state.status = 'succeeded'
             state.results = action.payload
          })
 
-         .addCase(MY_RESULTS_THUNK.getResults.rejected, (state, action) => {
+         .addCase(MY_RESULTS_THUNKS.getResults.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
          })
 
-         .addCase(MY_RESULTS_THUNK.deleteResults.pending, (state) => {
+         .addCase(MY_RESULTS_THUNKS.deleteResult.pending, (state) => {
             state.status = 'loading'
          })
 
-         .addCase(MY_RESULTS_THUNK.deleteResults.fulfilled, (state, action) => {
+         .addCase(MY_RESULTS_THUNKS.deleteResult.fulfilled, (state, action) => {
             state.status = 'succeeded'
 
             state.results = state.results.filter(
@@ -40,7 +40,7 @@ export const resultsSlice = createSlice({
             )
          })
 
-         .addCase(MY_RESULTS_THUNK.deleteResults.rejected, (state, action) => {
+         .addCase(MY_RESULTS_THUNKS.deleteResult.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
          })

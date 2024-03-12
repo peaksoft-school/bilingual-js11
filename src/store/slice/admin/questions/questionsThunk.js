@@ -17,20 +17,6 @@ const getTest = createAsyncThunk(
    }
 )
 
-const getAllQuestions = createAsyncThunk(
-   'questionsSlice/getQuestions',
-
-   async (_, { rejectWithValue }) => {
-      try {
-         const response = await axiosInstance.get(`/api/question`)
-
-         return response.data
-      } catch (error) {
-         return rejectWithValue.message
-      }
-   }
-)
-
 const getQuestion = createAsyncThunk(
    'questionsSlice/getQuestion',
 
@@ -123,7 +109,6 @@ const updateQuestionByEnable = createAsyncThunk(
 )
 
 export const QUESTIONS_THUNKS = {
-   getAllQuestions,
    getQuestion,
    postQuestion,
    deleteQuestion,

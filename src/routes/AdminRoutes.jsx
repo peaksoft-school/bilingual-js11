@@ -8,8 +8,8 @@ import Question from '../pages/admin/questions/Question'
 
 export const ADMIN_ROUTES = [
    {
-      path: `${ROUTES.ADMIN.index}`,
-      element: <Navigate to="tests" />,
+      path: ROUTES.ADMIN.index,
+      element: <Navigate to={ROUTES.ADMIN.tests} />,
    },
    {
       path: `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.tests}`,
@@ -17,27 +17,27 @@ export const ADMIN_ROUTES = [
    },
 
    {
-      path: `${ROUTES.ADMIN.index}/create-test`,
+      path: `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.createTest}`,
       element: <CreateTest />,
    },
 
    {
-      path: `${ROUTES.ADMIN.index}/update-test/:id`,
+      path: `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.updateTest}/:${ROUTES.ADMIN.id}`,
       element: <CreateTest />,
    },
 
    {
-      path: `${ROUTES.ADMIN.index}/questions/:testId`,
+      path: `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/:${ROUTES.ADMIN.testId}`,
       element: <Questions />,
    },
 
    {
-      path: `${ROUTES.ADMIN.index}/questions/:testId/create-question`,
+      path: `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/:${ROUTES.ADMIN.testId}/${ROUTES.ADMIN.createQuestion}`,
       element: <Question />,
    },
 
    {
-      path: `${ROUTES.ADMIN.index}/results`,
+      path: `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.results}`,
       element: <AdminResults />,
    },
 ]

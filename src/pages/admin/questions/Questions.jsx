@@ -85,8 +85,8 @@ const Questions = () => {
                      <Typography className="title">Duration:</Typography>
 
                      <Typography>
-                        {questions && questions.duration
-                           ? questions.duration / 60
+                        {questions && questions?.duration
+                           ? questions.duration
                            : ''}
                      </Typography>
                   </Box>
@@ -102,8 +102,9 @@ const Questions = () => {
             </Button>
 
             <Box className="divider" />
+
             <StyledTable>
-               {questions && questions.question.length > 0 ? (
+               {questions && questions?.question?.length > 0 ? (
                   <>
                      <Typography>#</Typography>
                      <Typography className="name">Name</Typography>
@@ -115,21 +116,21 @@ const Questions = () => {
                ) : null}
             </StyledTable>
 
-            {questions && questions.question.length > 0 ? (
-               questions.question.map(
+            {questions && questions?.question?.length > 0 ? (
+               questions.question?.map(
                   ({ id, title, duration, questionType, enable }, index) => (
                      <StyledBox key={id}>
-                        <Typography className="numbering-props">
+                        <Typography className="numbering">
                            {index + 1}
                         </Typography>
 
-                        <Typography className="name-props">{title}</Typography>
+                        <Typography className="name">{title}</Typography>
 
-                        <Typography className="duration-props">
-                           {duration / 60} s
+                        <Typography className="duration">
+                           {duration} s
                         </Typography>
 
-                        <Typography className="question-type-props">
+                        <Typography className="question-type">
                            {questionTypeHandler(questionType)}
                         </Typography>
 
@@ -219,7 +220,7 @@ const StyledContainer = styled(Box)(() => ({
          fontFamily: 'Poppins',
          fontSize: '1rem',
          overflow: 'hidden',
-         maxWidth: '20rem',
+         maxWidth: '40rem',
          textOverflow: 'ellipsis',
 
          '& > .title': {
@@ -334,11 +335,11 @@ const StyledBox = styled(Box)(() => ({
       '0px 4px 10px 0px rgba(0, 0, 0, 0.06), 0px -4px 10px 0px rgba(0, 0, 0, 0.06)',
    margin: 'auto',
 
-   '& > .numbering-props': {
+   '& > .numbering': {
       width: '1rem',
    },
 
-   '& > .name-props': {
+   '& > .name': {
       margin: '0 2rem',
       whiteSpace: 'nowrap',
       width: '13rem',
@@ -346,12 +347,12 @@ const StyledBox = styled(Box)(() => ({
       textOverflow: 'ellipsis',
    },
 
-   '& > .duration-props': {
+   '& > .duration': {
       margin: '0 4.4rem',
       width: '2rem',
    },
 
-   '& > .question-type-props': {
+   '& > .question-type': {
       margin: '0 1.2rem',
    },
 

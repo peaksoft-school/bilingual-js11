@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { QUESTIONS_THUNKS } from './questionsThunk'
 
 const initialState = {
-   questions: null,
+   questions: [],
    status: '',
    error: '',
 }
@@ -27,26 +27,6 @@ export const questionsSlice = createSlice({
             state.status = 'failed'
             state.error = action.error.message
          })
-
-         .addCase(QUESTIONS_THUNKS.getAllQuestions.pending, (state) => {
-            state.status = 'loading'
-         })
-
-         .addCase(
-            QUESTIONS_THUNKS.getAllQuestions.fulfilled,
-            (state, { payload }) => {
-               state.status = 'succeeded'
-               state.questions = payload
-            }
-         )
-
-         .addCase(
-            QUESTIONS_THUNKS.getAllQuestions.rejected,
-            (state, action) => {
-               state.status = 'failed'
-               state.error = action.error.message
-            }
-         )
 
          .addCase(QUESTIONS_THUNKS.getQuestion.pending, (state) => {
             state.status = 'loading'

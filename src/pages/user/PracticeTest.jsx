@@ -1,0 +1,54 @@
+/* eslint-disable radix */
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import TestContainer from '../../components/UI/TestContainer'
+import ProgressBar from '../../components/UI/ProgressBar'
+import { PRACTICE_TEST_THUNKS } from '../../store/slice/user/practiceTestThunk'
+import { QUESTION_COMPONENT } from '../../utils/constants/questionComponents'
+import Button from '../../components/UI/buttons/Button'
+
+const PracticeTest = () => {
+   const { questions } = useSelector((state) => state.practiceTest)
+
+   const { testId } = useParams()
+
+   const dispatch = useDispatch()
+
+   const [count, setCount] = useState(0)
+
+   useEffect(() => {
+      dispatch(PRACTICE_TEST_THUNKS.getAllQuestions({ testId }))
+   }, [dispatch, testId])
+
+   const QuestionComponent = QUESTION_COMPONENT[questions[count]?.questionType]
+
+   console.log(count)
+
+   const nextHandler = () => setCount(count + 1)
+
+   const handleNextQuestion = () => {
+      if (count < questions.length - 1) {
+         setCount((prev) => prev + 1)
+      } else {
+         console.log('End of questions')
+      }
+   }
+
+   return (
+      <TestContainer>
+         <ProgressBar
+            duration={questions[count]?.duration}
+            onNextQuestion={handleNextQuestion}
+         />
+
+         {QuestionComponent && (
+            <QuestionComponent questions={questions[count]} />
+         )}
+
+         <Button onClick={nextHandler}>Next Question</Button>
+      </TestContainer>
+   )
+}
+
+export default PracticeTest

@@ -9,12 +9,16 @@ const ROUTES = {
       updateTest: 'update-test',
       questions: 'questions',
       createQuestion: 'create-question',
+      id: 'id',
+      testId: 'testId',
       results: 'results',
    },
 
    USER: {
       index: '/user',
       tests: 'tests',
+      testId: 'testId',
+      practiceTest: 'practice-test',
       results: 'results',
    },
 }

@@ -112,6 +112,7 @@ const StyledCellTd = styled(TableCell)(({ row }) => ({
    color: ' #4C4859',
    borderBottom: 'none',
    textAlign: 'left',
+   fontFamily: 'Poppins',
 
    '& span': {
       color: row.original.resultStatus === 'EVALUATED' ? 'green' : 'red',
