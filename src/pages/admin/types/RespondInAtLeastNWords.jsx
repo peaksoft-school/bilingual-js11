@@ -8,11 +8,11 @@ import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
 
 const RespondInAtLeastNWords = ({
-   duration,
-   setDuration,
-   selectType,
    title,
+   duration,
    setTitle,
+   selectType,
+   setDuration,
    setSelectType,
 }) => {
    const { isLoading } = useSelector((state) => state.question)
@@ -29,6 +29,8 @@ const RespondInAtLeastNWords = ({
    const statementChangeHandler = (e) => setStatement(e.target.value)
 
    const attemptsChangeHandler = (e) => setAttempts(e.target.value)
+
+   const navigateGoBackHandler = () => navigate(-1)
 
    const isDisabled =
       !selectType ||
@@ -96,7 +98,9 @@ const RespondInAtLeastNWords = ({
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary">GO BACK</Button>
+            <Button variant="secondary" onClick={navigateGoBackHandler}>
+               GO BACK
+            </Button>
 
             <Button
                variant="primary"

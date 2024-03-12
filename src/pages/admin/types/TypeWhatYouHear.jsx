@@ -9,11 +9,11 @@ import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
 
 const TypeWhatYouHear = ({
-   duration,
-   setDuration,
-   selectType,
    title,
+   duration,
    setTitle,
+   selectType,
+   setDuration,
    setSelectType,
 }) => {
    const { fileUrl, isLoading } = useSelector((state) => state.question)
@@ -32,7 +32,7 @@ const TypeWhatYouHear = ({
 
    const audioRef = useRef(null)
 
-   const goBackHandler = () => navigate(-1)
+   const navigateGoBackHandler = () => navigate(-1)
 
    const attemptsChangeHandler = (e) => setAttempts(e.target.value)
 
@@ -184,7 +184,7 @@ const TypeWhatYouHear = ({
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={goBackHandler}>
+            <Button variant="secondary" onClick={navigateGoBackHandler}>
                GO BACK
             </Button>
 

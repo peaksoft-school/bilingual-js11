@@ -24,7 +24,7 @@ const Questions = () => {
    const [isVisible, setIsVisible] = useState(false)
    const [selectedQuestionId, setSelectedQuestionId] = useState(null)
 
-   const goBackHandler = () => navigate('/')
+   const navigateGoBackHandler = () => navigate('/')
 
    useEffect(() => {
       dispatch(QUESTIONS_THUNKS.getTest({ testId }))
@@ -157,7 +157,7 @@ const Questions = () => {
                         />
                      ) : (
                         <StyledBox key={id}>
-                           <Typography className="numbering-props">
+                           <Typography className="numbering">
                               {index + 1}
                            </Typography>
 
@@ -194,7 +194,7 @@ const Questions = () => {
                      )
                )
             ) : (
-               <Box className="background-image">
+               <Box className="no-data-image">
                   <img src={NoDataImage} alt="no-data" />
                </Box>
             )}
@@ -202,7 +202,7 @@ const Questions = () => {
             <Button
                className="go-back-button"
                variant="secondary"
-               onClick={goBackHandler}
+               onClick={navigateGoBackHandler}
             >
                GO BACK
             </Button>
@@ -212,7 +212,7 @@ const Questions = () => {
             isCloseIcon
             isVisible={isVisible}
             toggleModal={toggleModal}
-            deleteHandler={() => deleteQuestionHandler(selectedQuestionId)}
+            deleteHandler={deleteQuestionHandler}
          >
             <Typography className="title" variant="p">
                <Typography variant="span">Question: </Typography>
@@ -326,7 +326,7 @@ const StyledContainer = styled(Box)(() => ({
       background: '#C4C4C4',
    },
 
-   '& > div > .background-image': {
+   '& > div > .no-data-image': {
       margin: 'auto',
       maxWidth: '20rem',
       maxHeight: '15rem',
@@ -366,7 +366,7 @@ const StyledBox = styled(Box)(() => ({
       '0px 4px 10px 0px rgba(0, 0, 0, 0.06), 0px -4px 10px 0px rgba(0, 0, 0, 0.06)',
    margin: 'auto',
 
-   '& > .numbering-props': {
+   '& > .numbering': {
       width: '1rem',
    },
 

@@ -13,11 +13,11 @@ import Button from '../../../components/UI/buttons/Button'
 import Option from '../../../components/UI/Option'
 
 const ListenAndSelectEnglishWord = ({
-   duration,
-   setDuration,
-   selectType,
    title,
+   duration,
    setTitle,
+   selectType,
+   setDuration,
    setSelectType,
 }) => {
    const { fileUrl, isLoading } = useSelector((state) => state.question)
@@ -45,7 +45,7 @@ const ListenAndSelectEnglishWord = ({
 
    const changeTitleHandler = (e) => setOptionTitle(e.target.value)
 
-   const goBackHandler = () => navigate(-1)
+   const navigateGoBackHandler = () => navigate(-1)
 
    const deleteOption = options.listenAndSelectOptions?.find(
       (option) => option.id === optionId
@@ -192,7 +192,7 @@ const ListenAndSelectEnglishWord = ({
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={goBackHandler}>
+            <Button variant="secondary" onClick={navigateGoBackHandler}>
                GO BACK
             </Button>
 

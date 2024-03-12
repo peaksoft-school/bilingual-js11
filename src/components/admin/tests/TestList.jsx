@@ -103,7 +103,7 @@ const TestList = () => {
                </Link>
             ))
          ) : (
-            <Box className="background-image">
+            <Box className="no-data-image">
                <img src={NoDataImage} alt="no-data" />
             </Box>
          )}
@@ -130,7 +130,7 @@ const TestList = () => {
 export default TestList
 
 const StyledContainer = styled(Box)(() => ({
-   '& > .background-image': {
+   '& > .no-data-image': {
       margin: 'auto',
       maxWidth: '20rem',
       maxHeight: '18rem',
