@@ -348,37 +348,47 @@ const OPTIONS = [
 ]
 
 const QUESTION_TYPES = {
-   SELECT_REAL_ENGLISH_WORDS: 'Select real english words',
-   TYPE_WHAT_YOU_HEAR: 'Type what you hear',
-   DESCRIBE_IMAGE: 'Describe image',
-   RESPOND_IN_AT_LEAST_N_WORDS: 'Respond in at least N words',
-   HIGHLIGHTS_THE_ANSWER: 'Highlights the answer',
    RECORD_SAYING: 'Record saying statement',
+   DESCRIBE_IMAGE: 'Describe image',
    SELECT_MAIN_IDEA: 'Select the main idea',
+   TYPE_WHAT_YOU_HEAR: 'Type what you hear',
+   HIGHLIGHTS_THE_ANSWER: 'Highlights the answer',
    SELECT_THE_BEST_TITLE: 'Select the best title',
+   LISTEN_AND_SELECT_WORD: 'Listen and select word',
+   SELECT_REAL_ENGLISH_WORDS: 'Select real english words',
+   RESPOND_IN_AT_LEAST_N_WORDS: 'Respond in at least N words',
 }
 
-const QUESTION_TITLE = {
-   SELECT_REAL_ENGLISH_WORDS: 'SELECT_REAL_ENGLISH_WORD',
-   TYPE_WHAT_YOU_HEAR: 'TYPE_WHAT_YOU_HEAR',
-   DESCRIBE_IMAGE: 'DESCRIBE_IMAGE',
-   RESPOND_IN_AT_LEAST_N_WORDS: 'RESPOND_IN_AT_LEAST_N_WORDS',
-   HIGHLIGHTS_THE_ANSWER: 'HIGHLIGHTS_THE_ANSWER',
+const QUESTION_TITLES = {
    RECORD_SAYING: 'RECORD_SAYING',
+   DESCRIBE_IMAGE: 'DESCRIBE_IMAGE',
    SELECT_MAIN_IDEA: 'SELECT_MAIN_IDEA',
+   TYPE_WHAT_YOU_HEAR: 'TYPE_WHAT_YOU_HEAR',
    SELECT_THE_BEST_TITLE: 'SELECT_THE_BEST_TITLE',
+   HIGHLIGHTS_THE_ANSWER: 'HIGHLIGHTS_THE_ANSWER',
+   LISTEN_AND_SELECT_WORD: 'LISTEN_AND_SELECT_WORD',
+   SELECT_REAL_ENGLISH_WORDS: 'SELECT_REAL_ENGLISH_WORD',
+   RESPOND_IN_AT_LEAST_N_WORDS: 'RESPOND_IN_AT_LEAST_N_WORDS',
+}
+
+const OPTIONS_NAME = {
+   listenAndSelectOptions: 'listenAndSelectOptions',
+   selectTheMainIdeaOptions: 'selectTheMainIdeaOptions',
+   selectTheBestTitleOptions: 'selectTheBestTitleOptions',
+   selectRealEnglishWordsOptions: 'selectRealEnglishWordsOptions',
 }
 
 export {
-   QUESTION_TYPES,
-   QUESTION_TITLE,
-   OPTIONS,
    VIDEOS,
-   CHECKBOX_IMAGE,
-   CHECK_OUT,
-   FEEDBACKS,
+   OPTIONS,
    OUR_TEAM,
-   QUESTIONS,
    PARTNERS,
+   FEEDBACKS,
+   CHECK_OUT,
+   QUESTIONS,
+   OPTIONS_NAME,
+   CHECKBOX_IMAGE,
    SIGN_UP_INPUTS,
+   QUESTION_TYPES,
+   QUESTION_TITLES,
 }

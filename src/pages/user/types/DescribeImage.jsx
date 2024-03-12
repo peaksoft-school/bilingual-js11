@@ -1,37 +1,56 @@
+import { useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import TestContainer from '../../../components/UI/TestContainer'
+import ProgressBar from '../../../components/UI/ProgressBar'
 import Button from '../../../components/UI/buttons/Button'
-import Input from '../../../components/UI/Input'
 
 const DescribeImage = () => {
+   const [correctAnswer, setCorrectAnswer] = useState()
+
+   const changeCorrectAnswerHandler = (e) => setCorrectAnswer(e.target.value)
+
    return (
-      <StyledContainer>
-         <TestContainer>
-            <Box className="content">
+      <TestContainer>
+         <StyledContainer>
+            <ProgressBar duration={2} minutes={23} seconds={11} />
+
+            <Box className="content-box">
                <Typography className="title">
                   Write one or more sentences that describe the image
                </Typography>
 
-               <Box className="img-container">
+               <Box className="image-box">
                   <img
                      src="https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg?w=600&quality=80"
-                     alt=""
+                     alt="img"
                      className="image"
                   />
-                  <Input className="input-text" />
+
+                  <textarea
+                     className="textarea"
+                     placeholder="Your response"
+                     value={correctAnswer}
+                     onChange={changeCorrectAnswerHandler}
+                  />
                </Box>
             </Box>
 
-            <Button className="button">NEXT</Button>
-         </TestContainer>
-      </StyledContainer>
+            <Box className="button-box">
+               <Button className="button" disabled={!correctAnswer}>
+                  NEXT
+               </Button>
+            </Box>
+         </StyledContainer>
+      </TestContainer>
    )
 }
 
 export default DescribeImage
 
-const StyledContainer = styled(Box)(() => ({
-   '& > div > .content': {
+const StyledContainer = styled(Box)(({ theme }) => ({
+   color: '#4C4859',
+
+   '& > .content-box': {
       width: '78.72%',
       height: 'auto',
       boxSizing: 'border-box',
@@ -43,36 +62,50 @@ const StyledContainer = styled(Box)(() => ({
       '& > .title': {
          textAlign: 'center',
          width: '100%',
-         height: '32px',
-         fontSize: '1.75rem',
+         fontSize: '28px',
+         marginTop: '2rem',
       },
 
-      '& > div > .input-text': {
-         width: '64.1%',
-         height: '11.563rem',
-         '& > .MuiInputBase-root': { height: '11.563rem' },
+      '& > div > .textarea': {
+         height: '11.438rem',
+         width: '23.875rem',
+         resize: 'none',
+         borderRadius: '8px',
+         borderColor: '#D4D0D0',
+         padding: '1rem 1rem 0 1rem',
+         fontFamily: 'Poppins',
+         caretColor: theme.palette.primary.main,
+
+         '::placeholder': {
+            color: '#AFAFAF',
+            fontSize: '16px',
+            fontFamily: 'Arial',
+            paddingTop: '0.299rem',
+         },
       },
 
-      '& > .img-container': {
-         width: '87%',
+      '& > .image-box': {
+         width: '37.125rem',
          display: 'flex',
          gap: '5.05%',
          marginTop: '50px',
 
          '& > .image': {
-            width: '36.64%',
+            width: '11.375rem',
             backgroundPosition: 'center',
             borderRadius: '2px',
-            cursor: 'pointer',
          },
       },
    },
 
-   '& > div > .container-button': {
-      display: 'flex',
-      justifyContent: 'end',
-      marginTop: '3.75rem',
-      borderTop: '1.5296px solid #D4D0D0',
-      padding: '32px 0  0 0 ',
+   '& > .button-box': {
+      borderTop: '1.53px solid #D4D0D0',
+      marginTop: '3rem',
+
+      '& > .button': {
+         marginLeft: '84%',
+         marginTop: '1.8rem',
+         width: '143px',
+      },
    },
 }))

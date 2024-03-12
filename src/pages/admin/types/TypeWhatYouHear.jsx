@@ -4,17 +4,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { PauseIcon, PlayIcon } from '../../../assets/icons'
 import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
-import { QUESTION_TITLE } from '../../../utils/constants'
-import { questionTitle } from '../../../utils/helpers/questionTitle'
-import Input from '../../../components/UI/Input'
+import { QUESTION_TITLES } from '../../../utils/constants'
 import Button from '../../../components/UI/buttons/Button'
+import Input from '../../../components/UI/Input'
 
 const TypeWhatYouHear = ({
-   duration,
-   setDuration,
-   selectType,
    title,
+   duration,
    setTitle,
+   selectType,
+   setDuration,
    setSelectType,
 }) => {
    const { fileUrl, isLoading } = useSelector((state) => state.question)
@@ -25,21 +24,21 @@ const TypeWhatYouHear = ({
 
    const navigate = useNavigate()
 
-   const [fileName, setFileName] = useState('')
-   const [isPlaying, setIsPlaying] = useState(false)
    const [file, setFile] = useState('')
+   const [fileName, setFileName] = useState('')
    const [attempts, setAttempts] = useState(0)
+   const [isPlaying, setIsPlaying] = useState(false)
    const [correctAnswer, setCorrectAnswer] = useState('')
 
    const audioRef = useRef(null)
 
-   const handleAttemptsChange = (e) => setAttempts(e.target.value)
+   const navigateGoBackHandler = () => navigate(-1)
 
-   const handleCorrectAnswerChange = (e) => setCorrectAnswer(e.target.value)
+   const attemptsChangeHandler = (e) => setAttempts(e.target.value)
 
-   const hadleGoBack = () => navigate(-1)
+   const correctAnswerChangeHandler = (e) => setCorrectAnswer(e.target.value)
 
-   const handleToggle = () => {
+   const toggleHandler = () => {
       if (isPlaying) {
          audioRef.current.pause()
       } else {
@@ -48,7 +47,7 @@ const TypeWhatYouHear = ({
       setIsPlaying(!isPlaying)
    }
 
-   const handleFileChange = (e) => {
+   const changeFileHandler = (e) => {
       const file = e.target.files[0]
 
       if (file) {
@@ -72,8 +71,9 @@ const TypeWhatYouHear = ({
       !duration ||
       !title.trim() ||
       !correctAnswer.trim() ||
-      !attempts.trim() ||
-      !file
+      !attempts ||
+      !file ||
+      !fileUrl
 
    const onSubmit = () => {
       if (
@@ -86,7 +86,7 @@ const TypeWhatYouHear = ({
       ) {
          const requestData = {
             title: title.trim(),
-            duration: +duration * 60,
+            duration: +duration,
             attempts: attempts.trim(),
             correctAnswer: correctAnswer.trim(),
             fileUrl,
@@ -98,16 +98,14 @@ const TypeWhatYouHear = ({
 
                data: {
                   testId,
-                  questionType: questionTitle(
-                     QUESTION_TITLE.TYPE_WHAT_YOU_HEAR
-                  ),
+                  questionType: QUESTION_TITLES.TYPE_WHAT_YOU_HEAR,
                   navigate,
                },
 
-               setState: {
-                  selectType: setSelectType(selectType),
-                  title: setTitle(title),
-                  duration: setDuration(duration),
+               setStates: {
+                  setSelectType: setSelectType(selectType),
+                  setTitle: setTitle(title),
+                  setDuration: setDuration(duration),
                },
             })
          )
@@ -129,39 +127,36 @@ const TypeWhatYouHear = ({
                   name="attempts"
                   inputProps={{ min: 0, max: 15 }}
                   value={attempts}
-                  onChange={handleAttemptsChange}
+                  onChange={attemptsChangeHandler}
                />
             </Box>
 
             <Box className="file">
-               <Button type="button">
-                  <InputLabel htmlFor="filedInput" className="label">
+               <InputLabel htmlFor="filedInput" className="label">
+                  <Button type="button" component="span">
                      {file ? 'REPLACE' : 'UPPLOAD'}
-                  </InputLabel>
-               </Button>
+                  </Button>
+               </InputLabel>
 
                <input
                   type="file"
                   id="filedInput"
                   name="fileUrl"
                   accept="audio/mp3"
-                  onChange={handleFileChange}
+                  onChange={changeFileHandler}
                />
-
                {file && (
                   <button
                      type="button"
-                     onClick={handleToggle}
+                     onClick={toggleHandler}
                      className="playing"
                   >
                      {isPlaying ? <PlayIcon /> : <PauseIcon />}
                   </button>
                )}
-
                <Typography variant="span" className="file-name">
                   {fileName}
                </Typography>
-
                <audio
                   className="audio"
                   ref={audioRef}
@@ -184,12 +179,12 @@ const TypeWhatYouHear = ({
                type="text"
                name="correctAnswer"
                value={correctAnswer}
-               onChange={handleCorrectAnswerChange}
+               onChange={correctAnswerChangeHandler}
             />
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={hadleGoBack}>
+            <Button variant="secondary" onClick={navigateGoBackHandler}>
                GO BACK
             </Button>
 
@@ -198,7 +193,7 @@ const TypeWhatYouHear = ({
                onClick={onSubmit}
                disabled={isDisabled}
                isLoading={isLoading}
-               colorLoading="secondary"
+               loadingColor="secondary"
             >
                SAVE
             </Button>
@@ -223,7 +218,7 @@ const StyledContainer = styled(Box)(() => ({
          display: 'table-column',
 
          '& > .input-replays': {
-            '& .MuiOutlinedInput-root': {
+            '& > .MuiOutlinedInput-root': {
                padding: '.75rem  0.7rem .75rem 0.7rem ',
                width: '4.5rem',
                height: '2.5rem',
@@ -233,9 +228,10 @@ const StyledContainer = styled(Box)(() => ({
          },
       },
 
-      '& .MuiOutlinedInput-input[type="number"]::-webkit-inner-spin-button': {
-         display: 'none',
-      },
+      '& div > .MuiOutlinedInput-input[type="number"]::-webkit-inner-spin-button':
+         {
+            display: 'none',
+         },
 
       '& > .input-file': {
          border: 'none',
@@ -247,7 +243,7 @@ const StyledContainer = styled(Box)(() => ({
          gap: '1rem',
          alignItems: 'center',
 
-         '& .label': {
+         '&  > .label': {
             fontFamily: 'Poppins',
             fontWeight: '600',
             cursor: 'pointer',
@@ -262,7 +258,7 @@ const StyledContainer = styled(Box)(() => ({
          '& > .playing': {
             border: 'none',
             backgroundColor: 'white',
-            marginTop: '0.3rem',
+            marginTop: '0.1rem',
             cursor: 'pointer',
          },
 

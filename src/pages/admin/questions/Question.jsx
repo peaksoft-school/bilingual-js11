@@ -1,42 +1,36 @@
-import { useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
-import { questionTitle } from '../../../utils/helpers/questionTitle'
 import { OPTIONS } from '../../../utils/constants'
-import Input from '../../../components/UI/Input'
-import Dropdown from '../../../components/UI/Dropdown'
 import TestContainer from '../../../components/UI/TestContainer'
-import TypeTest from '../TypeTest'
+import TestType from '../../../components/TestType'
+import Dropdown from '../../../components/UI/Dropdown'
+import Input from '../../../components/UI/Input'
 
 const Question = () => {
-   const option = useSelector((state) => state.question.option)
-
-   const { state } = useLocation()
+   const { options } = useSelector((state) => state.question)
 
    const dispatch = useDispatch()
 
-   const [selectType, setSelectType] = useState(
-      questionTitle(state?.question.questionType || '')
-   )
-   const [title, setTitle] = useState(state?.question.title || '')
-   const [duration, setDuration] = useState(state?.question.duration || 0)
+   const [title, setTitle] = useState('')
+   const [duration, setDuration] = useState(0)
+   const [selectType, setSelectType] = useState('')
 
-   const handleSelectTypeChange = (e) => setSelectType(e.target.value)
+   const changeTitleHandler = (e) => setTitle(e.target.value)
 
-   const handleTitleChange = (e) => setTitle(e.target.value)
+   const changeDurationHandler = (e) => setDuration(e.target.value)
 
-   const handleDurationChange = (e) => setDuration(e.target.value)
+   const changeSelecTypeHandler = (e) => setSelectType(e.target.value)
 
    useEffect(() => {
-      dispatch(QUESTION_ACTIONS.updateOptions(option || []))
+      dispatch(QUESTION_ACTIONS.updateOptions(options || []))
    }, [])
 
    return (
       <TestContainer>
          <StyledContainer>
-            <Box className="form-container">
+            <Box className="container">
                <Typography className="text title" variant="label">
                   Title
                </Typography>
@@ -45,7 +39,7 @@ const Question = () => {
                   <Input
                      className="input-title"
                      placeholder="Enter the title ....."
-                     onChange={handleTitleChange}
+                     onChange={changeTitleHandler}
                      value={title}
                   />
 
@@ -58,7 +52,7 @@ const Question = () => {
                         className="duration-input"
                         placeholder="15:00"
                         value={duration}
-                        onChange={handleDurationChange}
+                        onChange={changeDurationHandler}
                         inputProps={{ min: 0, max: 15 }}
                         type="number"
                      />
@@ -73,13 +67,13 @@ const Question = () => {
                   <Dropdown
                      className="dropdown"
                      value={selectType}
-                     onChange={handleSelectTypeChange}
+                     onChange={changeSelecTypeHandler}
                      options={OPTIONS}
                   />
                </Box>
             </Box>
 
-            <TypeTest
+            <TestType
                duration={duration}
                setDuration={setDuration}
                selectType={selectType}
@@ -100,7 +94,7 @@ const StyledContainer = styled(Box)(() => ({
    flexDirection: 'column',
    alignItems: 'center',
 
-   '& > .form-container': {
+   '& > .container': {
       marginTop: '2.5rem',
       display: 'flex',
       justifyContent: 'center',
@@ -108,7 +102,7 @@ const StyledContainer = styled(Box)(() => ({
       flexDirection: 'column',
       gap: '1.25rem',
 
-      '&  .text': {
+      '& > .text': {
          fontFamily: 'Poppins',
          fontWeight: '500',
       },
@@ -116,6 +110,8 @@ const StyledContainer = styled(Box)(() => ({
       '& > .title': {
          marginRight: '49rem',
          color: '#4B4759',
+         fontFamily: 'Poppins',
+         fontWeight: '500',
       },
 
       '& > .input-container': {
@@ -146,7 +142,7 @@ const StyledContainer = styled(Box)(() => ({
             },
          },
 
-         '& .MuiOutlinedInput-input[type="number"]::-webkit-inner-spin-button':
+         '& div > .MuiOutlinedInput-input[type="number"]::-webkit-inner-spin-button':
             {
                display: 'none',
             },
@@ -157,16 +153,9 @@ const StyledContainer = styled(Box)(() => ({
          margin: '0.8rem 49rem -0.5rem 0',
       },
 
-      '& .dropdown': {
+      '& > div > .dropdown': {
          borderRadius: '0.5rem',
          width: '823px',
-
-         '& .MuiSelect-icon': {
-            color: 'black',
-         },
-         '& .MuiFormLabel-root-MuiInputLabel-root': {
-            textAlign: 'center',
-         },
       },
    },
 }))
