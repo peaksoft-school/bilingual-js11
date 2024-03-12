@@ -1,6 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
-import { PRACTICE_TEST_ACTIONS } from '../../../store/slice/user/practice-test/practiceTestSlice'
 import TestContainer from '../../../components/UI/TestContainer'
 import ProgressBar from '../../../components/UI/ProgressBar'
 import Button from '../../../components/UI/buttons/Button'
@@ -29,17 +28,11 @@ const OPTIONS = [
 ]
 
 const SelectTheBestTitle = () => {
-   const selectedOption = useSelector(
-      (state) => state.practiceTest.selectedOptionId
-   )
+   const [selectedOptionId, setSelectedOptionId] = useState(null)
 
-   const dispatch = useDispatch()
+   const optionSelectHandler = (id) => setSelectedOptionId(id)
 
-   const optionSelectHandler = (id) => {
-      dispatch(PRACTICE_TEST_ACTIONS.handleIsCorrect({ id }))
-   }
-
-   const isDisabled = selectedOption === null
+   const isDisabled = selectedOptionId === null
 
    return (
       <TestContainer>
@@ -73,11 +66,11 @@ const SelectTheBestTitle = () => {
                      <Box
                         key={id}
                         className={`option ${
-                           selectedOption === id ? 'selected' : ''
+                           selectedOptionId === id ? 'selected' : ''
                         }`}
                      >
                         <Radio
-                           checked={selectedOption === id}
+                           checked={selectedOptionId === id}
                            onClick={() => optionSelectHandler(id)}
                         />
 
