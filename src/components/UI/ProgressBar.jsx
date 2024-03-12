@@ -51,6 +51,7 @@ export default ProgressBar
 
 const StyledContainer = styled(Box)(() => ({
    width: '100%',
+   maxWidth: '56.875rem',
    paddingTop: '1px',
 
    '& > .block-progress-bar': {
