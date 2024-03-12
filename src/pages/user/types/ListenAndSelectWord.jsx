@@ -101,6 +101,7 @@ const ListenAndSelectWord = () => {
                isChecked,
             },
          }
+
          return newState
       })
    }
