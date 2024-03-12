@@ -92,19 +92,20 @@ const ListenAndSelectWord = () => {
 
    const toggleCheckboxHandler = (id) => {
       setOptionState((prev) => {
+         const isChecked = !prev?.[id]?.isChecked
+
          const newState = {
             ...prev,
             [id]: {
-               ...prev[id],
-               isChecked: !prev?.[id]?.isChecked,
+               id,
+               isChecked,
             },
          }
-
          return newState
       })
    }
 
-   const isDisabled = !Object.values(optionState).some(
+   const isDisabled = !Object.values(optionState).find(
       (option) => option.isChecked
    )
 
