@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import { Box, keyframes, styled, Typography } from '@mui/material'
 import CountUp from 'react-countup'
 import {
@@ -33,7 +33,6 @@ const Statistics = () => {
 
             if (top < innerHeight && bottom >= 0) {
                setIsVisibleCount(true)
-
                setIsVisible(true)
             }
          }
@@ -50,110 +49,113 @@ const Statistics = () => {
 
    return (
       <StyledContainer>
-         <Box className="card">
-            <Box className="image">
-               <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{
-                     x: 47.03,
-                     y: -14.96,
-                     opacity: isVisible ? 1 : 0,
-                  }}
-                  transition={{ repeat: Infinity, duration: 3 }}
-               >
-                  <StyledAiroplaneFirst />
-                  <StyledAiroplaneSecond />
-                  <StyledAiroplaneThird />
-                  <StyledAiroplaneFourth />
-                  <StyledAiroplaneFifth />
-                  <StyledAiroplaneSixth />
-                  <StyledAiroplaneSeventh />
-                  <StyledAiroplaneEighth />
-                  <StyledAiroplaneNinth />
-                  <StyledAiroplaneTenth />
-                  <StyledAiroplaneEleventh />
-                  <StyledAiroplaneTwelfth />
-                  <StyledAiroplaneThirteenth />
-                  <StyledAiroplaneFourteenth />
-                  <StyledAiroplaneFifteenth />
-               </motion.div>
+         <Box className="box">
+            <Box className="card">
+               <Box className="image">
+                  <motion.div
+                     initial={{ opacity: 0 }}
+                     animate={{
+                        x: 47.03,
+                        y: -14.96,
+                        opacity: isVisible ? 1 : 0,
+                     }}
+                     transition={{ repeat: Infinity, duration: 3 }}
+                  >
+                     <StyledAiroplaneFirst />
+                     <StyledAiroplaneSecond />
+                     <StyledAiroplaneThird />
+                     <StyledAiroplaneFourth />
+                     <StyledAiroplaneFifth />
+                     <StyledAiroplaneSixth />
+                     <StyledAiroplaneSeventh />
+                     <StyledAiroplaneEighth />
+                     <StyledAiroplaneNinth />
+                     <StyledAiroplaneTenth />
+                     <StyledAiroplaneEleventh />
+                     <StyledAiroplaneTwelfth />
+                     <StyledAiroplaneThirteenth />
+                     <StyledAiroplaneFourteenth />
+                     <StyledAiroplaneFifteenth />
+                  </motion.div>
 
-               <StyledBorderAiroplane />
-            </Box>
-
-            <StyledCount>
-               <Box id="statistics-count">
-                  {isVisibleCount && (
-                     <Box>
-                        <CountUp duration={1} end={10000} />
-
-                        <Typography variant="span">+</Typography>
-                     </Box>
-                  )}
+                  <StyledBorderAiroplane />
                </Box>
-            </StyledCount>
 
-            <StyledText>
-               Over 10,000 fee waivers for the
-               <br />
-               Bilingual English Test are offered annually.
-            </StyledText>
-         </Box>
+               <StyledCount>
+                  <Box id="statistics-count">
+                     {isVisibleCount && (
+                        <Box>
+                           <CountUp duration={1} end={10000} />
 
-         <Box className="card">
-            <Box className="image">
-               <StyledLines />
+                           <Typography variant="span">+</Typography>
+                        </Box>
+                     )}
+                  </Box>
+               </StyledCount>
 
-               <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{
-                     scale: [0.98, 1, 0.98, 1],
-                     opacity: isVisible ? 1 : 0,
-                  }}
-                  transition={{ duration: 3, repeat: Infinity }}
-               >
-                  <StyledEarth />
-               </motion.div>
+               <StyledText>
+                  Over 10,000 fee waivers for the
+                  <br />
+                  Bilingual English Test are offered annually.
+               </StyledText>
             </Box>
 
-            <StyledCount>
-               <Box id="statistics-container">
-                  {isVisibleCount && (
-                     <Box>
-                        <CountUp duration={1} end={200} />
+            <Box className="card">
+               <Box className="image">
+                  <StyledLines />
 
-                        <Typography variant="span">+</Typography>
-                     </Box>
-                  )}
+                  <motion.div
+                     initial={{ opacity: 0 }}
+                     animate={{
+                        scale: [0.98, 1, 0.98, 1],
+                        opacity: isVisible ? 1 : 0,
+                     }}
+                     transition={{ duration: 3, repeat: Infinity }}
+                  >
+                     <StyledEarth />
+                  </motion.div>
                </Box>
-            </StyledCount>
 
-            <StyledText>
-               Students from over 200 countries and territories have benefitted.
-            </StyledText>
-         </Box>
+               <StyledCount>
+                  <Box id="statistics-container">
+                     {isVisibleCount && (
+                        <Box>
+                           <CountUp duration={1} end={200} />
 
-         <Box className="card">
-            <Box className="image">
-               <StyledPiggyBank />
+                           <Typography variant="span">+</Typography>
+                        </Box>
+                     )}
+                  </Box>
+               </StyledCount>
 
-               <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ y: 20.96, opacity: isVisible ? 1 : 0 }}
-                  transition={{ duration: 4, repeat: Infinity }}
-               >
-                  <StyledCoins />
-               </motion.div>
+               <StyledText>
+                  Students from over 200 countries and territories have
+                  benefitted.
+               </StyledText>
             </Box>
 
-            <StyledCount>
-               <Typography variant="span">$0</Typography>
-            </StyledCount>
+            <Box className="card">
+               <Box className="image">
+                  <StyledPiggyBank />
 
-            <StyledText>
-               Eligible students can take the test with absolutely zero cost to
-               them.
-            </StyledText>
+                  <motion.div
+                     initial={{ opacity: 0 }}
+                     animate={{ y: 20.96, opacity: isVisible ? 1 : 0 }}
+                     transition={{ duration: 4, repeat: Infinity }}
+                  >
+                     <StyledCoins />
+                  </motion.div>
+               </Box>
+
+               <StyledCount>
+                  <Typography variant="span">$0</Typography>
+               </StyledCount>
+
+               <StyledText>
+                  Eligible students can take the test with absolutely zero cost
+                  to them.
+               </StyledText>
+            </Box>
          </Box>
       </StyledContainer>
    )
@@ -161,22 +163,19 @@ const Statistics = () => {
 
 export default Statistics
 
-const StyledContainer = styled('div')(({ theme }) => ({
-   display: 'flex',
-   justifyContent: 'center',
-   alignItems: 'center',
-   gap: '9vw',
+const StyledContainer = styled(Box)(({ theme }) => ({
    backgroundColor: theme.palette.secondary.main,
-   margin: 'auto',
 
-   [theme.breakpoints.down('lg')]: {
-      gap: '0.3rem',
+   '& > .box': {
+      padding: '120px 0',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      maxWidth: '1600px',
+      margin: '0 auto',
    },
 
-   '& > .card': {
-      margin: '7.5rem 0 7.5rem 0',
-      padding: '1.5rem 1.06rem 1.5rem 1.06rem',
-
+   '& > .box > .card': {
       '& > .image': {
          width: '18.81rem',
          height: '11rem',

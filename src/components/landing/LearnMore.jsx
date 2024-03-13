@@ -15,6 +15,7 @@ import {
 } from '../../assets/icons'
 import 'aos/dist/aos.css'
 import LandingButton from '../UI/buttons/LandingButton'
+import { ROUTES } from '../../routes/routes'
 
 const ROADMAPE_ANIMATE = keyframes`
         to  {
@@ -29,12 +30,9 @@ const LearnMore = () => {
 
    const navigate = useNavigate()
 
-   const handleStarted = () => {
-      if (isAuth) {
-         navigate('/user/tests')
-      } else {
-         navigate('/sign-in')
-      }
+   const startHandler = () => {
+      if (isAuth) navigate(ROUTES.USER.INDEX, { replace: true })
+      else navigate(ROUTES.SIGN_IN)
    }
 
    useEffect(() => {
@@ -158,7 +156,7 @@ const LearnMore = () => {
                   repeat: Infinity,
                }}
             >
-               <LandingButton onClick={handleStarted} />
+               <LandingButton onClick={startHandler} />
             </motion.div>
          </Box>
       </StyledContainer>
