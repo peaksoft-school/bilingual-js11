@@ -55,7 +55,7 @@ const LandingHeader = () => {
                   </>
                ) : (
                   <>
-                     <Link to={`${ROUTES.USER.index}`}>
+                     <Link to={ROUTES.USER.INDEX}>
                         <Button>TESTS</Button>
                      </Link>
 

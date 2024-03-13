@@ -51,7 +51,7 @@ const TestList = () => {
    const navigateHandler = (e, id) => {
       e.preventDefault()
 
-      navigate(`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.updateTest}/${id}`)
+      navigate(`${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.UPDATE_TEST}/${id}`)
    }
 
    const deleteTest = tests?.find((test) => test.id === selectedTestId)?.title
@@ -61,7 +61,7 @@ const TestList = () => {
          {tests?.length > 0 ? (
             tests.map(({ id, title, enable }) => (
                <Link
-                  to={`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/${id}`}
+                  to={`${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/${id}`}
                   key={id}
                   className="test-link"
                >
@@ -165,7 +165,7 @@ const StyledContainer = styled(Box)(() => ({
          position: 'relative',
 
          '& > .title': {
-            maxWidth: '10rem',
+            maxWidth: '20rem',
             fontFamily: 'Poppins',
             fontSize: '1rem',
             overflow: 'hidden',

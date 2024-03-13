@@ -26,9 +26,7 @@ const deleteResults = createAsyncThunk(
          )
 
          showNotification({
-            title: 'Success',
             message: 'Test successfully deleted',
-            type: 'success',
          })
 
          dispatch(getResults())

@@ -94,24 +94,24 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
    '& .slide': {
       display: 'flex',
       justifyContent: 'center',
-   },
 
-   '& .image-box': {
-      margin: '0.9375rem',
-      width: '15.9375rem',
-      height: '7.875rem',
-      overflow: 'hidden',
-      borderRadius: '1.25rem',
-      border: '1px solid #E4E4E4',
-      background: theme.palette.primary.white,
-      display: 'inline-flex',
+      '& > .image-box': {
+         margin: '0.9375rem',
+         width: '15.9375rem',
+         height: '7.875rem',
+         overflow: 'hidden',
+         borderRadius: '1.25rem',
+         border: '1px solid #E4E4E4',
+         background: theme.palette.primary.white,
+         display: 'inline-flex',
 
-      '& > img': {
-         width: '10.9375rem',
-         height: '5.375rem',
-         objectFit: 'contain',
-         objectPosition: 'center',
-         margin: 'auto',
+         '& > img': {
+            width: '10.9375rem',
+            height: '5.375rem',
+            objectFit: 'contain',
+            objectPosition: 'center',
+            margin: 'auto',
+         },
       },
    },
 }))
