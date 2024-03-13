@@ -7,7 +7,6 @@ import { questionsSlice } from './slice/admin/questions/questionsSlice'
 import { resultsSlice } from './slice/user/results/resultsSlice'
 import { testsListSlice } from './slice/user/tests/testsListSlice'
 import questionSlice from './slice/admin/question/questionSlice'
-import { userSlice } from './slice/user/userSlice'
 
 const rootReducer = combineReducers({
    [authSlice.name]: authSlice.reducer,
@@ -16,7 +15,6 @@ const rootReducer = combineReducers({
    [questionSlice.name]: questionSlice.reducer,
    [resultsSlice.name]: resultsSlice.reducer,
    [testsListSlice.name]: testsListSlice.reducer,
-   [userSlice.name]: userSlice.reducer,
 })
 
 const persistConfig = {

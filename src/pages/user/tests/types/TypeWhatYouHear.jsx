@@ -1,22 +1,16 @@
-import { useDispatch } from 'react-redux'
 import { useRef, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { GradientListenerIcon } from '../../../../assets/icons'
-import { userQuestionActions } from '../../../../store/slice/user/userSlice'
 import Button from '../../../../components/UI/buttons/Button'
 import TextArea from '../../../../components/UI/TextArea'
 
-const TypeWhatYouHear = ({ id }) => {
-   const dispatch = useDispatch()
-
+const TypeWhatYouHear = ({ FILE_URL, numberOfReplaysLeft }) => {
    const [textArea, setTextArea] = useState('')
    const [isPlaying, setIsPlaying] = useState(false)
-   const [replaysLeft, setReplaysLeft] = useState(1)
+   const [replaysLeft, setReplaysLeft] = useState(numberOfReplaysLeft)
 
    const soundRef = useRef(null)
 
-   const FILE_URL =
-      'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3'
    const textAreaHandler = (e) => setTextArea(e.target.value)
 
    const soundHandler = () => {
@@ -42,13 +36,6 @@ const TypeWhatYouHear = ({ id }) => {
    }
 
    const nextHandler = () => {
-      const dataAnswer = {
-         input: textArea,
-         questionId: id,
-      }
-
-      dispatch(userQuestionActions.addAnswer(dataAnswer))
-
       setTextArea('')
    }
 
