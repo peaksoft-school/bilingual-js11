@@ -1,4 +1,3 @@
-/* eslint-disable radix */
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -23,15 +22,11 @@ const PracticeTest = () => {
 
    const QuestionComponent = QUESTION_COMPONENT[questions[count]?.questionType]
 
-   console.log(count)
-
    const nextHandler = () => setCount(count + 1)
 
    const handleNextQuestion = () => {
       if (count < questions.length - 1) {
          setCount((prev) => prev + 1)
-      } else {
-         console.log('End of questions')
       }
    }
 

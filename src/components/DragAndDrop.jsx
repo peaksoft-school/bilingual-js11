@@ -8,8 +8,6 @@ const DragAndDrop = ({ options }) => {
 
    const dispatch = useDispatch()
 
-   console.log(options)
-
    const [isDropped, setIsDropped] = useState(false)
 
    const [isDragging, setIsDragging] = useState(false)

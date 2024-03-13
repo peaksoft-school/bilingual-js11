@@ -1,13 +1,30 @@
+import { useDispatch, useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
 import DragAndDrop from '../../../components/DragAndDrop'
 import Button from '../../../components/UI/buttons/Button'
+import { TEST_THUNK } from '../../../store/slice/user/test/testThunk'
 
 const SelectRealEnglishWords = ({ questions }) => {
    const options = questions?.optionResponses
 
-   console.log(options)
+   const { correctOptions } = useSelector((state) => state.testSlice)
 
-   const onSubmit = () => {}
+   const extractCorrectOptionIds = (correctOptions) => {
+      return correctOptions.map((correctOption) => correctOption.id)
+   }
+
+   const dispatch = useDispatch()
+
+   const onSubmit = () => {
+      const requestData = {
+         attempts: 0,
+         input: '',
+         audioFile: '',
+         optionId: extractCorrectOptionIds(correctOptions),
+         questionID: questions.questionID,
+      }
+      dispatch(TEST_THUNK.postTest({ requestData }))
+   }
 
    return (
       <StyledContainer>

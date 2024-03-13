@@ -5,9 +5,9 @@ import { showNotification } from '../../../../utils/helpers/notification'
 const postTest = createAsyncThunk(
    'test/postTest',
 
-   async ({ testData }, { rejectWithValue }) => {
+   async ({ requestData }, { rejectWithValue }) => {
       try {
-         const response = await axiosInstance.post('/api/answer', testData)
+         const response = await axiosInstance.post('/api/answer', requestData)
 
          showNotification({ message: 'Test successfully added' })
 

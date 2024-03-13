@@ -1,33 +1,11 @@
 import { useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
-import TestContainer from '../../../components/UI/TestContainer'
-import ProgressBar from '../../../components/UI/ProgressBar'
 import Button from '../../../components/UI/buttons/Button'
 import Radio from '../../../components/UI/Radio'
 
-const OPTIONS = [
-   {
-      id: 1,
-      title: 'There are many variations of passages of Lorem Ipsum available, but the majority have.',
-   },
+const SelectTheMainIdea = ({ questions }) => {
+   const options = questions?.optionResponses
 
-   {
-      id: 2,
-      title: 'There are many variations of passages of Lorem Ipsum available, but the majority have.',
-   },
-
-   {
-      id: 3,
-      title: 'There are many variations of passages of Lorem Ipsum available, but the majority have. Sed ut perspiciatis unde omnis iste natus error.',
-   },
-
-   {
-      id: 4,
-      title: 'There are many variations of passages of Lorem Ipsum available, but the majority have.',
-   },
-]
-
-const SelectTheMainIdea = () => {
    const [selectedOptionId, setSelectedOptionId] = useState(null)
 
    const optionSelectHandler = (id) => setSelectedOptionId(id)
@@ -35,56 +13,41 @@ const SelectTheMainIdea = () => {
    const isDisabled = selectedOptionId === null
 
    return (
-      <TestContainer>
-         <StyledContainer>
-            <ProgressBar duration={2} minutes={23} seconds={12} />
-            <Box className="content-box">
-               <Box className="correct-answer">
-                  <Typography className="title">PASSAGE</Typography>
+      <StyledContainer>
+         <Box className="content-box">
+            <Box className="correct-answer">
+               <Typography className="title">PASSAGE</Typography>
 
-                  <Typography className="passage">
-                     Sed ut perspiciatis unde omnis iste natus error sit
-                     voluptatem accusantium doloremque laudantium, totam rem
-                     aperiam, eaque ipsa quae ab illo inventore veritatis et
-                     quasi architecto beatae vitae dicta sunt explicabo. Nemo
-                     enim ipsam voluptatem quia voluptas sit aspernatur aut odit
-                     aut fugit, sed quia consequuntur magni dolores eos qui
-                     ratione voluptatem sequi nesciunt. Neque porro quisquam
-                     est, qui dolorem ipsum quia dolor sit amet, consectetur,
-                     adipisci velit, sed quia non numquam eius modi tempora
-                     incidunt ut labore et dolore magnam aliquam quaerat
-                     voluptatem.
-                  </Typography>
-               </Box>
-
-               <Box>
-                  <Typography className="instruction">
-                     Select the best title for the passage
-                  </Typography>
-
-                  {OPTIONS.map(({ id, title }) => (
-                     <Box
-                        key={id}
-                        className={`option ${
-                           selectedOptionId === id ? 'selected' : ''
-                        }`}
-                     >
-                        <Radio
-                           checked={selectedOptionId === id}
-                           onClick={() => optionSelectHandler(id)}
-                        />
-
-                        <Typography className="title">{title}</Typography>
-                     </Box>
-                  ))}
-
-                  <Button className="button" disabled={isDisabled}>
-                     NEXT
-                  </Button>
-               </Box>
+               <Typography className="passage">{questions.title}</Typography>
             </Box>
-         </StyledContainer>
-      </TestContainer>
+
+            <Box>
+               <Typography className="instruction">
+                  Select the best title for the passage
+               </Typography>
+
+               {options.map(({ id, title }) => (
+                  <Box
+                     key={id}
+                     className={`option ${
+                        selectedOptionId === id ? 'selected' : ''
+                     }`}
+                  >
+                     <Radio
+                        checked={selectedOptionId === id}
+                        onClick={() => optionSelectHandler(id)}
+                     />
+
+                     <Typography className="title">{title}</Typography>
+                  </Box>
+               ))}
+
+               <Button className="button" disabled={isDisabled}>
+                  NEXT
+               </Button>
+            </Box>
+         </Box>
+      </StyledContainer>
    )
 }
 

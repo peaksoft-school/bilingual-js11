@@ -6,8 +6,8 @@ const ProgressBar = ({ duration, onNextQuestion }) => {
    const [timeLeft, setTimeLeft] = useState(duration * 10)
 
    useEffect(() => {
-      setTimeProgress(0) // Сброс прогресса времени при изменении duration
-      setTimeLeft(duration * 10) // Обновление времени оставшегося на duration
+      setTimeProgress(0)
+      setTimeLeft(duration * 10)
    }, [duration])
 
    useEffect(() => {
@@ -25,7 +25,7 @@ const ProgressBar = ({ duration, onNextQuestion }) => {
 
    useEffect(() => {
       if (timeLeft === 0) {
-         onNextQuestion() // Вызываем обратный вызов при достижении времени duration
+         // onNextQuestion()
       }
    }, [timeLeft, onNextQuestion])
 

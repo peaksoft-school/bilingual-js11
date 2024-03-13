@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
-import TestContainer from '../../../components/UI/TestContainer'
-import ProgressBar from '../../../components/UI/ProgressBar'
 import Button from '../../../components/UI/buttons/Button'
 
 import {
@@ -9,7 +7,7 @@ import {
    ScrollTopArrowIcon,
 } from '../../../assets/icons'
 
-const RespondInAtLeastWord = () => {
+const RespondInAtLeastWord = ({ questions }) => {
    const [text, setText] = useState('')
 
    const changeTextHandler = (e) => setText(e.target.value)
@@ -25,44 +23,38 @@ const RespondInAtLeastWord = () => {
    const isDisabled = wordsCount < 50
 
    return (
-      <TestContainer>
-         <StyledContainer>
-            <ProgressBar duration={2} minutes={10} seconds={15} />
+      <StyledContainer>
+         <Typography className="title">
+            Respond to the question in at least 50 words
+         </Typography>
 
-            <Typography className="title">
-               Respond to the question in at least 50 words
-            </Typography>
+         <Box className="content-box">
+            <Typography className="question">{questions.statement}</Typography>
 
-            <Box className="content-box">
-               <Typography className="question">
-                  “Describe a time you were surprised. what happened?”
+            <Box>
+               <textarea
+                  name="text"
+                  value={text}
+                  onChange={changeTextHandler}
+                  placeholder="Your response"
+                  className="text-area"
+               />
+               <Typography
+                  className={`${
+                     wordsCount >= 50 ? 'highlight-word' : 'word-length'
+                  }`}
+               >
+                  Word: {wordsCount}
                </Typography>
-
-               <Box>
-                  <textarea
-                     name="text"
-                     value={text}
-                     onChange={changeTextHandler}
-                     placeholder="Your response"
-                     className="text-area"
-                  />
-                  <Typography
-                     className={`${
-                        wordsCount >= 50 ? 'highlight-word' : 'word-length'
-                     }`}
-                  >
-                     Word: {wordsCount}
-                  </Typography>
-               </Box>
             </Box>
+         </Box>
 
-            <Box className="line" />
+         <Box className="line" />
 
-            <Button disabled={isDisabled} className="button">
-               NEXT
-            </Button>
-         </StyledContainer>
-      </TestContainer>
+         <Button disabled={isDisabled} className="button">
+            NEXT
+         </Button>
+      </StyledContainer>
    )
 }
 
@@ -103,14 +95,10 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       },
 
       '& > div > .text-area': {
-         display: 'flex',
          width: '23.875rem',
-         marginRight: '1.5rem',
-         overflowY: 'auto',
          height: '11.438rem',
          fontFamily: 'Poppins',
          fontWeight: 300,
-         fontSize: '1rem',
          padding: '1rem',
          resize: 'none',
          borderRadius: '8px',
