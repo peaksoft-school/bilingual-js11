@@ -1,85 +1,55 @@
-import { useState, useEffect, useRef } from 'react'
-import WaveSurfer from 'wavesurfer.js'
 import { Box, Typography, styled } from '@mui/material'
-import Button from './buttons/Button'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { ReactMic } from 'react-mic'
 import { RecordingIcon, SpeakManIcon } from '../../assets/icons'
+import { userQuestionActions } from '../../store/slice/user/userSlice'
+import Notification from '../Notification'
+import Button from './buttons/Button'
 
-const RecordSaying = () => {
-   const [isRecording, setIsRecording] = useState(false)
-   const [mediaRecorder, setMediaRecorder] = useState(null)
-   const [recordedChunks, setRecordedChunks] = useState([])
-   const waveformRef = useRef(null)
-   const wavesurferRef = useRef(null)
+const RecordSaying = ({ questionId }) => {
+   const [isRecording, setRecording] = useState(false)
+   const [audioBlob, setAudioBlob] = useState(null)
+   const dispatch = useDispatch()
 
-   useEffect(() => {
-      const wavesurfer = WaveSurfer.create({
-         container: waveformRef.current,
-         waveColor: '#3A10E5',
-         progressColor: '#3A10E5',
-         cursorColor: 'white',
-         barWidth: 4,
-         barHeight: 1,
-         backend: 'MediaElement',
-      })
-      const containerElement = waveformRef.current
+   const startRecording = () => {
+      setRecording(true)
+   }
 
-      containerElement.style.borderRadius = '10px'
+   const stopRecording = () => {
+      setRecording(false)
+   }
 
-      wavesurferRef.current = wavesurfer
+   const onData = (record) => {
+      setAudioBlob(record.blob)
+   }
 
-      return () => {
-         wavesurfer.destroy()
+   const onStop = (record) => {
+      setAudioBlob(record.blob)
+   }
+
+   const nextButtonHandler = async () => {
+      if (!audioBlob) {
+         Notification('error', 'Recording', 'Please record your saying')
+         return
       }
-   }, [])
 
-   useEffect(() => {
-      if (recordedChunks.length > 0) {
-         const blob = new Blob(recordedChunks, { type: 'audio/webm' })
-         const url = URL.createObjectURL(blob)
-         wavesurferRef.current.load(url)
-      }
-   }, [recordedChunks])
-
-   const toggleRecording = async () => {
-      if (isRecording) {
-         mediaRecorder.stop()
-         setIsRecording(false)
-      } else {
-         try {
-            const stream = await navigator.mediaDevices.getUserMedia({
-               audio: true,
-            })
-            const recorder = new MediaRecorder(stream)
-
-            recorder.addEventListener('dataavailable', (event) => {
-               if (event.data.size > 0) {
-                  setRecordedChunks((prevChunks) => [...prevChunks, event.data])
-                  const blob = new Blob([event.data], { type: 'audio/webm' })
-                  const url = URL.createObjectURL(blob)
-                  wavesurferRef.current.load(url)
-               }
-            })
-
-            recorder.addEventListener('start', () => {
-               const wavesurfer = wavesurferRef.current
-               wavesurfer.empty()
-               wavesurfer.clearRegions()
-               wavesurfer.microphone.start()
-               setIsRecording(true)
-            })
-
-            recorder.addEventListener('stop', () => {
-               setIsRecording(false)
-               wavesurferRef.current.microphone.stop()
-            })
-
-            setMediaRecorder(recorder)
-            recorder.start()
-         } catch (error) {
-            console.error('Error accessing microphone:', error)
+      try {
+         const formData = new FormData()
+         formData.append('multipartFile', audioBlob, 'recording.mp3')
+         // const { data } = await postFileRequest(formData)
+         const newAnswer = {
+            questionId,
+            // numberOfPlays: 1,
+            // fileUrl: data.link,
          }
+         dispatch(userQuestionActions.addAnswer(newAnswer))
+         setAudioBlob(null)
+      } catch (error) {
+         Notification('error', 'File', 'Something went wrong')
       }
    }
+
    return (
       <Container>
          <StyledContainer>
@@ -94,27 +64,23 @@ const RecordSaying = () => {
             </Box>
             <Box className="container-button">
                {isRecording ? <RecordingIcon /> : null}
-               <Box ref={waveformRef} />
+               <ReactMic
+                  record={isRecording}
+                  onData={onData}
+                  onStop={onStop}
+                  strokeColor="#3A10E5"
+                  backgroundColor="#ffffff"
+               />
                <div>
-                  {isRecording ? (
-                     <Button variant="contained" onClick={toggleRecording}>
-                        STOP RECORDING
-                     </Button>
-                  ) : (
-                     <>
-                        {!isRecording && recordedChunks.length === 0 && (
-                           <Button
-                              variant="contained"
-                              onClick={toggleRecording}
-                           >
-                              RECORD NOW
-                           </Button>
-                        )}
-                        {!isRecording && recordedChunks.length > 0 && (
-                           <Button variant="contained">NEXT</Button>
-                        )}
-                     </>
-                  )}
+                  <Button
+                     variant="contained"
+                     onClick={isRecording ? stopRecording : startRecording}
+                  >
+                     {isRecording ? 'STOP RECORDING' : 'RECORD NOW'}
+                  </Button>
+                  <Button variant="contained" onClick={nextButtonHandler}>
+                     NEXT
+                  </Button>
                </div>
             </Box>
          </StyledContainer>
