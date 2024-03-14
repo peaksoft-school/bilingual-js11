@@ -1,13 +1,13 @@
 import { createHashRouter, RouterProvider } from 'react-router-dom'
 import { ROLES, ROUTES } from './routes'
-import { ADMIN_ROUTES } from './adminRoutes'
+import { ADMIN_ROUTES } from './AdminRoutes'
 import { USER_ROUTES } from './UserRoutes'
 import ProtectedRoute from './ProtectedRoute'
 import AdminLayout from '../layout/admin/AdminLayout'
 import UserLayout from '../layout/user/UserLayout'
+import NotFound from '../layout/NotFound'
 import SignIn from '../pages/sign-in/SignIn'
 import SignUp from '../pages/sign-up/SignUp'
-import NotFound from '../layout/NotFound'
 import Home from '../pages/home/Home'
 
 const AppRoutes = () => {
@@ -17,7 +17,7 @@ const AppRoutes = () => {
          element: (
             <ProtectedRoute
                roles={[ROLES.USER, ROLES.GUEST]}
-               fallbackPath={ROUTES.ADMIN.index}
+               fallbackPath={ROUTES.ADMIN.INDEX}
                Component={<Home />}
             />
          ),
@@ -34,7 +34,7 @@ const AppRoutes = () => {
       },
 
       {
-         path: ROUTES.ADMIN.index,
+         path: ROUTES.ADMIN.INDEX,
          element: (
             <ProtectedRoute
                roles={[ROLES.ADMIN]}
@@ -47,7 +47,7 @@ const AppRoutes = () => {
       },
 
       {
-         path: ROUTES.USER.index,
+         path: ROUTES.USER.INDEX,
          element: (
             <ProtectedRoute
                roles={[ROLES.USER]}

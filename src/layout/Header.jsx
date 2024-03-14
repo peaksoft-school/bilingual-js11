@@ -31,14 +31,14 @@ const Header = () => {
                <>
                   <NavLink
                      className="navigation"
-                     to={`${ROUTES.ADMIN.index}/tests`}
+                     to={`${ROUTES.ADMIN.INDEX}/tests`}
                   >
                      TESTS
                   </NavLink>
 
                   <NavLink
                      className="navigation"
-                     to={`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.results}`}
+                     to={`${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.RESULTS}`}
                   >
                      SUBMITTED RESULTS
                   </NavLink>
@@ -47,14 +47,14 @@ const Header = () => {
                <>
                   <NavLink
                      className="navigation"
-                     to={`${ROUTES.USER.index}/tests`}
+                     to={`${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}`}
                   >
                      TESTS
                   </NavLink>
 
                   <NavLink
                      className="navigation"
-                     to={`${ROUTES.USER.index}/${ROUTES.USER.results}`}
+                     to={`${ROUTES.USER.INDEX}/${ROUTES.USER.RESULTS}`}
                   >
                      MY RESULTS
                   </NavLink>

@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { Box, styled, Typography } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { TESTS_LIST_THUNKS } from '../../../store/slice/user/tests/testsListThunk'
-import { ListIcon } from '../../../assets/icons'
+import { ListImage } from '../../../assets/images'
 import { ROUTES } from '../../../routes/routes'
 import TestContainer from '../../../components/UI/TestContainer'
-import Button from '../../../components/UI/buttons/Button'
 import Loading from '../../../components/Loading'
+import Button from '../../../components/UI/buttons/Button'
 
 const TestList = () => {
    const { tests, isLoading } = useSelector((state) => state.testsListSlice)
@@ -21,7 +21,7 @@ const TestList = () => {
    }, [dispatch])
 
    const navigateHandler = (id) =>
-      navigate(`${ROUTES.USER.index}/${ROUTES.USER.tests}/${id}`)
+      navigate(`${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}/${id}`)
 
    return (
       <TestContainer>
@@ -31,7 +31,7 @@ const TestList = () => {
             {Array.isArray(tests) &&
                tests?.map(({ id, duration, title, shortDescription }) => (
                   <Box className="content" key={id}>
-                     <ListIcon className="list" />
+                     <img src={ListImage} alt="list" className="list" />
 
                      <Box className="texts">
                         <Typography className="duration">
@@ -70,13 +70,14 @@ const MainContent = styled(Box)(() => ({
    '& > .content': {
       display: 'flex',
       alignItems: 'flex-end',
-      gap: '2.5rem',
+      gap: '2rem',
       width: '100%',
       color: '#524e5e',
 
       '& > .list': {
          maxWidth: '80px',
          width: '100%',
+         marginBottom: '0.3rem',
       },
 
       '& > .texts': {

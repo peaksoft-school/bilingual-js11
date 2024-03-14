@@ -58,7 +58,7 @@ const Questions = () => {
 
    const navigateHandler = () =>
       navigate(
-         `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/${testId}/${ROUTES.ADMIN.createQuestion}`
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/${testId}/${ROUTES.ADMIN.CREATE_QUESTION}`
       )
 
    const deleteQuestion = questions?.question?.find(

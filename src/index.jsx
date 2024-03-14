@@ -7,6 +7,7 @@ import { fileInjectStore } from './configs/axiosInstanceFile'
 import store, { persistor } from './store/store'
 import App from './App'
 import Themes from './components/Themes'
+import Loading from './components/Loading'
 import Notification from './components/Notification'
 import './index.css'
 
@@ -18,7 +19,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
    <StrictMode>
       <Provider store={store}>
-         <PersistGate loading={null} persistor={persistor}>
+         <PersistGate loading={<Loading />} persistor={persistor}>
             <Themes>
                <Notification />
                <App />

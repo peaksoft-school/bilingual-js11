@@ -42,12 +42,10 @@ const postQuestion = createAsyncThunk(
             `/api/question?testId=${testId}&questionType=${questionType}`
          )
          showNotification({
-            title: 'Success',
             message: 'Question successfully added',
-            type: 'success',
          })
 
-         navigate(`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/:testId`)
+         navigate(`${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/:testId`)
 
          return response.data
       } catch (error) {

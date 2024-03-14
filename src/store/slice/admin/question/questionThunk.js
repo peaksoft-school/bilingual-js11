@@ -26,7 +26,7 @@ const saveTest = createAsyncThunk(
             message: `${response.data.message}!`,
          })
 
-         navigate(`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/${testId}`)
+         navigate(`${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/${testId}`)
 
          if (clearOptions) {
             dispatch(clearOptions.clearOptions())

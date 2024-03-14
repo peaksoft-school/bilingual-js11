@@ -3,23 +3,23 @@ const ROUTES = {
    SIGN_UP: '/sign-up',
 
    ADMIN: {
-      index: '/admin',
-      tests: 'tests',
-      createTest: 'create-test',
-      updateTest: 'update-test',
-      questions: 'questions',
-      createQuestion: 'create-question',
-      id: 'id',
-      testId: 'testId',
-      results: 'results',
+      INDEX: '/admin',
+      TESTS: 'tests',
+      CREATE_TEST: 'create-test',
+      UPDATE_TEST: 'update-test',
+      QUESTIONS: 'questions',
+      CREATE_QUESTION: 'create-question',
+      ID: 'id',
+      TEST_ID: 'testId',
+      RESULTS: 'results',
    },
 
    USER: {
-      index: '/user',
-      tests: 'tests',
-      testId: 'testId',
-      practiceTest: 'practice-test',
-      results: 'results',
+      INDEX: '/user',
+      TESTS: 'tests',
+      PRACTICE_TEST: 'practice-test',
+      TEST_ID: 'testId',
+      RESULTS: 'results',
    },
 }
 

@@ -3,14 +3,14 @@ import { Box, styled } from '@mui/material'
 import { PlusIcon } from '../../../assets/icons'
 import { ROUTES } from '../../../routes/routes'
 import TestContainer from '../../../components/UI/TestContainer'
-import TestList from '../../../components/admin/tests/TestList'
+import TestList from '../../../components/admin/tests/AdminTestList'
 import Button from '../../../components/UI/buttons/Button'
 
 const AdminTests = () => {
    const navigate = useNavigate()
 
    const navigateHandler = () =>
-      navigate(`${ROUTES.ADMIN.index}/${ROUTES.ADMIN.createTest}`)
+      navigate(`${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.CREATE_TEST}`)
 
    return (
       <StyledContainer>
