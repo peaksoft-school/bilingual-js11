@@ -1,50 +1,92 @@
+import { useEffect, useRef, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { ReactMic } from 'react-mic'
+import WaveSurfer from 'wavesurfer.js'
 import { RecordingIcon, SpeakManIcon } from '../../assets/icons'
-import { userQuestionActions } from '../../store/slice/user/userSlice'
 import Notification from '../Notification'
 import Button from './buttons/Button'
+import { AudioWaveGif } from '../../assets/images'
 
-const RecordSaying = ({ questionId }) => {
-   const [isRecording, setRecording] = useState(false)
-   const [audioBlob, setAudioBlob] = useState(null)
-   const dispatch = useDispatch()
+const RecordSaying = ({ paragraph, questionId }) => {
+   const [isRecording, setIsRecording] = useState(false)
+   const [mediaRecorder, setMediaRecorder] = useState(null)
+   const [recordedChunks, setRecordedChunks] = useState([])
+   const [isRecordingFinished, setIsRecordingFinished] = useState(false)
+   const waveformRef = useRef(null)
+   const wavesurferRef = useRef(null)
+   const [showNextButton, setShowNextButton] = useState(false)
+   const [titleWaveformUrl, setTitleWaveformUrl] = useState(null)
 
-   const startRecording = () => {
-      setRecording(true)
-   }
+   useEffect(() => {
+      if (isRecordingFinished) {
+         if (recordedChunks.length > 0) {
+            const blob = new Blob(recordedChunks, { type: 'audio/webm' })
+            const url = URL.createObjectURL(blob)
+            wavesurferRef.current.load(url)
+            setTitleWaveformUrl(url)
+            setShowNextButton(true)
+         } else {
+            setShowNextButton(false)
+         }
+      }
+   }, [recordedChunks, isRecordingFinished])
 
-   const stopRecording = () => {
-      setRecording(false)
-   }
+   useEffect(() => {
+      const wavesurfer = WaveSurfer.create({
+         container: waveformRef.current,
+         cursorColor: 'white',
+      })
+      wavesurferRef.current = wavesurfer
 
-   const onData = (record) => {
-      setAudioBlob(record.blob)
-   }
+      return () => {
+         wavesurfer.destroy()
+      }
+   }, [])
 
-   const onStop = (record) => {
-      setAudioBlob(record.blob)
+   const toggleRecording = async () => {
+      if (isRecording) {
+         mediaRecorder.stop()
+         setIsRecording(false)
+      } else {
+         try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+               audio: true,
+            })
+            const recorder = new MediaRecorder(stream)
+
+            recorder.addEventListener('dataavailable', (event) => {
+               if (event.data.size > 0) {
+                  setRecordedChunks((prevChunks) => [...prevChunks, event.data])
+                  const blob = new Blob([event.data], { type: 'audio/webm' })
+                  const url = URL.createObjectURL(blob)
+                  wavesurferRef.current.load(url)
+               }
+            })
+
+            recorder.addEventListener('stop', () => {
+               setIsRecordingFinished(true)
+            })
+
+            recorder.start()
+            setIsRecording(true)
+            setMediaRecorder(recorder)
+         } catch (error) {
+            console.error('Error accessing microphone:', error)
+         }
+      }
    }
 
    const nextButtonHandler = async () => {
-      if (!audioBlob) {
+      if (recordedChunks.length === 0) {
          Notification('error', 'Recording', 'Please record your saying')
-         return
       }
-
       try {
-         const formData = new FormData()
-         formData.append('multipartFile', audioBlob, 'recording.mp3')
-         // const { data } = await postFileRequest(formData)
-         const newAnswer = {
+         const audioVoice = {
+            audioFile: titleWaveformUrl,
             questionId,
-            // numberOfPlays: 1,
-            // fileUrl: data.link,
          }
-         dispatch(userQuestionActions.addAnswer(newAnswer))
-         setAudioBlob(null)
+         console.log(audioVoice)
+         setRecordedChunks([])
+         setIsRecordingFinished(false)
       } catch (error) {
          Notification('error', 'File', 'Something went wrong')
       }
@@ -53,40 +95,48 @@ const RecordSaying = ({ questionId }) => {
    return (
       <Container>
          <StyledContainer>
-            <Box className="type-what-you-hear">
-               <Typography className="title">
-                  Record yourself saying the statement below:
-               </Typography>
-               <Box className="block">
-                  <SpeakManIcon className="speak" />
-                  <Typography>My uncle is at work</Typography>
+            <Box>
+               <Box className="type-what-you-hear">
+                  <Typography className="title">
+                     Record yourself saying the statement below:
+                  </Typography>
+                  <Box className="block">
+                     <SpeakManIcon className="speak" />
+                     <Typography>”{paragraph}”.</Typography>
+                  </Box>
                </Box>
-            </Box>
-            <Box className="container-button">
-               {isRecording ? <RecordingIcon /> : null}
-               <ReactMic
-                  record={isRecording}
-                  onData={onData}
-                  onStop={onStop}
-                  strokeColor="#3A10E5"
-                  backgroundColor="#ffffff"
-               />
-               <div>
-                  <Button
-                     variant="contained"
-                     onClick={isRecording ? stopRecording : startRecording}
-                  >
-                     {isRecording ? 'STOP RECORDING' : 'RECORD NOW'}
-                  </Button>
-                  <Button variant="contained" onClick={nextButtonHandler}>
-                     NEXT
-                  </Button>
-               </div>
+               <Box className="container-button">
+                  {isRecording ? <RecordingIcon /> : null}
+                  <Box ref={waveformRef} />
+                  {isRecording ? (
+                     <img
+                        src={AudioWaveGif}
+                        alt="audio-wave-give"
+                        className="audio"
+                     />
+                  ) : null}
+                  <Box>
+                     {!showNextButton && (
+                        <Button onClick={toggleRecording}>
+                           {isRecording ? 'STOP RECORDING' : 'RECORD NOW'}
+                        </Button>
+                     )}
+                     {showNextButton && (
+                        <Button
+                           onClick={nextButtonHandler}
+                           disabled={recordedChunks.length === 0}
+                        >
+                           NEXT
+                        </Button>
+                     )}
+                  </Box>
+               </Box>
             </Box>
          </StyledContainer>
       </Container>
    )
 }
+
 export default RecordSaying
 
 const Container = styled(Box)(() => ({
@@ -112,13 +162,14 @@ const StyledContainer = styled(Box)(() => ({
       marginLeft: '14.5rem',
       marginTop: '3.125rem',
       width: '100%',
+      marginBottom: '1rem',
    },
    '& .speak': {
-      width: '5.5rem',
-      height: '5.5rem',
+      width: '120px',
+      height: '120px',
       cursor: 'pointer',
-      color: 'primary',
       transition: '0.3s',
+      marginTop: '1.5rem',
    },
 
    '& .wave-block': {
@@ -129,10 +180,11 @@ const StyledContainer = styled(Box)(() => ({
       justifyContent: 'center',
    },
    '& .block': {
-      width: '100%',
       display: 'flex',
       alignItems: 'center',
-      marginLeft: '5rem',
+      justifyContent: 'center',
+      gap: '1rem',
+      marginBottom: '2.3rem',
    },
    '& .type-what-you-hear': {
       width: '91.5%',
@@ -143,12 +195,18 @@ const StyledContainer = styled(Box)(() => ({
       alignItems: 'center',
    },
    '& .container-button': {
-      width: '91.5%',
+      width: '95%',
       display: 'flex',
       justifyContent: 'end',
+      alignItems: 'center',
       marginTop: '3.75rem',
       borderTop: '0.0956rem solid #D4D0D0',
-      padding: '2rem 0  0 0 ',
-      marginBottom: '3.125rem',
+      gap: '6rem',
+      marginLeft: '1.5rem',
+   },
+   '& .audio': {
+      marginRight: '9rem',
+      width: '100px',
+      height: '46px',
    },
 }))
