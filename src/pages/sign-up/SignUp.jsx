@@ -16,7 +16,7 @@ import { VALIDATION_SIGN_UP } from '../../utils/helpers/validation'
 import { showErrorSignUp } from '../../utils/helpers'
 import { auth, provider } from '../../configs/firebase'
 import { SIGN_UP_INPUTS } from '../../utils/constants'
-import { AUTH_THUNKS } from '../../store/slice/auth/authThunk'
+import { AUTH_THUNKS } from '../../store/slices/auth/authThunk'
 import { ROUTES } from '../../routes/routes'
 import Input from '../../components/UI/Input'
 import Button from '../../components/UI/buttons/Button'
@@ -128,7 +128,7 @@ const SignUp = () => {
                   <Typography> </Typography>
                )}
 
-               <Button colorLoading="secondary" isLoading={isLoading}>
+               <Button loadingColor="secondary" isLoading={isLoading}>
                   Sign up
                </Button>
 

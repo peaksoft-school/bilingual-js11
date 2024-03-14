@@ -13,7 +13,7 @@ import {
    WarningIcon,
 } from '../../assets/icons'
 import { ROUTES } from '../../routes/routes'
-import { AUTH_THUNKS } from '../../store/slice/auth/authThunk'
+import { AUTH_THUNKS } from '../../store/slices/auth/authThunk'
 import { auth, provider } from '../../configs/firebase'
 import { showErrorSignIn } from '../../utils/helpers'
 import { VALIDATION_SIGN_IN } from '../../utils/helpers/validation'
@@ -138,7 +138,7 @@ const SignIn = () => {
                   <Typography> </Typography>
                )}
 
-               <Button colorLoading="secondary" isLoading={isLoading}>
+               <Button loadingColor="secondary" isLoading={isLoading}>
                   Sign in
                </Button>
 

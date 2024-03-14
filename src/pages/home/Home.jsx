@@ -1,17 +1,18 @@
+import { Box } from '@mui/material'
+import LandingHeader from '../../layout/LandingHeader'
 import Intro from '../../components/landing/Intro'
-import Footer from '../../layout/Footer'
+import Statistics from '../../components/landing/Statistics'
+import UserExperience from '../../components/landing/UserExperience'
 import OurTeam from '../../components/landing/OurTeam'
 import CheckOut from '../../components/landing/CheckOut'
-import Partners from '../../components/landing/Partners'
-import Feedbacks from '../../components/landing/Feedbacks'
-import LearnMore from '../../components/landing/LearnMore'
-import Statistics from '../../components/landing/Statistics'
 import UsefulVideos from '../../components/landing/UsefulVideos'
-import LandingHeader from '../../layout/LandingHeader'
-import UserExperience from '../../components/landing/UserExperience'
+import LearnMore from '../../components/landing/LearnMore'
+import Feedbacks from '../../components/landing/Feedbacks'
+import Partners from '../../components/landing/Partners'
+import Footer from '../../layout/Footer'
 
 const Landing = () => (
-   <>
+   <Box>
       <LandingHeader />
       <Intro />
       <Statistics />
@@ -23,7 +24,7 @@ const Landing = () => (
       <Feedbacks />
       <Partners />
       <Footer />
-   </>
+   </Box>
 )
 
 export default Landing

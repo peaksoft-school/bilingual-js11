@@ -2,11 +2,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { AUTH_ACTIONS } from '../store/slice/auth/authSlice'
+import { AUTH_ACTIONS } from '../store/slices/auth/authSlice'
 import { LogoImage } from '../assets/images'
 import { ROUTES } from '../routes/routes'
-import Modal from '../components/UI/Modal'
 import Button from '../components/UI/buttons/Button'
+import Modal from '../components/UI/modals/Modal'
 
 const LandingHeader = () => {
    const { role } = useSelector((state) => state.auth)
@@ -55,7 +55,7 @@ const LandingHeader = () => {
                   </>
                ) : (
                   <>
-                     <Link to={`${ROUTES.USER.index}`}>
+                     <Link to={ROUTES.USER.INDEX}>
                         <Button>TESTS</Button>
                      </Link>
 
