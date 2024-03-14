@@ -82,7 +82,7 @@ const ListenAndSelectEnglishWord = ({
          const reader = new FileReader()
          reader.readAsDataURL(file)
 
-         dispatch(QUESTION_THUNKS.saveFile(file))
+         dispatch(QUESTION_THUNKS.addFile(file))
 
          setIsUploaded(true)
       }
@@ -121,7 +121,7 @@ const ListenAndSelectEnglishWord = ({
          }
 
          dispatch(
-            QUESTION_THUNKS.saveTest({
+            QUESTION_THUNKS.addTest({
                requestData,
                data: {
                   testId,

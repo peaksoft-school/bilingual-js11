@@ -80,7 +80,7 @@ const SelectTheBestTitle = ({
       !selectType ||
       !duration ||
       !title.trim() ||
-      options.selectTheBestTitleOptions.length < 2 ||
+      options.selectTheBestTitleOptions?.length < 2 ||
       !passage.trim()
 
    const isDisabledModal = !optionTitle.trim()
@@ -136,7 +136,7 @@ const SelectTheBestTitle = ({
       setOptionTitle('')
       setCheckedOption(false)
 
-      if (options.selectTheBestTitleOptions.length === 0 || checkedOption) {
+      if (options.selectTheBestTitleOptions?.length === 0 || checkedOption) {
          setSelectedOptionId(option.id)
       }
    }

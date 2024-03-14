@@ -110,13 +110,13 @@ const deleteQuestion = createAsyncThunk(
             `/api/question?questionId=${questionId}`
          )
 
+         dispatch(TESTS_THUNKS.getTest({ testId }))
+
          showNotification({
             title: 'Success',
             message: 'Question successfully deleted',
             type: 'success',
          })
-
-         dispatch(TESTS_THUNKS.getTest({ testId }))
 
          return response.data
       } catch (error) {
@@ -134,11 +134,13 @@ const deleteQuestion = createAsyncThunk(
 const updateQuestionByEnable = createAsyncThunk(
    'question/updateQuestionByEnable',
 
-   async ({ questionId, isEnable }, { rejectWithValue }) => {
+   async ({ testId, questionId, isEnable }, { dispatch, rejectWithValue }) => {
       try {
          const response = await axiosInstance.patch(
             `/api/question/IsEnable?questionId=${questionId}&isEnable=${isEnable}`
          )
+
+         dispatch(TESTS_THUNKS.getTest({ testId }))
 
          return response.data
       } catch (error) {

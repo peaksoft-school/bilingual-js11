@@ -62,7 +62,7 @@ const TypeWhatYouHear = ({
 
          audioRef.current.src = URL.createObjectURL(file)
 
-         dispatch(QUESTION_THUNKS.saveFile(file))
+         dispatch(QUESTION_THUNKS.addFile(file))
       }
    }
 

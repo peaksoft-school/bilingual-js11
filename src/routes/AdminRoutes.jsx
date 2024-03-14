@@ -7,7 +7,7 @@ const AdminResults = lazy(() => import('../pages/admin/results/AdminResults'))
 const CreateTest = lazy(() => import('../pages/admin/create-test/CreateTest'))
 const AdminTests = lazy(() => import('../pages/admin/tests/AdminTests'))
 const Questions = lazy(() => import('../pages/admin/questions/Questions'))
-const Question = lazy(() => import('../pages/admin/questions/Question'))
+const Question = lazy(() => import('../pages/admin/question/Question'))
 
 export const ADMIN_ROUTES = [
    {
