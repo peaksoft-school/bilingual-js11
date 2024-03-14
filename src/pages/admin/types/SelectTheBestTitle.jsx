@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, TextField, Typography, styled } from '@mui/material'
 import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
+import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { PlusIcon } from '../../../assets/icons'
 import DeleteModal from '../../../components/UI/modals/DeleteModal'
 import SaveModal from '../../../components/UI/modals/SaveModal'
@@ -27,7 +27,6 @@ const SelectTheBestTitle = ({
    const [optionTitle, setOptionTitle] = useState('')
    const [checkedOption, setCheckedOption] = useState(false)
    const [selectedOptionId, setSelectedOptionId] = useState(null)
-
    const [modals, setModals] = useState({
       delete: false,
       save: false,
@@ -81,7 +80,7 @@ const SelectTheBestTitle = ({
       !selectType ||
       !duration ||
       !title.trim() ||
-      options.selectTheBestTitleOptions.length < 2 ||
+      options.selectTheBestTitleOptions?.length < 2 ||
       !passage.trim()
 
    const isDisabledModal = !optionTitle.trim()
@@ -98,7 +97,7 @@ const SelectTheBestTitle = ({
          }
 
          dispatch(
-            QUESTION_THUNKS.saveTest({
+            QUESTION_THUNKS.addTest({
                requestData,
                data: {
                   testId,
@@ -137,7 +136,7 @@ const SelectTheBestTitle = ({
       setOptionTitle('')
       setCheckedOption(false)
 
-      if (options.selectTheBestTitleOptions.length === 0 || checkedOption) {
+      if (options.selectTheBestTitleOptions?.length === 0 || checkedOption) {
          setSelectedOptionId(option.id)
       }
    }
