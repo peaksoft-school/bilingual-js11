@@ -1,12 +1,12 @@
 import storage from 'redux-persist/lib/storage'
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { persistStore, persistReducer } from 'redux-persist'
-import { authSlice } from './slice/auth/authSlice'
-import { testsSlice } from './slice/admin/tests/testsSlice'
-import { questionsSlice } from './slice/admin/questions/questionsSlice'
-import { resultsSlice } from './slice/user/results/resultsSlice'
-import { testsListSlice } from './slice/user/tests/testsListSlice'
-import questionSlice from './slice/admin/question/questionSlice'
+import { authSlice } from './slices/auth/authSlice'
+import { testsSlice } from './slices/admin/tests/testsSlice'
+import { questionsSlice } from './slices/admin/questions/questionsSlice'
+import { resultsSlice } from './slices/user/results/resultsSlice'
+import { testsListSlice } from './slices/user/tests/testsListSlice'
+import questionSlice from './slices/admin/question/questionSlice'
 
 const rootReducer = combineReducers({
    [authSlice.name]: authSlice.reducer,
