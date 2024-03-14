@@ -6,6 +6,8 @@ import { TEST_QUESTION_ACTIONS } from '../store/slice/user/test/testSlice'
 const DragAndDrop = ({ options }) => {
    const { correctOptions } = useSelector((state) => state.testSlice)
 
+   console.log(correctOptions, 'correctOptions')
+
    const dispatch = useDispatch()
 
    const [isDropped, setIsDropped] = useState(false)

@@ -22,13 +22,15 @@ const PracticeTest = () => {
 
    const QuestionComponent = QUESTION_COMPONENT[questions[count]?.questionType]
 
-   const nextHandler = () => setCount(count + 1)
+   const nextHandler = () => setCount((prevCount) => prevCount + 1)
 
    const handleNextQuestion = () => {
       if (count < questions.length - 1) {
-         setCount((prev) => prev + 1)
+         // setCount((prevCount) => prevCount + 1)
       }
    }
+
+   // console.log(count)
 
    return (
       <TestContainer>

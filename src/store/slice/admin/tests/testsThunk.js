@@ -43,13 +43,15 @@ const postTest = createAsyncThunk(
 const deleteTest = createAsyncThunk(
    'testsSlice/deleteTest',
 
-   async (testId, { rejectWithValue }) => {
+   async (testId, { rejectWithValue, dispatch }) => {
       try {
          const response = await axiosInstance.delete(
             `/api/test?testId=${testId}`
          )
 
          showNotification({ message: 'Test successfully deleted' })
+
+         dispatch(getAllTests())
 
          return response.data
       } catch (error) {
@@ -94,11 +96,13 @@ const updateTest = createAsyncThunk(
 const updateTetsByEnable = createAsyncThunk(
    'testsSlice/updateTetsByEnable',
 
-   async ({ testId, enable }, { rejectWithValue }) => {
+   async ({ testId, enable }, { rejectWithValue, dispatch }) => {
       try {
          const response = await axiosInstance.patch(
             `/api/test/update?testId=${testId}&enable=${enable}`
          )
+
+         dispatch(getAllTests())
 
          return response.data
       } catch (error) {

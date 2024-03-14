@@ -1,47 +1,37 @@
 import { useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
-import TestContainer from '../../../components/UI/TestContainer'
-import ProgressBar from '../../../components/UI/ProgressBar'
 import Button from '../../../components/UI/buttons/Button'
 
-const DescribeImage = () => {
+const DescribeImage = ({ questions }) => {
    const [correctAnswer, setCorrectAnswer] = useState()
 
    const changeCorrectAnswerHandler = (e) => setCorrectAnswer(e.target.value)
 
    return (
-      <TestContainer>
-         <StyledContainer>
-            <ProgressBar duration={2} minutes={23} seconds={11} />
+      <StyledContainer>
+         <Box className="content-box">
+            <Typography className="title">
+               Write one or more sentences that describe the image
+            </Typography>
 
-            <Box className="content-box">
-               <Typography className="title">
-                  Write one or more sentences that describe the image
-               </Typography>
+            <Box className="image-box">
+               <img src={questions.fileUrl} alt="img" className="image" />
 
-               <Box className="image-box">
-                  <img
-                     src="https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg?w=600&quality=80"
-                     alt="img"
-                     className="image"
-                  />
-
-                  <textarea
-                     className="textarea"
-                     placeholder="Your response"
-                     value={correctAnswer}
-                     onChange={changeCorrectAnswerHandler}
-                  />
-               </Box>
+               <textarea
+                  className="textarea"
+                  placeholder="Your response"
+                  value={correctAnswer}
+                  onChange={changeCorrectAnswerHandler}
+               />
             </Box>
+         </Box>
 
-            <Box className="button-box">
-               <Button className="button" disabled={!correctAnswer}>
-                  NEXT
-               </Button>
-            </Box>
-         </StyledContainer>
-      </TestContainer>
+         <Box className="button-box">
+            <Button className="button" disabled={!correctAnswer}>
+               NEXT
+            </Button>
+         </Box>
+      </StyledContainer>
    )
 }
 

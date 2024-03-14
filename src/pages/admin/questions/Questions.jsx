@@ -120,7 +120,6 @@ const Questions = () => {
                   </Box>
                )}
             </Box>
-
             <Button
                icon={<PlusIcon className="plus" />}
                className="button"
@@ -128,9 +127,7 @@ const Questions = () => {
             >
                ADD MORE QUESTIONS
             </Button>
-
             <Box className="divider" />
-
             <StyledTable>
                {questions && questions?.question?.length > 0 ? (
                   <>
@@ -198,7 +195,6 @@ const Questions = () => {
                   <img src={NoDataImage} alt="no-data" />
                </Box>
             )}
-
             <Button
                className="go-back-button"
                variant="secondary"
@@ -370,7 +366,7 @@ const StyledBox = styled(Box)(() => ({
       width: '1rem',
    },
 
-   '& > .name': {
+   '& > .name-props': {
       margin: '0 2rem',
       whiteSpace: 'nowrap',
       width: '13rem',
@@ -387,12 +383,12 @@ const StyledBox = styled(Box)(() => ({
       },
    },
 
-   '& > .duration': {
+   '& > .duration-props': {
       margin: '0 4.4rem',
       width: '2rem',
    },
 
-   '& > .question-type': {
+   '& > .question-type-props': {
       margin: '0 1.2rem',
    },
 

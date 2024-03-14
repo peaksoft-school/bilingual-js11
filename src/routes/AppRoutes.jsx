@@ -1,6 +1,6 @@
 import { createHashRouter, RouterProvider } from 'react-router-dom'
 import { ROLES, ROUTES } from './routes'
-import { ADMIN_ROUTES } from './AdminRoutes'
+import { ADMIN_ROUTES } from './adminRoutes'
 import { USER_ROUTES } from './UserRoutes'
 import ProtectedRoute from './ProtectedRoute'
 import AdminLayout from '../layout/admin/AdminLayout'
