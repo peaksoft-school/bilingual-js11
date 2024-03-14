@@ -19,15 +19,15 @@ const DescribeImage = ({
 }) => {
    const { fileUrl, isLoading } = useSelector((state) => state.question)
 
+   const [image, setImage] = useState(null)
+   const [answer, setAnswer] = useState('')
+   const [fileName, setFileName] = useState('')
+
    const { testId } = useParams()
 
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
-
-   const [image, setImage] = useState(null)
-   const [answer, setAnswer] = useState('')
-   const [fileName, setFileName] = useState('')
 
    const inputFileRef = useRef(null)
    const inputRef = useRef(null)
@@ -55,7 +55,7 @@ const DescribeImage = ({
 
          setFileName(file.name)
 
-         dispatch(QUESTION_THUNKS.saveFile(file))
+         dispatch(QUESTION_THUNKS.addFileFile(file))
       }
    }
 
@@ -72,7 +72,7 @@ const DescribeImage = ({
 
          setFileName(file.name)
 
-         dispatch(QUESTION_THUNKS.saveFile(file))
+         dispatch(QUESTION_THUNKS.addFile(file))
       }
    }
 
@@ -112,7 +112,7 @@ const DescribeImage = ({
          }
 
          dispatch(
-            QUESTION_THUNKS.saveTest({
+            QUESTION_THUNKS.addTest({
                requestData,
 
                data: {

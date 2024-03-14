@@ -1,10 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstanceFile } from '../../../../configs/axiosInstanceFile'
-import { showNotification } from '../../../../utils/helpers/notification'
 import { axiosInstance } from '../../../../configs/axiosInstance'
+import { showNotification } from '../../../../utils/helpers/notification'
 import { ROUTES } from '../../../../routes/routes'
+import { TESTS_THUNKS } from '../tests/testsThunk'
 
-const saveTest = createAsyncThunk(
+const addTest = createAsyncThunk(
    'question/saveTest',
 
    async (
@@ -49,8 +50,8 @@ const saveTest = createAsyncThunk(
    }
 )
 
-const saveFile = createAsyncThunk(
-   'question/postFile',
+const addFile = createAsyncThunk(
+   'question/addFile',
 
    async (file, { rejectWithValue }) => {
       try {
@@ -73,7 +74,83 @@ const saveFile = createAsyncThunk(
    }
 )
 
+const addQuestion = createAsyncThunk(
+   'question/addQuestion',
+
+   async ({ testId, questionType, navigate }, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.post(
+            `/api/question?testId=${testId}&questionType=${questionType}`
+         )
+         showNotification({
+            message: 'Question successfully added',
+         })
+
+         navigate(`${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/:testId`)
+
+         return response.data
+      } catch (error) {
+         showNotification({
+            title: 'Error',
+            message: 'Error creating question',
+            type: 'error',
+         })
+
+         return rejectWithValue(error.message)
+      }
+   }
+)
+
+const deleteQuestion = createAsyncThunk(
+   'question/deleteQuestion',
+
+   async ({ questionId, testId }, { rejectWithValue, dispatch }) => {
+      try {
+         const response = await axiosInstance.delete(
+            `/api/question?questionId=${questionId}`
+         )
+
+         showNotification({
+            title: 'Success',
+            message: 'Question successfully deleted',
+            type: 'success',
+         })
+
+         dispatch(TESTS_THUNKS.getTest({ testId }))
+
+         return response.data
+      } catch (error) {
+         showNotification({
+            title: 'Error',
+            message: 'Failed to delete test',
+            type: 'error',
+         })
+
+         return rejectWithValue.message
+      }
+   }
+)
+
+const updateQuestionByEnable = createAsyncThunk(
+   'question/updateQuestionByEnable',
+
+   async ({ questionId, isEnable }, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.patch(
+            `/api/question/IsEnable?questionId=${questionId}&isEnable=${isEnable}`
+         )
+
+         return response.data
+      } catch (error) {
+         return rejectWithValue.message
+      }
+   }
+)
+
 export const QUESTION_THUNKS = {
-   saveFile,
-   saveTest,
+   addFile,
+   addTest,
+   addQuestion,
+   deleteQuestion,
+   updateQuestionByEnable,
 }

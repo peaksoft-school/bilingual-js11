@@ -25,7 +25,6 @@ const SelectRealEnglish = ({
    const [optionId, setOptionId] = useState(null)
    const [optionTitle, setOptionTitle] = useState('')
    const [checkedOption, setCheckedOption] = useState(false)
-
    const [modals, setModals] = useState({
       delete: false,
       save: false,
@@ -48,7 +47,6 @@ const SelectRealEnglish = ({
          ...prevModals,
          [modalName]: !prevModals[modalName],
       }))
-
       setOptionTitle('')
       setCheckedOption(false)
    }
@@ -97,7 +95,7 @@ const SelectRealEnglish = ({
          }
 
          dispatch(
-            QUESTION_THUNKS.saveTest({
+            QUESTION_THUNKS.addTest({
                requestData,
 
                data: {

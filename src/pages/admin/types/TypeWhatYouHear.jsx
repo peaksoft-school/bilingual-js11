@@ -18,17 +18,17 @@ const TypeWhatYouHear = ({
 }) => {
    const { fileUrl, isLoading } = useSelector((state) => state.question)
 
-   const { testId } = useParams()
-
-   const dispatch = useDispatch()
-
-   const navigate = useNavigate()
-
    const [file, setFile] = useState('')
    const [fileName, setFileName] = useState('')
    const [attempts, setAttempts] = useState(0)
    const [isPlaying, setIsPlaying] = useState(false)
    const [correctAnswer, setCorrectAnswer] = useState('')
+
+   const { testId } = useParams()
+
+   const dispatch = useDispatch()
+
+   const navigate = useNavigate()
 
    const audioRef = useRef(null)
 
@@ -93,7 +93,7 @@ const TypeWhatYouHear = ({
          }
 
          dispatch(
-            QUESTION_THUNKS.saveTest({
+            QUESTION_THUNKS.addTest({
                requestData,
 
                data: {

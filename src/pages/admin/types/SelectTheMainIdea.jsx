@@ -27,7 +27,6 @@ const SelectTheMainIdea = ({
    const [optionTitle, setOptionTitle] = useState('')
    const [checkedOption, setCheckedOption] = useState(false)
    const [selectedOptionId, setSelectedOptionId] = useState(null)
-
    const [modals, setModals] = useState({
       delete: false,
       save: false,
@@ -98,7 +97,7 @@ const SelectTheMainIdea = ({
          }
 
          dispatch(
-            QUESTION_THUNKS.saveTest({
+            QUESTION_THUNKS.addTest({
                requestData,
                data: {
                   testId,

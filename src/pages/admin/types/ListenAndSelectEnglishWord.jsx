@@ -20,14 +20,9 @@ const ListenAndSelectEnglishWord = ({
    setDuration,
    setSelectType,
 }) => {
-   const { fileUrl, isLoading } = useSelector((state) => state.question)
-   const { options } = useSelector((state) => state.question)
-
-   const { testId } = useParams()
-
-   const navigate = useNavigate()
-
-   const dispatch = useDispatch()
+   const { fileUrl, isLoading, options } = useSelector(
+      (state) => state.question
+   )
 
    const [files, setFiles] = useState([])
    const [optionId, setOptionId] = useState(null)
@@ -35,11 +30,16 @@ const ListenAndSelectEnglishWord = ({
    const [optionTitle, setOptionTitle] = useState('')
    const [checkedOption, setCheckedOption] = useState(false)
    const [activeOptionId, setActiveOptionId] = useState(null)
-
    const [modals, setModals] = useState({
       delete: false,
       save: false,
    })
+
+   const { testId } = useParams()
+
+   const navigate = useNavigate()
+
+   const dispatch = useDispatch()
 
    const optionClickHandler = (id) => setActiveOptionId(id)
 

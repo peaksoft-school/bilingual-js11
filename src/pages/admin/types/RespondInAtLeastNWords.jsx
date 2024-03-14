@@ -17,14 +17,14 @@ const RespondInAtLeastNWords = ({
 }) => {
    const { isLoading } = useSelector((state) => state.question)
 
+   const [attempts, setAttempts] = useState(0)
+   const [statement, setStatement] = useState('')
+
    const { testId } = useParams()
 
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
-
-   const [attempts, setAttempts] = useState(0)
-   const [statement, setStatement] = useState('')
 
    const statementChangeHandler = (e) => setStatement(e.target.value)
 
@@ -55,7 +55,7 @@ const RespondInAtLeastNWords = ({
          }
 
          dispatch(
-            QUESTION_THUNKS.saveTest({
+            QUESTION_THUNKS.addTest({
                requestData,
 
                data: {

@@ -10,7 +10,7 @@ import DeleteModal from '../../UI/modals/DeleteModal'
 import Switcher from '../../UI/Switcher'
 
 const TestList = () => {
-   const { tests, isLoading } = useSelector((state) => state.testsSlice)
+   const { tests, isLoading } = useSelector((state) => state.tests)
 
    const dispatch = useDispatch()
 
@@ -22,7 +22,7 @@ const TestList = () => {
    const stopPropagationHandler = (e) => e.stopPropagation()
 
    useEffect(() => {
-      dispatch(TESTS_THUNKS.getAllTests())
+      dispatch(TESTS_THUNKS.getTests())
    }, [dispatch])
 
    const deleteTestHandler = (testId) => {
@@ -35,13 +35,12 @@ const TestList = () => {
       e.preventDefault()
 
       setSelectedTestId(testId)
-
       setIsVisible((prev) => !prev)
    }
 
    const enableHandler = ({ id, value }) => {
       dispatch(
-         TESTS_THUNKS.updateTetsByEnable({
+         TESTS_THUNKS.updateTestByEnable({
             testId: id,
             enable: value,
          })
