@@ -78,7 +78,8 @@ const Table = ({ columns: headers, data, isLoading }) => {
                               row={row}
                            >
                               {cell.column.id === 'resultStatus' ||
-                              cell.column.id === 'score' ? (
+                              cell.column.id === 'score' ||
+                              cell.column.id === 'status' ? (
                                  <span>{cell.render('Cell')}</span>
                               ) : (
                                  cell.render('Cell')
@@ -136,8 +137,8 @@ const StyledCellTd = styled(TableCell)(({ row }) => ({
    borderBottom: 'none',
    textAlign: 'left',
 
-   '& span': {
-      color: row.original.resultStatus === 'EVALUATED' ? 'green' : 'red',
+   '& > span': {
+      color: row.original.status === 'EVALUATED' ? 'green' : 'red',
       fontFamily: 'inherit',
    },
 }))

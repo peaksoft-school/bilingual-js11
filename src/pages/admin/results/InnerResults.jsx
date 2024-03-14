@@ -6,14 +6,16 @@ import { ADMIN_COLUMNS } from '../../../utils/constants/admin-columns'
 import { NoDataImage } from '../../../assets/images'
 import Table from '../../../components/UI/Table'
 
-const AdminResults = () => {
+const InnerResults = () => {
    const { results, isLoading } = useSelector((state) => state.resultsSlice)
-   console.log(results)
+   console.log(results.resultId)
 
    const dispatch = useDispatch()
 
    useEffect(() => {
-      dispatch(SUBMITTED_RESULTS_THUNKS.getAllResults())
+      dispatch(
+         SUBMITTED_RESULTS_THUNKS.getResults({ resultId: results.resultId })
+      )
    }, [dispatch])
 
    if (results.length === 0) {
@@ -27,7 +29,7 @@ const AdminResults = () => {
    return <Table columns={ADMIN_COLUMNS} data={results} isLoading={isLoading} />
 }
 
-export default AdminResults
+export default InnerResults
 
 const StyledContainer = styled(Box)(() => ({
    margin: 'auto',

@@ -12,6 +12,7 @@ const ROUTES = {
       id: 'id',
       testId: 'testId',
       results: 'results',
+      evaluationsResults: '/evaluations/submitted-results',
    },
 
    USER: {

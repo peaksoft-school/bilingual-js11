@@ -83,6 +83,15 @@ const ADMIN_ROUTES = [
          </Suspense>
       ),
    },
+
+   {
+      path: '/admin/results/:resultId/evaluations/submitted-results',
+      element: (
+         <Suspense fallback={<Loading />}>
+            <AdminResults />
+         </Suspense>
+      ),
+   },
 ]
 
 const ROUTES = {
