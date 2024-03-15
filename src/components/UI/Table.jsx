@@ -138,8 +138,12 @@ const StyledCellTd = styled(TableCell)(({ row }) => ({
    textAlign: 'left',
 
    '& > span': {
-      color: row.original.status === 'EVALUATED' ? 'green' : 'red',
       fontFamily: 'inherit',
+      color:
+         row.original.status === 'EVALUATED' ||
+         row.original.resultStatus === 'EVALUATED'
+            ? '#2AB930'
+            : '#F61414',
    },
 }))
 

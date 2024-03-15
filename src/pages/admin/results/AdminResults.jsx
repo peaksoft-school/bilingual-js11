@@ -7,8 +7,9 @@ import { NoDataImage } from '../../../assets/images'
 import Table from '../../../components/UI/Table'
 
 const AdminResults = () => {
-   const { results, isLoading } = useSelector((state) => state.resultsSlice)
-   console.log(results)
+   const { results, isLoading } = useSelector(
+      (state) => state.submitedResultsSlice
+   )
 
    const dispatch = useDispatch()
 

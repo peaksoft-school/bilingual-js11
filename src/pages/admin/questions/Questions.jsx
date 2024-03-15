@@ -58,7 +58,7 @@ const Questions = () => {
 
    const navigateHandler = () =>
       navigate(
-         `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/${testId}/${ROUTES.ADMIN.createQuestion}`
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/${testId}/${ROUTES.ADMIN.CREATE_QUESTION}`
       )
 
    const deleteQuestion = questions?.question?.find(
@@ -120,7 +120,6 @@ const Questions = () => {
                   </Box>
                )}
             </Box>
-
             <Button
                icon={<PlusIcon className="plus" />}
                className="button"
@@ -128,9 +127,7 @@ const Questions = () => {
             >
                ADD MORE QUESTIONS
             </Button>
-
             <Box className="divider" />
-
             <StyledTable>
                {questions && questions?.question?.length > 0 ? (
                   <>
@@ -198,7 +195,6 @@ const Questions = () => {
                   <img src={NoDataImage} alt="no-data" />
                </Box>
             )}
-
             <Button
                className="go-back-button"
                variant="secondary"

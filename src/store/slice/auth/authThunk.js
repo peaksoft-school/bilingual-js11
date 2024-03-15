@@ -13,14 +13,13 @@ const signUp = createAsyncThunk(
          showNotification({
             title: 'You are registered!',
             message: 'We wish you great results!',
-            type: 'success',
          })
 
          const { email, role, token } = response.data
          if (email && role && token) {
             resetForm()
 
-            navigate(ROUTES.USER.index)
+            navigate(ROUTES.USER.INDEX)
          }
 
          return response.data
@@ -46,7 +45,6 @@ const signIn = createAsyncThunk(
          showNotification({
             title: 'You are logged in!',
             message: 'With welcome back!',
-            type: 'success',
          })
 
          if (response.data) {
@@ -56,9 +54,9 @@ const signIn = createAsyncThunk(
                resetForm()
 
                if (role === 'ADMIN') {
-                  navigate(ROUTES.ADMIN.index)
+                  navigate(ROUTES.ADMIN.INDEX)
                } else {
-                  navigate(ROUTES.USER.index)
+                  navigate(ROUTES.USER.INDEX)
                }
             }
          }
@@ -88,10 +86,9 @@ const authWithGoogle = createAsyncThunk(
          showNotification({
             title: 'You came in!',
             message: isSignUp ? 'Signed in!' : 'Signed up!',
-            type: 'success',
          })
 
-         navigate(ROUTES.USER.index)
+         navigate(ROUTES.USER.INDEX)
 
          return response.data
       } catch (error) {

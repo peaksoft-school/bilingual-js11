@@ -1,43 +1,80 @@
+import { Suspense, lazy } from 'react'
 import { Navigate } from 'react-router'
 import { ROUTES } from './routes'
-import AdminResults from '../pages/admin/results/AdminResults'
-import CreateTest from '../pages/admin/create-test/CreateTest'
-import AdminTests from '../pages/admin/tests/AdminTests'
-import Questions from '../pages/admin/questions/Questions'
-import Question from '../pages/admin/questions/Question'
+import Loading from '../components/Loading'
+import InnerResults from '../pages/admin/results/InnerResults'
+
+const AdminResults = lazy(() => import('../pages/admin/results/AdminResults'))
+const CreateTest = lazy(() => import('../pages/admin/create-test/CreateTest'))
+const AdminTests = lazy(() => import('../pages/admin/tests/AdminTests'))
+const Questions = lazy(() => import('../pages/admin/questions/Questions'))
+const Question = lazy(() => import('../pages/admin/questions/Question'))
 
 export const ADMIN_ROUTES = [
    {
-      path: `${ROUTES.ADMIN.index}`,
-      element: <Navigate to={`${ROUTES.ADMIN.tests}`} />,
+      path: ROUTES.ADMIN.INDEX,
+      element: <Navigate to={ROUTES.ADMIN.TESTS} />,
    },
    {
-      path: `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.tests}`,
-      element: <AdminTests />,
-   },
-
-   {
-      path: `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.createTest}`,
-      element: <CreateTest />,
-   },
-
-   {
-      path: `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.updateTest}/:${ROUTES.ADMIN.id}`,
-      element: <CreateTest />,
+      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}`,
+      element: (
+         <Suspense fallback={<Loading />}>
+            <AdminTests />
+         </Suspense>
+      ),
    },
 
    {
-      path: `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/:${ROUTES.ADMIN.testId}`,
-      element: <Questions />,
+      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.CREATE_TEST}`,
+      element: (
+         <Suspense fallback={<Loading />}>
+            <CreateTest />
+         </Suspense>
+      ),
    },
 
    {
-      path: `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/:${ROUTES.ADMIN.testId}/${ROUTES.ADMIN.createQuestion}`,
-      element: <Question />,
+      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.UPDATE_TEST}/:${ROUTES.ADMIN.ID}`,
+      element: (
+         <Suspense fallback={<Loading />}>
+            <CreateTest />
+         </Suspense>
+      ),
    },
 
    {
-      path: `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.results}`,
-      element: <AdminResults />,
+      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/:${ROUTES.ADMIN.TEST_ID}`,
+      element: (
+         <Suspense fallback={<Loading />}>
+            <Questions />
+         </Suspense>
+      ),
+   },
+
+   {
+      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/:${ROUTES.ADMIN.TEST_ID}/${ROUTES.ADMIN.CREATE_QUESTION}`,
+      element: (
+         <Suspense fallback={<Loading />}>
+            <Question />
+         </Suspense>
+      ),
+   },
+
+   {
+      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.RESULTS}`,
+      element: (
+         <Suspense fallback={<Loading />}>
+            <AdminResults />
+         </Suspense>
+      ),
+   },
+
+   {
+      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.RESULTS}/:${ROUTES.ADMIN.RESULT_ID}/${ROUTES.ADMIN.EVALUATIONS}`,
+      element: (
+         <Suspense fallback={<Loading />}>
+            <InnerResults />
+         </Suspense>
+      ),
    },
 ]

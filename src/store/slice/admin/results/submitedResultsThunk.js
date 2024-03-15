@@ -3,7 +3,7 @@ import { axiosInstance } from '../../../../configs/axiosInstance'
 import { showNotification } from '../../../../utils/helpers/notification'
 
 const getAllResults = createAsyncThunk(
-   'resultsSlice/getResult',
+   'submitedResultsSlice/getAllResults',
 
    async (_, { rejectWithValue }) => {
       try {
@@ -17,12 +17,12 @@ const getAllResults = createAsyncThunk(
 )
 
 const getResults = createAsyncThunk(
-   'resultsSlice/getResult',
+   'submitedResultsSlice/getResults',
 
    async ({ resultId }, { rejectWithValue }) => {
       try {
          const response = await axiosInstance.get(
-            ` /api/result/?resultId=${resultId}`
+            `/api/result?resultId=${resultId}`
          )
 
          return response.data
@@ -32,13 +32,41 @@ const getResults = createAsyncThunk(
    }
 )
 
+const postResults = createAsyncThunk(
+   'submitedResultsSlice/postResults',
+
+   async ({ resultId, navigate }, { rejectWithValue, dispatch }) => {
+      try {
+         const response = await axiosInstance.post(`/api/result/${resultId}`)
+
+         showNotification({
+            message: response.data.message,
+         })
+
+         navigate(-1)
+
+         return response.data
+      } catch (error) {
+         dispatch(getResults({ resultId }))
+
+         showNotification({
+            title: 'Error',
+            message: 'Failed to post results',
+            type: 'error',
+         })
+
+         return rejectWithValue.message
+      }
+   }
+)
+
 const deleteResults = createAsyncThunk(
-   'myResultsSlice/deleteResults',
+   'submitedResultsSlice/deleteResults',
 
    async ({ resultId }, { rejectWithValue, dispatch }) => {
       try {
          const response = await axiosInstance.delete(
-            `/api/answer?deleteById=${resultId}`
+            `/api/result?resultId=${resultId}`
          )
 
          showNotification({
@@ -65,5 +93,6 @@ const deleteResults = createAsyncThunk(
 export const SUBMITTED_RESULTS_THUNKS = {
    getAllResults,
    getResults,
+   postResults,
    deleteResults,
 }

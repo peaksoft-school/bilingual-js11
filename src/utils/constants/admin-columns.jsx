@@ -1,7 +1,7 @@
-import DeleteResults from '../../components/user/results/DeleteResults'
-import DataOfSubmission from '../../components/user/results/DataOfSubmission'
 import { resultsStatusHandler } from '../helpers'
+import DataOfSubmission from '../../components/user/results/DataOfSubmission'
 import SelectedResults from '../../components/admin/results/SelectedResults'
+import AdminDeleteResults from '../../components/admin/results/AdminDeleteResults'
 
 const ADMIN_COLUMNS = [
    {
@@ -56,7 +56,9 @@ const ADMIN_COLUMNS = [
       Header: ' ',
       accessor: 'action',
 
-      Cell: ({ row }) => <DeleteResults resultId={row.original.resultId} />,
+      Cell: ({ row }) => (
+         <AdminDeleteResults resultId={row.original.resultId} />
+      ),
    },
 ]
 

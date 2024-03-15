@@ -1,39 +1,37 @@
 import { Typography, styled, IconButton, Box } from '@mui/material'
+import FAQ from '../components/landing/FAQ'
 import { FacebookIcon, InstagramIcon, YouTubeIcon } from '../assets/icons'
 import { FooterLogoImage } from '../assets/images'
-import FAQ from '../components/landing/FAQ'
 
-const Footer = () => {
-   return (
-      <StyledContainer>
-         <Box className="box">
-            <FAQ />
+const Footer = () => (
+   <StyledContainer>
+      <Box className="box">
+         <FAQ />
 
-            <StyledFooter>
-               <img src={FooterLogoImage} alt="logo" className="logo" />
+         <StyledFooter>
+            <img src={FooterLogoImage} alt="logo" className="logo" />
 
-               <Box>
-                  <IconButton href="https://www.youtube.com/@peaksofthouse2429">
-                     <YouTubeIcon />
-                  </IconButton>
+            <Box>
+               <IconButton href="https://www.youtube.com/@peaksofthouse2429">
+                  <YouTubeIcon />
+               </IconButton>
 
-                  <IconButton href="https://ru-ru.facebook.com/">
-                     <FacebookIcon />
-                  </IconButton>
+               <IconButton href="https://ru-ru.facebook.com/">
+                  <FacebookIcon />
+               </IconButton>
 
-                  <IconButton href="https://www.instagram.com/peaksoft.house/">
-                     <InstagramIcon />
-                  </IconButton>
-               </Box>
-            </StyledFooter>
+               <IconButton href="https://www.instagram.com/peaksoft.house/">
+                  <InstagramIcon />
+               </IconButton>
+            </Box>
+         </StyledFooter>
 
-            <Typography className="reserved">
-               © Copyright PeakSoft. All Rights Reserved
-            </Typography>
-         </Box>
-      </StyledContainer>
-   )
-}
+         <Typography className="reserved">
+            © Copyright PeakSoft. All Rights Reserved
+         </Typography>
+      </Box>
+   </StyledContainer>
+)
 
 export default Footer
 

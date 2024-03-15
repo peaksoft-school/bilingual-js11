@@ -3,8 +3,7 @@ import { SUBMITTED_RESULTS_THUNKS } from './submitedResultsThunk'
 
 const initialState = {
    results: [],
-   status: '',
-   error: null,
+   evaluations: {},
    isLoading: false,
 }
 
@@ -16,60 +15,44 @@ export const submitedResultsSlice = createSlice({
    extraReducers: (builder) => {
       builder
          .addCase(SUBMITTED_RESULTS_THUNKS.getAllResults.pending, (state) => {
-            state.status = 'loading'
             state.isLoading = true
          })
 
          .addCase(
             SUBMITTED_RESULTS_THUNKS.getAllResults.fulfilled,
-            (state, action) => {
-               state.status = 'succeeded'
-               state.results = action.payload
+            (state, { payload }) => {
+               state.results = payload
                state.isLoading = false
             }
          )
+
+         .addCase(SUBMITTED_RESULTS_THUNKS.getAllResults.rejected, (state) => {
+            state.isLoading = false
+         })
+
+         .addCase(SUBMITTED_RESULTS_THUNKS.getResults.pending, (state) => {
+            state.isLoading = true
+         })
 
          .addCase(
-            SUBMITTED_RESULTS_THUNKS.getAllResults.rejected,
-            (state, action) => {
-               state.status = 'failed'
-               state.error = action.error.message
+            SUBMITTED_RESULTS_THUNKS.getResults.fulfilled,
+            (state, { payload }) => {
+               state.evaluations = payload
                state.isLoading = false
             }
          )
 
-         // .addCase(SUBMITTED_RESULTS_THUNKS.getResults.pending, (state) => {
-         //    state.status = 'loading'
-         //    state.isLoading = true
-         // })
-
-         // .addCase(
-         //    SUBMITTED_RESULTS_THUNKS.getResults.fulfilled,
-         //    (state, action) => {
-         //       state.status = 'succeeded'
-         //       state.results = action.payload
-         //       state.isLoading = false
-         //    }
-         // )
-
-         // .addCase(
-         //    SUBMITTED_RESULTS_THUNKS.getResults.rejected,
-         //    (state, action) => {
-         //       state.status = 'failed'
-         //       state.error = action.error.message
-         //       state.isLoading = false
-         //    }
-         // )
+         .addCase(SUBMITTED_RESULTS_THUNKS.getResults.rejected, (state) => {
+            state.isLoading = false
+         })
 
          .addCase(SUBMITTED_RESULTS_THUNKS.deleteResults.pending, (state) => {
-            state.status = 'loading'
             state.isLoading = true
          })
 
          .addCase(
             SUBMITTED_RESULTS_THUNKS.deleteResults.fulfilled,
             (state, action) => {
-               state.status = 'succeeded'
                state.isLoading = false
 
                state.results = state.results.filter(
@@ -78,14 +61,21 @@ export const submitedResultsSlice = createSlice({
             }
          )
 
-         .addCase(
-            SUBMITTED_RESULTS_THUNKS.deleteResults.rejected,
-            (state, action) => {
-               state.status = 'failed'
-               state.isLoading = false
-               state.error = action.error.message
-            }
-         )
+         .addCase(SUBMITTED_RESULTS_THUNKS.deleteResults.rejected, (state) => {
+            state.isLoading = false
+         })
+
+         .addCase(SUBMITTED_RESULTS_THUNKS.postResults.pending, (state) => {
+            state.isLoading = true
+         })
+
+         .addCase(SUBMITTED_RESULTS_THUNKS.postResults.fulfilled, (state) => {
+            state.isLoading = false
+         })
+
+         .addCase(SUBMITTED_RESULTS_THUNKS.postResults.rejected, (state) => {
+            state.isLoading = false
+         })
    },
 })
 
