@@ -3,12 +3,7 @@ import { Box, Typography, styled } from '@mui/material'
 
 const ProgressBar = ({ duration, onNextQuestion }) => {
    const [timeProgress, setTimeProgress] = useState(0)
-   const [timeLeft, setTimeLeft] = useState(+duration * 10)
-
-   useEffect(() => {
-      setTimeProgress(0)
-      setTimeLeft(+duration * 10)
-   }, [+duration])
+   const [timeLeft, setTimeLeft] = useState(duration * 10)
 
    useEffect(() => {
       const interval = setInterval(() => {
@@ -41,14 +36,13 @@ const ProgressBar = ({ duration, onNextQuestion }) => {
       <StyledContainer>
          <Box className="block-progress-bar">
             <Typography className="duration">{formatTime(timeLeft)}</Typography>
-            <DurationLine value={timeProgress} />
+            <DurationLine value={timeProgress} max={duration * 10} />
          </Box>
       </StyledContainer>
    )
 }
 
 export default ProgressBar
-
 const StyledContainer = styled(Box)(() => ({
    width: '100%',
    maxWidth: '56.875rem',
