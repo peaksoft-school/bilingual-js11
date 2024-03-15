@@ -13,7 +13,7 @@ const Footer = () => (
 
             <Box>
                <IconButton href="https://www.youtube.com/@peaksofthouse2429">
-                  <YouTubeIcon />
+                  <img src={YouTubeIcon} alt="youtube" className="youtube" />
                </IconButton>
 
                <IconButton href="https://ru-ru.facebook.com/">
@@ -75,5 +75,11 @@ const StyledFooter = styled(Box)(() => ({
    '& .icon-button': {
       width: '3.5rem',
       height: '4.5rem',
+   },
+
+   '& .youtube': {
+      width: '2rem',
+      borderRadius: '2rem',
+      margin: '0.10rem 0 0 0 ',
    },
 }))

@@ -2,15 +2,15 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, styled, Typography } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { TESTS_LIST_THUNKS } from '../../../store/slice/user/tests/testsListThunk'
 import { ListImage } from '../../../assets/images'
 import { ROUTES } from '../../../routes/routes'
 import TestContainer from '../../../components/UI/TestContainer'
 import Loading from '../../../components/Loading'
 import Button from '../../../components/UI/buttons/Button'
+import { TESTS_LIST_THUNKS } from '../../../store/slices/user/tests/testsListThunk'
 
 const TestList = () => {
-   const { tests, isLoading } = useSelector((state) => state.testsListSlice)
+   const { tests, isLoading } = useSelector((state) => state.testsList)
 
    const navigate = useNavigate()
 

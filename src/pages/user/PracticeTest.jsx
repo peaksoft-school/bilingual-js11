@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import TestContainer from '../../components/UI/TestContainer'
-import ProgressBar from '../../components/UI/ProgressBar'
-import { PRACTICE_TEST_THUNKS } from '../../store/slice/user/practiceTestThunk'
 import { QUESTION_COMPONENT } from '../../utils/constants/questionComponents'
+import { PRACTICE_TEST_THUNKS } from '../../store/slices/user/practiceTestThunk'
 import Button from '../../components/UI/buttons/Button'
+import ProgressBar from '../../components/UI/ProgressBar'
+import TestContainer from '../../components/UI/TestContainer'
 
 const PracticeTest = () => {
    const { questions } = useSelector((state) => state.practiceTest)
@@ -26,7 +26,7 @@ const PracticeTest = () => {
 
    const handleNextQuestion = () => {
       if (count < questions.length - 1) {
-         // setCount((prevCount) => prevCount + 1)
+         setCount((prevCount) => prevCount + 1)
       }
    }
 

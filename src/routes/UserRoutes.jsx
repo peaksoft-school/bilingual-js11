@@ -1,11 +1,12 @@
 import { Suspense, lazy } from 'react'
 import { Navigate } from 'react-router'
 import { ROUTES } from './routes'
-import InnerTest from '../components/user/tests/InnerTest'
 import Loading from '../components/Loading'
+import PracticeTest from '../pages/user/PracticeTest'
 
 const Results = lazy(() => import('../pages/user/results/Results'))
 const TestsList = lazy(() => import('../pages/user/tests/TestList'))
+const InnerTest = lazy(() => import('../components/user/tests/InnerTest'))
 
 export const USER_ROUTES = [
    {
@@ -25,6 +26,11 @@ export const USER_ROUTES = [
    {
       path: `${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}/:${ROUTES.USER.TEST_ID}`,
       element: <InnerTest />,
+   },
+
+   {
+      path: `${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}/:${ROUTES.USER.TEST_ID}/${ROUTES.USER.PRACTICE_TEST}`,
+      element: <PracticeTest />,
    },
 
    {

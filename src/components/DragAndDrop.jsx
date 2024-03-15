@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { TEST_QUESTION_ACTIONS } from '../store/slice/user/test/testSlice'
+import { PRACTICE_TEST_ACTIONS } from '../store/slices/user/practiceTestSlice'
 
 const DragAndDrop = ({ options }) => {
-   const { correctOptions } = useSelector((state) => state.testSlice)
-
-   console.log(correctOptions, 'correctOptions')
+   const { correctOptions } = useSelector((state) => state.practiceTest)
 
    const dispatch = useDispatch()
 
@@ -26,7 +24,7 @@ const DragAndDrop = ({ options }) => {
             return correctOptions
          }
 
-         return dispatch(TEST_QUESTION_ACTIONS.addCorrectOption(option))
+         return dispatch(PRACTICE_TEST_ACTIONS.addCorrectOption(option))
       }
 
       setIsDropped(false)
@@ -36,7 +34,7 @@ const DragAndDrop = ({ options }) => {
    }
 
    const deleteWordHandler = (id) => {
-      dispatch(TEST_QUESTION_ACTIONS.deleteCorrectOption(id))
+      dispatch(PRACTICE_TEST_ACTIONS.deleteCorrectOption(id))
    }
 
    const onDropHandler = (e) => {

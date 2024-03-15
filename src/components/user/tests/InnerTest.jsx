@@ -2,16 +2,16 @@ import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, ListItem, Typography, styled } from '@mui/material'
-import { LaptopIcon, UserCardIcon, ClockIcon } from '../../../assets/icons'
-import { TESTS_LIST_THUNKS } from '../../../store/slice/user/tests/testsListThunk'
 import { TestImage } from '../../../assets/images'
 import { ROUTES } from '../../../routes/routes'
 import Button from '../../UI/buttons/Button'
 import TestContainer from '../../UI/TestContainer'
 import Loading from '../../Loading'
+import { TESTS_LIST_THUNKS } from '../../../store/slices/user/tests/testsListThunk'
+import { ClockIcon, LaptopIcon, UserCardIcon } from '../../../assets/icons'
 
 const InnerTest = () => {
-   const { tests, isLoading } = useSelector((state) => state.testsListSlice)
+   const { tests, isLoading } = useSelector((state) => state.testsList)
 
    const { testId } = useParams()
 
@@ -27,7 +27,7 @@ const InnerTest = () => {
 
    const practiceHandler = () =>
       navigate(
-         `${ROUTES.USER.index}/${ROUTES.USER.tests}/${testId}/${ROUTES.USER.practiceTest}`
+         `${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}/${testId}/${ROUTES.USER.PRACTICE_TEST}`
       )
 
    return (

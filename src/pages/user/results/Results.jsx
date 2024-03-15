@@ -1,10 +1,10 @@
 import { Box, styled } from '@mui/material'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { MY_RESULTS_THUNKS } from '../../../store/slice/user/results/resultsThunk'
 import { NoDataImage } from '../../../assets/images'
 import { COLUMNS } from '../../../utils/constants/columns'
 import Table from '../../../components/UI/Table'
+import { MY_RESULTS_THUNKS } from '../../../store/slices/user/results/resultsThunk'
 
 const Results = () => {
    const { results, isLoading } = useSelector((state) => state.resultsSlice)

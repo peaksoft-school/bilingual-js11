@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react'
 import { Box, Skeleton, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { EditIcon, TrashIcon } from '../../../assets/icons'
-import { TESTS_THUNKS } from '../../../store/slice/admin/tests/testsThunk'
+import { TESTS_THUNKS } from '../../../store/slices/admin/tests/testsThunk'
 import { NoDataImage } from '../../../assets/images'
 import { ROUTES } from '../../../routes/routes'
 import DeleteModal from '../../UI/modals/DeleteModal'
 import Switcher from '../../UI/Switcher'
 
 const AdminTestList = () => {
-   const { tests, isLoading } = useSelector((state) => state.testsSlice)
+   const { tests, isLoading } = useSelector((state) => state.tests)
 
    const dispatch = useDispatch()
 
@@ -22,7 +22,7 @@ const AdminTestList = () => {
    const stopPropagationHandler = (e) => e.stopPropagation()
 
    useEffect(() => {
-      dispatch(TESTS_THUNKS.getAllTests())
+      dispatch(TESTS_THUNKS.getTests())
    }, [dispatch])
 
    const deleteTestHandler = (testId) => {
@@ -35,13 +35,12 @@ const AdminTestList = () => {
       e.preventDefault()
 
       setSelectedTestId(testId)
-
       setIsVisible((prev) => !prev)
    }
 
    const enableHandler = ({ id, value }) => {
       dispatch(
-         TESTS_THUNKS.updateTetsByEnable({
+         TESTS_THUNKS.updateTestByEnable({
             testId: id,
             enable: value,
          })
@@ -51,7 +50,9 @@ const AdminTestList = () => {
    const navigateHandler = (e, id) => {
       e.preventDefault()
 
-      navigate(`${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.UPDATE_TEST}/${id}`)
+      navigate(
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.UPDATE_TEST}/${id}`
+      )
    }
 
    const deleteTest = tests?.find((test) => test.id === selectedTestId)?.title
@@ -61,7 +62,7 @@ const AdminTestList = () => {
          {tests?.length > 0 ? (
             tests.map(({ id, title, enable }) => (
                <Link
-                  to={`${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/${id}`}
+                  to={`${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${id}`}
                   key={id}
                   className="test-link"
                >

@@ -7,7 +7,7 @@ const AdminResults = lazy(() => import('../pages/admin/results/AdminResults'))
 const CreateTest = lazy(() => import('../pages/admin/create-test/CreateTest'))
 const AdminTests = lazy(() => import('../pages/admin/tests/AdminTests'))
 const Questions = lazy(() => import('../pages/admin/questions/Questions'))
-const Question = lazy(() => import('../pages/admin/questions/Question'))
+const Question = lazy(() => import('../pages/admin/question/Question'))
 
 export const ADMIN_ROUTES = [
    {
@@ -24,7 +24,7 @@ export const ADMIN_ROUTES = [
    },
 
    {
-      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.CREATE_TEST}`,
+      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.CREATE_TEST}`,
       element: (
          <Suspense fallback={<Loading />}>
             <CreateTest />
@@ -33,7 +33,7 @@ export const ADMIN_ROUTES = [
    },
 
    {
-      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.UPDATE_TEST}/:${ROUTES.ADMIN.ID}`,
+      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.UPDATE_TEST}/:${ROUTES.ADMIN.ID}`,
       element: (
          <Suspense fallback={<Loading />}>
             <CreateTest />
@@ -42,7 +42,7 @@ export const ADMIN_ROUTES = [
    },
 
    {
-      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/:${ROUTES.ADMIN.TEST_ID}`,
+      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/:${ROUTES.ADMIN.TEST_ID}`,
       element: (
          <Suspense fallback={<Loading />}>
             <Questions />
@@ -51,7 +51,7 @@ export const ADMIN_ROUTES = [
    },
 
    {
-      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/:${ROUTES.ADMIN.TEST_ID}/${ROUTES.ADMIN.CREATE_QUESTION}`,
+      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/:${ROUTES.ADMIN.TEST_ID}/${ROUTES.ADMIN.CREATE_QUESTION}`,
       element: (
          <Suspense fallback={<Loading />}>
             <Question />

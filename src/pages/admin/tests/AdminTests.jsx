@@ -10,7 +10,9 @@ const AdminTests = () => {
    const navigate = useNavigate()
 
    const navigateHandler = () =>
-      navigate(`${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.CREATE_TEST}`)
+      navigate(
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.CREATE_TEST}`
+      )
 
    return (
       <StyledContainer>
