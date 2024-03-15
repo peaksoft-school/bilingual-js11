@@ -131,6 +131,7 @@ const StyledContainer = styled(Box)(() => ({
       '& > .title-option': {
          overflow: 'hidden',
          textOverflow: 'ellipsis',
+         wordBreak: 'break-word',
       },
 
       '& > .audio': {

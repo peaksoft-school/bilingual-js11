@@ -11,8 +11,8 @@ import { practiceTestSlice } from './slices/user/practiceTestSlice'
 const rootReducer = combineReducers({
    [authSlice.name]: authSlice.reducer,
    [testsSlice.name]: testsSlice.reducer,
-   [questionSlice.name]: questionSlice.reducer,
    [resultsSlice.name]: resultsSlice.reducer,
+   [questionSlice.name]: questionSlice.reducer,
    [testsListSlice.name]: testsListSlice.reducer,
    [practiceTestSlice.name]: practiceTestSlice.reducer,
 })

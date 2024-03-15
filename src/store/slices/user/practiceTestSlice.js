@@ -3,13 +3,14 @@ import { PRACTICE_TEST_THUNKS } from './practiceTestThunk'
 import { showNotification } from '../../../utils/helpers/notification'
 
 const initialState = {
-   questions: [],
-   correctOptions: [],
    attempts: 0,
    input: '',
    audioFile: '',
    optionId: [0],
    questionID: 0,
+
+   questions: [],
+   correctOptions: [],
    isLoading: false,
 }
 

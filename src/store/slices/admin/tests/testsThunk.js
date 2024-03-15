@@ -49,7 +49,7 @@ const addTest = createAsyncThunk(
             type: 'error',
          })
 
-         return rejectWithValue(error.message)
+         return rejectWithValue.message
       }
    }
 )
@@ -104,7 +104,7 @@ const updateTest = createAsyncThunk(
             type: 'error',
          })
 
-         return rejectWithValue(error.message)
+         return rejectWithValue.message
       }
    }
 )
@@ -112,13 +112,11 @@ const updateTest = createAsyncThunk(
 const updateTestByEnable = createAsyncThunk(
    'tests/updateTestByEnable',
 
-   async ({ testId, enable }, { rejectWithValue, dispatch }) => {
+   async ({ testId, enable }, { rejectWithValue }) => {
       try {
          const response = await axiosInstance.patch(
             `/api/test/update?testId=${testId}&enable=${enable}`
          )
-
-         dispatch(getTests())
 
          return response.data
       } catch (error) {

@@ -3,10 +3,10 @@ import { Navigate } from 'react-router'
 import { ROUTES } from './routes'
 import Loading from '../components/Loading'
 import PracticeTest from '../pages/user/PracticeTest'
+import InnerTest from '../components/user/tests/InnerTest'
 
 const Results = lazy(() => import('../pages/user/results/Results'))
 const TestsList = lazy(() => import('../pages/user/tests/TestList'))
-const InnerTest = lazy(() => import('../components/user/tests/InnerTest'))
 
 export const USER_ROUTES = [
    {

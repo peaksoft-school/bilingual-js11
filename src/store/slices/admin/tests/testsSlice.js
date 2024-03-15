@@ -48,7 +48,7 @@ const testsSlice = createSlice({
                title: 'Pending',
                message: false,
                type: 'warning',
-               duration: 200000000,
+               duration: 200,
             })
          })
 
@@ -96,7 +96,7 @@ const testsSlice = createSlice({
          })
 
          .addCase(TESTS_THUNKS.updateTestByEnable.pending, (state) => {
-            state.isLoading = true
+            state.isLoading = false
          })
 
          .addCase(TESTS_THUNKS.updateTestByEnable.fulfilled, (state) => {

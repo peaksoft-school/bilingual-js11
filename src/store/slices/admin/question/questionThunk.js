@@ -47,7 +47,7 @@ const addTest = createAsyncThunk(
          setTitle()
          setDuration()
 
-         return rejectWithValue('Something went wrong')
+         return rejectWithValue.message
       }
    }
 )
@@ -71,7 +71,7 @@ const addFile = createAsyncThunk(
             type: 'error',
          })
 
-         return rejectWithValue(error.response.data)
+         return rejectWithValue.message
       }
    }
 )
@@ -100,7 +100,7 @@ const addQuestion = createAsyncThunk(
             type: 'error',
          })
 
-         return rejectWithValue(error.message)
+         return rejectWithValue.message
       }
    }
 )

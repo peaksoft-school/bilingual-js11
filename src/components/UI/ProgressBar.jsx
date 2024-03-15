@@ -1,42 +1,54 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 
-const ProgressBar = ({ duration, onNextQuestion }) => {
-   const [timeProgress, setTimeProgress] = useState(0)
-   const [timeLeft, setTimeLeft] = useState(duration * 10)
+const ProgressBar = ({ duration, onNextQuestion, count }) => {
+   const [chartPercent, setChartPercent] = useState(0)
+   const [time, setTime] = useState(duration)
 
    useEffect(() => {
-      const interval = setInterval(() => {
-         setTimeProgress((prevProgress) => prevProgress + 1)
-         setTimeLeft((prevTimeLeft) =>
-            prevTimeLeft !== 0 ? prevTimeLeft - 1 : 0
-         )
+      setTime(duration)
+   }, [duration, count])
+
+   const calculatePercentage = useCallback(() => {
+      const percent = (1 - time / duration) * 100
+      setChartPercent(percent)
+   }, [duration, time])
+
+   useEffect(() => {
+      calculatePercentage()
+   }, [calculatePercentage])
+
+   const timeTicking = useCallback(() => {
+      if (time === 0 || time <= 0) {
+         return onNextQuestion()
+      }
+      return setTime((prevTime) => prevTime - 0.1)
+   }, [time, onNextQuestion])
+
+   useEffect(() => {
+      const timer = setInterval(() => {
+         timeTicking()
       }, 100)
 
       return () => {
-         clearInterval(interval)
+         clearInterval(timer)
       }
-   }, [+duration])
+   }, [timeTicking])
 
-   useEffect(() => {
-      if (timeLeft === 0) {
-         onNextQuestion()
-      }
-   }, [timeLeft, onNextQuestion])
+   const minutes = Math.trunc(time / 60)
+   const seconds = Math.trunc(time % 60)
 
-   const formatTime = (time) => {
-      const minutes = Math.floor(time / 600)
-      const seconds = Math.floor((time % 600) / 10)
-         .toString()
-         .padStart(2, '0')
-      return `${minutes}:${seconds}`
+   const timeObject = {
+      minute: minutes.toString().padStart(2, '0'),
+      seconds: seconds.toString().padStart(2, '0'),
    }
-
    return (
       <StyledContainer>
          <Box className="block-progress-bar">
-            <Typography className="duration">{formatTime(timeLeft)}</Typography>
-            <DurationLine value={timeProgress} max={duration * 10} />
+            <Typography className="duration">
+               {timeObject.minute}:{timeObject.seconds}
+            </Typography>
+            <DurationLine value={chartPercent} max="100" />
          </Box>
       </StyledContainer>
    )

@@ -17,6 +17,7 @@ const SelectRealEnglishWords = ({ questions }) => {
          optionId: '',
          questionID: questions.questionID,
       }
+
       dispatch(PRACTICE_TEST_THUNKS.postTest({ requestData }))
    }
 
