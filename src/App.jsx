@@ -1,7 +1,6 @@
 import './App.css'
-import TestQuestion from './components/UI/TestQuestion'
-// import AppRoutes from './routes/AppRoutes'
+import AppRoutes from './routes/AppRoutes'
 
-const App = () => <TestQuestion />
+const App = () => <AppRoutes />
 
 export default App
