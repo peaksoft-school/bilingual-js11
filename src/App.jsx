@@ -1,6 +1,7 @@
 import './App.css'
-import AppRoutes from './routes/AppRoutes'
+import SelectTheMainIdea from './components/admin/results/types/SelectTheMainIdea'
+// import AppRoutes from './routes/AppRoutes'
 
-const App = () => <AppRoutes />
+const App = () => <SelectTheMainIdea />
 
 export default App
