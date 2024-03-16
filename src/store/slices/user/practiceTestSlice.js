@@ -3,14 +3,9 @@ import { PRACTICE_TEST_THUNKS } from './practiceTestThunk'
 import { showNotification } from '../../../utils/helpers/notification'
 
 const initialState = {
-   attempts: 0,
-   input: '',
-   audioFile: '',
-   optionId: [0],
-   questionID: 0,
-
    questions: [],
    correctOptions: [],
+   correctAnswer: [],
    isLoading: false,
 }
 
@@ -27,6 +22,14 @@ const practiceTestSlice = createSlice({
          state.correctOptions = state.correctOptions.filter(
             (correctOption) => correctOption.id !== payload
          )
+      },
+
+      clearCorrectOption: (state) => {
+         state.correctOptions = []
+      },
+
+      addCorrectAnswer: (state, { payload }) => {
+         state.correctAnswer.push(payload)
       },
    },
 

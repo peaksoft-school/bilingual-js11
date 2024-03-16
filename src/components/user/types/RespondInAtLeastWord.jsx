@@ -1,14 +1,17 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
-import Button from '../../UI/buttons/Button'
-
+import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSlice'
 import {
    ScrollBottomArrowIcon,
    ScrollTopArrowIcon,
 } from '../../../assets/icons'
+import Button from '../../UI/buttons/Button'
 
-const RespondInAtLeastWord = ({ questions }) => {
+const RespondInAtLeastWord = ({ questions, nextHandler }) => {
    const [text, setText] = useState('')
+
+   const dispatch = useDispatch()
 
    const changeTextHandler = (e) => setText(e.target.value)
 
@@ -21,6 +24,22 @@ const RespondInAtLeastWord = ({ questions }) => {
    const wordsCount = countWords(text)
 
    const isDisabled = wordsCount < 50
+
+   const onSubmit = () => {
+      const answerDate = {
+         attempts: 0,
+         input: text,
+         audioFile: '',
+         optionId: [],
+         questionID: questions.questionId,
+      }
+
+      dispatch(PRACTICE_TEST_ACTIONS.addCorrectAnswer(answerDate))
+
+      nextHandler()
+
+      setText()
+   }
 
    return (
       <StyledContainer>
@@ -51,7 +70,7 @@ const RespondInAtLeastWord = ({ questions }) => {
 
          <Box className="line" />
 
-         <Button disabled={isDisabled} className="button">
+         <Button disabled={isDisabled} className="button" onClick={onSubmit}>
             NEXT
          </Button>
       </StyledContainer>

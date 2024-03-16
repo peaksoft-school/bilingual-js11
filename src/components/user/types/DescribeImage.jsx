@@ -1,11 +1,31 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
 import Button from '../../UI/buttons/Button'
+import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSlice'
 
-const DescribeImage = ({ questions }) => {
-   const [correctAnswer, setCorrectAnswer] = useState()
+const DescribeImage = ({ questions, nextHandler }) => {
+   const [description, setDescription] = useState()
 
-   const changeCorrectAnswerHandler = (e) => setCorrectAnswer(e.target.value)
+   const dispatch = useDispatch()
+
+   const changeCorrectAnswerHandler = (e) => setDescription(e.target.value)
+
+   const onSubmit = () => {
+      const answerData = {
+         attempts: 0,
+         input: description,
+         audioFile: '',
+         optionId: [],
+         questionID: questions.questionId,
+      }
+
+      dispatch(PRACTICE_TEST_ACTIONS.addCorrectAnswer(answerData))
+
+      nextHandler()
+
+      setDescription('')
+   }
 
    return (
       <StyledContainer>
@@ -20,14 +40,18 @@ const DescribeImage = ({ questions }) => {
                <textarea
                   className="textarea"
                   placeholder="Your response"
-                  value={correctAnswer}
+                  value={description}
                   onChange={changeCorrectAnswerHandler}
                />
             </Box>
          </Box>
 
          <Box className="button-box">
-            <Button className="button" disabled={!correctAnswer}>
+            <Button
+               className="button"
+               disabled={!description}
+               onClick={onSubmit}
+            >
                NEXT
             </Button>
          </Box>

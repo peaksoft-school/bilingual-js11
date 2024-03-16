@@ -1,24 +1,32 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
-import DragAndDrop from '../../DragAndDrop'
+import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSlice'
 import Button from '../../UI/buttons/Button'
-import { PRACTICE_TEST_THUNKS } from '../../../store/slices/user/practiceTestThunk'
+import DragAndDrop from '../../DragAndDrop'
 
-const SelectRealEnglishWords = ({ questions }) => {
+const SelectRealEnglishWords = ({ questions, nextHandler }) => {
    const options = questions?.optionResponses
+
+   const { correctOptions } = useSelector((state) => state.practiceTest)
 
    const dispatch = useDispatch()
 
    const onSubmit = () => {
-      const requestData = {
+      const optionId = correctOptions.map((item) => item.id)
+
+      const answerData = {
          attempts: 0,
          input: '',
          audioFile: '',
-         optionId: '',
-         questionID: questions.questionID,
+         optionId,
+         questionID: questions.questionId,
       }
 
-      dispatch(PRACTICE_TEST_THUNKS.postTest({ requestData }))
+      dispatch(PRACTICE_TEST_ACTIONS.addCorrectAnswer(answerData))
+
+      nextHandler()
+
+      dispatch(PRACTICE_TEST_ACTIONS.clearCorrectOption())
    }
 
    return (

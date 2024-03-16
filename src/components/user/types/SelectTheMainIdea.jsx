@@ -1,16 +1,36 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
-import Button from '../../UI/buttons/Button'
+import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSlice'
 import Radio from '../../UI/Radio'
+import Button from '../../UI/buttons/Button'
 
-const SelectTheMainIdea = ({ questions }) => {
+const SelectTheMainIdea = ({ questions, nextHandler }) => {
    const options = questions?.optionResponses
+
+   const dispatch = useDispatch()
 
    const [selectedOptionId, setSelectedOptionId] = useState(null)
 
    const optionSelectHandler = (id) => setSelectedOptionId(id)
 
    const isDisabled = selectedOptionId === null
+
+   const onSubmit = () => {
+      const answerData = {
+         attempts: 0,
+         input: '',
+         audioFile: '',
+         optionId: [selectedOptionId],
+         questionID: questions.questionId,
+      }
+
+      dispatch(PRACTICE_TEST_ACTIONS.addCorrectAnswer(answerData))
+
+      nextHandler()
+
+      setSelectedOptionId(null)
+   }
 
    return (
       <StyledContainer>
@@ -42,7 +62,11 @@ const SelectTheMainIdea = ({ questions }) => {
                   </Box>
                ))}
 
-               <Button className="button" disabled={isDisabled}>
+               <Button
+                  className="button"
+                  disabled={isDisabled}
+                  onClick={onSubmit}
+               >
                   NEXT
                </Button>
             </Box>

@@ -1,10 +1,14 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
-import Button from '../../UI/buttons/Button'
+import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSlice'
 import Input from '../../UI/Input'
+import Button from '../../UI/buttons/Button'
 
-const HighlightTheAnswer = ({ questions }) => {
+const HighlightTheAnswer = ({ questions, nextHandler }) => {
    const [highlightAnswer, setHighlightAnswer] = useState('')
+
+   const dispatch = useDispatch()
 
    const mouseUpHandler = () => {
       const selection = window.getSelection().toString().trim()
@@ -12,6 +16,22 @@ const HighlightTheAnswer = ({ questions }) => {
       if (selection !== '') {
          setHighlightAnswer(selection)
       }
+   }
+
+   const onSubmit = () => {
+      const answerData = {
+         attempts: 0,
+         input: highlightAnswer,
+         audioFile: '',
+         optionId: [],
+         questionID: questions.questionId,
+      }
+
+      dispatch(PRACTICE_TEST_ACTIONS.addCorrectAnswer(answerData))
+
+      nextHandler()
+
+      setHighlightAnswer('')
    }
 
    return (
@@ -46,7 +66,11 @@ const HighlightTheAnswer = ({ questions }) => {
                   autoComplete="off"
                />
 
-               <Button className="button" disabled={!highlightAnswer}>
+               <Button
+                  className="button"
+                  disabled={!highlightAnswer}
+                  onClick={onSubmit}
+               >
                   NEXT
                </Button>
             </Box>

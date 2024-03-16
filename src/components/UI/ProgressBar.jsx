@@ -1,60 +1,42 @@
-import { useState, useEffect, useCallback } from 'react'
+import { Line } from 'rc-progress'
+import { useState, useEffect } from 'react'
 import { Box, Typography, styled } from '@mui/material'
+import useTimer from '../../hooks/useTimer'
 
 const ProgressBar = ({ duration, onNextQuestion, count }) => {
-   const [chartPercent, setChartPercent] = useState(0)
-   const [time, setTime] = useState(duration)
+   const [progressPercent, setProgressPercent] = useState(100)
+
+   const { minute, seconds } = useTimer(duration, onNextQuestion, count)
 
    useEffect(() => {
-      setTime(duration)
-   }, [duration, count])
+      const remainingSeconds = parseInt(minute, 10) * 60 + parseInt(seconds, 10)
 
-   const calculatePercentage = useCallback(() => {
-      const percent = (1 - time / duration) * 100
-      setChartPercent(percent)
-   }, [duration, time])
+      const chartPercent = (1 - remainingSeconds / duration) * 100
 
-   useEffect(() => {
-      calculatePercentage()
-   }, [calculatePercentage])
+      setProgressPercent(chartPercent)
 
-   const timeTicking = useCallback(() => {
-      if (time === 0 || time <= 0) {
-         return onNextQuestion()
+      if (remainingSeconds <= 0) {
+         onNextQuestion()
       }
-      return setTime((prevTime) => prevTime - 0.1)
-   }, [time, onNextQuestion])
+   }, [minute, seconds, duration])
 
-   useEffect(() => {
-      const timer = setInterval(() => {
-         timeTicking()
-      }, 100)
-
-      return () => {
-         clearInterval(timer)
-      }
-   }, [timeTicking])
-
-   const minutes = Math.trunc(time / 60)
-   const seconds = Math.trunc(time % 60)
-
-   const timeObject = {
-      minute: minutes.toString().padStart(2, '0'),
-      seconds: seconds.toString().padStart(2, '0'),
-   }
    return (
       <StyledContainer>
          <Box className="block-progress-bar">
             <Typography className="duration">
-               {timeObject.minute}:{timeObject.seconds}
+               {minute}:{seconds}
             </Typography>
-            <DurationLine value={chartPercent} max="100" />
+
+            <LineWrapper>
+               <Line percent={progressPercent} strokeColor="#3a10e5" />
+            </LineWrapper>
          </Box>
       </StyledContainer>
    )
 }
 
 export default ProgressBar
+
 const StyledContainer = styled(Box)(() => ({
    width: '100%',
    maxWidth: '56.875rem',
@@ -75,8 +57,11 @@ const StyledContainer = styled(Box)(() => ({
    },
 }))
 
-const DurationLine = styled('progress')(({ theme }) => ({
-   height: '0.5rem',
+const LineWrapper = styled(Box)(() => ({
    width: '100%',
-   accentColor: theme.palette.primary.main,
+   // height: '4px',
+   // overflow: 'hidden',
+   '& .rc-progress-line': {
+      transition: '0.1s ease-in-out',
+   },
 }))

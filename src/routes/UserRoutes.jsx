@@ -1,12 +1,12 @@
-import { Suspense, lazy } from 'react'
+import { lazy } from 'react'
 import { Navigate } from 'react-router'
 import { ROUTES } from './routes'
-import Loading from '../components/Loading'
-import PracticeTest from '../pages/user/PracticeTest'
-import InnerTest from '../components/user/tests/InnerTest'
+import Suspense from './Suspense'
 
-const Results = lazy(() => import('../pages/user/results/Results'))
+const PracticeTest = lazy(() => import('../pages/user/PracticeTest'))
+const InnerTest = lazy(() => import('../components/user/tests/InnerTest'))
 const TestsList = lazy(() => import('../pages/user/tests/TestList'))
+const Results = lazy(() => import('../pages/user/results/Results'))
 
 export const USER_ROUTES = [
    {
@@ -17,7 +17,7 @@ export const USER_ROUTES = [
    {
       path: `${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}`,
       element: (
-         <Suspense fallback={<Loading />}>
+         <Suspense>
             <TestsList />
          </Suspense>
       ),
@@ -25,7 +25,11 @@ export const USER_ROUTES = [
 
    {
       path: `${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}/:${ROUTES.USER.TEST_ID}`,
-      element: <InnerTest />,
+      element: (
+         <Suspense>
+            <InnerTest />
+         </Suspense>
+      ),
    },
 
    {
@@ -36,7 +40,7 @@ export const USER_ROUTES = [
    {
       path: `${ROUTES.USER.INDEX}/${ROUTES.USER.RESULTS}`,
       element: (
-         <Suspense fallback={<Loading />}>
+         <Suspense>
             <Results />
          </Suspense>
       ),

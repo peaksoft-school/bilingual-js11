@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { QUESTION_COMPONENTS } from '../../utils/constants/questionComponents'
 import { PRACTICE_TEST_THUNKS } from '../../store/slices/user/practiceTestThunk'
-import Button from '../../components/UI/buttons/Button'
+import { QUESTION_COMPONENTS } from '../../utils/constants/questionComponents'
 import ProgressBar from '../../components/UI/ProgressBar'
 import TestContainer from '../../components/UI/TestContainer'
 
@@ -39,10 +38,11 @@ const PracticeTest = () => {
          />
 
          {QuestionComponent && (
-            <QuestionComponent questions={questions[count]} />
+            <QuestionComponent
+               questions={questions[count]}
+               nextHandler={nextHandler}
+            />
          )}
-
-         <Button onClick={nextHandler}>Next Question</Button>
       </TestContainer>
    )
 }

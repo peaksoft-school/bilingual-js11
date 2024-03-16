@@ -4,19 +4,13 @@ import { Box, Typography, styled } from '@mui/material'
 import { AnimationSoundIcon, CheckIcon, SoundIcon } from '../../../assets/icons'
 import Button from '../../UI/buttons/Button'
 
-const ListenAndSelectWord = ({ questions }) => {
+const ListenAndSelectWord = ({ questions, nextHandler }) => {
    const options = questions?.optionResponses
 
-   const [optionState, setOptionState] = useState({})
+   const [selectedOptions, setSelectedOptions] = useState([])
+   // console.log(selectedOptions, 'setSelectedOptions')
 
-   const stopSoundHandler = (id) => {
-      Howler.stop()
-
-      setOptionState((prevState) => ({
-         ...prevState,
-         [id]: { ...prevState[id], isPlaying: false },
-      }))
-   }
+   const stopSoundHandler = (id) => Howler.stop(id)
 
    const startSoundHandler = (fileUrl, id) => {
       stopSoundHandler(id)
@@ -24,54 +18,25 @@ const ListenAndSelectWord = ({ questions }) => {
       const sound = new Howl({
          src: fileUrl,
          html5: true,
-         onend: () => {
-            setOptionState((prevState) => ({
-               ...prevState,
-               [id]: { ...prevState[id], isPlaying: false },
-            }))
-         },
-
-         onplay: () => {
-            setOptionState((prevState) => ({
-               ...prevState,
-               [id]: { ...prevState[id], isPlaying: true },
-            }))
-         },
-
-         onstop: () => {
-            setOptionState((prevState) => ({
-               ...prevState,
-               [id]: { ...prevState[id], isPlaying: false },
-            }))
-         },
       })
       sound.play()
-
-      setOptionState((prevState) => ({
-         ...prevState,
-         [id]: { ...prevState[id], howl: sound, isPlaying: true },
-      }))
    }
 
-   const toggleCheckboxHandler = (id) => {
-      setOptionState((prev) => {
-         const isChecked = !prev?.[id]?.isChecked
-
-         const newState = {
-            ...prev,
-            [id]: {
-               id,
-               isChecked,
-            },
-         }
-
-         return newState
-      })
+   const toggleOption = (id) => {
+      if (selectedOptions.includes(id)) {
+         setSelectedOptions(
+            selectedOptions.filter((optionId) => optionId !== id)
+         )
+      } else {
+         setSelectedOptions([...selectedOptions, id])
+      }
    }
 
-   const isDisabled = !Object.values(optionState).find(
-      (option) => option.isChecked
-   )
+   const isDisabled = selectedOptions.length === 0
+
+   const onSubmit = () => {
+      nextHandler()
+   }
 
    return (
       <StyledContainer>
@@ -84,10 +49,10 @@ const ListenAndSelectWord = ({ questions }) => {
                <Box
                   key={id}
                   className={`option ${
-                     optionState[id]?.isChecked ? 'selected' : ''
+                     selectedOptions.includes(id) ? 'selected' : ''
                   }`}
                >
-                  {optionState[id]?.isPlaying ? (
+                  {selectedOptions.includes(id) ? (
                      <AnimationSoundIcon
                         onClick={() => stopSoundHandler(id)}
                         className="animation-sound"
@@ -103,9 +68,9 @@ const ListenAndSelectWord = ({ questions }) => {
 
                   <Box
                      className={`checkbox ${
-                        optionState[id]?.isChecked ? 'checked' : ''
+                        selectedOptions.includes(id) ? 'checked' : ''
                      }`}
-                     onClick={() => toggleCheckboxHandler(id)}
+                     onClick={() => toggleOption(id)}
                   >
                      <CheckIcon />
                   </Box>
@@ -115,7 +80,7 @@ const ListenAndSelectWord = ({ questions }) => {
 
          <Box className="line" />
 
-         <Button className="button" disabled={isDisabled}>
+         <Button className="button" disabled={isDisabled} onClick={onSubmit}>
             NEXT
          </Button>
       </StyledContainer>
