@@ -1,7 +1,12 @@
 import { Box, Typography, styled } from '@mui/material'
 import TestContainer from './TestContainer'
 
-const TestQuestion = ({ children }) => {
+const TestQuestion = ({
+   children,
+   minimumNumber,
+   statement,
+   questionStatement,
+}) => {
    return (
       <TestContainer>
          <StyledContainer>
@@ -36,6 +41,27 @@ const TestQuestion = ({ children }) => {
                   <Typography className="title">Question Type:</Typography>
                   <Typography>props</Typography>
                </Box>
+
+               {minimumNumber && (
+                  <Box className="question-type">
+                     <Typography className="title">Question Type:</Typography>
+                     <Typography>props</Typography>
+                  </Box>
+               )}
+
+               {statement && (
+                  <Box className="question-type">
+                     <Typography className="title">Question Type:</Typography>
+                     <Typography>props</Typography>
+                  </Box>
+               )}
+
+               {questionStatement && (
+                  <Box className="question-type">
+                     <Typography className="title">Question Type:</Typography>
+                     <Typography>props</Typography>
+                  </Box>
+               )}
             </Box>
 
             {children}
@@ -48,6 +74,7 @@ export default TestQuestion
 
 const StyledContainer = styled(Box)(() => ({
    color: '#4C4859',
+   fontFamily: 'Poppins',
 
    '& > .title-box': {
       display: 'flex',
@@ -65,9 +92,31 @@ const StyledContainer = styled(Box)(() => ({
       },
    },
 
+   '& > .test-question': {
+      fontWeight: 500,
+      fontSize: '18px',
+      marginBottom: '0.6rem',
+   },
+
    '& > div > div > .title': {
-      fontFamily: 'Poppins',
       fontWeight: 500,
       color: '#3752B4',
+   },
+
+   '& > .test-questions': {
+      '& > .question-title': {
+         display: 'flex',
+         gap: '0.5rem',
+      },
+
+      '& > .duration': {
+         display: 'flex',
+         gap: '0.5rem',
+      },
+
+      '& > .question-type': {
+         display: 'flex',
+         gap: '0.5rem',
+      },
    },
 }))
