@@ -1,5 +1,5 @@
-import DeleteResults from '../../components/admin/results/DeleteResults'
-import DataOfSubmission from '../../components/admin/results/DataOfSubmission'
+import DeleteResults from '../../components/user/results/DeleteResults'
+import DataOfSubmission from '../../components/user/results/DataOfSubmission'
 import { resultsStatusHandler } from '../helpers'
 
 const COLUMNS = [

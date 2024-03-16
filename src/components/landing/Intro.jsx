@@ -1,8 +1,9 @@
-import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
+import { motion } from 'framer-motion'
+import LandingButton from '../UI/buttons/LandingButton'
 import { BackgroundIntroImage } from '../../assets/images'
 import {
    FirstBookIcon,
@@ -16,7 +17,6 @@ import {
    ThirdBookIcon,
    ThirdPaperIcon,
 } from '../../assets/icons'
-import LandingButton from '../UI/buttons/LandingButton'
 import { ROUTES } from '../../routes/routes'
 
 const Intro = () => {
@@ -26,18 +26,13 @@ const Intro = () => {
 
    const navigate = useNavigate()
 
-   const handleBegin = () => {
-      if (isAuth) {
-         navigate(`${ROUTES.USER.index}`, { replace: true })
-      } else {
-         navigate(`${ROUTES.SIGN_IN}`, { replace: true })
-      }
+   const beginHandler = () => {
+      if (isAuth) navigate(ROUTES.USER.INDEX, { replace: true })
+      else navigate(ROUTES.SIGN_IN)
    }
 
    useEffect(() => {
-      const timeoutId = setTimeout(() => {
-         setIsVisible(true)
-      }, 100)
+      const timeoutId = setTimeout(() => setIsVisible(true), 100)
 
       return () => clearTimeout(timeoutId)
    }, [])
@@ -162,7 +157,7 @@ const Intro = () => {
                   repeat: Infinity,
                }}
             >
-               <LandingButton isStart={false} onClick={handleBegin} />
+               <LandingButton isStart={false} onClick={beginHandler} />
             </motion.div>
          </Box>
       </StyledContainer>

@@ -1,14 +1,17 @@
+import { lazy } from 'react'
 import { createHashRouter, RouterProvider } from 'react-router-dom'
 import { ROLES, ROUTES } from './routes'
 import { ADMIN_ROUTES } from './AdminRoutes'
 import { USER_ROUTES } from './UserRoutes'
 import ProtectedRoute from './ProtectedRoute'
-import AdminLayout from '../layout/admin/AdminLayout'
-import UserLayout from '../layout/user/UserLayout'
-import SignIn from '../pages/sign-in/SignIn'
-import SignUp from '../pages/sign-up/SignUp'
-import NotFound from '../layout/NotFound'
+import Suspense from './Suspense'
 import Home from '../pages/home/Home'
+
+const AdminLayout = lazy(() => import('../layout/admin/AdminLayout'))
+const UserLayout = lazy(() => import('../layout/user/UserLayout'))
+const NotFound = lazy(() => import('../layout/NotFound'))
+const SignIn = lazy(() => import('../pages/sign-in/SignIn'))
+const SignUp = lazy(() => import('../pages/sign-up/SignUp'))
 
 const AppRoutes = () => {
    const router = createHashRouter([
@@ -17,29 +20,45 @@ const AppRoutes = () => {
          element: (
             <ProtectedRoute
                roles={[ROLES.USER, ROLES.GUEST]}
-               fallbackPath={ROUTES.ADMIN.index}
-               Component={<Home />}
+               fallbackPath={ROUTES.ADMIN.INDEX}
+               Component={
+                  <Suspense>
+                     <Home />
+                  </Suspense>
+               }
             />
          ),
       },
 
       {
          path: ROUTES.SIGN_IN,
-         element: <SignIn />,
+         element: (
+            <Suspense>
+               <SignIn />
+            </Suspense>
+         ),
       },
 
       {
          path: ROUTES.SIGN_UP,
-         element: <SignUp />,
+         element: (
+            <Suspense>
+               <SignUp />
+            </Suspense>
+         ),
       },
 
       {
-         path: ROUTES.ADMIN.index,
+         path: ROUTES.ADMIN.INDEX,
          element: (
             <ProtectedRoute
                roles={[ROLES.ADMIN]}
                fallbackPath="/"
-               Component={<AdminLayout />}
+               Component={
+                  <Suspense>
+                     <AdminLayout />
+                  </Suspense>
+               }
             />
          ),
 
@@ -47,12 +66,16 @@ const AppRoutes = () => {
       },
 
       {
-         path: ROUTES.USER.index,
+         path: ROUTES.USER.INDEX,
          element: (
             <ProtectedRoute
                roles={[ROLES.USER]}
                fallbackPath="/"
-               Component={<UserLayout />}
+               Component={
+                  <Suspense>
+                     <UserLayout />
+                  </Suspense>
+               }
             />
          ),
 
@@ -61,7 +84,11 @@ const AppRoutes = () => {
 
       {
          path: '*',
-         element: <NotFound />,
+         element: (
+            <Suspense>
+               <NotFound />
+            </Suspense>
+         ),
       },
    ])
 

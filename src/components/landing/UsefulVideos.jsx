@@ -6,9 +6,9 @@ import { VIDEOS } from '../../utils/constants/index'
 import 'react-html5video/dist/styles.css'
 
 const UsefulVideos = () => {
-   const containerRef = useRef(null)
-
    const [inView, setInView] = useState(false)
+
+   const containerRef = useRef(null)
 
    useEffect(() => {
       const handleScroll = () => {
@@ -48,13 +48,9 @@ const UsefulVideos = () => {
                {VIDEOS.map(({ id, poster, name, video, duration }, i) => {
                   let animationDuration
 
-                  if (i === 0) {
-                     animationDuration = 0.5
-                  } else if (i === 1) {
-                     animationDuration = 1
-                  } else {
-                     animationDuration = 2
-                  }
+                  if (i === 0) animationDuration = 0.5
+                  else if (i === 1) animationDuration = 1
+                  else animationDuration = 2
 
                   return (
                      <StyledVideoCard
@@ -130,7 +126,7 @@ const StyledVideoCard = styled(motion.div)(
       transition: `opacity ${animationduration}s ease-out, transform ${animationduration}s ease-out`,
 
       '&:hover': {
-         transform: 'scale(1.1)',
+         transform: 'scale(1.05)',
          boxShadow: '5px 5px 50px black',
          borderRadius: '1rem',
       },

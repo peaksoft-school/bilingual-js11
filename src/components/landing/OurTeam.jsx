@@ -74,7 +74,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    backgroundColor: theme.palette.secondary.main,
    padding: '7.60rem 0',
 
-   '& .title': {
+   '& > .title': {
       fontSize: '2.5rem',
       color: theme.palette.primary.dullBlue,
       textAlign: 'center',
@@ -95,32 +95,32 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
       marginRight: '32px',
    },
 
-   '& > .slide': {
+   '& .slide': {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-   },
 
-   '& .avatar-box': {
-      width: '11.25rem',
-      height: '11.25rem',
-   },
+      '& > .avatar-box': {
+         width: '11.25rem',
+         height: '11.25rem',
+      },
 
-   '& .name': {
-      ...baseTypographyStyles,
-      color: theme.palette.primary.main,
-      fontSize: '1rem',
-      fontWeight: 600,
-      marginTop: '0.88rem',
-      textAlign: 'center',
-   },
+      '& > .name': {
+         ...baseTypographyStyles,
+         color: theme.palette.primary.main,
+         fontSize: '1rem',
+         fontWeight: 600,
+         marginTop: '0.88rem',
+         textAlign: 'center',
+      },
 
-   '& .role': {
-      ...baseTypographyStyles,
-      color: 'var(--black, #020202)',
-      textAlign: 'center',
-      fontSize: '0.875rem',
-      fontWeight: 400,
+      '& > .role': {
+         ...baseTypographyStyles,
+         color: 'var(--black, #020202)',
+         textAlign: 'center',
+         fontSize: '0.875rem',
+         fontWeight: 400,
+      },
    },
 }))
 

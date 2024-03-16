@@ -2,14 +2,15 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, styled, Typography } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { TESTS_LIST_THUNK } from '../../../store/slice/user/tests/testsListThunk'
-import { ListIcon } from '../../../assets/icons'
+import { TESTS_LIST_THUNK } from '../../../store/slices/user/tests/testsListThunk'
+import { ListImage } from '../../../assets/images'
 import { ROUTES } from '../../../routes/routes'
-import Button from '../../../components/UI/buttons/Button'
 import TestContainer from '../../../components/UI/TestContainer'
+import Loading from '../../../components/Loading'
+import Button from '../../../components/UI/buttons/Button'
 
 const TestsList = () => {
-   const { tests } = useSelector((state) => state.testsListSlice)
+   const { tests, isLoading } = useSelector((state) => state.testsListSlice)
 
    const navigate = useNavigate()
 
@@ -19,16 +20,18 @@ const TestsList = () => {
       dispatch(TESTS_LIST_THUNK.getAllTests())
    }, [dispatch])
 
-   const handleTryTest = (id) =>
-      navigate(`${ROUTES.USER.index}/${ROUTES.USER.tests}/${id}`)
+   const navigateHandler = (id) =>
+      navigate(`${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}/${id}`)
 
    return (
       <TestContainer>
+         {isLoading && <Loading />}
+
          <MainContent>
             {Array.isArray(tests) &&
                tests?.map(({ id, duration, title, shortDescription }) => (
                   <Box className="content" key={id}>
-                     <ListIcon className="list" />
+                     <img src={ListImage} alt="list" className="list" />
 
                      <Box className="texts">
                         <Typography className="duration">
@@ -43,7 +46,7 @@ const TestsList = () => {
                      <Box className="button-conteiner">
                         <Button
                            variant="secondary"
-                           onClick={() => handleTryTest(id)}
+                           onClick={() => navigateHandler(id)}
                         >
                            TRY TEST
                         </Button>
@@ -67,13 +70,14 @@ const MainContent = styled(Box)(() => ({
    '& > .content': {
       display: 'flex',
       alignItems: 'flex-end',
-      gap: '2.5rem',
+      gap: '2rem',
       width: '100%',
       color: '#524e5e',
 
       '& > .list': {
          maxWidth: '80px',
          width: '100%',
+         marginBottom: '0.3rem',
       },
 
       '& > .texts': {
