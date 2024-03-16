@@ -4,8 +4,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
 import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
+import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { PlusIcon } from '../../../assets/icons'
 import DeleteModal from '../../../components/UI/modals/DeleteModal'
 import SaveModal from '../../../components/UI/modals/SaveModal'
@@ -25,7 +25,6 @@ const SelectRealEnglish = ({
    const [optionId, setOptionId] = useState(null)
    const [optionTitle, setOptionTitle] = useState('')
    const [checkedOption, setCheckedOption] = useState(false)
-
    const [modals, setModals] = useState({
       delete: false,
       save: false,
@@ -37,18 +36,17 @@ const SelectRealEnglish = ({
 
    const navigate = useNavigate()
 
-   const changeTitleHandler = (e) => setOptionTitle(e.target.value)
-
    const changeCheckbox = (e) => setCheckedOption(e.target.checked)
 
-   const goBackHandler = () => navigate(-1)
+   const changeTitleHandler = (e) => setOptionTitle(e.target.value)
+
+   const navigateGoBackHandler = () => navigate(-1)
 
    const toggleModal = (modalName) => {
       setModals((prevModals) => ({
          ...prevModals,
          [modalName]: !prevModals[modalName],
       }))
-
       setOptionTitle('')
       setCheckedOption(false)
    }
@@ -97,7 +95,7 @@ const SelectRealEnglish = ({
          }
 
          dispatch(
-            QUESTION_THUNKS.saveTest({
+            QUESTION_THUNKS.addTest({
                requestData,
 
                data: {
@@ -164,7 +162,7 @@ const SelectRealEnglish = ({
             </Box>
 
             <Box className="buttons">
-               <Button variant="secondary" onClick={goBackHandler}>
+               <Button variant="secondary" onClick={navigateGoBackHandler}>
                   GO BACK
                </Button>
 

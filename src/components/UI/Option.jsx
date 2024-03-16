@@ -29,7 +29,7 @@ const Option = ({
       checkedHandler(id)
    }
 
-   const toggleCheckedHandler = () => {
+   const toggleCheckboxHandler = () => {
       setIsChecked((prev) => !prev)
 
       checkedHandler(id)
@@ -100,7 +100,7 @@ const Option = ({
                   checked={id === selectedOptionId}
                />
             ) : (
-               <Checkbox onClick={toggleCheckedHandler} checked={isChecked} />
+               <Checkbox onClick={toggleCheckboxHandler} checked={isChecked} />
             )}
 
             <TrashIcon className="trash" onClick={deleteHandler} />

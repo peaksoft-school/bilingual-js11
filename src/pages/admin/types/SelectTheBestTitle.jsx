@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, TextField, Typography, styled } from '@mui/material'
 import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
+import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { PlusIcon } from '../../../assets/icons'
 import DeleteModal from '../../../components/UI/modals/DeleteModal'
 import SaveModal from '../../../components/UI/modals/SaveModal'
@@ -13,11 +13,11 @@ import Option from '../../../components/UI/Option'
 import Button from '../../../components/UI/buttons/Button'
 
 const SelectTheBestTitle = ({
-   duration,
-   setDuration,
-   selectType,
    title,
+   duration,
    setTitle,
+   selectType,
+   setDuration,
    setSelectType,
 }) => {
    const { options } = useSelector((state) => state.question)
@@ -27,7 +27,6 @@ const SelectTheBestTitle = ({
    const [optionTitle, setOptionTitle] = useState('')
    const [checkedOption, setCheckedOption] = useState(false)
    const [selectedOptionId, setSelectedOptionId] = useState(null)
-
    const [modals, setModals] = useState({
       delete: false,
       save: false,
@@ -39,13 +38,13 @@ const SelectTheBestTitle = ({
 
    const { testId } = useParams()
 
+   const changeTitleHandler = (e) => setOptionTitle(e.target.value)
+
    const textAreaChangeHandler = (e) => setPassage(e.target.value)
 
    const changeCheckboxHandler = (e) => setCheckedOption(e.target.checked)
 
-   const changeTitleHandler = (e) => setOptionTitle(e.target.value)
-
-   const goBackHandler = () => navigate(-1)
+   const navigateGoBackHandler = () => navigate(-1)
 
    const toggleModal = (modalName) => {
       setModals((prevModals) => ({
@@ -61,7 +60,7 @@ const SelectTheBestTitle = ({
       dispatch(
          QUESTION_ACTIONS.deleteOption({
             optionId,
-            optionName: OPTIONS_NAME.selectTheBestTitle,
+            optionName: OPTIONS_NAME.selectTheBestTitleOptions,
          })
       )
 
@@ -72,7 +71,7 @@ const SelectTheBestTitle = ({
       dispatch(
          QUESTION_ACTIONS.handleIsCorrect({
             id,
-            optionName: OPTIONS_NAME.selectTheBestTitle,
+            optionName: OPTIONS_NAME.selectTheBestTitleOptions,
          })
       )
    }
@@ -81,7 +80,7 @@ const SelectTheBestTitle = ({
       !selectType ||
       !duration ||
       !title.trim() ||
-      options.selectTheBestTitle.length < 2 ||
+      options.selectTheBestTitleOptions?.length < 2 ||
       !passage.trim()
 
    const isDisabledModal = !optionTitle.trim()
@@ -91,14 +90,14 @@ const SelectTheBestTitle = ({
          const requestData = {
             title: title.trim(),
             duration: +duration,
-            option: options.selectTheBestTitle.map((option) => ({
+            option: options.selectTheBestTitleOptions.map((option) => ({
                optionTitle: option.optionTitle,
                isCorrectOption: option.isCorrectOption,
             })),
          }
 
          dispatch(
-            QUESTION_THUNKS.saveTest({
+            QUESTION_THUNKS.addTest({
                requestData,
                data: {
                   testId,
@@ -128,7 +127,7 @@ const SelectTheBestTitle = ({
       dispatch(
          QUESTION_ACTIONS.addOptionRadio({
             option,
-            optionName: OPTIONS_NAME.selectTheBestTitle,
+            optionName: OPTIONS_NAME.selectTheBestTitleOptions,
          })
       )
 
@@ -137,7 +136,7 @@ const SelectTheBestTitle = ({
       setOptionTitle('')
       setCheckedOption(false)
 
-      if (options.selectTheBestTitle.length === 0 || checkedOption) {
+      if (options.selectTheBestTitleOptions?.length === 0 || checkedOption) {
          setSelectedOptionId(option.id)
       }
    }
@@ -166,7 +165,7 @@ const SelectTheBestTitle = ({
          </Box>
 
          <Box className="cards">
-            {options.selectTheBestTitle?.map((option, i) => (
+            {options.selectTheBestTitleOptions?.map((option, i) => (
                <Option
                   key={option.id}
                   index={i}
@@ -182,7 +181,7 @@ const SelectTheBestTitle = ({
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={goBackHandler}>
+            <Button variant="secondary" onClick={navigateGoBackHandler}>
                GO BACK
             </Button>
 

@@ -3,26 +3,20 @@ import { useNavigate, useParams } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { PauseIcon, PlayIcon } from '../../../assets/icons'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
 
 const TypeWhatYouHear = ({
-   duration,
-   setDuration,
-   selectType,
    title,
+   duration,
    setTitle,
+   selectType,
+   setDuration,
    setSelectType,
 }) => {
    const { fileUrl, isLoading } = useSelector((state) => state.question)
-
-   const { testId } = useParams()
-
-   const dispatch = useDispatch()
-
-   const navigate = useNavigate()
 
    const [file, setFile] = useState('')
    const [fileName, setFileName] = useState('')
@@ -30,9 +24,15 @@ const TypeWhatYouHear = ({
    const [isPlaying, setIsPlaying] = useState(false)
    const [correctAnswer, setCorrectAnswer] = useState('')
 
+   const { testId } = useParams()
+
+   const dispatch = useDispatch()
+
+   const navigate = useNavigate()
+
    const audioRef = useRef(null)
 
-   const goBackHandler = () => navigate(-1)
+   const navigateGoBackHandler = () => navigate(-1)
 
    const attemptsChangeHandler = (e) => setAttempts(e.target.value)
 
@@ -62,7 +62,7 @@ const TypeWhatYouHear = ({
 
          audioRef.current.src = URL.createObjectURL(file)
 
-         dispatch(QUESTION_THUNKS.saveFile(file))
+         dispatch(QUESTION_THUNKS.addFile(file))
       }
    }
 
@@ -93,7 +93,7 @@ const TypeWhatYouHear = ({
          }
 
          dispatch(
-            QUESTION_THUNKS.saveTest({
+            QUESTION_THUNKS.addTest({
                requestData,
 
                data: {
@@ -184,7 +184,7 @@ const TypeWhatYouHear = ({
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={goBackHandler}>
+            <Button variant="secondary" onClick={navigateGoBackHandler}>
                GO BACK
             </Button>
 

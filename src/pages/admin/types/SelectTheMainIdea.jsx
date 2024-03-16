@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, TextField, Typography, styled } from '@mui/material'
 import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
+import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { PlusIcon } from '../../../assets/icons'
 import DeleteModal from '../../../components/UI/modals/DeleteModal'
 import SaveModal from '../../../components/UI/modals/SaveModal'
@@ -13,11 +13,11 @@ import Option from '../../../components/UI/Option'
 import Button from '../../../components/UI/buttons/Button'
 
 const SelectTheMainIdea = ({
-   duration,
-   setDuration,
-   selectType,
    title,
+   duration,
    setTitle,
+   selectType,
+   setDuration,
    setSelectType,
 }) => {
    const { options } = useSelector((state) => state.question)
@@ -27,7 +27,6 @@ const SelectTheMainIdea = ({
    const [optionTitle, setOptionTitle] = useState('')
    const [checkedOption, setCheckedOption] = useState(false)
    const [selectedOptionId, setSelectedOptionId] = useState(null)
-
    const [modals, setModals] = useState({
       delete: false,
       save: false,
@@ -39,13 +38,13 @@ const SelectTheMainIdea = ({
 
    const { testId } = useParams()
 
+   const changeCheckbox = (e) => setCheckedOption(e.target.checked)
+
    const handleChangeTitle = (e) => setOptionTitle(e.target.value)
 
    const handleChangeTextArea = (e) => setPassage(e.target.value)
 
-   const changeCheckbox = (e) => setCheckedOption(e.target.checked)
-
-   const handleGoBack = () => navigate(-1)
+   const navigateGoBackHandler = () => navigate(-1)
 
    const toggleModal = (modalName) => {
       setModals((prevModals) => ({
@@ -61,7 +60,7 @@ const SelectTheMainIdea = ({
       dispatch(
          QUESTION_ACTIONS.deleteOption({
             optionId,
-            optionName: OPTIONS_NAME.selectTheMainIdea,
+            optionName: OPTIONS_NAME.selectTheMainIdeaOptions,
          })
       )
 
@@ -72,7 +71,7 @@ const SelectTheMainIdea = ({
       dispatch(
          QUESTION_ACTIONS.handleIsCorrect({
             id,
-            optionName: OPTIONS_NAME.selectTheMainIdea,
+            optionName: OPTIONS_NAME.selectTheMainIdeaOptions,
          })
       )
    }
@@ -82,7 +81,7 @@ const SelectTheMainIdea = ({
       !duration ||
       !title.trim() ||
       !passage.trim() ||
-      options.selectTheMainIdea?.length < 2
+      options.selectTheMainIdeaOptions?.length < 2
 
    const isDisabledModal = !optionTitle.trim()
 
@@ -91,14 +90,14 @@ const SelectTheMainIdea = ({
          const requestData = {
             title: title.trim(),
             duration: +duration,
-            option: options.selectTheMainIdea.map((option) => ({
+            option: options.selectTheMainIdeaOptions.map((option) => ({
                optionTitle: option.optionTitle,
                isCorrectOption: option.isCorrectOption,
             })),
          }
 
          dispatch(
-            QUESTION_THUNKS.saveTest({
+            QUESTION_THUNKS.addTest({
                requestData,
                data: {
                   testId,
@@ -128,7 +127,7 @@ const SelectTheMainIdea = ({
       dispatch(
          QUESTION_ACTIONS.addOptionRadio({
             option,
-            optionName: OPTIONS_NAME.selectTheMainIdea,
+            optionName: OPTIONS_NAME.selectTheMainIdeaOptions,
          })
       )
 
@@ -137,7 +136,7 @@ const SelectTheMainIdea = ({
       setOptionTitle('')
       setCheckedOption(false)
 
-      if (options.selectTheMainIdea.length === 0 || checkedOption) {
+      if (options.selectTheMainIdeaOptions.length === 0 || checkedOption) {
          setSelectedOptionId(option.id)
       }
    }
@@ -166,7 +165,7 @@ const SelectTheMainIdea = ({
          </Box>
 
          <Box className="cards">
-            {options.selectTheMainIdea?.map((option, i) => (
+            {options.selectTheMainIdeaOptions?.map((option, i) => (
                <Option
                   key={option.id}
                   index={i}
@@ -182,7 +181,7 @@ const SelectTheMainIdea = ({
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={handleGoBack}>
+            <Button variant="secondary" onClick={navigateGoBackHandler}>
                GO BACK
             </Button>
 

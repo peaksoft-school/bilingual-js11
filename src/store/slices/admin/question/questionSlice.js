@@ -13,8 +13,8 @@ const initialState = {
    options: {
       selectRealEnglishWordsOptions: [],
       listenAndSelectOptions: [],
-      selectTheMainIdea: [],
-      selectTheBestTitle: [],
+      selectTheMainIdeaOptions: [],
+      selectTheBestTitleOptions: [],
    },
    isLoading: false,
 }
@@ -124,17 +124,17 @@ const questionSlice = createSlice({
 
    extraReducers: (builder) => {
       builder
-         .addCase(QUESTION_THUNKS.saveTest.fulfilled, (state) => {
+         .addCase(QUESTION_THUNKS.addTest.fulfilled, (state) => {
             state.isLoading = false
             state.error = null
          })
 
-         .addCase(QUESTION_THUNKS.saveTest.rejected, (state, { payload }) => {
+         .addCase(QUESTION_THUNKS.addTest.rejected, (state, { payload }) => {
             state.isLoading = false
             state.error = payload
          })
 
-         .addCase(QUESTION_THUNKS.saveTest.pending, (state) => {
+         .addCase(QUESTION_THUNKS.addTest.pending, (state) => {
             state.isLoading = true
             state.error = null
 
@@ -146,23 +146,47 @@ const questionSlice = createSlice({
             })
          })
 
-         .addCase(QUESTION_THUNKS.saveFile.pending, (state) => {
+         .addCase(QUESTION_THUNKS.addFile.pending, (state) => {
             state.isLoading = true
             state.error = null
          })
 
-         .addCase(QUESTION_THUNKS.saveFile.fulfilled, (state, action) => {
+         .addCase(QUESTION_THUNKS.addFile.fulfilled, (state, action) => {
             state.isLoading = false
             state.fileUrl = action.payload.link
          })
 
-         .addCase(QUESTION_THUNKS.saveFile.rejected, (state, { payload }) => {
+         .addCase(QUESTION_THUNKS.addFile.rejected, (state, { payload }) => {
             state.isLoading = false
             state.error = payload
+         })
+
+         .addCase(QUESTION_THUNKS.deleteQuestion.pending, (state) => {
+            state.isLoading = true
+         })
+
+         .addCase(QUESTION_THUNKS.deleteQuestion.fulfilled, (state) => {
+            state.isLoading = false
+         })
+
+         .addCase(QUESTION_THUNKS.deleteQuestion.rejected, (state) => {
+            state.isLoading = false
+         })
+
+         .addCase(QUESTION_THUNKS.updateQuestionByEnable.pending, (state) => {
+            state.isLoading = true
+         })
+
+         .addCase(QUESTION_THUNKS.updateQuestionByEnable.fulfilled, (state) => {
+            state.isLoading = false
+         })
+
+         .addCase(QUESTION_THUNKS.updateQuestionByEnable.rejected, (state) => {
+            state.isLoading = false
          })
    },
 })
 
-export default questionSlice
+const QUESTION_ACTIONS = questionSlice.actions
 
-export const QUESTION_ACTIONS = questionSlice.actions
+export { questionSlice, QUESTION_ACTIONS }

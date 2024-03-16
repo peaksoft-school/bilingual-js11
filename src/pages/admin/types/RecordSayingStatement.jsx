@@ -2,17 +2,17 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
 
 const RecordSayingStatement = ({
-   duration,
-   setDuration,
-   selectType,
    title,
+   duration,
    setTitle,
+   selectType,
+   setDuration,
    setSelectType,
 }) => {
    const [statement, setStatement] = useState('')
@@ -23,9 +23,9 @@ const RecordSayingStatement = ({
 
    const { testId } = useParams()
 
-   const statementChangeHandler = (e) => setStatement(e.target.value)
+   const navigateGoBackHandler = () => navigate(-1)
 
-   const goBackHandler = () => navigate(-1)
+   const statementChangeHandler = (e) => setStatement(e.target.value)
 
    const isDisabled =
       !selectType || !duration || !title.trim() || !statement.trim()
@@ -39,7 +39,7 @@ const RecordSayingStatement = ({
          }
 
          dispatch(
-            QUESTION_THUNKS.saveTest({
+            QUESTION_THUNKS.addTest({
                requestData,
 
                data: {
@@ -71,7 +71,7 @@ const RecordSayingStatement = ({
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={goBackHandler}>
+            <Button variant="secondary" onClick={navigateGoBackHandler}>
                GO BACK
             </Button>
 

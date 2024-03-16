@@ -4,16 +4,20 @@ import { Box, Skeleton, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { EditIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
 import { questionTypeHandler } from '../../../utils/helpers'
-import { QUESTIONS_THUNKS } from '../../../store/slice/admin/questions/questionsThunk'
 import { NoDataImage } from '../../../assets/images'
 import { ROUTES } from '../../../routes/routes'
 import TestContainer from '../../../components/UI/TestContainer'
 import DeleteModal from '../../../components/UI/modals/DeleteModal'
 import Switcher from '../../../components/UI/Switcher'
 import Button from '../../../components/UI/buttons/Button'
+import { TESTS_THUNKS } from '../../../store/slices/admin/tests/testsThunk'
+import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 
 const Questions = () => {
-   const { questions, isLoading } = useSelector((state) => state.questionsSlice)
+   const { test, isLoading } = useSelector((state) => state.tests)
+
+   const [isVisible, setIsVisible] = useState(false)
+   const [selectedQuestionId, setSelectedQuestionId] = useState(null)
 
    const { testId } = useParams()
 
@@ -21,18 +25,15 @@ const Questions = () => {
 
    const navigate = useNavigate()
 
-   const [isVisible, setIsVisible] = useState(false)
-   const [selectedQuestionId, setSelectedQuestionId] = useState(null)
-
-   const goBackHandler = () => navigate('/')
+   const navigateGoBackHandler = () => navigate('/')
 
    useEffect(() => {
-      dispatch(QUESTIONS_THUNKS.getTest({ testId }))
+      dispatch(TESTS_THUNKS.getTest({ testId }))
    }, [dispatch, testId])
 
    const deleteQuestionHandler = () => {
       dispatch(
-         QUESTIONS_THUNKS.deleteQuestion({
+         QUESTION_THUNKS.deleteQuestion({
             questionId: selectedQuestionId,
             testId,
          })
@@ -46,22 +47,23 @@ const Questions = () => {
       setIsVisible((prev) => !prev)
    }
 
-   const enableHandler = (params) => {
+   const enableHandler = ({ id, value }) => {
       dispatch(
-         QUESTIONS_THUNKS.updateQuestionByEnable({
-            questionId: params.id,
-            isEnable: params.value,
+         QUESTION_THUNKS.updateQuestionByEnable({
+            questionId: id,
+            isEnable: value,
             testId,
          })
       )
    }
 
-   const navigateHandler = () =>
+   const navigateHandler = () => {
       navigate(
-         `${ROUTES.ADMIN.index}/${ROUTES.ADMIN.questions}/${testId}/${ROUTES.ADMIN.createQuestion}`
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/${testId}/${ROUTES.ADMIN.CREATE_QUESTION}`
       )
+   }
 
-   const deleteQuestion = questions?.question?.find(
+   const deleteQuestion = test?.question?.find(
       (test) => test.id === selectedQuestionId
    )?.title
 
@@ -80,7 +82,7 @@ const Questions = () => {
                   <Box className="text">
                      <Typography className="title">Title:</Typography>
 
-                     <Typography>{questions?.title}</Typography>
+                     <Typography>{test?.title}</Typography>
                   </Box>
                )}
 
@@ -97,7 +99,7 @@ const Questions = () => {
                         Short Description:
                      </Typography>
 
-                     <Typography>{questions?.shortDescription}</Typography>
+                     <Typography>{test?.shortDescription}</Typography>
                   </Box>
                )}
 
@@ -111,12 +113,7 @@ const Questions = () => {
                ) : (
                   <Box className="text">
                      <Typography className="title">Duration:</Typography>
-                     <Typography>
-                        {questions && questions?.duration
-                           ? questions.duration % 60
-                           : ''}
-                     </Typography>
-                     m
+                     <Typography>{test?.duration}</Typography>m
                   </Box>
                )}
             </Box>
@@ -132,7 +129,7 @@ const Questions = () => {
             <Box className="divider" />
 
             <StyledTable>
-               {questions && questions?.question?.length > 0 ? (
+               {test && test?.question?.length > 0 ? (
                   <>
                      <Typography>#</Typography>
                      <Typography className="name">Name</Typography>
@@ -143,9 +140,10 @@ const Questions = () => {
                   </>
                ) : null}
             </StyledTable>
-            {questions && questions?.question?.length > 0 ? (
-               questions?.question?.map(
-                  ({ id, title, duration, questionType, enable }, index) =>
+
+            {test && test?.question?.length > 0 ? (
+               test?.question?.map(
+                  ({ id, title, duration, questionType, enable }, i) =>
                      isLoading ? (
                         <Skeleton
                            key={id}
@@ -157,8 +155,8 @@ const Questions = () => {
                         />
                      ) : (
                         <StyledBox key={id}>
-                           <Typography className="numbering-props">
-                              {index + 1}
+                           <Typography className="numbering">
+                              {i + 1}
                            </Typography>
 
                            <Typography className="name-props">
@@ -194,15 +192,14 @@ const Questions = () => {
                      )
                )
             ) : (
-               <Box className="background-image">
+               <Box className="no-data-image">
                   <img src={NoDataImage} alt="no-data" />
                </Box>
             )}
-
             <Button
                className="go-back-button"
                variant="secondary"
-               onClick={goBackHandler}
+               onClick={navigateGoBackHandler}
             >
                GO BACK
             </Button>
@@ -212,7 +209,7 @@ const Questions = () => {
             isCloseIcon
             isVisible={isVisible}
             toggleModal={toggleModal}
-            deleteHandler={() => deleteQuestionHandler(selectedQuestionId)}
+            deleteHandler={deleteQuestionHandler}
          >
             <Typography className="title" variant="p">
                <Typography variant="span">Question: </Typography>
@@ -326,7 +323,7 @@ const StyledContainer = styled(Box)(() => ({
       background: '#C4C4C4',
    },
 
-   '& > div > .background-image': {
+   '& > div > .no-data-image': {
       margin: 'auto',
       maxWidth: '20rem',
       maxHeight: '15rem',
@@ -366,7 +363,7 @@ const StyledBox = styled(Box)(() => ({
       '0px 4px 10px 0px rgba(0, 0, 0, 0.06), 0px -4px 10px 0px rgba(0, 0, 0, 0.06)',
    margin: 'auto',
 
-   '& > .numbering-props': {
+   '& > .numbering': {
       width: '1rem',
    },
 

@@ -2,20 +2,23 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { InputLabel, styled, Box } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
 
 const RespondInAtLeastNWords = ({
-   duration,
-   setDuration,
-   selectType,
    title,
+   duration,
    setTitle,
+   selectType,
+   setDuration,
    setSelectType,
 }) => {
    const { isLoading } = useSelector((state) => state.question)
+
+   const [attempts, setAttempts] = useState(0)
+   const [statement, setStatement] = useState('')
 
    const { testId } = useParams()
 
@@ -23,12 +26,11 @@ const RespondInAtLeastNWords = ({
 
    const navigate = useNavigate()
 
-   const [attempts, setAttempts] = useState(0)
-   const [statement, setStatement] = useState('')
-
    const statementChangeHandler = (e) => setStatement(e.target.value)
 
    const attemptsChangeHandler = (e) => setAttempts(e.target.value)
+
+   const navigateGoBackHandler = () => navigate(-1)
 
    const isDisabled =
       !selectType ||
@@ -53,7 +55,7 @@ const RespondInAtLeastNWords = ({
          }
 
          dispatch(
-            QUESTION_THUNKS.saveTest({
+            QUESTION_THUNKS.addTest({
                requestData,
 
                data: {
@@ -96,7 +98,9 @@ const RespondInAtLeastNWords = ({
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary">GO BACK</Button>
+            <Button variant="secondary" onClick={navigateGoBackHandler}>
+               GO BACK
+            </Button>
 
             <Button
                variant="primary"

@@ -1,22 +1,27 @@
-import { useState, useRef } from 'react'
 import { useDropzone } from 'react-dropzone'
+import { useState, useRef, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { showNotification } from '../../../utils/helpers/notification'
+import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
 
 const DescribeImage = ({
-   duration,
-   setDuration,
-   selectType,
    title,
    setTitle,
+   duration,
+   selectType,
+   setDuration,
    setSelectType,
 }) => {
    const { fileUrl, isLoading } = useSelector((state) => state.question)
+
+   const [image, setImage] = useState(null)
+   const [answer, setAnswer] = useState('')
+   const [fileName, setFileName] = useState('')
 
    const { testId } = useParams()
 
@@ -24,18 +29,14 @@ const DescribeImage = ({
 
    const navigate = useNavigate()
 
-   const [image, setImage] = useState(null)
-   const [answer, setAnswer] = useState('')
-   const [fileName, setFileName] = useState('')
-
    const inputFileRef = useRef(null)
    const inputRef = useRef(null)
 
+   const clickHandler = () => inputFileRef.current.click()
+
    const changeAnswerHandler = (e) => setAnswer(e.target.value)
 
-   const goBackHandler = () => navigate(-1)
-
-   const clickHandler = () => inputFileRef.current.click()
+   const navigateGoBackHandler = () => navigate(-1)
 
    const isDisabled =
       !selectType || !duration || !title.trim() || !image || !answer || !fileUrl
@@ -54,7 +55,7 @@ const DescribeImage = ({
 
          setFileName(file.name)
 
-         dispatch(QUESTION_THUNKS.saveFile(file))
+         dispatch(QUESTION_THUNKS.addFileFile(file))
       }
    }
 
@@ -71,16 +72,30 @@ const DescribeImage = ({
 
          setFileName(file.name)
 
-         dispatch(QUESTION_THUNKS.saveFile(file))
+         dispatch(QUESTION_THUNKS.addFile(file))
       }
    }
 
-   const { getRootProps, getInputProps } = useDropzone({
+   const { getRootProps, getInputProps, fileRejections } = useDropzone({
       onDrop,
-      accept: 'image/*',
+      accept: { 'image/jpeg': ['.png', '.jpeg', '.jpg'] },
       maxFiles: 1,
       maxSize: 5000000,
    })
+
+   useEffect(() => {
+      if (fileRejections && fileRejections.length > 0) {
+         const rejectionMessage = fileRejections
+            .map(({ errors }) => errors.map((e) => e.message).join(', '))
+            .join('\n')
+
+         showNotification({
+            title: 'Error',
+            type: 'error',
+            message: rejectionMessage,
+         })
+      }
+   }, [fileRejections])
 
    const onSubmit = () => {
       if (
@@ -97,7 +112,7 @@ const DescribeImage = ({
          }
 
          dispatch(
-            QUESTION_THUNKS.saveTest({
+            QUESTION_THUNKS.addTest({
                requestData,
 
                data: {
@@ -119,7 +134,7 @@ const DescribeImage = ({
    return (
       <StyledContainer>
          {image ? (
-            <Box className="container-image" {...getRootProps()}>
+            <Box className="container-image">
                <Box onClick={clickHandler} {...getRootProps()}>
                   <img src={image} alt="uploaded" className="image" />
                </Box>
@@ -133,13 +148,21 @@ const DescribeImage = ({
                   {...getInputProps()}
                />
 
-               <Typography className="file-name" onClick={clickHandler}>
+               <Typography
+                  className="file-name"
+                  onClick={clickHandler}
+                  {...getRootProps()}
+               >
                   {fileName}
                </Typography>
             </Box>
          ) : (
-            <Box className="upload" {...getRootProps()}>
-               <InputLabel htmlFor="fileInput" className="title">
+            <Box className="upload">
+               <InputLabel
+                  htmlFor="fileInput"
+                  className="title"
+                  {...getRootProps()}
+               >
                   Upload image
                   <input
                      id="fileInput"
@@ -161,7 +184,7 @@ const DescribeImage = ({
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={goBackHandler}>
+            <Button variant="secondary" onClick={navigateGoBackHandler}>
                GO BACK
             </Button>
 

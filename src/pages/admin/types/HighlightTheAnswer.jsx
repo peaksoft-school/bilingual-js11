@@ -2,17 +2,17 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, InputLabel, TextField, Typography, styled } from '@mui/material'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
 
 const HighlightTheAnswer = ({
-   duration,
-   setDuration,
-   selectType,
    title,
    setTitle,
+   duration,
+   selectType,
+   setDuration,
    setSelectType,
 }) => {
    const [text, setText] = useState('')
@@ -25,13 +25,13 @@ const HighlightTheAnswer = ({
 
    const { testId } = useParams()
 
-   const changeQuestionHandler = (e) => setQuestion(e.target.value)
+   const mouseUpHandler = () => setAnswerValue(window.getSelection().toString())
 
    const changeTextHandler = (e) => setText(e.target.value)
 
-   const mouseUpHandler = () => setAnswerValue(window.getSelection().toString())
+   const changeQuestionHandler = (e) => setQuestion(e.target.value)
 
-   const goBackHandler = () => navigate(-1)
+   const navigateGoBackHandler = () => navigate(-1)
 
    const isDisabled =
       !selectType ||
@@ -57,7 +57,7 @@ const HighlightTheAnswer = ({
          }
 
          dispatch(
-            QUESTION_THUNKS.saveTest({
+            QUESTION_THUNKS.addTest({
                requestData,
 
                data: {
@@ -110,7 +110,7 @@ const HighlightTheAnswer = ({
          </Box>
 
          <Box className="buttons">
-            <Button variant="secondary" onClick={goBackHandler}>
+            <Button variant="secondary" onClick={navigateGoBackHandler}>
                GO BACK
             </Button>
 

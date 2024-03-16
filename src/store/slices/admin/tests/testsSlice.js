@@ -4,37 +4,44 @@ import { showNotification } from '../../../../utils/helpers/notification'
 
 const initialState = {
    tests: [],
-   status: '',
-   error: null,
+   test: {},
    isLoading: false,
 }
 
-export const testsSlice = createSlice({
-   name: 'testsSlice',
+const testsSlice = createSlice({
+   name: 'tests',
    initialState,
    reducers: {},
 
    extraReducers: (builder) => {
       builder
-         .addCase(TESTS_THUNKS.getAllTests.pending, (state) => {
-            state.status = 'loading'
+         .addCase(TESTS_THUNKS.getTests.pending, (state) => {
             state.isLoading = true
          })
 
-         .addCase(TESTS_THUNKS.getAllTests.fulfilled, (state, action) => {
-            state.status = 'succeeded'
+         .addCase(TESTS_THUNKS.getTests.fulfilled, (state, action) => {
             state.tests = action.payload
             state.isLoading = false
          })
 
-         .addCase(TESTS_THUNKS.getAllTests.rejected, (state, action) => {
-            state.status = 'failed'
-            state.error = action.error.message
+         .addCase(TESTS_THUNKS.getTests.rejected, (state) => {
             state.isLoading = false
          })
 
-         .addCase(TESTS_THUNKS.postTest.pending, (state) => {
-            state.status = 'loading'
+         .addCase(TESTS_THUNKS.getTest.pending, (state) => {
+            state.isLoading = true
+         })
+
+         .addCase(TESTS_THUNKS.getTest.fulfilled, (state, { payload }) => {
+            state.test = payload
+            state.isLoading = false
+         })
+
+         .addCase(TESTS_THUNKS.getTest.rejected, (state) => {
+            state.isLoading = false
+         })
+
+         .addCase(TESTS_THUNKS.addTest.pending, (state) => {
             state.isLoading = true
 
             showNotification({
@@ -45,24 +52,19 @@ export const testsSlice = createSlice({
             })
          })
 
-         .addCase(TESTS_THUNKS.postTest.fulfilled, (state) => {
-            state.status = 'succeeded'
+         .addCase(TESTS_THUNKS.addTest.fulfilled, (state) => {
             state.isLoading = false
          })
 
-         .addCase(TESTS_THUNKS.postTest.rejected, (state, action) => {
-            state.status = 'failed'
-            state.error = action.error.message
+         .addCase(TESTS_THUNKS.addTest.rejected, (state) => {
             state.isLoading = false
          })
 
          .addCase(TESTS_THUNKS.deleteTest.pending, (state) => {
-            state.status = 'loading'
             state.isLoading = true
          })
 
          .addCase(TESTS_THUNKS.deleteTest.fulfilled, (state, action) => {
-            state.status = 'succeeded'
             state.isLoading = false
 
             state.tests = state.tests.filter(
@@ -70,14 +72,11 @@ export const testsSlice = createSlice({
             )
          })
 
-         .addCase(TESTS_THUNKS.deleteTest.rejected, (state, action) => {
-            state.status = 'failed'
-            state.error = action.error.message
+         .addCase(TESTS_THUNKS.deleteTest.rejected, (state) => {
             state.isLoading = false
          })
 
          .addCase(TESTS_THUNKS.updateTest.pending, (state) => {
-            state.status = 'loading'
             state.isLoading = true
 
             showNotification({
@@ -89,31 +88,27 @@ export const testsSlice = createSlice({
          })
 
          .addCase(TESTS_THUNKS.updateTest.fulfilled, (state) => {
-            state.status = 'succeeded'
             state.isLoading = false
          })
 
-         .addCase(TESTS_THUNKS.updateTest.rejected, (state, action) => {
-            state.status = 'failed'
-            state.error = action.error.message
+         .addCase(TESTS_THUNKS.updateTest.rejected, (state) => {
             state.isLoading = false
          })
 
-         .addCase(TESTS_THUNKS.updateTetsByEnable.pending, (state) => {
-            state.status = 'loading'
+         .addCase(TESTS_THUNKS.updateTestByEnable.pending, (state) => {
+            state.isLoading = true
          })
 
-         .addCase(TESTS_THUNKS.updateTetsByEnable.fulfilled, (state) => {
-            state.status = 'succeeded'
+         .addCase(TESTS_THUNKS.updateTestByEnable.fulfilled, (state) => {
             state.isLoading = false
          })
 
-         .addCase(TESTS_THUNKS.updateTetsByEnable.rejected, (state, action) => {
-            state.status = 'failed'
-            state.error = action.error.message
+         .addCase(TESTS_THUNKS.updateTestByEnable.rejected, (state) => {
             state.isLoading = false
          })
    },
 })
 
-export default testsSlice.reducer
+const TESTS_ACTIONS = testsSlice.actions
+
+export { testsSlice, TESTS_ACTIONS }
