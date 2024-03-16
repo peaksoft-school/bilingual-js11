@@ -64,7 +64,9 @@ const DragAndDrop = ({ options }) => {
                   }`}
                   onDragEnd={(e) => onDragEndHandler(e, option)}
                >
-                  <Typography className="option">{option.title}</Typography>
+                  <Typography className="option">
+                     {option.optionTitle}
+                  </Typography>
                </Box>
             ))}
          </Box>
@@ -77,7 +79,7 @@ const DragAndDrop = ({ options }) => {
          >
             {correctOptions.length === 0 ? (
                <Box className="board-text">
-                  <Typography>Select words and drag here</Typography>
+                  <Typography>Select words & drag here</Typography>
                </Box>
             ) : (
                correctOptions.map(({ id, title }) => (
@@ -99,14 +101,15 @@ export default DragAndDrop
 
 const StyledContainer = styled(Box)(({ theme }) => ({
    padding: '44px 0px',
-   display: 'grid',
-   justifyItems: 'end',
-   gap: '3rem',
+   display: 'flex',
+   flexDirection: 'column',
+   alignItems: 'flex-end',
+   gap: '1.5rem',
+   width: '100%',
 
    '& .drag-container': {
       display: 'flex',
       flexWrap: 'wrap',
-      gap: '1rem',
    },
 
    '& .option-container': {
@@ -114,7 +117,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       borderRadius: '0.5rem',
       padding: '0.5rem 2rem',
       cursor: 'pointer',
-      margin: '1rem',
+      margin: '0.3rem',
 
       '&.disabled': {
          opacity: 0.5,
@@ -133,8 +136,6 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       '& .option': {
          fontFamily: 'Poppins',
          fontWeight: '500',
-         fontStyle: 'normal',
-         fontSize: '1.1rem',
       },
    },
 }))
@@ -143,15 +144,15 @@ const StyledBox = styled(Box)(({ dragging }) => ({
    gap: '0.3rem',
    display: 'flex',
    flexWrap: 'wrap',
-   maxWidth: '29rem',
+   maxWidth: '18.7rem',
    alignItems: 'center',
    borderRadius: '0.5rem',
    justifyContent: 'center',
    border: dragging === 'true' ? `1px dashed  #3A10E5` : '1px dashed',
    background: dragging === 'true' ? 'rgba(58, 16, 229, 0.1)' : '',
+   padding: '3.5rem',
 
    '& .board-text': {
-      padding: '5rem',
       fontFamily: 'Poppins',
    },
 }))

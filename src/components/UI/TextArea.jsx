@@ -31,7 +31,6 @@ const TextAreaStyle = styled(TextField)(({ theme }) => ({
    ' & .MuiInputBase-root': {
       borderRadius: '8px',
       padding: '14px 16px ',
-      border: '1.53px solid #D5D0D0',
    },
    ' & .MuiInputBase-input': {
       color: theme.palette.primary.fontColor,

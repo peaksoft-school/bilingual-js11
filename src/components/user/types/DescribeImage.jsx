@@ -3,13 +3,14 @@ import { useDispatch } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
 import Button from '../../UI/buttons/Button'
 import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSlice'
+import TextArea from '../../UI/TextArea'
 
 const DescribeImage = ({ questions, nextHandler }) => {
    const [description, setDescription] = useState()
 
    const dispatch = useDispatch()
 
-   const changeCorrectAnswerHandler = (e) => setDescription(e.target.value)
+   const changeDescriptionHandler = (e) => setDescription(e.target.value)
 
    const onSubmit = () => {
       const answerData = {
@@ -37,11 +38,12 @@ const DescribeImage = ({ questions, nextHandler }) => {
             <Box className="image-box">
                <img src={questions.fileUrl} alt="img" className="image" />
 
-               <textarea
-                  className="textarea"
+               <TextArea
+                  className="text-area"
                   placeholder="Your response"
                   value={description}
-                  onChange={changeCorrectAnswerHandler}
+                  rows={6}
+                  onChange={changeDescriptionHandler}
                />
             </Box>
          </Box>
@@ -49,7 +51,7 @@ const DescribeImage = ({ questions, nextHandler }) => {
          <Box className="button-box">
             <Button
                className="button"
-               disabled={!description}
+               disabled={description}
                onClick={onSubmit}
             >
                NEXT
@@ -61,7 +63,7 @@ const DescribeImage = ({ questions, nextHandler }) => {
 
 export default DescribeImage
 
-const StyledContainer = styled(Box)(({ theme }) => ({
+const StyledContainer = styled(Box)(() => ({
    color: '#4C4859',
 
    '& > .content-box': {
@@ -80,26 +82,19 @@ const StyledContainer = styled(Box)(({ theme }) => ({
          marginTop: '2rem',
       },
 
-      '& > div > .textarea': {
-         height: '11.438rem',
-         width: '23.875rem',
-         resize: 'none',
-         borderRadius: '8px',
-         borderColor: '#D4D0D0',
-         padding: '1rem 1rem 0 1rem',
+      '& > div > .text-area': {
+         width: '30rem',
          fontFamily: 'Poppins',
-         caretColor: theme.palette.primary.main,
 
-         '::placeholder': {
-            color: '#AFAFAF',
-            fontSize: '16px',
-            fontFamily: 'Arial',
-            paddingTop: '0.299rem',
+         '& .MuiInputBase-root': {
+            fontFamily: 'Poppins',
+            borderRadius: '0.5rem',
          },
       },
 
       '& > .image-box': {
          width: '37.125rem',
+         height: 'auto',
          display: 'flex',
          gap: '5.05%',
          marginTop: '50px',

@@ -65,7 +65,7 @@ const StyledTitle = styled(Typography)(() => ({
    fontFamily: 'Gilroy',
    fontSize: '1rem',
    fontWeight: 400,
-   paddingLeft: '2.5rem',
+   paddingLeft: '2rem',
 }))
 
 const StyledMessage = styled(Typography)(() => ({

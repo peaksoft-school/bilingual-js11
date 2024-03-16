@@ -39,7 +39,7 @@ const SelectRealEnglishWords = ({ questions, nextHandler }) => {
             <DragAndDrop options={options} />
          </Box>
 
-         <Box className="button">
+         <Box className="button-container">
             <Button onClick={onSubmit}>NEXT</Button>
          </Box>
       </StyledContainer>
@@ -55,7 +55,7 @@ const StyledContainer = styled(Box)(() => ({
    justifyContent: 'center',
 
    '& .title': {
-      padding: '-1rem 0 2rem 0 ',
+      padding: '1rem 0 0 0',
       fontFamily: 'Poppins',
       color: '#4c4859',
    },
@@ -68,12 +68,12 @@ const StyledContainer = styled(Box)(() => ({
       flexWrap: 'wrap',
    },
 
-   '& .button': {
+   '& .button-container': {
       display: 'flex',
       justifyContent: 'flex-end',
       maxwidth: '10rem',
       width: '100%',
-      borderTop: '2px solid #959597',
+      borderTop: '1px solid #959597',
       borderRadius: '0.1rem',
       padding: '3rem 0 0 0 ',
    },

@@ -15,7 +15,7 @@ const TypeWhatYouHear = ({ questions, nextHandler }) => {
 
    const dispatch = useDispatch()
 
-   const textAreaHandler = (e) => setDescription(e.target.value)
+   const changeDescriptionHandler = (e) => setDescription(e.target.value)
 
    const soundHandler = () => {
       if (questions.fileUrl && replays > 0) {
@@ -85,7 +85,7 @@ const TypeWhatYouHear = ({ questions, nextHandler }) => {
                      placeholder="Your response"
                      rows={5}
                      value={description}
-                     handleChange={textAreaHandler}
+                     handleChange={changeDescriptionHandler}
                   />
 
                   <Typography
@@ -160,7 +160,8 @@ const StyledContainer = styled(Box)(({ theme }) => ({
          },
 
          '& > .disabled': {
-            opacity: '0.3',
+            opacity: '0.5',
+            pointerEvents: 'none',
          },
 
          '& > .description': {

@@ -23,7 +23,7 @@ const PracticeTest = () => {
 
    const nextHandler = () => setCount((prevCount) => prevCount + 1)
 
-   const handleNextQuestion = () => {
+   const timeIsUpHandler = () => {
       if (count < questions.length - 1) {
          // setCount((prevCount) => prevCount + 1)
       }
@@ -33,7 +33,7 @@ const PracticeTest = () => {
       <TestContainer>
          <ProgressBar
             duration={questions[count]?.duration}
-            onNextQuestion={handleNextQuestion}
+            timeIsUp={timeIsUpHandler}
             count={count}
          />
 
