@@ -1,6 +1,6 @@
 import './App.css'
-import AppRoutes from './routes/AppRoutes'
+import RecordSayingStatement from './pages/user/types/RecordSayingStatement'
 
-const App = () => <AppRoutes />
+const App = () => <RecordSayingStatement />
 
 export default App
