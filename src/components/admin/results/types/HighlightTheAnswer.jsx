@@ -17,13 +17,13 @@ const HighlightTheAnswer = () => {
    return (
       <TestQuestion {...answers} isLoading={isLoading}>
          <StyledContainer>
-            <Box className="admin-options-box">
+            <Box className="admin-answers-box">
                <Typography className="respond">Passage:</Typography>
 
                <Typography className="passage">{answers.passage}</Typography>
             </Box>
 
-            <Box className="admin-options-box">
+            <Box className="admin-answers-box">
                <Typography className="answer">Correct Answer:</Typography>
 
                <Typography className="correct-answer">
@@ -33,12 +33,10 @@ const HighlightTheAnswer = () => {
 
             <Typography className="user-answer">User`s Answer </Typography>
 
-            <Box className="user-options-box">
+            <Box className="user-answers-box">
                <Typography className="respond">Respond:</Typography>
 
-               <Typography className="user-answer">
-                  {answers.userAnswer}
-               </Typography>
+               <Typography>{answers.userAnswer}</Typography>
             </Box>
 
             <Box className="buttons-box">
@@ -63,7 +61,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       marginTop: '1.4rem',
    },
 
-   '& > .admin-options-box': {
+   '& > .admin-answers-box': {
       gap: '0.3rem',
       display: 'flex',
       margin: '0.8rem 0 0.7rem 0',
@@ -75,7 +73,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       '& > .correct-answer': {
          color: theme.palette.primary.main,
          width: '785px',
-         marginLeft: '-2rem',
+         marginLeft: '-2.5rem',
          marginBottom: '1rem',
       },
 
@@ -88,7 +86,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
       },
    },
 
-   '& > .user-options-box': {
+   '& > .user-answers-box': {
       width: '100%',
       gap: '0.5rem',
       display: 'flex',
