@@ -8,7 +8,6 @@ const TestQuestion = ({
    children,
    minimumNumber,
    evaluateManually,
-   questionStatement,
    isLoading,
    ...answerProps
 }) => {
@@ -92,16 +91,6 @@ const TestQuestion = ({
                   {statement && (
                      <Box className="test-questions">
                         <Typography className="title">Statement:</Typography>
-                        <Typography>{statement}</Typography>
-                     </Box>
-                  )}
-
-                  {questionStatement && (
-                     <Box className="test-questions">
-                        <Typography className="title">
-                           Question Statement:
-                        </Typography>
-
                         <Typography>{statement}</Typography>
                      </Box>
                   )}
