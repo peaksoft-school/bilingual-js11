@@ -110,20 +110,6 @@ const StyledContainer = styled(Box)(() => ({
       marginTop: '1.4rem',
    },
 
-   '& > .passage-box': {
-      display: 'flex',
-      gap: '0.4rem',
-      marginTop: '1.4rem',
-
-      '& >.title': {
-         fontWeight: 500,
-      },
-
-      '& > .passage': {
-         width: '832px',
-      },
-   },
-
    '& > .admin-answers-box': {
       gap: '0.4rem',
       display: 'flex',
