@@ -355,7 +355,7 @@ const QUESTION_TYPES = {
    HIGHLIGHTS_THE_ANSWER: 'Highlights the answer',
    SELECT_THE_BEST_TITLE: 'Select the best title',
    LISTEN_AND_SELECT_WORD: 'Listen and select word',
-   SELECT_REAL_ENGLISH_WORDS: 'Select real english words',
+   SELECT_REAL_ENGLISH_WORDS: 'Select the real english words',
    RESPOND_IN_AT_LEAST_N_WORDS: 'Respond in at least N words',
 }
 
