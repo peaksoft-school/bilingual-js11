@@ -23,7 +23,12 @@ const RespondInAtLeastWords = () => {
    const wordsCount = answers.userAnswer ? countWords(answers.userAnswer) : 0
 
    return (
-      <TestQuestion {...answers} isLoading={isLoading} evaluateManually>
+      <TestQuestion
+         {...answers}
+         isLoading={isLoading}
+         evaluateManually
+         minimumNumber
+      >
          <StyledContainer>
             <Typography className="user-answer">User`s Answer </Typography>
 
