@@ -23,7 +23,7 @@ const RespondInAtLeastWord = ({ questions, nextHandler }) => {
 
    const wordsCount = countWords(text)
 
-   const isDisabled = wordsCount < 50
+   const isDisabled = wordsCount < questions.attempts
 
    const onSubmit = () => {
       const answerDate = {
@@ -44,7 +44,7 @@ const RespondInAtLeastWord = ({ questions, nextHandler }) => {
    return (
       <StyledContainer>
          <Typography className="title">
-            Respond to the question in at least 50 words
+            Respond to the question in at least {questions.attempts} words
          </Typography>
 
          <Box className="content-box">

@@ -1,18 +1,31 @@
 import { Box, styled } from '@mui/material'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation, useParams } from 'react-router-dom'
 import Header from '../Header'
+import { ROUTES } from '../../routes/routes'
 
-const UserLayout = () => (
-   <>
-      <Header />
+const UserLayout = () => {
+   const location = useLocation()
 
-      <StyledContainer>
-         <Box className="content">
-            <Outlet />
-         </Box>
-      </StyledContainer>
-   </>
-)
+   const { testId } = useParams()
+
+   const hideHeaderOnPaths = [
+      `${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}/${testId}/${ROUTES.USER.PRACTICE_TEST}`,
+   ]
+
+   const shouldHideHeader = hideHeaderOnPaths.includes(location.pathname)
+
+   return (
+      <>
+         {!shouldHideHeader && <Header />}
+
+         <StyledContainer>
+            <Box className="content">
+               <Outlet />
+            </Box>
+         </StyledContainer>
+      </>
+   )
+}
 
 export default UserLayout
 

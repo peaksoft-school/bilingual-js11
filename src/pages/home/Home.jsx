@@ -11,20 +11,22 @@ import Feedbacks from '../../components/landing/Feedbacks'
 import Partners from '../../components/landing/Partners'
 import Footer from '../../layout/Footer'
 
-const Home = () => (
-   <Box>
-      <LandingHeader />
-      <Intro />
-      <Statistics />
-      <UserExperience />
-      <OurTeam />
-      <CheckOut />
-      <UsefulVideos />
-      <LearnMore />
-      <Feedbacks />
-      <Partners />
-      <Footer />
-   </Box>
-)
+const Home = () => {
+   return (
+      <Box>
+         <LandingHeader />
+         <Intro />
+         <Statistics />
+         <UserExperience />
+         <OurTeam />
+         <CheckOut />
+         <UsefulVideos />
+         <LearnMore />
+         <Feedbacks />
+         <Partners />
+         <Footer />
+      </Box>
+   )
+}
 
 export default Home

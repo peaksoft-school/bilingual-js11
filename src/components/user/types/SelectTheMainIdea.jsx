@@ -46,19 +46,20 @@ const SelectTheMainIdea = ({ questions, nextHandler }) => {
                   Select the best title for the passage
                </Typography>
 
-               {options.map(({ id, title }) => (
+               {options.map(({ id, optionTitle }) => (
                   <Box
                      key={id}
                      className={`option ${
                         selectedOptionId === id ? 'selected' : ''
                      }`}
+                     onClick={() => optionSelectHandler(id)}
                   >
                      <Radio
                         checked={selectedOptionId === id}
                         onClick={() => optionSelectHandler(id)}
                      />
 
-                     <Typography className="title">{title}</Typography>
+                     <Typography className="title">{optionTitle}</Typography>
                   </Box>
                ))}
 

@@ -31,11 +31,11 @@ const InnerTest = () => {
       )
 
    return (
-      <TestContainer>
+      <StyledContainer>
          {isLoading && <Loading />}
 
          <MainContent key={tests.id}>
-            <Typography className="title">{tests.title} </Typography>
+            <Typography className="title">{tests.title}</Typography>
 
             <Box className="content">
                <img src={TestImage} alt="test" className="test" />
@@ -76,11 +76,15 @@ const InnerTest = () => {
                <Button onClick={practiceHandler}>PRACTICE TEST</Button>
             </Box>
          </MainContent>
-      </TestContainer>
+      </StyledContainer>
    )
 }
 
 export default InnerTest
+
+const StyledContainer = styled(TestContainer)(() => ({
+   overflow: 'hidden',
+}))
 
 const MainContent = styled(Box)(() => ({
    display: 'flex',

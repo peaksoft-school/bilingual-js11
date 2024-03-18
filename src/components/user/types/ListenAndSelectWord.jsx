@@ -45,7 +45,7 @@ const ListenAndSelectWord = ({ questions, nextHandler }) => {
          </Typography>
 
          <Box className="options-box">
-            {options.map(({ id, fileUrl, title }) => (
+            {options.map(({ id, fileUrl, optionTitle }) => (
                <Box
                   key={id}
                   className={`option ${
@@ -64,7 +64,7 @@ const ListenAndSelectWord = ({ questions, nextHandler }) => {
                      />
                   )}
 
-                  <Typography className="text">{title}</Typography>
+                  <Typography className="text">{optionTitle}</Typography>
 
                   <Box
                      className={`checkbox ${

@@ -21,17 +21,19 @@ const getAllQuestions = createAsyncThunk(
 const postTest = createAsyncThunk(
    'practiceTest/postTest',
 
-   async ({ requestData }, { rejectWithValue }) => {
+   async ({ correctAnswer, navigate }, { rejectWithValue }) => {
       try {
-         const response = await axiosInstance.post('/api/answer', requestData)
+         const response = await axiosInstance.post('/api/answer', correctAnswer)
 
-         showNotification({ message: 'Test successfully added' })
+         navigate(-3)
+
+         showNotification({ message: `${response.data.message}` })
 
          return response.data
       } catch (error) {
          showNotification({
             title: 'Error',
-            message: 'Error creating test',
+            message: `${error.response.data.message}`,
             type: 'error',
          })
 

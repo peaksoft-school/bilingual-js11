@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Box, styled, Typography } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { TESTS_LIST_THUNKS } from '../../../store/slices/user/tests/testsListThunk'
-import { ListImage } from '../../../assets/images'
+import { ListImage, NoDataImage } from '../../../assets/images'
 import { ROUTES } from '../../../routes/routes'
 import Button from '../../../components/UI/buttons/Button'
 import Loading from '../../../components/Loading'
@@ -24,37 +24,42 @@ const TestList = () => {
       navigate(`${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}/${id}`)
 
    return (
-      <TestContainer>
+      <>
          {isLoading && <Loading />}
+         <TestContainer>
+            {tests.length === 0 ? (
+               <img src={NoDataImage} alt="no-data" />
+            ) : (
+               <MainContent>
+                  {Array.isArray(tests) &&
+                     tests?.map(({ id, duration, title, shortDescription }) => (
+                        <Box className="content" key={id}>
+                           <img src={ListImage} alt="list" className="list" />
 
-         <MainContent>
-            {Array.isArray(tests) &&
-               tests?.map(({ id, duration, title, shortDescription }) => (
-                  <Box className="content" key={id}>
-                     <img src={ListImage} alt="list" className="list" />
+                           <Box className="texts">
+                              <Typography className="duration">
+                                 {duration % 60} minutes
+                              </Typography>
 
-                     <Box className="texts">
-                        <Typography className="duration">
-                           {duration % 60} minutes
-                        </Typography>
+                              <Typography className="title">{title}</Typography>
 
-                        <Typography className="title">{title}</Typography>
+                              <Typography>{shortDescription}</Typography>
+                           </Box>
 
-                        <Typography>{shortDescription}</Typography>
-                     </Box>
-
-                     <Box className="button-conteiner">
-                        <Button
-                           variant="secondary"
-                           onClick={() => navigateHandler(id)}
-                        >
-                           TRY TEST
-                        </Button>
-                     </Box>
-                  </Box>
-               ))}
-         </MainContent>
-      </TestContainer>
+                           <Box className="button-conteiner">
+                              <Button
+                                 variant="secondary"
+                                 onClick={() => navigateHandler(id)}
+                              >
+                                 TRY TEST
+                              </Button>
+                           </Box>
+                        </Box>
+                     ))}
+               </MainContent>
+            )}
+         </TestContainer>
+      </>
    )
 }
 

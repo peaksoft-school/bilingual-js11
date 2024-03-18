@@ -30,6 +30,44 @@ const showErrorSignIn = (errors) => {
    return errorMessage
 }
 
+const showErrorForgotPassword = (errors) => {
+   let errorMessage = null
+
+   if (Object.keys(errors).length > 1) {
+      errorMessage = 'Please fill in the field!'
+   } else if (errors?.email) {
+      errorMessage = `Incorrect ${errors.email}`
+   } else if (errors?.uniqueIdentifier) {
+      errorMessage = `Incorrect ${errors.uniqueIdentifier}`
+   }
+
+   return errorMessage
+}
+
+const showErrorVerification = (errors) => {
+   let errorMessage = null
+
+   if (Object.keys(errors).length > 1) {
+      errorMessage = 'Please fill in the field!'
+   } else if (errors?.uniqueIdentifier) {
+      errorMessage = `Incorrect ${errors.uniqueIdentifier}`
+   }
+
+   return errorMessage
+}
+
+const showErrorChangePassword = (errors) => {
+   let errorMessage = null
+
+   if (Object.keys(errors).length > 1) {
+      errorMessage = 'Please fill in the field!'
+   } else if (errors?.newPassword !== errors?.confirmPassword) {
+      errorMessage = 'New password and confirm password do not match'
+   }
+
+   return errorMessage
+}
+
 const questionTypeHandler = (type) => {
    switch (type) {
       case QUESTION_TITLES.SELECT_MAIN_IDEA:
@@ -44,8 +82,8 @@ const questionTypeHandler = (type) => {
       case QUESTION_TITLES.DESCRIBE_IMAGE:
          return QUESTION_TYPES.DESCRIBE_IMAGE
 
-      case QUESTION_TITLES.SELECT_REAL_ENGLISH_WORDS:
-         return QUESTION_TYPES.SELECT_REAL_ENGLISH_WORDS
+      case QUESTION_TITLES.SELECT_REAL_ENGLISH_WORD:
+         return QUESTION_TYPES.SELECT_REAL_ENGLISH_WORD
 
       case QUESTION_TITLES.LISTEN_AND_SELECT_WORD:
          return QUESTION_TYPES.LISTEN_AND_SELECT_WORD
@@ -80,6 +118,9 @@ const resultsStatusHandler = (status) => {
 export {
    showErrorSignUp,
    showErrorSignIn,
+   showErrorForgotPassword,
+   showErrorVerification,
+   showErrorChangePassword,
    questionTypeHandler,
    resultsStatusHandler,
 }

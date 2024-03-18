@@ -9,7 +9,9 @@ const Option = ({
    icon,
    index,
    option,
+   checked,
    isRadio,
+   deletion,
    toggleModal,
    setOptionId,
    checkedHandler,
@@ -96,14 +98,19 @@ const Option = ({
          <Box className="actions">
             {isRadio ? (
                <Radio
-                  onClick={toggleRadioHandler}
+                  onClick={checked ? null : toggleRadioHandler}
                   checked={id === selectedOptionId}
                />
             ) : (
-               <Checkbox onClick={toggleCheckboxHandler} checked={isChecked} />
+               <Checkbox
+                  onClick={checked ? null : toggleCheckboxHandler}
+                  checked={isChecked}
+               />
             )}
 
-            <TrashIcon className="trash" onClick={deleteHandler} />
+            {deletion === true ? (
+               <TrashIcon className="trash" onClick={deleteHandler} />
+            ) : null}
          </Box>
       </StyledContainer>
    )

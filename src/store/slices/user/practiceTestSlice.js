@@ -31,6 +31,10 @@ const practiceTestSlice = createSlice({
       addCorrectAnswer: (state, { payload }) => {
          state.correctAnswer.push(payload)
       },
+
+      clearCorrectAnswer: (state) => {
+         state.correctAnswer = []
+      },
    },
 
    extraReducers: (builder) => {

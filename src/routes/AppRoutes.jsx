@@ -7,11 +7,18 @@ import ProtectedRoute from './ProtectedRoute'
 import Suspense from './Suspense'
 import Home from '../pages/home/Home'
 
+const Verification = lazy(() => import('../pages/verification/Verification'))
 const AdminLayout = lazy(() => import('../layout/admin/AdminLayout'))
 const UserLayout = lazy(() => import('../layout/user/UserLayout'))
 const NotFound = lazy(() => import('../layout/NotFound'))
 const SignIn = lazy(() => import('../pages/sign-in/SignIn'))
 const SignUp = lazy(() => import('../pages/sign-up/SignUp'))
+const ForgotPassword = lazy(
+   () => import('../pages/forgot-password/ForgotPassword')
+)
+const ChangePassword = lazy(
+   () => import('../pages/password-change/ChangePassword')
+)
 
 const AppRoutes = () => {
    const router = createHashRouter([
@@ -44,6 +51,33 @@ const AppRoutes = () => {
          element: (
             <Suspense>
                <SignUp />
+            </Suspense>
+         ),
+      },
+
+      {
+         path: ROUTES.FORGOT_PASSWORD.INDEX,
+         element: (
+            <Suspense>
+               <ForgotPassword />
+            </Suspense>
+         ),
+      },
+
+      {
+         path: `${ROUTES.FORGOT_PASSWORD.INDEX}/${ROUTES.FORGOT_PASSWORD.VERIFICATION}`,
+         element: (
+            <Suspense>
+               <Verification />
+            </Suspense>
+         ),
+      },
+
+      {
+         path: `${ROUTES.FORGOT_PASSWORD.INDEX}/${ROUTES.FORGOT_PASSWORD.VERIFICATION}/${ROUTES.FORGOT_PASSWORD.PASSWORD_CHANGE}`,
+         element: (
+            <Suspense>
+               <ChangePassword />
             </Suspense>
          ),
       },

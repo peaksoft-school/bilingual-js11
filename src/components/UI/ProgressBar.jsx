@@ -1,30 +1,20 @@
-// import { Line } from 'rc-progress'
-import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
 import useTimer from '../../hooks/useTimer'
 
-const ProgressBar = ({ duration, timeIsUp, count }) => {
-   const [progressPercent, setProgressPercent] = useState(duration)
+const ProgressBar = ({ duration, timeIsUp, count, lastQuestionHandler }) => {
+   const { questions } = useSelector((state) => state.practiceTest)
 
-   const { minute, seconds } = useTimer(duration, timeIsUp, count)
+   const { minute, seconds, percent } = useTimer(duration, timeIsUp, count)
 
-   useEffect(() => {
-      const remainingSeconds = parseInt(minute, 10) * 60 + parseInt(seconds, 10)
+   // Проверяем, достигли ли мы последней минуты последнего вопроса
+   const isLastMinute =
+      minute === 0 && seconds === 0 && count === questions.length - 1
 
-      const chartPercent = (remainingSeconds / duration) * 100
-
-      setProgressPercent(chartPercent)
-
-      if (remainingSeconds <= 0) {
-         timeIsUp()
-      }
-   }, [minute, seconds, duration])
-
-   useEffect(() => {
-      if (progressPercent > 0) {
-         setTimeout(() => setProgressPercent((prev) => prev - 0.5), 50)
-      }
-   }, [progressPercent])
+   // Если это последняя минута последнего вопроса, вызываем lastQuestionHandler
+   if (isLastMinute) {
+      lastQuestionHandler()
+   }
 
    return (
       <StyledContainer>
@@ -33,18 +23,12 @@ const ProgressBar = ({ duration, timeIsUp, count }) => {
                {minute}:{seconds}
             </Typography>
 
-            <LineWrapper>
-               {/* <Line percent={progressPercent} strokeColor="#3a10e5" /> */}
-
-               <div className="progressbar">
-                  <div
-                     className="progressbar-line"
-                     style={{ width: `${progressPercent}%` }}
-                  >
-                     {' '}
-                  </div>
-               </div>
-            </LineWrapper>
+            <div className="progressbar">
+               <div
+                  className="progressbar-line"
+                  style={{ width: `${100 - percent}%` }}
+               />
+            </div>
          </Box>
       </StyledContainer>
    )
@@ -84,14 +68,5 @@ const StyledContainer = styled(Box)(() => ({
       backgroundColor: '#3a10e5',
       transition: 'width 0.6s',
       borderRadius: '5px',
-   },
-}))
-
-const LineWrapper = styled(Box)(() => ({
-   width: '100%',
-   // height: '4px',
-   // overflow: 'hidden',
-   '& .rc-progress-line-path': {
-      transition: 'width 0.5s ease-in-out',
    },
 }))

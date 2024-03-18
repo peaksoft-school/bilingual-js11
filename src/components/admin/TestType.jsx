@@ -11,7 +11,7 @@ import ListenAndSelectEnglishWord from './types/ListenAndSelectEnglishWord'
 
 const TestType = (props) => {
    switch (props.selectType) {
-      case QUESTION_TYPES.SELECT_REAL_ENGLISH_WORDS:
+      case QUESTION_TYPES.SELECT_REAL_ENGLISH_WORD:
          return <SelectRealEnglish {...props} />
 
       case QUESTION_TYPES.LISTEN_AND_SELECT_WORD:

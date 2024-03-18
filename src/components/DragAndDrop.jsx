@@ -82,13 +82,13 @@ const DragAndDrop = ({ options }) => {
                   <Typography>Select words & drag here</Typography>
                </Box>
             ) : (
-               correctOptions.map(({ id, title }) => (
+               correctOptions.map(({ id, optionTitle }) => (
                   <Box
                      key={id}
                      className="option-container"
                      onClick={() => deleteWordHandler(id)}
                   >
-                     <Typography className="option">{title}</Typography>
+                     <Typography className="option">{optionTitle}</Typography>
                   </Box>
                ))
             )}
