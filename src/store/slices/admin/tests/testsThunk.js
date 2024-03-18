@@ -2,8 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { showNotification } from '../../../../utils/helpers/notification'
 import { axiosInstance } from '../../../../configs/axiosInstance'
 
-const getAllTests = createAsyncThunk(
-   'testsSlice/getAllTests',
+const getTests = createAsyncThunk(
+   'tests/getTests',
 
    async (_, { rejectWithValue }) => {
       try {
@@ -16,8 +16,22 @@ const getAllTests = createAsyncThunk(
    }
 )
 
-const postTest = createAsyncThunk(
-   'testsSlice/postTest',
+const getTest = createAsyncThunk(
+   'tests/getTest',
+
+   async ({ testId }, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.get(`/api/test?testId=${testId}`)
+
+         return response.data
+      } catch (error) {
+         return rejectWithValue.message
+      }
+   }
+)
+
+const addTest = createAsyncThunk(
+   'tests/addTest',
 
    async ({ testData, navigate }, { rejectWithValue }) => {
       try {
@@ -41,13 +55,15 @@ const postTest = createAsyncThunk(
 )
 
 const deleteTest = createAsyncThunk(
-   'testsSlice/deleteTest',
+   'tests/deleteTest',
 
-   async (testId, { rejectWithValue }) => {
+   async (testId, { dispatch, rejectWithValue }) => {
       try {
          const response = await axiosInstance.delete(
             `/api/test?testId=${testId}`
          )
+
+         dispatch(getTests())
 
          showNotification({ message: 'Test successfully deleted' })
 
@@ -65,7 +81,7 @@ const deleteTest = createAsyncThunk(
 )
 
 const updateTest = createAsyncThunk(
-   'testsSlice/updateTest',
+   'tests/updateTest',
 
    async ({ id, updatedTest, navigate }, { rejectWithValue }) => {
       try {
@@ -91,8 +107,8 @@ const updateTest = createAsyncThunk(
    }
 )
 
-const updateTetsByEnable = createAsyncThunk(
-   'testsSlice/updateTetsByEnable',
+const updateTestByEnable = createAsyncThunk(
+   'tests/updateTestByEnable',
 
    async ({ testId, enable }, { rejectWithValue }) => {
       try {
@@ -108,9 +124,10 @@ const updateTetsByEnable = createAsyncThunk(
 )
 
 export const TESTS_THUNKS = {
-   getAllTests,
+   getTests,
+   getTest,
    deleteTest,
-   postTest,
-   updateTetsByEnable,
+   addTest,
    updateTest,
+   updateTestByEnable,
 }

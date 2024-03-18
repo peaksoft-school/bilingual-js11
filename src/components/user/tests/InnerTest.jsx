@@ -3,11 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, ListItem, Typography, styled } from '@mui/material'
 import { LeptopIcon, PhotoIcon, TimeIcon } from '../../../assets/icons'
-import { TESTS_LIST_THUNK } from '../../../store/slice/user/tests/testsListThunk'
+import { TESTS_LIST_THUNK } from '../../../store/slices/user/tests/testsListThunk'
 import { TestImage } from '../../../assets/images'
 import TestContainer from '../../UI/TestContainer'
-import Button from '../../UI/buttons/Button'
 import Loading from '../../Loading'
+import Button from '../../UI/buttons/Button'
 
 const InnerTest = () => {
    const { tests, isLoading } = useSelector((state) => state.testsListSlice)

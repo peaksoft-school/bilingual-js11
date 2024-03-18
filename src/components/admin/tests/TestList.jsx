@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react'
 import { Box, Skeleton, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { EditIcon, TrashIcon } from '../../../assets/icons'
-import { TESTS_THUNKS } from '../../../store/slice/admin/tests/testsThunk'
+import { TESTS_THUNKS } from '../../../store/slices/admin/tests/testsThunk'
 import { NoDataImage } from '../../../assets/images'
 import { ROUTES } from '../../../routes/routes'
 import DeleteModal from '../../UI/modals/DeleteModal'
 import Switcher from '../../UI/Switcher'
 
 const TestList = () => {
-   const { tests, isLoading } = useSelector((state) => state.testsSlice)
+   const { tests, isLoading } = useSelector((state) => state.tests)
 
    const dispatch = useDispatch()
 
@@ -22,7 +22,7 @@ const TestList = () => {
    const stopPropagationHandler = (e) => e.stopPropagation()
 
    useEffect(() => {
-      dispatch(TESTS_THUNKS.getAllTests())
+      dispatch(TESTS_THUNKS.getTests())
    }, [dispatch])
 
    const deleteTestHandler = (testId) => {
@@ -35,13 +35,12 @@ const TestList = () => {
       e.preventDefault()
 
       setSelectedTestId(testId)
-
       setIsVisible((prev) => !prev)
    }
 
    const enableHandler = ({ id, value }) => {
       dispatch(
-         TESTS_THUNKS.updateTetsByEnable({
+         TESTS_THUNKS.updateTestByEnable({
             testId: id,
             enable: value,
          })

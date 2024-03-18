@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
+import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
 import { OPTIONS } from '../../../utils/constants'
 import TestContainer from '../../../components/UI/TestContainer'
 import TestType from '../../../components/TestType'

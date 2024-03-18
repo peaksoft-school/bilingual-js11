@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { showNotification } from '../../../utils/helpers/notification'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
@@ -19,15 +19,15 @@ const DescribeImage = ({
 }) => {
    const { fileUrl, isLoading } = useSelector((state) => state.question)
 
+   const [image, setImage] = useState(null)
+   const [answer, setAnswer] = useState('')
+   const [fileName, setFileName] = useState('')
+
    const { testId } = useParams()
 
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
-
-   const [image, setImage] = useState(null)
-   const [answer, setAnswer] = useState('')
-   const [fileName, setFileName] = useState('')
 
    const inputFileRef = useRef(null)
    const inputRef = useRef(null)
@@ -55,7 +55,7 @@ const DescribeImage = ({
 
          setFileName(file.name)
 
-         dispatch(QUESTION_THUNKS.saveFile(file))
+         dispatch(QUESTION_THUNKS.addFileFile(file))
       }
    }
 
@@ -72,7 +72,7 @@ const DescribeImage = ({
 
          setFileName(file.name)
 
-         dispatch(QUESTION_THUNKS.saveFile(file))
+         dispatch(QUESTION_THUNKS.addFile(file))
       }
    }
 
@@ -112,7 +112,7 @@ const DescribeImage = ({
          }
 
          dispatch(
-            QUESTION_THUNKS.saveTest({
+            QUESTION_THUNKS.addTest({
                requestData,
 
                data: {

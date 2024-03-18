@@ -2,14 +2,18 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
-import { QUESTIONS_THUNKS } from '../../../store/slice/admin/questions/questionsThunk'
-import { TESTS_THUNKS } from '../../../store/slice/admin/tests/testsThunk'
+import { TESTS_THUNKS } from '../../../store/slices/admin/tests/testsThunk'
 import TestContainer from '../../../components/UI/TestContainer'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
 
 const CreateTest = () => {
-   const { questions } = useSelector((state) => state.questionsSlice)
+   const { test } = useSelector((state) => state.tests)
+
+   const [testData, setTestData] = useState({
+      title: '',
+      shortDescription: '',
+   })
 
    const { id } = useParams()
 
@@ -17,15 +21,16 @@ const CreateTest = () => {
 
    const navigate = useNavigate()
 
-   const [testData, setTestData] = useState({
-      title: '',
-      shortDescription: '',
-   })
-
    const isNewTest = id === undefined || id === ''
 
    const isDisabled =
       testData.title.trim() !== '' && testData.shortDescription.trim() !== ''
+
+   const isDisabledUpdate =
+      testData.title.trim() !== '' &&
+      testData.shortDescription.trim() !== '' &&
+      testData.shortDescription === test.shortDescription &&
+      testData.title === test.title
 
    const formChangeHandler = (e) => {
       const { name, value } = e.target
@@ -37,28 +42,28 @@ const CreateTest = () => {
    }
 
    useEffect(() => {
-      if (id) {
-         dispatch(QUESTIONS_THUNKS.getTest({ testId: id }))
-      }
+      if (id) dispatch(TESTS_THUNKS.getTest({ testId: id }))
    }, [dispatch, id])
 
    useEffect(() => {
-      if (!isNewTest && questions) {
+      if (!isNewTest && test) {
          setTestData({
-            title: questions.title || '',
-            shortDescription: questions.shortDescription || '',
+            title: test.title || '',
+            shortDescription: test.shortDescription || '',
          })
       }
-   }, [isNewTest, questions, id])
+   }, [isNewTest, test, id])
 
    const saveHandler = () => {
-      const testToSave = { ...testData }
-
       if (isNewTest) {
-         dispatch(TESTS_THUNKS.postTest({ testData: testToSave, navigate }))
+         dispatch(TESTS_THUNKS.addTest({ testData: { ...testData }, navigate }))
       } else {
          dispatch(
-            TESTS_THUNKS.updateTest({ id, updatedTest: testToSave, navigate })
+            TESTS_THUNKS.updateTest({
+               id,
+               updatedTest: { ...testData },
+               navigate,
+            })
          )
       }
    }
@@ -92,7 +97,7 @@ const CreateTest = () => {
                <Button
                   variant="primary"
                   onClick={saveHandler}
-                  disabled={!isDisabled}
+                  disabled={isNewTest ? !isDisabled : isDisabledUpdate}
                >
                   SAVE
                </Button>

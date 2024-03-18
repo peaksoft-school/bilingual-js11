@@ -17,7 +17,7 @@ const ADMIN_COLUMNS = [
    },
 
    {
-      Header: 'Date of Submition',
+      Header: 'Date of Submition',
       accessor: 'dateOfSubmission',
 
       Cell: ({ row }) => <DataOfSubmission row={row} />,

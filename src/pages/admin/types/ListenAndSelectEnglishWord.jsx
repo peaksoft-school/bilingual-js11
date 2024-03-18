@@ -4,8 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { styled, Box, Typography, InputLabel } from '@mui/material'
 import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
-import { QUESTION_ACTIONS } from '../../../store/slice/admin/question/questionSlice'
-import { QUESTION_THUNKS } from '../../../store/slice/admin/question/questionThunk'
+import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
+import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { PlusIcon } from '../../../assets/icons'
 import DeleteModal from '../../../components/UI/modals/DeleteModal'
 import SaveModal from '../../../components/UI/modals/SaveModal'
@@ -20,14 +20,9 @@ const ListenAndSelectEnglishWord = ({
    setDuration,
    setSelectType,
 }) => {
-   const { fileUrl, isLoading } = useSelector((state) => state.question)
-   const { options } = useSelector((state) => state.question)
-
-   const { testId } = useParams()
-
-   const navigate = useNavigate()
-
-   const dispatch = useDispatch()
+   const { fileUrl, isLoading, options } = useSelector(
+      (state) => state.question
+   )
 
    const [files, setFiles] = useState([])
    const [optionId, setOptionId] = useState(null)
@@ -35,11 +30,16 @@ const ListenAndSelectEnglishWord = ({
    const [optionTitle, setOptionTitle] = useState('')
    const [checkedOption, setCheckedOption] = useState(false)
    const [activeOptionId, setActiveOptionId] = useState(null)
-
    const [modals, setModals] = useState({
       delete: false,
       save: false,
    })
+
+   const { testId } = useParams()
+
+   const navigate = useNavigate()
+
+   const dispatch = useDispatch()
 
    const optionClickHandler = (id) => setActiveOptionId(id)
 
@@ -82,7 +82,7 @@ const ListenAndSelectEnglishWord = ({
          const reader = new FileReader()
          reader.readAsDataURL(file)
 
-         dispatch(QUESTION_THUNKS.saveFile(file))
+         dispatch(QUESTION_THUNKS.addFile(file))
 
          setIsUploaded(true)
       }
@@ -121,7 +121,7 @@ const ListenAndSelectEnglishWord = ({
          }
 
          dispatch(
-            QUESTION_THUNKS.saveTest({
+            QUESTION_THUNKS.addTest({
                requestData,
                data: {
                   testId,

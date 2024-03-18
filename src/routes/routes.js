@@ -14,6 +14,8 @@ const ROUTES = {
       RESULTS: 'results',
       EVALUATIONS: 'evaluations',
       RESULT_ID: 'resultId',
+      QUESTION_TYPE: 'questionType',
+      ANSWER_ID: 'answerId',
    },
 
    USER: {

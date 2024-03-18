@@ -114,9 +114,10 @@ const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
       padding: '1.13rem 3.13rem',
    },
 
-   '& > table > tbody > .skeleton-box': {
+   '& .skeleton-box': {
       marginBottom: '0.87rem',
       borderRadius: '8px',
+      backgroundColor: '#e5e5e567',
    },
 }))
 

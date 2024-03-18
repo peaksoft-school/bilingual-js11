@@ -1,7 +1,7 @@
 import { Box, styled } from '@mui/material'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { MY_RESULTS_THUNK } from '../../../store/slice/user/results/resultsThunk'
+import { MY_RESULTS_THUNK } from '../../../store/slices/user/results/resultsThunk'
 import { NoDataImage } from '../../../assets/images'
 import { COLUMNS } from '../../../utils/constants/columns'
 import Table from '../../../components/UI/Table'

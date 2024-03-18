@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { format } from 'date-fns'
 import { Box, Skeleton, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { SUBMITTED_RESULTS_THUNKS } from '../../../store/slice/admin/results/submitedResultsThunk'
+import { SUBMITTED_RESULTS_THUNKS } from '../../../store/slices/admin/results/submitedResultsThunk'
 import { CheckedIcon, EyeIcon } from '../../../assets/icons'
 import {
    questionTypeHandler,
@@ -13,12 +13,12 @@ import { NoDataImage } from '../../../assets/images'
 import TestContainer from '../../../components/UI/TestContainer'
 import IconButton from '../../../components/UI/buttons/IconButton'
 import Button from '../../../components/UI/buttons/Button'
+import { ROUTES } from '../../../routes/routes'
 
 const InnerResults = () => {
    const { evaluations, isLoading } = useSelector(
       (state) => state.submitedResultsSlice
    )
-
    const { resultId } = useParams()
 
    const navigate = useNavigate()
@@ -39,6 +39,12 @@ const InnerResults = () => {
 
    const sendResultsHandler = () => {
       dispatch(SUBMITTED_RESULTS_THUNKS.postResults({ resultId, navigate }))
+   }
+
+   const navigateHandler = (answerId) => {
+      navigate(
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.RESULTS}/${resultId}/${ROUTES.ADMIN.EVALUATIONS}/${answerId}`
+      )
    }
 
    const isDisabled = evaluations?.answerResponses?.every(
@@ -191,7 +197,10 @@ const InnerResults = () => {
                            className="skeleton-box"
                         />
                      ) : (
-                        <StyledBox key={answerId}>
+                        <StyledBox
+                           key={answerId}
+                           onClick={() => navigateHandler(answerId)}
+                        >
                            <Typography className="numbering">
                               {index + 1}
                            </Typography>
@@ -252,6 +261,11 @@ const StyledContainer = styled(Box)(() => ({
          width: '100%',
          height: '100%',
       },
+   },
+
+   '& > .test-link': {
+      textDecoration: 'none',
+      color: 'inherit',
    },
 
    '& > .title-container': {

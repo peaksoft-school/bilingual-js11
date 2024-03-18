@@ -11,7 +11,7 @@ import Feedbacks from '../../components/landing/Feedbacks'
 import Partners from '../../components/landing/Partners'
 import Footer from '../../layout/Footer'
 
-const Landing = () => (
+const Home = () => (
    <Box>
       <LandingHeader />
       <Intro />
@@ -27,4 +27,4 @@ const Landing = () => (
    </Box>
 )
 
-export default Landing
+export default Home

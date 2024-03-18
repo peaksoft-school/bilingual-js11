@@ -1,14 +1,16 @@
-import { Suspense, lazy } from 'react'
+import { lazy } from 'react'
 import { Navigate } from 'react-router'
 import { ROUTES } from './routes'
+import Suspense from './Suspense'
 import Loading from '../components/Loading'
 import InnerResults from '../pages/admin/results/InnerResults'
+import TestQuestion from '../components/UI/TestQuestion'
 
 const AdminResults = lazy(() => import('../pages/admin/results/AdminResults'))
 const CreateTest = lazy(() => import('../pages/admin/create-test/CreateTest'))
 const AdminTests = lazy(() => import('../pages/admin/tests/AdminTests'))
 const Questions = lazy(() => import('../pages/admin/questions/Questions'))
-const Question = lazy(() => import('../pages/admin/questions/Question'))
+const Question = lazy(() => import('../pages/admin/question/Question'))
 
 export const ADMIN_ROUTES = [
    {
@@ -18,7 +20,7 @@ export const ADMIN_ROUTES = [
    {
       path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}`,
       element: (
-         <Suspense fallback={<Loading />}>
+         <Suspense>
             <AdminTests />
          </Suspense>
       ),
@@ -27,7 +29,7 @@ export const ADMIN_ROUTES = [
    {
       path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.CREATE_TEST}`,
       element: (
-         <Suspense fallback={<Loading />}>
+         <Suspense>
             <CreateTest />
          </Suspense>
       ),
@@ -36,7 +38,7 @@ export const ADMIN_ROUTES = [
    {
       path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.UPDATE_TEST}/:${ROUTES.ADMIN.ID}`,
       element: (
-         <Suspense fallback={<Loading />}>
+         <Suspense>
             <CreateTest />
          </Suspense>
       ),
@@ -45,7 +47,7 @@ export const ADMIN_ROUTES = [
    {
       path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/:${ROUTES.ADMIN.TEST_ID}`,
       element: (
-         <Suspense fallback={<Loading />}>
+         <Suspense>
             <Questions />
          </Suspense>
       ),
@@ -54,7 +56,7 @@ export const ADMIN_ROUTES = [
    {
       path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/:${ROUTES.ADMIN.TEST_ID}/${ROUTES.ADMIN.CREATE_QUESTION}`,
       element: (
-         <Suspense fallback={<Loading />}>
+         <Suspense>
             <Question />
          </Suspense>
       ),
@@ -63,7 +65,7 @@ export const ADMIN_ROUTES = [
    {
       path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.RESULTS}`,
       element: (
-         <Suspense fallback={<Loading />}>
+         <Suspense>
             <AdminResults />
          </Suspense>
       ),
@@ -74,6 +76,15 @@ export const ADMIN_ROUTES = [
       element: (
          <Suspense fallback={<Loading />}>
             <InnerResults />
+         </Suspense>
+      ),
+   },
+
+   {
+      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.RESULTS}/:${ROUTES.ADMIN.RESULT_ID}/${ROUTES.ADMIN.EVALUATIONS}/:${ROUTES.ADMIN.ANSWER_ID}`,
+      element: (
+         <Suspense fallback={<Loading />}>
+            <TestQuestion />
          </Suspense>
       ),
    },
