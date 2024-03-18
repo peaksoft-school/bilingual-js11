@@ -100,7 +100,7 @@ const SelectRealEnglish = ({
 
                data: {
                   testId,
-                  questionType: QUESTION_TITLES.SELECT_REAL_ENGLISH_WORDS,
+                  questionType: QUESTION_TITLES.SELECT_REAL_ENGLISH_WORD,
                   navigate,
                },
 
