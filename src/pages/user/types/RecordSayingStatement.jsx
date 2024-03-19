@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import Button from '../../../components/UI/buttons/Button'
 import { RecordingIcon, SpeakManIcon } from '../../../assets/icons'
+import Notification from '../../../components/Notification'
 
-const RecordSayingStatement = ({ paragraph, questionId }) => {
+const RecordSayingStatement = ({ questions }) => {
    const [analyser, setAnalyser] = useState(null)
    const [array, setArray] = useState(null)
    const [myElements, setMyElements] = useState([])
@@ -30,7 +31,7 @@ const RecordSayingStatement = ({ paragraph, questionId }) => {
                src.connect(newAnalyser)
             })
             .catch((error) => {
-               console.error(error.message)
+               Notification('Something went wrong', error)
                window.location.reload()
             })
       }
@@ -93,7 +94,7 @@ const RecordSayingStatement = ({ paragraph, questionId }) => {
             mediaRecorderInstance.start()
          })
          .catch((error) => {
-            console.error('Error starting recording:', error)
+            Notification('Something went wrong', error)
          })
    }
 
@@ -107,27 +108,26 @@ const RecordSayingStatement = ({ paragraph, questionId }) => {
       try {
          const audioVoice = {
             audioFile: recordedAudio,
-            questionId,
+            questionId: questions.id,
          }
          setMediaRecorder()
          console.log(audioVoice)
       } catch (error) {
-         console.error('Something went wrong:', error)
-         // Handle the error
+         Notification('Something went wrong', error)
       }
    }
 
    return (
       <Container>
-         <StyledContainer>
+         <Box className="styled-container">
             <Box>
-               <Box className="type-what-you-hear">
+               <Box className="record-saying-title">
                   <Typography className="title">
                      Record yourself saying the statement below:
                   </Typography>
                   <Box className="block">
                      <SpeakManIcon className="speak" />
-                     <Typography>”{paragraph}”.</Typography>
+                     <Typography>”{questions.statement}”.</Typography>
                   </Box>
                </Box>
                <Box className="container-button">
@@ -167,7 +167,7 @@ const RecordSayingStatement = ({ paragraph, questionId }) => {
                   </Box>
                </Box>
             </Box>
-         </StyledContainer>
+         </Box>
       </Container>
    )
 }
@@ -178,78 +178,79 @@ const Container = styled(Box)(() => ({
    display: 'flex',
    alignItems: 'center',
    justifyContent: 'center',
+   '& .styled-container': {
+      width: '56.25rem',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      marginTop: '3.125rem',
+      borderRadius: '0.5rem',
+      boxShadow: '0 0.125rem 0.375rem rgba(0, 0, 0, 0.2)',
+      '& .title': {
+         fontFamily: 'Poppins',
+         fontStyle: 'inherit',
+         fontWeight: 400,
+         fontSize: '1.75rem',
+         color: '#4C4859',
+         marginLeft: '14.5rem',
+         marginTop: '3.125rem',
+         width: '100%',
+         marginBottom: '1rem',
+      },
+      '& .speak': {
+         width: '7.5rem',
+         height: '7.5rem',
+         cursor: 'pointer',
+         transition: '0.3s',
+         marginTop: '1.5rem',
+      },
+      '& .block-of-visualize': {
+         display: 'flex',
+         justifyContent: 'center',
+         alignItems: 'center',
+      },
+
+      '& .block': {
+         display: 'flex',
+         alignItems: 'center',
+         justifyContent: 'center',
+         gap: '1rem',
+         marginBottom: '2.3rem',
+      },
+      '& .record-saying-title': {
+         width: '91.5%',
+         marginTop: '2.5rem',
+         display: 'flex',
+         flexDirection: 'column',
+         justifyContent: 'center',
+         alignItems: 'center',
+      },
+      '& .container-button': {
+         width: '95%',
+         display: 'flex',
+         justifyContent: 'end',
+         alignItems: 'center',
+         marginTop: '3.75rem',
+         borderTop: '0.0956rem solid #D4D0D0',
+         gap: '10rem',
+         marginLeft: '1.5rem',
+         padding: '2rem 0',
+      },
+      '& .audio': {
+         marginRight: '9rem',
+         width: '7.875rem',
+         height: '3.75rem',
+      },
+   },
 }))
+
 const AudioVisualize = styled(Box)(({ widthpx, element }) => ({
    borderRadius: '30px',
-   margin: '2px',
+   margin: '0.125rem',
    background: 'blue',
    width: `${widthpx}px`,
    height: `${Math.min(element.height, 120)}px`,
    opacity: element.opacity,
    marginRight: '2px',
-}))
-const StyledContainer = styled(Box)(() => ({
-   width: '56.25rem',
-   height: '100%',
-   display: 'flex',
-   flexDirection: 'column',
-   alignItems: 'center',
-   marginTop: '3.125rem',
-   borderRadius: '0.5rem',
-   boxShadow: '0 0.125rem 0.375rem rgba(0, 0, 0, 0.2)',
-   '& .title': {
-      fontFamily: 'Poppins',
-      fontStyle: 'inherit',
-      fontWeight: 400,
-      fontSize: '1.75rem',
-      color: '#4C4859',
-      marginLeft: '14.5rem',
-      marginTop: '3.125rem',
-      width: '100%',
-      marginBottom: '1rem',
-   },
-   '& .speak': {
-      width: '120px',
-      height: '120px',
-      cursor: 'pointer',
-      transition: '0.3s',
-      marginTop: '1.5rem',
-   },
-   '& .block-of-visualize': {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-   },
-
-   '& .block': {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '1rem',
-      marginBottom: '2.3rem',
-   },
-   '& .type-what-you-hear': {
-      width: '91.5%',
-      marginTop: '2.5rem',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-   },
-   '& .container-button': {
-      width: '95%',
-      display: 'flex',
-      justifyContent: 'end',
-      alignItems: 'center',
-      marginTop: '3.75rem',
-      borderTop: '0.0956rem solid #D4D0D0',
-      gap: '10rem',
-      marginLeft: '1.5rem',
-      padding: '2rem 0',
-   },
-   '& .audio': {
-      marginRight: '9rem',
-      width: '126px',
-      height: '60px',
-   },
 }))
