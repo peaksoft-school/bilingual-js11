@@ -178,7 +178,7 @@ const Container = styled(Box)(() => ({
    display: 'flex',
    alignItems: 'center',
    justifyContent: 'center',
-   '& .styled-container': {
+   '& > .styled-container': {
       width: '56.25rem',
       height: '100%',
       display: 'flex',
@@ -187,29 +187,6 @@ const Container = styled(Box)(() => ({
       marginTop: '3.125rem',
       borderRadius: '0.5rem',
       boxShadow: '0 0.125rem 0.375rem rgba(0, 0, 0, 0.2)',
-      '& .title': {
-         fontFamily: 'Poppins',
-         fontStyle: 'inherit',
-         fontWeight: 400,
-         fontSize: '1.75rem',
-         color: '#4C4859',
-         marginLeft: '14.5rem',
-         marginTop: '3.125rem',
-         width: '100%',
-         marginBottom: '1rem',
-      },
-      '& .speak': {
-         width: '7.5rem',
-         height: '7.5rem',
-         cursor: 'pointer',
-         transition: '0.3s',
-         marginTop: '1.5rem',
-      },
-      '& .block-of-visualize': {
-         display: 'flex',
-         justifyContent: 'center',
-         alignItems: 'center',
-      },
 
       '& .block': {
          display: 'flex',
@@ -217,6 +194,13 @@ const Container = styled(Box)(() => ({
          justifyContent: 'center',
          gap: '1rem',
          marginBottom: '2.3rem',
+         '& > .speak': {
+            width: '7.5rem',
+            height: '7.5rem',
+            cursor: 'pointer',
+            transition: '0.3s',
+            marginTop: '1.5rem',
+         },
       },
       '& .record-saying-title': {
          width: '91.5%',
@@ -225,6 +209,17 @@ const Container = styled(Box)(() => ({
          flexDirection: 'column',
          justifyContent: 'center',
          alignItems: 'center',
+         '& > .title': {
+            fontFamily: 'Poppins',
+            fontStyle: 'inherit',
+            fontWeight: 400,
+            fontSize: '1.75rem',
+            color: '#4C4859',
+            marginLeft: '14.5rem',
+            marginTop: '3.125rem',
+            width: '100%',
+            marginBottom: '1rem',
+         },
       },
       '& .container-button': {
          width: '95%',
@@ -236,6 +231,11 @@ const Container = styled(Box)(() => ({
          gap: '10rem',
          marginLeft: '1.5rem',
          padding: '2rem 0',
+         '& > .block-of-visualize': {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+         },
       },
       '& .audio': {
          marginRight: '9rem',
