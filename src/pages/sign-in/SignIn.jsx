@@ -63,6 +63,7 @@ const SignIn = () => {
          },
 
          validateOnChange: false,
+         validateOnBlur: false,
          validationSchema: VALIDATION_SIGN_IN,
          onSubmit,
       })

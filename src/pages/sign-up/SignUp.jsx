@@ -64,6 +64,7 @@ const SignUp = () => {
          },
 
          validateOnChange: false,
+         validateOnBlur: false,
          validationSchema: VALIDATION_SIGN_UP,
 
          onSubmit,

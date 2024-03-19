@@ -50,7 +50,9 @@ const TestList = () => {
    const navigateHandler = (e, id) => {
       e.preventDefault()
 
-      navigate(`${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.UPDATE_TEST}/${id}`)
+      navigate(
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.UPDATE_TEST}/${id}`
+      )
    }
 
    const deleteTest = tests?.find((test) => test.id === selectedTestId)?.title
@@ -60,7 +62,7 @@ const TestList = () => {
          {tests?.length > 0 ? (
             tests.map(({ id, title, enable }) => (
                <Link
-                  to={`${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/${id}`}
+                  to={`${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${id}`}
                   key={id}
                   className="test-link"
                >

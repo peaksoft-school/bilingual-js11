@@ -59,7 +59,7 @@ const Questions = () => {
 
    const navigateHandler = () => {
       navigate(
-         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/${testId}/${ROUTES.ADMIN.CREATE_QUESTION}`
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}/${ROUTES.ADMIN.CREATE_QUESTION}`
       )
    }
 

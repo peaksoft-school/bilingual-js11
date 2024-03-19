@@ -96,7 +96,7 @@ const testsSlice = createSlice({
          })
 
          .addCase(TESTS_THUNKS.updateTestByEnable.pending, (state) => {
-            state.isLoading = true
+            state.isLoading = false
          })
 
          .addCase(TESTS_THUNKS.updateTestByEnable.fulfilled, (state) => {
