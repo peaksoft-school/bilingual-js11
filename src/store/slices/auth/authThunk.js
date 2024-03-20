@@ -26,11 +26,11 @@ const signUp = createAsyncThunk(
       } catch (error) {
          showNotification({
             title: 'Error',
-            message: error.response.data,
+            message: error.response.data.message,
             type: 'error',
          })
 
-         return rejectWithValue(error.response)
+         return rejectWithValue.message
       }
    }
 )
@@ -69,7 +69,7 @@ const signIn = createAsyncThunk(
             type: 'error',
          })
 
-         return rejectWithValue(error.response.data)
+         return rejectWithValue.message
       }
    }
 )
@@ -98,9 +98,102 @@ const authWithGoogle = createAsyncThunk(
             type: 'error',
          })
 
-         return rejectWithValue(error.response.data)
+         return rejectWithValue.message
       }
    }
 )
 
-export const AUTH_THUNKS = { signIn, signUp, authWithGoogle }
+const forgotPasswordEmail = createAsyncThunk(
+   'auth/forgotPassword',
+   async ({ values, resetForm, navigate }, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.post('/api/auth/initiate', values)
+
+         showNotification({ message: `${response.data}` })
+
+         navigate(
+            `${ROUTES.FORGOT_PASSWORD.INDEX}/${ROUTES.FORGOT_PASSWORD.VERIFICATION}`
+         )
+
+         resetForm()
+
+         return response.data
+      } catch (error) {
+         showNotification({
+            title: 'Error',
+            message: `${error.response.data.message}`,
+            type: 'error',
+         })
+         return rejectWithValue.message
+      }
+   }
+)
+
+const verificationCode = createAsyncThunk(
+   'auth/verificationCode',
+   async ({ values, resetForm, navigate }, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.post('/api/auth/verify', values)
+
+         showNotification({ message: 'Valid code entered!' })
+
+         navigate(
+            `${ROUTES.FORGOT_PASSWORD.INDEX}/${ROUTES.FORGOT_PASSWORD.VERIFICATION}/${ROUTES.FORGOT_PASSWORD.PASSWORD_CHANGE}`
+         )
+
+         resetForm()
+
+         return response.data
+      } catch (error) {
+         showNotification({
+            title: 'Error',
+            message: `${error.response.data.message}`,
+            type: 'error',
+         })
+
+         return rejectWithValue.message
+      }
+   }
+)
+
+const passwordChange = createAsyncThunk(
+   'auth/passwordChange',
+   async (
+      { values, passwordToken, resetForm, navigate },
+      { rejectWithValue }
+   ) => {
+      try {
+         const response = await axiosInstance.post(
+            `/api/auth/setPassword?uniqueIdentifier=${passwordToken}`,
+            values
+         )
+
+         showNotification({
+            message: 'You have successfully changed the password!',
+         })
+
+         navigate(ROUTES.SIGN_IN)
+
+         resetForm()
+
+         return response.data
+      } catch (error) {
+         showNotification({
+            title: 'Error',
+            message: `${error.response.data}`,
+            type: 'error',
+         })
+
+         return rejectWithValue.message
+      }
+   }
+)
+
+export const AUTH_THUNKS = {
+   signIn,
+   signUp,
+   authWithGoogle,
+   forgotPasswordEmail,
+   verificationCode,
+   passwordChange,
+}

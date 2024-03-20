@@ -9,6 +9,8 @@ const NotFound = () => {
 
    return (
       <StyledContainer>
+         <img src={NotFoundImage} alt="404" />
+
          <Box className="text-content">
             <Typography variant="h2">Ooops...</Typography>
 
@@ -23,8 +25,6 @@ const NotFound = () => {
                GO BACK
             </Button>
          </Box>
-
-         <img src={NotFoundImage} alt="404" />
       </StyledContainer>
    )
 }
@@ -42,7 +42,8 @@ const StyledContainer = styled(Box)(() => ({
       display: 'flex',
       flexDirection: 'column',
       gap: '1rem',
-      width: '20rem',
+      width: '25rem',
+      textAlign: 'right',
 
       '& > h2': {
          fontWeight: 'bold',
@@ -50,31 +51,32 @@ const StyledContainer = styled(Box)(() => ({
       },
 
       '& > h4': {
-         color: '#ffc801',
+         color: '#1f54d2',
       },
 
       '& > .go-back': {
          padding: '0.5rem',
          width: '30%',
          borderRadius: '1rem',
-         border: '3px solid #ffc801',
-         textAlign: 'center',
-         backgroundColor: '#ffc801',
-         color: 'black',
+         border: '3px solid #1f54d2',
+         textAlign: 'right',
+         margin: 'auto',
+         marginRight: '0rem',
+         backgroundColor: '#1f54d2',
          fontWeight: 'bold',
          fontFamily: 'Poppins',
          textDecoration: 'none',
-         textTransform: 'uppercase',
+         color: 'white',
 
          '&:hover': {
             backgroundColor: 'white',
-            border: '3px solid #ffc801',
+            border: '3px solid #1f54d2',
+            color: '#1f54d2',
          },
       },
    },
 
    '& > img': {
-      width: '40rem',
-      borderRadius: '20rem',
+      width: '35rem',
    },
 }))

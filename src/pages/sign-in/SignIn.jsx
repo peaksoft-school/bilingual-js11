@@ -159,6 +159,17 @@ const SignIn = () => {
                      <Typography className="register">Register</Typography>
                   </NavLink>
                </Box>
+
+               <Box className="forgot-account">
+                  <NavLink
+                     to={ROUTES.FORGOT_PASSWORD.INDEX}
+                     className="navigation"
+                  >
+                     <Typography className="forgot">
+                        Forgot your password?
+                     </Typography>
+                  </NavLink>
+               </Box>
             </Box>
          </form>
       </StyledContainer>
@@ -310,6 +321,26 @@ const StyledContainer = styled(Box)(({ theme }) => ({
             '& > .register': {
                cursor: 'pointer',
                color: theme.palette.primary.main,
+               fontWeight: '500',
+            },
+         },
+
+         '& .forgot-account': {
+            display: 'flex',
+            justifyContent: 'center',
+            margin: '-1.5rem 0',
+
+            '& > .navigation': {
+               textDecoration: 'none',
+               color: '#757575',
+
+               '&:active': {
+                  color: '#757575',
+               },
+            },
+
+            '& > .forgot': {
+               cursor: 'pointer',
                fontWeight: '500',
             },
          },

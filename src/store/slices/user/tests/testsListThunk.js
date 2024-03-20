@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstance } from '../../../../configs/axiosInstance'
 
 const getAllTests = createAsyncThunk(
-   'testsListSlice/getAllTests',
+   'testsList/getAllTests',
 
    async (_, { rejectWithValue }) => {
       try {
@@ -16,7 +16,7 @@ const getAllTests = createAsyncThunk(
 )
 
 const getTest = createAsyncThunk(
-   'testsListSlice/getTest',
+   'testsList/getTest',
 
    async (testId, { rejectWithValue }) => {
       try {
@@ -28,4 +28,4 @@ const getTest = createAsyncThunk(
    }
 )
 
-export const TESTS_LIST_THUNK = { getAllTests, getTest }
+export const TESTS_LIST_THUNKS = { getAllTests, getTest }

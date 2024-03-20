@@ -22,4 +22,30 @@ const VALIDATION_SIGN_UP = Yup.object().shape({
       .required('Password is required'),
 })
 
-export { VALIDATION_SIGN_IN, VALIDATION_SIGN_UP }
+const VALIDATION_FORGOT_PASSWORD = Yup.object().shape({
+   email: Yup.string().email('Invalid email').required('Email is required'),
+})
+
+const VALIDATION_VERIFICATION = Yup.object().shape({
+   uniqueIdentifier: Yup.string().required('Code is required'),
+})
+
+const VALIDATION_CHANGE_PASSWORD = Yup.object().shape({
+   newPassword: Yup.string()
+      .matches(
+         passwordRegex,
+         'Password must contain at least 1 uppercase letter and at least one number'
+      )
+      .required('New password is required'),
+   confirmPassword: Yup.string()
+      .required('Confirm password is required')
+      .oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),
+})
+
+export {
+   VALIDATION_SIGN_IN,
+   VALIDATION_SIGN_UP,
+   VALIDATION_FORGOT_PASSWORD,
+   VALIDATION_VERIFICATION,
+   VALIDATION_CHANGE_PASSWORD,
+}

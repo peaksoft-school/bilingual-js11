@@ -2,6 +2,12 @@ const ROUTES = {
    SIGN_IN: '/sign-in',
    SIGN_UP: '/sign-up',
 
+   FORGOT_PASSWORD: {
+      INDEX: '/forgot-password',
+      VERIFICATION: 'verification',
+      PASSWORD_CHANGE: 'password-change',
+   },
+
    ADMIN: {
       INDEX: '/admin',
       TESTS: 'tests',
@@ -25,6 +31,7 @@ const ROUTES = {
       PRACTICE_TEST: 'practice-test',
       TEST_ID: 'testId',
       RESULTS: 'results',
+      COMPLETE: 'complate',
    },
 }
 

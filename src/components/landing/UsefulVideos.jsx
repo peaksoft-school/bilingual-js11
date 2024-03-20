@@ -50,7 +50,7 @@ const UsefulVideos = () => {
 
                   if (i === 0) animationDuration = 0.5
                   else if (i === 1) animationDuration = 1
-                  else animationDuration = 2
+                  else animationDuration = 1.5
 
                   return (
                      <StyledVideoCard
@@ -122,7 +122,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 const StyledVideoCard = styled(motion.div)(
    ({ theme, inview, animationduration }) => ({
       opacity: inview === 'true' ? 1 : 0,
-      transform: `translateY(${inview === 'true' ? 0 : 100}px)`,
+      transform: `translateY(${inview === 'true' ? 0 : 90}px)`,
       transition: `opacity ${animationduration}s ease-out, transform ${animationduration}s ease-out`,
 
       '&:hover': {

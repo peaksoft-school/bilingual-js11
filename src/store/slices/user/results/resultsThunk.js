@@ -16,8 +16,8 @@ const getResults = createAsyncThunk(
    }
 )
 
-const deleteResults = createAsyncThunk(
-   'myResultsSlice/deleteResults',
+const deleteResult = createAsyncThunk(
+   'resultsSlice/deleteResults',
 
    async ({ answerId }, { rejectWithValue, dispatch }) => {
       try {
@@ -44,4 +44,4 @@ const deleteResults = createAsyncThunk(
    }
 )
 
-export const MY_RESULTS_THUNK = { getResults, deleteResults }
+export const MY_RESULTS_THUNKS = { getResults, deleteResult }

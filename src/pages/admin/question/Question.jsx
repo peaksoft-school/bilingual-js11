@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
 import { OPTIONS } from '../../../utils/constants'
 import TestContainer from '../../../components/UI/TestContainer'
-import TestType from '../../../components/TestType'
+import TestType from '../../../components/admin/TestType'
 import Dropdown from '../../../components/UI/Dropdown'
 import Input from '../../../components/UI/Input'
 import { questionTypeHandler } from '../../../utils/helpers'
@@ -25,7 +25,13 @@ const Question = () => {
 
    const changeTitleHandler = (e) => setTitle(e.target.value)
 
-   const changeDurationHandler = (e) => setDuration(e.target.value)
+   const changeDurationHandler = (e) => {
+      const newValue = e.target.value.replace(/\D/g, '')
+
+      const limitedValue = newValue.slice(0, 2)
+
+      setDuration(limitedValue)
+   }
 
    const changeSelecTypeHandler = (e) => setSelectType(e.target.value)
 
@@ -47,11 +53,12 @@ const Question = () => {
                      placeholder="Enter the title ....."
                      onChange={changeTitleHandler}
                      value={title}
+                     autoComplete="off"
                   />
 
                   <Box className="duration-container">
                      <Typography className="text duration">
-                        Duration <br /> (in minutes)
+                        Duration <br /> (in seconds)
                      </Typography>
 
                      <Input
@@ -61,6 +68,7 @@ const Question = () => {
                         onChange={changeDurationHandler}
                         inputProps={{ min: 0, max: 15 }}
                         type="number"
+                        autoComplete="off"
                      />
                   </Box>
                </Box>

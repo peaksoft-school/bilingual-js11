@@ -2,15 +2,16 @@ import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, ListItem, Typography, styled } from '@mui/material'
-import { LeptopIcon, PhotoIcon, TimeIcon } from '../../../assets/icons'
-import { TESTS_LIST_THUNK } from '../../../store/slices/user/tests/testsListThunk'
+import { TESTS_LIST_THUNKS } from '../../../store/slices/user/tests/testsListThunk'
 import { TestImage } from '../../../assets/images'
+import { ROUTES } from '../../../routes/routes'
 import TestContainer from '../../UI/TestContainer'
 import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
+import { ClockIcon, LaptopIcon, UserCardIcon } from '../../../assets/icons'
 
 const InnerTest = () => {
-   const { tests, isLoading } = useSelector((state) => state.testsListSlice)
+   const { tests, isLoading } = useSelector((state) => state.testsList)
 
    const { testId } = useParams()
 
@@ -18,43 +19,46 @@ const InnerTest = () => {
 
    const navigate = useNavigate()
 
-   const { id, title, duration } = tests
-
    useEffect(() => {
-      dispatch(TESTS_LIST_THUNK.getTest(testId))
+      dispatch(TESTS_LIST_THUNKS.getTest(testId))
    }, [dispatch, testId])
 
-   const handleTestNavigation = () => navigate(-1)
+   const navigateHandler = () => navigate(-1)
+
+   const practiceHandler = () =>
+      navigate(
+         `${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}/${testId}/${ROUTES.USER.PRACTICE_TEST}`
+      )
 
    return (
-      <TestContainer>
+      <StyledContainer>
          {isLoading && <Loading />}
 
-         <MainContent key={id}>
-            <Typography className="title">{title} </Typography>
+         <MainContent key={tests.id}>
+            <Typography className="title">{tests.title}</Typography>
 
             <Box className="content">
-               <img src={TestImage} alt="test-img" className="test" />
+               <img src={TestImage} alt="test" className="test" />
 
                <Box className="description">
                   <ListItem>
-                     <LeptopIcon />
+                     <LaptopIcon />
 
                      <Typography>See what the test is like *</Typography>
                   </ListItem>
 
                   <ListItem>
-                     <TimeIcon />
+                     <ClockIcon />
 
                      <Typography>
-                        Practice takes just {duration % 60}
+                        Practice takes just {tests.duration % 60}
                      </Typography>
                   </ListItem>
 
                   <ListItem>
-                     <PhotoIcon />
+                     <UserCardIcon />
 
-                     <Typography>get an unofficial score estimate</Typography>
+                     <Typography>Get an unofficial score estimate</Typography>
                   </ListItem>
                </Box>
             </Box>
@@ -65,18 +69,22 @@ const InnerTest = () => {
             </Typography>
 
             <Box className="buttons">
-               <Button variant="secondary" onClick={handleTestNavigation}>
+               <Button variant="secondary" onClick={navigateHandler}>
                   CANCEL
                </Button>
 
-               <Button>PRACTICE TEST</Button>
+               <Button onClick={practiceHandler}>PRACTICE TEST</Button>
             </Box>
          </MainContent>
-      </TestContainer>
+      </StyledContainer>
    )
 }
 
 export default InnerTest
+
+const StyledContainer = styled(TestContainer)(() => ({
+   overflow: 'hidden',
+}))
 
 const MainContent = styled(Box)(() => ({
    display: 'flex',
