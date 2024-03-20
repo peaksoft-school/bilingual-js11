@@ -250,7 +250,7 @@ const AudioVisualize = styled(Box)(({ widthpx, element }) => ({
    margin: '0.125rem',
    background: 'blue',
    width: `${widthpx}px`,
-   height: `${Math.min(element.height, 120)}px`,
+   height: `${Math.min(element.height, 90)}px`,
    opacity: element.opacity,
    marginRight: '2px',
 }))
