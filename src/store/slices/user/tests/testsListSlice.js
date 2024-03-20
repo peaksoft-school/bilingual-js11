@@ -17,10 +17,13 @@ export const testsListSlice = createSlice({
             state.isLoading = true
          })
 
-         .addCase(TESTS_LIST_THUNK.getAllTests.fulfilled, (state, action) => {
-            state.tests = action.payload
-            state.isLoading = false
-         })
+         .addCase(
+            TESTS_LIST_THUNK.getAllTests.fulfilled,
+            (state, { payload }) => {
+               state.tests = payload
+               state.isLoading = false
+            }
+         )
 
          .addCase(TESTS_LIST_THUNK.getAllTests.rejected, (state) => {
             state.isLoading = false

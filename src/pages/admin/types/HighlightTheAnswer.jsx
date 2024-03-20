@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Box, InputLabel, TextField, Typography, styled } from '@mui/material'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
@@ -15,6 +15,10 @@ const HighlightTheAnswer = ({
    setDuration,
    setSelectType,
 }) => {
+   const { question: updateQuestion } = useSelector((state) => state.question)
+
+   const { state } = useLocation()
+
    const [text, setText] = useState('')
    const [question, setQuestion] = useState('')
    const [answerValue, setAnswerValue] = useState('')
@@ -27,18 +31,42 @@ const HighlightTheAnswer = ({
 
    const mouseUpHandler = () => setAnswerValue(window.getSelection().toString())
 
-   const changeTextHandler = (e) => setText(e.target.value)
+   const changeTextHandler = (e) => {
+      const { value } = e.target
 
-   const changeQuestionHandler = (e) => setQuestion(e.target.value)
+      setText(value || '')
+   }
+
+   const changeQuestionHandler = (e) => {
+      const { value } = e.target
+
+      setQuestion(value || '')
+   }
 
    const navigateGoBackHandler = () => navigate(-1)
+
+   useEffect(() => {
+      if (state !== null) {
+         dispatch(QUESTION_THUNKS.getQuestion({ id: state?.id }))
+      }
+   }, [dispatch, state])
+
+   useEffect(() => {
+      if (state !== null && updateQuestion) {
+         setAnswerValue(updateQuestion?.correctAnswer)
+         setText(updateQuestion?.passage)
+         setQuestion(updateQuestion?.statement)
+      }
+   }, [state, updateQuestion])
 
    const isDisabled =
       !selectType ||
       !duration ||
-      !title.trim() ||
-      !answerValue.trim() ||
-      question.trim() === ''
+      !title ||
+      !answerValue ||
+      !question ||
+      (state === null &&
+         (!title.trim() || !answerValue.trim() || !question.trim()))
 
    const onSubmit = () => {
       if (
@@ -56,23 +84,39 @@ const HighlightTheAnswer = ({
             correctAnswer: answerValue.trim(),
          }
 
-         dispatch(
-            QUESTION_THUNKS.addTest({
-               requestData,
+         if (state === null) {
+            dispatch(
+               QUESTION_THUNKS.addTest({
+                  requestData,
 
-               data: {
-                  testId,
-                  questionType: QUESTION_TITLES.HIGHLIGHTS_THE_ANSWER,
+                  data: {
+                     testId,
+                     questionType: QUESTION_TITLES.HIGHLIGHTS_THE_ANSWER,
+                     navigate,
+                  },
+
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
+               })
+            )
+         } else {
+            dispatch(
+               QUESTION_THUNKS.updateQuestion({
+                  id: state.id,
+                  requestData,
                   navigate,
-               },
 
-               setStates: {
-                  setSelectType: setSelectType(selectType),
-                  setTitle: setTitle(title),
-                  setDuration: setDuration(duration),
-               },
-            })
-         )
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
+               })
+            )
+         }
       }
    }
 
@@ -84,7 +128,7 @@ const HighlightTheAnswer = ({
             <Input
                fullWidth
                name="question"
-               value={question}
+               value={question || ''}
                onChange={changeQuestionHandler}
             />
          </Box>
@@ -95,7 +139,7 @@ const HighlightTheAnswer = ({
             <TextField
                multiline
                name="text"
-               value={text}
+               value={text || ''}
                onChange={changeTextHandler}
                fullWidth
             />
@@ -105,7 +149,7 @@ const HighlightTheAnswer = ({
             <Typography className="title">Highlight correct answer:</Typography>
 
             <Typography className="highlight-text" onMouseUp={mouseUpHandler}>
-               {text}
+               {text || ''}
             </Typography>
          </Box>
 
@@ -115,7 +159,7 @@ const HighlightTheAnswer = ({
             </Button>
 
             <Button variant="primary" disabled={isDisabled} onClick={onSubmit}>
-               SAVE
+               {state !== null ? 'UPDATE' : 'SAVE'}
             </Button>
          </Box>
       </StyledContainer>
@@ -173,6 +217,6 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    '& > .buttons': {
       display: 'flex',
       gap: '1.1rem',
-      marginLeft: '37.4rem',
+      marginLeft: '36.53rem',
    },
 }))

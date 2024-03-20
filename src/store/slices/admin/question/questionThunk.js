@@ -27,7 +27,9 @@ const addTest = createAsyncThunk(
             message: `${response.data.message}!`,
          })
 
-         navigate(`${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/${testId}`)
+         navigate(
+            `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
+         )
 
          if (clearOptions) {
             dispatch(clearOptions.clearOptions())
@@ -74,6 +76,22 @@ const addFile = createAsyncThunk(
    }
 )
 
+const getQuestion = createAsyncThunk(
+   'question/getQuestion',
+
+   async ({ id }, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.get(
+            `/api/question/getById?id=${id}`
+         )
+
+         return response.data
+      } catch (error) {
+         return rejectWithValue.message
+      }
+   }
+)
+
 const addQuestion = createAsyncThunk(
    'question/addQuestion',
 
@@ -83,7 +101,7 @@ const addQuestion = createAsyncThunk(
             `/api/question?testId=${testId}&questionType=${questionType}`
          )
          showNotification({
-            message: 'Question successfully added',
+            message: `${response.data.message}`,
          })
 
          navigate(`${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/:testId`)
@@ -114,9 +132,40 @@ const deleteQuestion = createAsyncThunk(
 
          showNotification({
             title: 'Success',
-            message: 'Question successfully deleted',
+            message: `${response.data.message}`,
             type: 'success',
          })
+
+         return response.data
+      } catch (error) {
+         showNotification({
+            title: 'Error',
+            message: 'Failed to delete test',
+            type: 'error',
+         })
+
+         return rejectWithValue.message
+      }
+   }
+)
+
+const updateQuestion = createAsyncThunk(
+   'question/updateQuestion',
+
+   async ({ id, requestData, navigate }, { rejectWithValue }) => {
+      try {
+         const response = await axiosInstance.patch(
+            `api/question?id=${id}`,
+            requestData
+         )
+
+         showNotification({
+            title: 'Success',
+            message: `${response.data.message}`,
+            type: 'success',
+         })
+
+         navigate(-1)
 
          return response.data
       } catch (error) {
@@ -140,6 +189,8 @@ const updateQuestionByEnable = createAsyncThunk(
             `/api/question/IsEnable?questionId=${questionId}&isEnable=${isEnable}`
          )
 
+         showNotification({ message: `${response.data.message}` })
+
          dispatch(TESTS_THUNKS.getTest({ testId }))
 
          return response.data
@@ -152,7 +203,9 @@ const updateQuestionByEnable = createAsyncThunk(
 export const QUESTION_THUNKS = {
    addFile,
    addTest,
+   getQuestion,
    addQuestion,
    deleteQuestion,
+   updateQuestion,
    updateQuestionByEnable,
 }

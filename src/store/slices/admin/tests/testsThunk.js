@@ -37,7 +37,7 @@ const addTest = createAsyncThunk(
       try {
          const response = await axiosInstance.post('/api/test', testData)
 
-         showNotification({ message: 'Test successfully added' })
+         showNotification({ message: `${response.data.message}` })
 
          navigate('/')
 
@@ -65,7 +65,7 @@ const deleteTest = createAsyncThunk(
 
          dispatch(getTests())
 
-         showNotification({ message: 'Test successfully deleted' })
+         showNotification({ message: `${response.data.message}` })
 
          return response.data
       } catch (error) {
@@ -115,6 +115,8 @@ const updateTestByEnable = createAsyncThunk(
          const response = await axiosInstance.patch(
             `/api/test/update?testId=${testId}&enable=${enable}`
          )
+
+         showNotification({ message: `${response.data.message}` })
 
          return response.data
       } catch (error) {

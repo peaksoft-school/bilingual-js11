@@ -27,7 +27,7 @@ export const ADMIN_ROUTES = [
    },
 
    {
-      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.CREATE_TEST}`,
+      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.CREATE_TEST}`,
       element: (
          <Suspense>
             <CreateTest />
@@ -36,7 +36,7 @@ export const ADMIN_ROUTES = [
    },
 
    {
-      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.UPDATE_TEST}/:${ROUTES.ADMIN.ID}`,
+      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.UPDATE_TEST}/:${ROUTES.ADMIN.ID}`,
       element: (
          <Suspense>
             <CreateTest />
@@ -45,7 +45,7 @@ export const ADMIN_ROUTES = [
    },
 
    {
-      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/:${ROUTES.ADMIN.TEST_ID}`,
+      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/:${ROUTES.ADMIN.TEST_ID}`,
       element: (
          <Suspense>
             <Questions />
@@ -54,7 +54,16 @@ export const ADMIN_ROUTES = [
    },
 
    {
-      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/:${ROUTES.ADMIN.TEST_ID}/${ROUTES.ADMIN.CREATE_QUESTION}`,
+      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/:${ROUTES.ADMIN.TEST_ID}/${ROUTES.ADMIN.CREATE_QUESTION}`,
+      element: (
+         <Suspense>
+            <Question />
+         </Suspense>
+      ),
+   },
+
+   {
+      path: `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/:${ROUTES.ADMIN.TEST_ID}/${ROUTES.ADMIN.UPDATE_QUESTION}`,
       element: (
          <Suspense>
             <Question />

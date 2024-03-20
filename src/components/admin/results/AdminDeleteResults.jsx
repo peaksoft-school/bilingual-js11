@@ -6,7 +6,7 @@ import { TrashIcon } from '../../../assets/icons'
 import DeleteModal from '../../UI/modals/DeleteModal'
 import IconButton from '../../UI/buttons/IconButton'
 
-const AdminDeleteResults = ({ resultId }) => {
+const AdminDeleteResults = ({ resultId, row }) => {
    const [isVisible, setIsVisible] = useState(false)
 
    const dispatch = useDispatch()
@@ -34,6 +34,12 @@ const AdminDeleteResults = ({ resultId }) => {
             isVisible={isVisible}
             toggleModal={isVisibleHandler}
          >
+            <Typography className="title" variant="p">
+               <Typography variant="span">Test name: </Typography>
+
+               {row.original.testName}
+            </Typography>
+
             <Typography className="modal-message">You can`t restore</Typography>
          </DeleteModal>
       </Box>

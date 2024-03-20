@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useEffect, useRef, useState } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { PauseIcon, PlayIcon } from '../../../assets/icons'
@@ -16,7 +16,11 @@ const TypeWhatYouHear = ({
    setDuration,
    setSelectType,
 }) => {
-   const { fileUrl, isLoading } = useSelector((state) => state.question)
+   const { fileUrl, isLoading, question } = useSelector(
+      (state) => state.question
+   )
+
+   const { state } = useLocation()
 
    const [file, setFile] = useState('')
    const [fileName, setFileName] = useState('')
@@ -34,9 +38,30 @@ const TypeWhatYouHear = ({
 
    const navigateGoBackHandler = () => navigate(-1)
 
-   const attemptsChangeHandler = (e) => setAttempts(e.target.value)
+   const attemptsChangeHandler = (e) => {
+      const { value } = e.target
 
-   const correctAnswerChangeHandler = (e) => setCorrectAnswer(e.target.value)
+      setAttempts(value || '')
+   }
+
+   const correctAnswerChangeHandler = (e) => {
+      const { value } = e.target
+
+      setCorrectAnswer(value || '')
+   }
+
+   useEffect(() => {
+      if (state !== null) {
+         dispatch(QUESTION_THUNKS.getQuestion({ id: state?.id }))
+      }
+   }, [dispatch, state])
+
+   useEffect(() => {
+      if (state !== null && question) {
+         setCorrectAnswer(question?.correctAnswer)
+         setAttempts(question?.attempts)
+      }
+   }, [state, question])
 
    const toggleHandler = () => {
       if (isPlaying) {
@@ -67,13 +92,13 @@ const TypeWhatYouHear = ({
    }
 
    const isDisabled =
-      !selectType ||
-      !duration ||
-      !title.trim() ||
-      !correctAnswer.trim() ||
-      !attempts ||
       !file ||
-      !fileUrl
+      !title ||
+      !fileUrl ||
+      !attempts ||
+      !duration ||
+      !selectType ||
+      !correctAnswer
 
    const onSubmit = () => {
       if (
@@ -92,23 +117,39 @@ const TypeWhatYouHear = ({
             fileUrl,
          }
 
-         dispatch(
-            QUESTION_THUNKS.addTest({
-               requestData,
+         if (state === null) {
+            dispatch(
+               QUESTION_THUNKS.addTest({
+                  requestData,
 
-               data: {
-                  testId,
-                  questionType: QUESTION_TITLES.TYPE_WHAT_YOU_HEAR,
+                  data: {
+                     testId,
+                     questionType: QUESTION_TITLES.TYPE_WHAT_YOU_HEAR,
+                     navigate,
+                  },
+
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
+               })
+            )
+         } else {
+            dispatch(
+               QUESTION_THUNKS.updateQuestion({
+                  id: state.id,
+                  requestData,
                   navigate,
-               },
 
-               setStates: {
-                  setSelectType: setSelectType(selectType),
-                  setTitle: setTitle(title),
-                  setDuration: setDuration(duration),
-               },
-            })
-         )
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
+               })
+            )
+         }
       }
    }
 
@@ -126,7 +167,7 @@ const TypeWhatYouHear = ({
                   type="number"
                   name="attempts"
                   inputProps={{ min: 0, max: 15 }}
-                  value={attempts}
+                  value={attempts || ''}
                   onChange={attemptsChangeHandler}
                />
             </Box>
@@ -145,6 +186,7 @@ const TypeWhatYouHear = ({
                   accept="audio/mp3"
                   onChange={changeFileHandler}
                />
+
                {file && (
                   <button
                      type="button"
@@ -154,9 +196,11 @@ const TypeWhatYouHear = ({
                      {isPlaying ? <PlayIcon /> : <PauseIcon />}
                   </button>
                )}
+
                <Typography variant="span" className="file-name">
                   {fileName}
                </Typography>
+
                <audio
                   className="audio"
                   ref={audioRef}
@@ -178,7 +222,7 @@ const TypeWhatYouHear = ({
             <Input
                type="text"
                name="correctAnswer"
-               value={correctAnswer}
+               value={correctAnswer || ''}
                onChange={correctAnswerChangeHandler}
             />
          </Box>
@@ -191,11 +235,11 @@ const TypeWhatYouHear = ({
             <Button
                variant="primary"
                onClick={onSubmit}
-               disabled={isDisabled}
+               disabled={state !== null ? null : isDisabled}
                isLoading={isLoading}
                loadingColor="secondary"
             >
-               SAVE
+               {state !== null ? 'UPDATE' : 'SAVE'}
             </Button>
          </Box>
       </StyledContainer>

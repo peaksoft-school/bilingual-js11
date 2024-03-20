@@ -9,6 +9,7 @@ const ROUTES = {
       UPDATE_TEST: 'update-test',
       QUESTIONS: 'questions',
       CREATE_QUESTION: 'create-question',
+      UPDATE_QUESTION: 'update-question',
       ID: 'id',
       TEST_ID: 'testId',
       RESULTS: 'results',

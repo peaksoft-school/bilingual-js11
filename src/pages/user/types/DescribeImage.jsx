@@ -5,7 +5,7 @@ import ProgressBar from '../../../components/UI/ProgressBar'
 import Button from '../../../components/UI/buttons/Button'
 
 const DescribeImage = () => {
-   const [correctAnswer, setCorrectAnswer] = useState()
+   const [correctAnswer, setCorrectAnswer] = useState('')
 
    const changeCorrectAnswerHandler = (e) => setCorrectAnswer(e.target.value)
 

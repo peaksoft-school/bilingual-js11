@@ -4,18 +4,15 @@ import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { ADMIN_QUESTION_COMPONENTS } from '../../utils/constants/AdminQuestionComponents'
 import { questionTypeHandler } from '../../utils/helpers'
+import { showNotification } from '../../utils/helpers/notification'
 import { QUESTION_TITLES } from '../../utils/constants'
 import { ANSWERS_THUNKS } from '../../store/slices/admin/answers/answersThunk'
 import TestContainer from './TestContainer'
 import Loading from '../Loading'
 import Input from './Input'
-// import { showNotification } from '../../utils/helpers/notification'
 
 const TestQuestion = () => {
    const { answers, isLoading } = useSelector((state) => state.answersSlice)
-
-   const { evaluations } = useSelector((state) => state.submitedResultsSlice)
-   console.log(evaluations.answerResponses)
 
    const { answerId } = useParams()
 
@@ -24,8 +21,6 @@ const TestQuestion = () => {
    const navigate = useNavigate()
 
    const [scoreValue, setScoreValue] = useState('')
-
-   // const [isTestEvaluated, setIsTestEvaluated] = useState(false)
 
    const {
       score,
@@ -40,26 +35,19 @@ const TestQuestion = () => {
 
    const changeScoreValueHandler = (e) => setScoreValue(e.target.value)
 
-   // useEffect(() => {
-   //    const isEvaluated = evaluations.some(
-   //       (evaluations) => evaluations.status === 'EVALUATED'
-   //    )
-   //    setIsTestEvaluated(isEvaluated)
-   // }, [evaluations])
-
    useEffect(() => {
       dispatch(ANSWERS_THUNKS.getAnswers({ answerId }))
-   }, [dispatch, answerId])
+   }, [dispatch])
 
    const saveHandler = () => {
-      // if (isTestEvaluated) {
-      //    showNotification({
-      //       type: 'error',
-      //       message: 'This test has already been evaluated.',
-      //    })
-      // } else {
-      dispatch(ANSWERS_THUNKS.postResult({ answerId, scoreValue, navigate }))
-      // }
+      if (answers.status !== 'EVALUATED') {
+         dispatch(ANSWERS_THUNKS.postResult({ answerId, scoreValue, navigate }))
+      } else {
+         showNotification({
+            type: 'error',
+            message: 'This test has already been evaluated.',
+         })
+      }
    }
 
    const QuestionComponent = ADMIN_QUESTION_COMPONENTS[questionType]

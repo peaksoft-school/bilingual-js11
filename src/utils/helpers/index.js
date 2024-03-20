@@ -44,8 +44,8 @@ const questionTypeHandler = (type) => {
       case QUESTION_TITLES.DESCRIBE_IMAGE:
          return QUESTION_TYPES.DESCRIBE_IMAGE
 
-      case QUESTION_TITLES.SELECT_REAL_ENGLISH_WORDS:
-         return QUESTION_TYPES.SELECT_REAL_ENGLISH_WORDS
+      case QUESTION_TITLES.SELECT_REAL_ENGLISH_WORD:
+         return QUESTION_TYPES.SELECT_REAL_ENGLISH_WORD
 
       case QUESTION_TITLES.LISTEN_AND_SELECT_WORD:
          return QUESTION_TYPES.LISTEN_AND_SELECT_WORD
@@ -60,7 +60,7 @@ const questionTypeHandler = (type) => {
          return QUESTION_TYPES.HIGHLIGHTS_THE_ANSWER
 
       default:
-         return 'Nothing'
+         return 'Select the type'
    }
 }
 

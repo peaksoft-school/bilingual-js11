@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
 import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
 import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
@@ -11,6 +11,7 @@ import DeleteModal from '../../../components/UI/modals/DeleteModal'
 import SaveModal from '../../../components/UI/modals/SaveModal'
 import Button from '../../../components/UI/buttons/Button'
 import Option from '../../../components/UI/Option'
+import { OPTIONS_THUNKS } from '../../../store/slices/admin/options/optionsThunk'
 
 const SelectRealEnglish = ({
    title,
@@ -21,6 +22,12 @@ const SelectRealEnglish = ({
    setSelectType,
 }) => {
    const { options } = useSelector((state) => state.question)
+
+   const { optionResponses } = useSelector((state) => state.options.options)
+
+   const { state } = useLocation()
+
+   const id = optionResponses?.map((option) => option.optionId)
 
    const [optionId, setOptionId] = useState(null)
    const [optionTitle, setOptionTitle] = useState('')
@@ -42,6 +49,14 @@ const SelectRealEnglish = ({
 
    const navigateGoBackHandler = () => navigate(-1)
 
+   useEffect(() => {
+      if (state !== null) {
+         dispatch(OPTIONS_THUNKS.getOptions({ questionId: state?.id }))
+
+         setOptionId(id)
+      }
+   }, [dispatch, state])
+
    const toggleModal = (modalName) => {
       setModals((prevModals) => ({
          ...prevModals,
@@ -62,6 +77,19 @@ const SelectRealEnglish = ({
       toggleModal('delete')
    }
 
+   const deleteOptionHandler = () => {
+      if (state !== null) {
+         dispatch(
+            OPTIONS_THUNKS.deleteOption({
+               optionId,
+               questionId: state?.id,
+            })
+         )
+      }
+
+      toggleModal('delete')
+   }
+
    const checkedHandler = (id) => {
       dispatch(
          QUESTION_ACTIONS.handleIsChecked({
@@ -74,7 +102,7 @@ const SelectRealEnglish = ({
    const isDisabled =
       !selectType ||
       !duration ||
-      !title.trim() ||
+      !title ||
       options.selectRealEnglishWordsOptions?.length < 2
 
    const isDisabledModal = !optionTitle.trim()
@@ -94,25 +122,43 @@ const SelectRealEnglish = ({
             })),
          }
 
-         dispatch(
-            QUESTION_THUNKS.addTest({
-               requestData,
+         if (state === null) {
+            dispatch(
+               QUESTION_THUNKS.addTest({
+                  requestData,
 
-               data: {
-                  testId,
-                  questionType: QUESTION_TITLES.SELECT_REAL_ENGLISH_WORDS,
+                  data: {
+                     testId,
+                     questionType: QUESTION_TITLES.SELECT_REAL_ENGLISH_WORD,
+                     navigate,
+                  },
+
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
+
+                  clearOptions: QUESTION_ACTIONS,
+               })
+            )
+         } else {
+            dispatch(
+               QUESTION_THUNKS.updateQuestion({
+                  id: state.id,
+                  requestData,
                   navigate,
-               },
 
-               setStates: {
-                  setSelectType: setSelectType(selectType),
-                  setTitle: setTitle(title),
-                  setDuration: setDuration(duration),
-               },
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
 
-               clearOptions: QUESTION_ACTIONS,
-            })
-         )
+                  clearOptions: QUESTION_ACTIONS,
+               })
+            )
+         }
       }
    }
 
@@ -120,7 +166,7 @@ const SelectRealEnglish = ({
       const option = {
          optionTitle: optionTitle.trim(),
          isCorrectOption: checkedOption,
-         id: uuidv4(),
+         optionId: uuidv4(),
       }
 
       dispatch(
@@ -149,16 +195,29 @@ const SelectRealEnglish = ({
             </Box>
 
             <Box className="cards">
-               {options.selectRealEnglishWordsOptions?.map((option, i) => (
-                  <Option
-                     key={option.id}
-                     index={i}
-                     option={option}
-                     toggleModal={() => toggleModal('delete')}
-                     setOptionId={setOptionId}
-                     checkedHandler={checkedHandler}
-                  />
-               ))}
+               {state !== null
+                  ? optionResponses?.map((option, i) => (
+                       <Option
+                          key={option.optionId}
+                          index={i}
+                          deletion
+                          option={option}
+                          toggleModal={() => toggleModal('delete')}
+                          setOptionId={setOptionId}
+                          checkedHandler={checkedHandler}
+                       />
+                    ))
+                  : options.selectRealEnglishWordsOptions?.map((option, i) => (
+                       <Option
+                          key={option.optionId}
+                          index={i}
+                          deletion
+                          option={option}
+                          toggleModal={() => toggleModal('delete')}
+                          setOptionId={setOptionId}
+                          checkedHandler={checkedHandler}
+                       />
+                    ))}
             </Box>
 
             <Box className="buttons">
@@ -168,7 +227,7 @@ const SelectRealEnglish = ({
 
                <Button
                   variant="primary"
-                  disabled={isDisabled}
+                  disabled={state !== null ? null : isDisabled}
                   onClick={onSubmit}
                >
                   SAVE
@@ -180,7 +239,7 @@ const SelectRealEnglish = ({
             isCloseIcon
             isVisible={modals.delete}
             toggleModal={() => toggleModal('delete')}
-            deleteHandler={deleteHandler}
+            deleteHandler={state !== null ? deleteOptionHandler : deleteHandler}
          >
             <Typography className="title" variant="p">
                <Typography variant="span">Option: </Typography>

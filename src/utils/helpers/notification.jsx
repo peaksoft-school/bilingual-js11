@@ -71,7 +71,6 @@ const StyledTitle = styled(Typography)(() => ({
 const StyledMessage = styled(Typography)(() => ({
    marginTop: '0.5rem',
    width: '100%',
-   maxHeight: '50px',
    height: '100%',
    wordWrap: 'break-word',
    color: '#646464',

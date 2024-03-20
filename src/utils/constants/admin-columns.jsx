@@ -57,7 +57,7 @@ const ADMIN_COLUMNS = [
       accessor: 'action',
 
       Cell: ({ row }) => (
-         <AdminDeleteResults resultId={row.original.resultId} />
+         <AdminDeleteResults resultId={row.original.resultId} row={row} />
       ),
    },
 ]

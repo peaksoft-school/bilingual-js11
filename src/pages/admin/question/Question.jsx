@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,15 +8,20 @@ import TestContainer from '../../../components/UI/TestContainer'
 import TestType from '../../../components/TestType'
 import Dropdown from '../../../components/UI/Dropdown'
 import Input from '../../../components/UI/Input'
+import { questionTypeHandler } from '../../../utils/helpers'
 
 const Question = () => {
    const { options } = useSelector((state) => state.question)
 
    const dispatch = useDispatch()
 
-   const [title, setTitle] = useState('')
-   const [duration, setDuration] = useState(0)
-   const [selectType, setSelectType] = useState('')
+   const { state } = useLocation()
+
+   const [title, setTitle] = useState(state?.title || '')
+   const [duration, setDuration] = useState(state?.duration || 0)
+   const [selectType, setSelectType] = useState(
+      questionTypeHandler(state?.questionType) || ''
+   )
 
    const changeTitleHandler = (e) => setTitle(e.target.value)
 

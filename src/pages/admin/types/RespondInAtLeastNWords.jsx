@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useEffect, useState } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router'
 import { InputLabel, styled, Box } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
@@ -15,7 +15,9 @@ const RespondInAtLeastNWords = ({
    setDuration,
    setSelectType,
 }) => {
-   const { isLoading } = useSelector((state) => state.question)
+   const { isLoading, question } = useSelector((state) => state.question)
+
+   const { state } = useLocation()
 
    const [attempts, setAttempts] = useState(0)
    const [statement, setStatement] = useState('')
@@ -26,18 +28,41 @@ const RespondInAtLeastNWords = ({
 
    const navigate = useNavigate()
 
-   const statementChangeHandler = (e) => setStatement(e.target.value)
+   const statementChangeHandler = (e) => {
+      const { value } = e.target
 
-   const attemptsChangeHandler = (e) => setAttempts(e.target.value)
+      setStatement(value || '')
+   }
+
+   const attemptsChangeHandler = (e) => {
+      const { value } = e.target
+
+      setAttempts(value || '')
+   }
 
    const navigateGoBackHandler = () => navigate(-1)
+
+   useEffect(() => {
+      if (state !== null) {
+         dispatch(QUESTION_THUNKS.getQuestion({ id: state?.id }))
+      }
+   }, [dispatch, state])
+
+   useEffect(() => {
+      if (state !== null && question) {
+         setAttempts(question?.attempts)
+         setStatement(question?.statement)
+      }
+   }, [state, question])
 
    const isDisabled =
       !selectType ||
       !duration ||
-      !title.trim() ||
-      !statement.trim() ||
-      !attempts
+      !title ||
+      !statement ||
+      !attempts ||
+      (state === null &&
+         (!title.trim() || !attempts.trim() || !statement.trim()))
 
    const onSubmit = () => {
       if (
@@ -54,23 +79,39 @@ const RespondInAtLeastNWords = ({
             attempts: attempts.trim(),
          }
 
-         dispatch(
-            QUESTION_THUNKS.addTest({
-               requestData,
+         if (state === null) {
+            dispatch(
+               QUESTION_THUNKS.addTest({
+                  requestData,
 
-               data: {
-                  testId,
-                  questionType: QUESTION_TITLES.RESPOND_IN_AT_LEAST_N_WORDS,
+                  data: {
+                     testId,
+                     questionType: QUESTION_TITLES.RESPOND_IN_AT_LEAST_N_WORDS,
+                     navigate,
+                  },
+
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
+               })
+            )
+         } else {
+            dispatch(
+               QUESTION_THUNKS.updateQuestion({
+                  id: state.id,
+                  requestData,
                   navigate,
-               },
 
-               setStates: {
-                  setSelectType: setSelectType(selectType),
-                  setTitle: setTitle(title),
-                  setDuration: setDuration(duration),
-               },
-            })
-         )
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
+               })
+            )
+         }
       }
    }
 
@@ -79,7 +120,7 @@ const RespondInAtLeastNWords = ({
          <Box>
             <InputLabel>Question statement</InputLabel>
 
-            <Input value={statement} onChange={statementChangeHandler} />
+            <Input value={statement || ''} onChange={statementChangeHandler} />
          </Box>
 
          <Box>
@@ -91,7 +132,7 @@ const RespondInAtLeastNWords = ({
             <Input
                className="input-number"
                type="number"
-               value={attempts}
+               value={attempts || ''}
                onChange={attemptsChangeHandler}
                inputProps={{ min: 0, max: 15 }}
             />
@@ -109,7 +150,7 @@ const RespondInAtLeastNWords = ({
                disabled={isDisabled}
                loadingColor="secondary"
             >
-               SAVE
+               {state !== null ? 'UPDATE' : 'SAVE'}
             </Button>
          </Box>
       </StyledContainer>

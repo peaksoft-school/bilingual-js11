@@ -59,7 +59,14 @@ const Questions = () => {
 
    const navigateHandler = () => {
       navigate(
-         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/${testId}/${ROUTES.ADMIN.CREATE_QUESTION}`
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}/${ROUTES.ADMIN.CREATE_QUESTION}`
+      )
+   }
+
+   const navigateEditHandler = (question) => {
+      navigate(
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}/${ROUTES.ADMIN.UPDATE_QUESTION}`,
+         { state: question }
       )
    }
 
@@ -142,54 +149,56 @@ const Questions = () => {
             </StyledTable>
 
             {test && test?.question?.length > 0 ? (
-               test?.question?.map(
-                  ({ id, title, duration, questionType, enable }, i) =>
-                     isLoading ? (
-                        <Skeleton
-                           key={id}
-                           variant="rounded"
-                           width={900}
-                           height={66}
-                           animation="wave"
-                           className="skeleton-questions"
-                        />
-                     ) : (
-                        <StyledBox key={id}>
-                           <Typography className="numbering">
-                              {i + 1}
-                           </Typography>
+               test?.question?.map((item, index) =>
+                  isLoading ? (
+                     <Skeleton
+                        key={item.id}
+                        variant="rounded"
+                        width={900}
+                        height={66}
+                        animation="wave"
+                        className="skeleton-questions"
+                     />
+                  ) : (
+                     <StyledBox key={item.id}>
+                        <Typography className="numbering">
+                           {index + 1}
+                        </Typography>
 
-                           <Typography className="name-props">
-                              {title}
-                           </Typography>
+                        <Typography className="name-props">
+                           {item.title}
+                        </Typography>
 
-                           <Typography className="duration-props">
-                              {duration} s
-                           </Typography>
+                        <Typography className="duration-props">
+                           {item.duration} s
+                        </Typography>
 
-                           <Typography className="question-type-props">
-                              {questionTypeHandler(questionType)}
-                           </Typography>
+                        <Typography className="question-type-props">
+                           {questionTypeHandler(item.questionType)}
+                        </Typography>
 
-                           <Box className="icons">
-                              <Switcher
-                                 key={id}
-                                 className="switcher"
-                                 checked={enable}
-                                 onChange={(value) =>
-                                    enableHandler({ value, id })
-                                 }
-                              />
+                        <Box className="icons">
+                           <Switcher
+                              key={item.id}
+                              className="switcher"
+                              checked={item.enable}
+                              onChange={(value) =>
+                                 enableHandler({ value, id: item.id })
+                              }
+                           />
 
-                              <EditIcon className="edit" />
+                           <EditIcon
+                              className="edit"
+                              onClick={() => navigateEditHandler(item)}
+                           />
 
-                              <TrashIcon
-                                 className="delete"
-                                 onClick={() => toggleModal(id)}
-                              />
-                           </Box>
-                        </StyledBox>
-                     )
+                           <TrashIcon
+                              className="delete"
+                              onClick={() => toggleModal(item.id)}
+                           />
+                        </Box>
+                     </StyledBox>
+                  )
                )
             ) : (
                <Box className="no-data-image">
