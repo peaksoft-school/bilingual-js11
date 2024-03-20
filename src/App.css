@@ -190,3 +190,9 @@
       transform: rotateY(0deg);
    }
 }
+
+
+h1 {
+   color: #000;
+   cursor: pointer;
+}

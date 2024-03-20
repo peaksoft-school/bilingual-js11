@@ -29,6 +29,8 @@ const SelectRealEnglishWords = ({ questions, nextHandler }) => {
       dispatch(PRACTICE_TEST_ACTIONS.clearCorrectOption())
    }
 
+   const isDisabled = correctOptions.length === 0
+
    return (
       <StyledContainer>
          <Typography variant="h5" className="title">
@@ -40,7 +42,9 @@ const SelectRealEnglishWords = ({ questions, nextHandler }) => {
          </Box>
 
          <Box className="button-container">
-            <Button onClick={onSubmit}>NEXT</Button>
+            <Button onClick={onSubmit} disabled={isDisabled}>
+               NEXT
+            </Button>
          </Box>
       </StyledContainer>
    )

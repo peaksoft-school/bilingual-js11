@@ -1,18 +1,19 @@
 import { useState, useEffect, useCallback } from 'react'
 
-const useTimer = (duration, timeIsUp, count) => {
-   const [time, setTime] = useState(duration)
+const useTimer = (durationInMinutes, timeIsUp, count) => {
+   const durationInSeconds = durationInMinutes * 60
+   const [time, setTime] = useState(durationInSeconds)
    const [percent, setPercent] = useState(0)
 
    useEffect(() => {
-      setTime(duration)
-   }, [duration, count])
+      setTime(durationInSeconds)
+   }, [durationInSeconds, count])
 
    const calculatePercentage = useCallback(() => {
-      const percent = (1 - time / duration) * 100
+      const percent = (1 - time / durationInSeconds) * 100
 
       setPercent(percent)
-   }, [duration, time])
+   }, [durationInSeconds, time])
 
    useEffect(() => {
       calculatePercentage()
@@ -35,13 +36,13 @@ const useTimer = (duration, timeIsUp, count) => {
       }, interval)
 
       return () => clearInterval(timer)
-   }, [duration, timeIsUp])
+   }, [durationInSeconds, timeIsUp])
 
    const minutes = Math.floor(time / 60)
    const seconds = Math.floor(time % 60)
 
    const timeObject = {
-      minute: minutes.toString().padStart(2, '0'),
+      minute: minutes.toString(),
       seconds: seconds.toString().padStart(2, '0'),
       percent,
    }

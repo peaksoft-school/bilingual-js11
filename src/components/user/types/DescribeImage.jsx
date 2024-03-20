@@ -6,7 +6,7 @@ import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSl
 import TextArea from '../../UI/TextArea'
 
 const DescribeImage = ({ questions, nextHandler }) => {
-   const [description, setDescription] = useState()
+   const [description, setDescription] = useState('')
 
    const dispatch = useDispatch()
 
@@ -43,7 +43,7 @@ const DescribeImage = ({ questions, nextHandler }) => {
                   placeholder="Your response"
                   value={description}
                   rows={6}
-                  onChange={changeDescriptionHandler}
+                  handleChange={changeDescriptionHandler}
                />
             </Box>
          </Box>
@@ -51,7 +51,7 @@ const DescribeImage = ({ questions, nextHandler }) => {
          <Box className="button-box">
             <Button
                className="button"
-               disabled={description}
+               disabled={!description}
                onClick={onSubmit}
             >
                NEXT

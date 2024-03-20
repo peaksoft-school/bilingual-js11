@@ -1,15 +1,26 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Howl, Howler } from 'howler'
 import { Box, Typography, styled } from '@mui/material'
 import { AnimationSoundIcon, CheckIcon, SoundIcon } from '../../../assets/icons'
+import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSlice'
 import Button from '../../UI/buttons/Button'
 
 const ListenAndSelectWord = ({ questions, nextHandler }) => {
    const options = questions?.optionResponses
 
-   const [selectedOptions, setSelectedOptions] = useState([])
+   const [optionState, setOptionState] = useState({})
 
-   const stopSoundHandler = (id) => Howler.stop(id)
+   const dispatch = useDispatch()
+
+   const stopSoundHandler = (id) => {
+      Howler.stop()
+
+      setOptionState((prevState) => ({
+         ...prevState,
+         [id]: { ...prevState[id], isPlaying: false },
+      }))
+   }
 
    const startSoundHandler = (fileUrl, id) => {
       stopSoundHandler(id)
@@ -17,26 +28,73 @@ const ListenAndSelectWord = ({ questions, nextHandler }) => {
       const sound = new Howl({
          src: fileUrl,
          html5: true,
+         onend: () => {
+            setOptionState((prevState) => ({
+               ...prevState,
+               [id]: { ...prevState[id], isPlaying: false },
+            }))
+         },
+
+         onplay: () => {
+            setOptionState((prevState) => ({
+               ...prevState,
+               [id]: { ...prevState[id], isPlaying: true },
+            }))
+         },
+
+         onstop: () => {
+            setOptionState((prevState) => ({
+               ...prevState,
+               [id]: { ...prevState[id], isPlaying: false },
+            }))
+         },
       })
       sound.play()
+
+      setOptionState((prevState) => ({
+         ...prevState,
+         [id]: { ...prevState[id], howl: sound, isPlaying: true },
+      }))
    }
 
-   const toggleOption = (id) => {
-      if (selectedOptions.includes(id)) {
-         setSelectedOptions(
-            selectedOptions.filter((optionId) => optionId !== id)
-         )
-      } else {
-         setSelectedOptions([...selectedOptions, id])
-      }
+   const toggleCheckboxHandler = (id) => {
+      setOptionState((prev) => {
+         const isChecked = !prev?.[id]?.isChecked
+
+         const newState = {
+            ...prev,
+            [id]: {
+               id,
+               isChecked,
+            },
+         }
+
+         return newState
+      })
    }
 
-   const isDisabled = selectedOptions.length === 0
+   const isDisabled = !Object.values(optionState).find(
+      (option) => option.isChecked
+   )
 
    const onSubmit = () => {
-      nextHandler()
-   }
+      const selectedOptions = Object.values(optionState).filter(
+         (option) => option.isChecked
+      )
 
+      const answerData = {
+         attempts: 0,
+         input: '',
+         audioFile: '',
+         optionId: selectedOptions.map((option) => option.id),
+         questionID: questions.questionId,
+      }
+      dispatch(PRACTICE_TEST_ACTIONS.addCorrectAnswer(answerData))
+
+      nextHandler()
+
+      dispatch(PRACTICE_TEST_ACTIONS.clearCorrectOption())
+   }
    return (
       <StyledContainer>
          <Typography className="title">
@@ -48,10 +106,10 @@ const ListenAndSelectWord = ({ questions, nextHandler }) => {
                <Box
                   key={id}
                   className={`option ${
-                     selectedOptions.includes(id) ? 'selected' : ''
+                     optionState[id]?.isChecked ? 'selected' : ''
                   }`}
                >
-                  {selectedOptions.includes(id) ? (
+                  {optionState[id]?.isPlaying ? (
                      <AnimationSoundIcon
                         onClick={() => stopSoundHandler(id)}
                         className="animation-sound"
@@ -62,14 +120,12 @@ const ListenAndSelectWord = ({ questions, nextHandler }) => {
                         className="sound"
                      />
                   )}
-
                   <Typography className="text">{optionTitle}</Typography>
-
                   <Box
                      className={`checkbox ${
-                        selectedOptions.includes(id) ? 'checked' : ''
+                        optionState[id]?.isChecked ? 'checked' : ''
                      }`}
-                     onClick={() => toggleOption(id)}
+                     onClick={() => toggleCheckboxHandler(id)}
                   >
                      <CheckIcon />
                   </Box>

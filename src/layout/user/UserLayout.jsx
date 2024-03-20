@@ -40,7 +40,7 @@ const StyledContainer = styled(Box)(({ should }) => ({
 
    '& > .content': {
       paddingTop: should === 'true' ? '0' : '5rem',
-      paddingBottom: should === 'true' ? '0' : '5rem',
+      paddingBottom: '5rem',
       overflowY: 'auto',
       background: '#D7E1F8',
       height: '100vh',

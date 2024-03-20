@@ -2,13 +2,13 @@ import { Box, Typography, styled } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
+import { PRACTICE_TEST_ACTIONS } from '../../store/slices/user/practiceTestSlice'
 import { PRACTICE_TEST_THUNKS } from '../../store/slices/user/practiceTestThunk'
 import { QUESTION_COMPONENTS } from '../../utils/constants/questionComponents'
-import ProgressBar from '../../components/UI/ProgressBar'
-import TestContainer from '../../components/UI/TestContainer'
 import { ROUTES } from '../../routes/routes'
+import TestContainer from '../../components/UI/TestContainer'
+import ProgressBar from '../../components/UI/ProgressBar'
 import Button from '../../components/UI/buttons/Button'
-import { PRACTICE_TEST_ACTIONS } from '../../store/slices/user/practiceTestSlice'
 import Modal from '../../components/UI/modals/Modal'
 
 const PracticeTest = () => {
@@ -48,7 +48,7 @@ const PracticeTest = () => {
 
       dispatch(PRACTICE_TEST_ACTIONS.addCorrectAnswer(answerDate))
 
-      // setCount((prevCount) => prevCount + 1)
+      setCount((prevCount) => prevCount + 1)
 
       if (lastQuestion) {
          navigate(
