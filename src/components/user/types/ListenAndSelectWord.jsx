@@ -8,7 +8,6 @@ const ListenAndSelectWord = ({ questions, nextHandler }) => {
    const options = questions?.optionResponses
 
    const [selectedOptions, setSelectedOptions] = useState([])
-   // console.log(selectedOptions, 'setSelectedOptions')
 
    const stopSoundHandler = (id) => Howler.stop(id)
 

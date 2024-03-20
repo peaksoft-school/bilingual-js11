@@ -29,7 +29,7 @@ const questionSlice = createSlice({
       },
 
       addOptionRadio: (state, { payload }) => {
-         const isFirstOption = state.options[payload.optionName]?.length === 0
+         const isFirstOption = state.options[payload?.optionName]?.length === 0
 
          const newOption = {
             ...payload.option,
@@ -42,13 +42,13 @@ const questionSlice = createSlice({
          ]
 
          state.options[payload?.optionName] = state.options[
-            payload.optionName
+            payload?.optionName
          ].map((option) => {
-            if (payload.option.isCorrectOption) {
-               if (payload.option.id === option.id) {
+            if (payload.option?.isCorrectOption) {
+               if (payload?.option?.id === option?.id) {
                   return {
                      ...option,
-                     isCorrectOption: payload.option.isCorrectOption,
+                     isCorrectOption: payload?.option?.isCorrectOption,
                   }
                }
 

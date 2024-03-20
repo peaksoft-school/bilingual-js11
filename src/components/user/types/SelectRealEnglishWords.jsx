@@ -68,13 +68,15 @@ const StyledContainer = styled(Box)(() => ({
       flexWrap: 'wrap',
    },
 
-   '& .button-container': {
-      display: 'flex',
-      justifyContent: 'flex-end',
-      maxwidth: '10rem',
+   '& > .button-container': {
       width: '100%',
-      borderTop: '1px solid #959597',
-      borderRadius: '0.1rem',
-      padding: '3rem 0 0 0 ',
+      display: 'flex',
+      justifyContent: 'end',
+      borderTop: '0.0956rem solid #D4D0D0',
+      padding: '2rem 0 0 0 ',
+
+      '& .MuiButtonBase-root': {
+         padding: '12px 54px',
+      },
    },
 }))

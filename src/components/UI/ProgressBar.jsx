@@ -1,20 +1,8 @@
-import { useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
 import useTimer from '../../hooks/useTimer'
 
-const ProgressBar = ({ duration, timeIsUp, count, lastQuestionHandler }) => {
-   const { questions } = useSelector((state) => state.practiceTest)
-
+const ProgressBar = ({ duration, timeIsUp, count }) => {
    const { minute, seconds, percent } = useTimer(duration, timeIsUp, count)
-
-   // Проверяем, достигли ли мы последней минуты последнего вопроса
-   const isLastMinute =
-      minute === 0 && seconds === 0 && count === questions.length - 1
-
-   // Если это последняя минута последнего вопроса, вызываем lastQuestionHandler
-   if (isLastMinute) {
-      lastQuestionHandler()
-   }
 
    return (
       <StyledContainer>

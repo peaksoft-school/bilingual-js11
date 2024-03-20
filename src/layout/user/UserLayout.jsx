@@ -1,7 +1,7 @@
 import { Box, styled } from '@mui/material'
 import { Outlet, useLocation, useParams } from 'react-router-dom'
-import Header from '../Header'
 import { ROUTES } from '../../routes/routes'
+import Header from '../Header'
 
 const UserLayout = () => {
    const location = useLocation()
@@ -18,7 +18,7 @@ const UserLayout = () => {
       <>
          {!shouldHideHeader && <Header />}
 
-         <StyledContainer>
+         <StyledContainer should={shouldHideHeader.toString()}>
             <Box className="content">
                <Outlet />
             </Box>
@@ -29,7 +29,7 @@ const UserLayout = () => {
 
 export default UserLayout
 
-const StyledContainer = styled(Box)(() => ({
+const StyledContainer = styled(Box)(({ should }) => ({
    position: 'fixed',
    top: 0,
    left: 0,
@@ -39,8 +39,8 @@ const StyledContainer = styled(Box)(() => ({
    background: '#D7E1F8',
 
    '& > .content': {
-      paddingTop: '5rem',
-      paddingBottom: '5rem',
+      paddingTop: should === 'true' ? '0' : '5rem',
+      paddingBottom: should === 'true' ? '0' : '5rem',
       overflowY: 'auto',
       background: '#D7E1F8',
       height: '100vh',

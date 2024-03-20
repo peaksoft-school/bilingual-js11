@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from 'react'
 
 const useTimer = (duration, timeIsUp, count) => {
    const [time, setTime] = useState(duration)
-
    const [percent, setPercent] = useState(0)
 
    useEffect(() => {
@@ -11,6 +10,7 @@ const useTimer = (duration, timeIsUp, count) => {
 
    const calculatePercentage = useCallback(() => {
       const percent = (1 - time / duration) * 100
+
       setPercent(percent)
    }, [duration, time])
 
@@ -19,18 +19,20 @@ const useTimer = (duration, timeIsUp, count) => {
    }, [calculatePercentage])
 
    useEffect(() => {
-      const timer = setInterval(() => {
+      let timer = null
+
+      const interval = 1000
+
+      timer = setInterval(() => {
          setTime((prevTime) => {
             if (prevTime <= 0) {
                clearInterval(timer)
-
                timeIsUp()
                return 0
             }
-
-            return prevTime - 0.1
+            return prevTime - 1
          })
-      }, 100)
+      }, interval)
 
       return () => clearInterval(timer)
    }, [duration, timeIsUp])

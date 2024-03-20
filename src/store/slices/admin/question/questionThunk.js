@@ -85,7 +85,7 @@ const addQuestion = createAsyncThunk(
             `/api/question?testId=${testId}&questionType=${questionType}`
          )
          showNotification({
-            message: 'Question successfully added',
+            message: `${response.data.message}`,
          })
 
          navigate(
@@ -118,7 +118,7 @@ const deleteQuestion = createAsyncThunk(
 
          showNotification({
             title: 'Success',
-            message: 'Question successfully deleted',
+            message: `${response.data.message}`,
             type: 'success',
          })
 
@@ -143,6 +143,8 @@ const updateQuestionByEnable = createAsyncThunk(
          const response = await axiosInstance.patch(
             `/api/question/IsEnable?questionId=${questionId}&isEnable=${isEnable}`
          )
+
+         showNotification({ message: `${response.data.message}` })
 
          dispatch(TESTS_THUNKS.getTest({ testId }))
 
