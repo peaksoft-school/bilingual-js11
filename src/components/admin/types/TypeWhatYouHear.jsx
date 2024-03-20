@@ -5,8 +5,8 @@ import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { PauseIcon, PlayIcon } from '../../../assets/icons'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
-import Button from '../../../components/UI/buttons/Button'
-import Input from '../../../components/UI/Input'
+import Button from '../../UI/buttons/Button'
+import Input from '../../UI/Input'
 
 const TypeWhatYouHear = ({
    title,
@@ -20,7 +20,7 @@ const TypeWhatYouHear = ({
 
    const [file, setFile] = useState('')
    const [fileName, setFileName] = useState('')
-   const [attempts, setAttempts] = useState(0)
+   const [attempts, setAttempts] = useState(1)
    const [isPlaying, setIsPlaying] = useState(false)
    const [correctAnswer, setCorrectAnswer] = useState('')
 
@@ -34,7 +34,13 @@ const TypeWhatYouHear = ({
 
    const navigateGoBackHandler = () => navigate(-1)
 
-   const attemptsChangeHandler = (e) => setAttempts(e.target.value)
+   const attemptsChangeHandler = (e) => {
+      const newValue = e.target.value.replace(/\D/g, '')
+
+      const limitedValue = newValue.slice(0, 2)
+
+      setAttempts(limitedValue)
+   }
 
    const correctAnswerChangeHandler = (e) => setCorrectAnswer(e.target.value)
 
@@ -66,14 +72,7 @@ const TypeWhatYouHear = ({
       }
    }
 
-   const isDisabled =
-      !selectType ||
-      !duration ||
-      !title.trim() ||
-      !correctAnswer.trim() ||
-      !attempts ||
-      !file ||
-      !fileUrl
+   const endedHandler = () => setIsPlaying(false)
 
    const onSubmit = () => {
       if (
@@ -112,6 +111,15 @@ const TypeWhatYouHear = ({
       }
    }
 
+   const isDisabled =
+      !selectType ||
+      !duration ||
+      !title.trim() ||
+      !correctAnswer.trim() ||
+      !attempts ||
+      !file ||
+      !fileUrl
+
    return (
       <StyledContainer>
          <Box className="content">
@@ -128,6 +136,7 @@ const TypeWhatYouHear = ({
                   inputProps={{ min: 0, max: 15 }}
                   value={attempts}
                   onChange={attemptsChangeHandler}
+                  autoComplete="off"
                />
             </Box>
 
@@ -145,6 +154,7 @@ const TypeWhatYouHear = ({
                   accept="audio/mp3"
                   onChange={changeFileHandler}
                />
+
                {file && (
                   <button
                      type="button"
@@ -154,14 +164,17 @@ const TypeWhatYouHear = ({
                      {isPlaying ? <PlayIcon /> : <PauseIcon />}
                   </button>
                )}
+
                <Typography variant="span" className="file-name">
                   {fileName}
                </Typography>
+
                <audio
                   className="audio"
                   ref={audioRef}
                   type="audio/mp3"
                   controls
+                  onEnded={endedHandler}
                >
                   <track
                      src="captions_en.vtt"
@@ -180,6 +193,7 @@ const TypeWhatYouHear = ({
                name="correctAnswer"
                value={correctAnswer}
                onChange={correctAnswerChangeHandler}
+               autoComplete="off"
             />
          </Box>
 

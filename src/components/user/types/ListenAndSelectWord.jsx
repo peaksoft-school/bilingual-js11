@@ -1,50 +1,17 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Howl, Howler } from 'howler'
 import { Box, Typography, styled } from '@mui/material'
 import { AnimationSoundIcon, CheckIcon, SoundIcon } from '../../../assets/icons'
-import TestContainer from '../../../components/UI/TestContainer'
-import ProgressBar from '../../../components/UI/ProgressBar'
-import Button from '../../../components/UI/buttons/Button'
+import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSlice'
+import Button from '../../UI/buttons/Button'
 
-const OPTIONS = [
-   {
-      id: 1,
-      title: 'Word 1',
-      fileUrl:
-         'http://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg',
-   },
-   {
-      id: 2,
-      title: 'Word 2',
-      fileUrl:
-         'http://commondatastorage.googleapis.com/codeskulptor-assets/week7-brrring.m4a',
-   },
-   {
-      id: 3,
-      title: 'Word 3',
-      fileUrl:
-         'http://codeskulptor-demos.commondatastorage.googleapis.com/pang/paza-moduless.mp3',
-   },
-   {
-      id: 4,
-      title: 'Word 4',
-      fileUrl:
-         'http://codeskulptor-demos.commondatastorage.googleapis.com/descent/gotitem.mp3',
-   },
-   {
-      id: 5,
-      title: 'Word 5',
-      fileUrl: 'https://rpg.hamsterrepublic.com/wiki-images/d/d7/Oddbounce.ogg',
-   },
-   {
-      id: 6,
-      title: 'Word 5',
-      fileUrl: 'https://rpg.hamsterrepublic.com/wiki-images/d/d7/Oddbounce.ogg',
-   },
-]
+const ListenAndSelectWord = ({ questions, nextHandler }) => {
+   const options = questions?.optionResponses
 
-const ListenAndSelectWord = () => {
    const [optionState, setOptionState] = useState({})
+
+   const dispatch = useDispatch()
 
    const stopSoundHandler = (id) => {
       Howler.stop()
@@ -110,56 +77,68 @@ const ListenAndSelectWord = () => {
       (option) => option.isChecked
    )
 
+   const onSubmit = () => {
+      const selectedOptions = Object.values(optionState).filter(
+         (option) => option.isChecked
+      )
+
+      const answerData = {
+         attempts: 0,
+         input: '',
+         audioFile: '',
+         optionId: selectedOptions.map((option) => option.id),
+         questionID: questions.questionId,
+      }
+      dispatch(PRACTICE_TEST_ACTIONS.addCorrectAnswer(answerData))
+
+      nextHandler()
+
+      dispatch(PRACTICE_TEST_ACTIONS.clearCorrectOption())
+   }
    return (
-      <TestContainer>
-         <StyledContainer>
-            <ProgressBar duration={2} minutes={30} seconds={10} />
+      <StyledContainer>
+         <Typography className="title">
+            Select the real English words in this list
+         </Typography>
 
-            <Typography className="title">
-               Select the real English words in this list
-            </Typography>
-
-            <Box className="options-box">
-               {OPTIONS.map(({ id, fileUrl, title }) => (
+         <Box className="options-box">
+            {options.map(({ id, fileUrl, optionTitle }) => (
+               <Box
+                  key={id}
+                  className={`option ${
+                     optionState[id]?.isChecked ? 'selected' : ''
+                  }`}
+               >
+                  {optionState[id]?.isPlaying ? (
+                     <AnimationSoundIcon
+                        onClick={() => stopSoundHandler(id)}
+                        className="animation-sound"
+                     />
+                  ) : (
+                     <SoundIcon
+                        onClick={() => startSoundHandler(fileUrl, id)}
+                        className="sound"
+                     />
+                  )}
+                  <Typography className="text">{optionTitle}</Typography>
                   <Box
-                     key={id}
-                     className={`option ${
-                        optionState[id]?.isChecked ? 'selected' : ''
+                     className={`checkbox ${
+                        optionState[id]?.isChecked ? 'checked' : ''
                      }`}
+                     onClick={() => toggleCheckboxHandler(id)}
                   >
-                     {optionState[id]?.isPlaying ? (
-                        <AnimationSoundIcon
-                           onClick={() => stopSoundHandler(id)}
-                           className="animation-sound"
-                        />
-                     ) : (
-                        <SoundIcon
-                           onClick={() => startSoundHandler(fileUrl, id)}
-                           className="sound"
-                        />
-                     )}
-
-                     <Typography className="text">{title}</Typography>
-
-                     <Box
-                        className={`checkbox ${
-                           optionState[id]?.isChecked ? 'checked' : ''
-                        }`}
-                        onClick={() => toggleCheckboxHandler(id)}
-                     >
-                        <CheckIcon />
-                     </Box>
+                     <CheckIcon />
                   </Box>
-               ))}
-            </Box>
+               </Box>
+            ))}
+         </Box>
 
-            <Box className="line" />
+         <Box className="line" />
 
-            <Button className="button" disabled={isDisabled}>
-               NEXT
-            </Button>
-         </StyledContainer>
-      </TestContainer>
+         <Button className="button" disabled={isDisabled} onClick={onSubmit}>
+            NEXT
+         </Button>
+      </StyledContainer>
    )
 }
 

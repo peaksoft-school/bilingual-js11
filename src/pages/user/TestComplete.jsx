@@ -1,18 +1,47 @@
-import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router'
+import { useState, useEffect } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { CompleteIcon, LogoIcon } from '../../assets/icons'
 import ConfettiAnimation from '../../components/ConfettiAnimation'
 import TestContainer from '../../components/UI/TestContainer'
 import Button from '../../components/UI/buttons/Button'
+import { PRACTICE_TEST_THUNKS } from '../../store/slices/user/practiceTestThunk'
+import { PRACTICE_TEST_ACTIONS } from '../../store/slices/user/practiceTestSlice'
 
 const TestComplete = () => {
+   const { correctAnswer } = useSelector((state) => state.practiceTest)
+
    const [showConfetti, setShowConfetti] = useState(false)
+
+   const dispatch = useDispatch()
+
+   const navigate = useNavigate()
 
    const doneButtonClickHandler = () => setShowConfetti(true)
 
+   useEffect(() => {
+      doneButtonClickHandler()
+
+      const timeout = setTimeout(() => {
+         setShowConfetti(false)
+      }, 6000)
+
+      return () => clearTimeout(timeout)
+   }, [])
+
+   const navigateHandler = () => {
+      dispatch(PRACTICE_TEST_ACTIONS.clearCorrectAnswer())
+      navigate(-2)
+   }
+
+   const onSubmit = () => {
+      dispatch(PRACTICE_TEST_THUNKS.postTest({ correctAnswer, navigate }))
+   }
+
    return (
       <TestContainer>
-         <StyledContainer>
+         <StyledContainer active={showConfetti.toString()}>
             <Box className="title-box">
                <Typography className="title">Test is complete!</Typography>
 
@@ -23,22 +52,28 @@ const TestComplete = () => {
                <LogoIcon className="icon" />
 
                <Typography className="message">
-                  Your results were sent for evaluation proccess. <br />
+                  Your results were sent for evaluation process. <br />
                   After evaluation your results will be sent to your email.
                </Typography>
             </Box>
 
             <Box className="buttons-box">
-               <Button variant="secondary" className="try-again">
+               <Button
+                  variant="secondary"
+                  className="try-again"
+                  onClick={navigateHandler}
+               >
                   TRY AGAIN
                </Button>
 
-               <Button className="done" onClick={doneButtonClickHandler}>
+               <Button className="done" onClick={onSubmit}>
                   DONE
                </Button>
             </Box>
 
-            <ConfettiAnimation active={showConfetti} />
+            <Box className="confetti-wrapper">
+               <ConfettiAnimation active={showConfetti} />
+            </Box>
          </StyledContainer>
       </TestContainer>
    )
@@ -46,7 +81,7 @@ const TestComplete = () => {
 
 export default TestComplete
 
-const StyledContainer = styled(Box)(() => ({
+const StyledContainer = styled(Box)(({ active }) => ({
    fontFamily: 'Poppins',
 
    '& > .title-box': {
@@ -96,5 +131,10 @@ const StyledContainer = styled(Box)(() => ({
       '& > .done, .try-again': {
          width: '9.25rem',
       },
+   },
+
+   '& .confetti-wrapper': {
+      opacity: active === 'true' ? 0 : 1,
+      transition: 'opacity 7s ease-in-out',
    },
 }))

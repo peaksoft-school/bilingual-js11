@@ -1,36 +1,36 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { MY_RESULTS_THUNK } from './resultsThunk'
+import { MY_RESULTS_THUNKS } from './resultsThunk'
 
 const initialState = {
    results: [],
    isLoading: false,
 }
 
-export const resultsSlice = createSlice({
+const resultsSlice = createSlice({
    name: 'resultsSlice',
    initialState,
    reducers: {},
 
    extraReducers: (builder) => {
       builder
-         .addCase(MY_RESULTS_THUNK.getResults.pending, (state) => {
+         .addCase(MY_RESULTS_THUNKS.getResults.pending, (state) => {
             state.isLoading = true
          })
 
-         .addCase(MY_RESULTS_THUNK.getResults.fulfilled, (state, action) => {
+         .addCase(MY_RESULTS_THUNKS.getResults.fulfilled, (state, action) => {
             state.results = action.payload
             state.isLoading = false
          })
 
-         .addCase(MY_RESULTS_THUNK.getResults.rejected, (state) => {
+         .addCase(MY_RESULTS_THUNKS.getResults.rejected, (state) => {
             state.isLoading = false
          })
 
-         .addCase(MY_RESULTS_THUNK.deleteResults.pending, (state) => {
+         .addCase(MY_RESULTS_THUNKS.deleteResult.pending, (state) => {
             state.isLoading = true
          })
 
-         .addCase(MY_RESULTS_THUNK.deleteResults.fulfilled, (state, action) => {
+         .addCase(MY_RESULTS_THUNKS.deleteResult.fulfilled, (state, action) => {
             state.isLoading = false
 
             state.results = state.results.filter(
@@ -38,10 +38,12 @@ export const resultsSlice = createSlice({
             )
          })
 
-         .addCase(MY_RESULTS_THUNK.deleteResults.rejected, (state) => {
+         .addCase(MY_RESULTS_THUNKS.deleteResult.rejected, (state) => {
             state.isLoading = false
          })
    },
 })
 
-export default resultsSlice.reducer
+const RESULTS_ACTIONS = resultsSlice.actions
+
+export { resultsSlice, RESULTS_ACTIONS }

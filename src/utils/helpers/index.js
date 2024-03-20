@@ -30,6 +30,44 @@ const showErrorSignIn = (errors) => {
    return errorMessage
 }
 
+const showErrorForgotPassword = (errors) => {
+   let errorMessage = null
+
+   if (Object.keys(errors).length > 1) {
+      errorMessage = 'Please fill in the field!'
+   } else if (errors?.email) {
+      errorMessage = `Incorrect ${errors.email}`
+   } else if (errors?.uniqueIdentifier) {
+      errorMessage = `Incorrect ${errors.uniqueIdentifier}`
+   }
+
+   return errorMessage
+}
+
+const showErrorVerification = (errors) => {
+   let errorMessage = null
+
+   if (Object.keys(errors).length > 1) {
+      errorMessage = 'Please fill in the field!'
+   } else if (errors?.uniqueIdentifier) {
+      errorMessage = `Incorrect ${errors.uniqueIdentifier}`
+   }
+
+   return errorMessage
+}
+
+const showErrorChangePassword = (errors) => {
+   let errorMessage = null
+
+   if (Object.keys(errors).length > 1) {
+      errorMessage = 'Please fill in the field!'
+   } else if (errors?.newPassword !== errors?.confirmPassword) {
+      errorMessage = 'New password and confirm password do not match'
+   }
+
+   return errorMessage
+}
+
 const questionTypeHandler = (type) => {
    switch (type) {
       case QUESTION_TITLES.SELECT_MAIN_IDEA:
@@ -80,6 +118,9 @@ const resultsStatusHandler = (status) => {
 export {
    showErrorSignUp,
    showErrorSignIn,
+   showErrorForgotPassword,
+   showErrorVerification,
+   showErrorChangePassword,
    questionTypeHandler,
    resultsStatusHandler,
 }

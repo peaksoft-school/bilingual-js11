@@ -9,7 +9,7 @@ import { ROUTES } from '../../../routes/routes'
 import DeleteModal from '../../UI/modals/DeleteModal'
 import Switcher from '../../UI/Switcher'
 
-const TestList = () => {
+const AdminTestList = () => {
    const { tests, isLoading } = useSelector((state) => state.tests)
 
    const dispatch = useDispatch()
@@ -128,7 +128,7 @@ const TestList = () => {
    )
 }
 
-export default TestList
+export default AdminTestList
 
 const StyledContainer = styled(Box)(() => ({
    '& > .no-data-image': {

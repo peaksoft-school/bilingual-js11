@@ -7,10 +7,10 @@ import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
 import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { PlusIcon } from '../../../assets/icons'
-import DeleteModal from '../../../components/UI/modals/DeleteModal'
-import SaveModal from '../../../components/UI/modals/SaveModal'
-import Option from '../../../components/UI/Option'
-import Button from '../../../components/UI/buttons/Button'
+import DeleteModal from '../../UI/modals/DeleteModal'
+import SaveModal from '../../UI/modals/SaveModal'
+import Option from '../../UI/Option'
+import Button from '../../UI/buttons/Button'
 
 const SelectTheBestTitle = ({
    title,
@@ -152,6 +152,7 @@ const SelectTheBestTitle = ({
                onChange={textAreaChangeHandler}
                multiline
                fullWidth
+               autoComplete="off"
             />
          </Box>
 

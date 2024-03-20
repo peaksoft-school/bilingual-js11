@@ -1,44 +1,46 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { TESTS_LIST_THUNK } from './testsListThunk'
+import { TESTS_LIST_THUNKS } from './testsListThunk'
 
 const initialState = {
    tests: [],
    isLoading: false,
 }
 
-export const testsListSlice = createSlice({
-   name: 'testsListSlice',
+const testsListSlice = createSlice({
+   name: 'testsList',
    initialState,
    reducers: {},
 
    extraReducers: (builder) => {
       builder
-         .addCase(TESTS_LIST_THUNK.getAllTests.pending, (state) => {
+         .addCase(TESTS_LIST_THUNKS.getAllTests.pending, (state) => {
             state.isLoading = true
          })
 
-         .addCase(TESTS_LIST_THUNK.getAllTests.fulfilled, (state, action) => {
+         .addCase(TESTS_LIST_THUNKS.getAllTests.fulfilled, (state, action) => {
             state.tests = action.payload
             state.isLoading = false
          })
 
-         .addCase(TESTS_LIST_THUNK.getAllTests.rejected, (state) => {
+         .addCase(TESTS_LIST_THUNKS.getAllTests.rejected, (state) => {
             state.isLoading = false
          })
 
-         .addCase(TESTS_LIST_THUNK.getTest.pending, (state) => {
+         .addCase(TESTS_LIST_THUNKS.getTest.pending, (state) => {
             state.isLoading = true
          })
 
-         .addCase(TESTS_LIST_THUNK.getTest.fulfilled, (state, { payload }) => {
+         .addCase(TESTS_LIST_THUNKS.getTest.fulfilled, (state, { payload }) => {
             state.tests = payload
             state.isLoading = false
          })
 
-         .addCase(TESTS_LIST_THUNK.getTest.rejected, (state) => {
+         .addCase(TESTS_LIST_THUNKS.getTest.rejected, (state) => {
             state.isLoading = false
          })
    },
 })
 
-export default testsListSlice.reducer
+const TEST_LIST_ACTIONS = testsListSlice.actions
+
+export { testsListSlice, TEST_LIST_ACTIONS }

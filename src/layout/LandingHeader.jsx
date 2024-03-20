@@ -35,10 +35,19 @@ const LandingHeader = () => {
       return () => window.removeEventListener('scroll', handleScroll)
    }, [])
 
+   const scrollToTop = () => {
+      window.scrollTo({
+         top: 0,
+         behavior: 'smooth',
+      })
+   }
+
    return (
       <StyledContainer isscrolled={isScrolled.toString()}>
          <Box className="box">
-            <img src={LogoImage} alt="logo" />
+            <Box onClick={scrollToTop} className="logo">
+               <img src={LogoImage} alt="logo" />
+            </Box>
 
             <Box className="buttons">
                {role === 'GUEST' ? (
@@ -120,9 +129,12 @@ const StyledContainer = styled(Box)(({ isscrolled, theme }) => ({
       maxWidth: '1600px',
       width: '100%',
 
-      '& > img': {
-         width: '14.67925rem',
-         height: '3rem',
+      '& > .logo': {
+         '& > img': {
+            width: '14.67925rem',
+            height: '3rem',
+            cursor: 'pointer',
+         },
       },
 
       '& > .buttons': {

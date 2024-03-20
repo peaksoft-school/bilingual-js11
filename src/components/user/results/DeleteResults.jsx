@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Typography } from '@mui/material'
 import { useDispatch } from 'react-redux'
-import { MY_RESULTS_THUNK } from '../../../store/slices/user/results/resultsThunk'
+import { MY_RESULTS_THUNKS } from '../../../store/slices/user/results/resultsThunk'
 import { TrashIcon } from '../../../assets/icons'
 import DeleteModal from '../../UI/modals/DeleteModal'
 import IconButton from '../../UI/buttons/IconButton'
@@ -12,7 +12,7 @@ const DeleteResults = ({ answerId, row }) => {
    const [isVisible, setIsVisible] = useState(false)
 
    const deleteHandler = () => {
-      dispatch(MY_RESULTS_THUNK.deleteResults({ answerId }))
+      dispatch(MY_RESULTS_THUNKS.deleteResult({ answerId }))
 
       setIsVisible(false)
    }

@@ -4,8 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Box, InputLabel, TextField, Typography, styled } from '@mui/material'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
-import Button from '../../../components/UI/buttons/Button'
-import Input from '../../../components/UI/Input'
+import Input from '../../UI/Input'
+import Button from '../../UI/buttons/Button'
 
 const HighlightTheAnswer = ({
    title,
@@ -86,6 +86,7 @@ const HighlightTheAnswer = ({
                name="question"
                value={question}
                onChange={changeQuestionHandler}
+               autoComplete="off"
             />
          </Box>
 

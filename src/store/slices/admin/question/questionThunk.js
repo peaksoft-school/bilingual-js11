@@ -47,7 +47,7 @@ const addTest = createAsyncThunk(
          setTitle()
          setDuration()
 
-         return rejectWithValue('Something went wrong')
+         return rejectWithValue.message
       }
    }
 )
@@ -71,7 +71,7 @@ const addFile = createAsyncThunk(
             type: 'error',
          })
 
-         return rejectWithValue(error.response.data)
+         return rejectWithValue.message
       }
    }
 )
@@ -88,7 +88,9 @@ const addQuestion = createAsyncThunk(
             message: `${response.data.message}`,
          })
 
-         navigate(`${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.QUESTIONS}/:testId`)
+         navigate(
+            `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/:${ROUTES.ADMIN.TEST_ID}`
+         )
 
          return response.data
       } catch (error) {
@@ -98,7 +100,7 @@ const addQuestion = createAsyncThunk(
             type: 'error',
          })
 
-         return rejectWithValue(error.message)
+         return rejectWithValue.message
       }
    }
 )

@@ -1,17 +1,21 @@
+import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
-import Button from '../../../components/UI/buttons/Button'
 import { RecordingIcon, SpeakManIcon } from '../../../assets/icons'
-import Notification from '../../../components/Notification'
+import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSlice'
+import { showNotification } from '../../../utils/helpers/notification'
+import Button from '../../UI/buttons/Button'
 
-const RecordSayingStatement = ({ questions }) => {
-   const [analyser, setAnalyser] = useState(null)
+const RecordSayingStatement = ({ questions, nextHandler }) => {
    const [array, setArray] = useState(null)
+   const [analyser, setAnalyser] = useState(null)
    const [myElements, setMyElements] = useState([])
    const [isRecording, setIsRecording] = useState(false)
-   const [showNextButton, setShowNextButton] = useState(false)
    const [recordedAudio, setRecordedAudio] = useState(null)
    const [mediaRecorder, setMediaRecorder] = useState(null)
+   const [showNextButton, setShowNextButton] = useState(false)
+
+   const dispatch = useDispatch()
 
    const num = 18
    const width = 7
@@ -22,16 +26,22 @@ const RecordSayingStatement = ({ questions }) => {
 
          const audioContext = new AudioContext()
          const newAnalyser = audioContext.createAnalyser()
+
          setAnalyser(newAnalyser)
 
          navigator.mediaDevices
             .getUserMedia({ audio: true })
             .then((stream) => {
                const src = audioContext.createMediaStreamSource(stream)
+
                src.connect(newAnalyser)
             })
             .catch((error) => {
-               Notification('Something went wrong', error)
+               showNotification({
+                  message: 'Something went wrong',
+                  type: error,
+               })
+
                window.location.reload()
             })
       }
@@ -46,6 +56,7 @@ const RecordSayingStatement = ({ questions }) => {
    useEffect(() => {
       if (analyser) {
          const newArray = new Uint8Array(num * 2)
+
          setArray(newArray)
       }
    }, [analyser])
@@ -54,18 +65,23 @@ const RecordSayingStatement = ({ questions }) => {
       if (analyser && array) {
          const loop = () => {
             window.requestAnimationFrame(loop)
+
             analyser.getByteFrequencyData(array)
+
             const elements = []
             for (let i = 0; i < num; i += 1) {
                const height = array[i + num]
+
                elements.push({
                   height,
                   opacity: 0.008 * height,
                   key: Math.random(),
                })
             }
+
             setMyElements(elements)
          }
+
          loop()
       }
    }, [analyser, array])
@@ -87,34 +103,40 @@ const RecordSayingStatement = ({ questions }) => {
             mediaRecorderInstance.addEventListener('stop', () => {
                const blob = new Blob(chunks, { type: 'audio/webm' })
                const url = URL.createObjectURL(blob)
+
                setRecordedAudio(url)
             })
 
             setMediaRecorder(mediaRecorderInstance)
+
             mediaRecorderInstance.start()
          })
          .catch((error) => {
-            Notification('Something went wrong', error)
+            showNotification({ message: 'Something went wrong', type: error })
          })
    }
 
    const stopRecordingHandler = () => {
       setIsRecording(false)
       setShowNextButton(true)
+
       mediaRecorder.stop()
    }
 
-   const nextButtonHandler = async () => {
-      try {
-         const audioVoice = {
-            audioFile: recordedAudio,
-            questionId: questions.id,
-         }
-         setMediaRecorder()
-         console.log(audioVoice)
-      } catch (error) {
-         Notification('Something went wrong', error)
+   const onSubmit = () => {
+      const answerData = {
+         attempts: 0,
+         input: '',
+         audioFile: recordedAudio,
+         optionId: [],
+         questionID: questions.questionId,
       }
+
+      dispatch(PRACTICE_TEST_ACTIONS.addCorrectAnswer(answerData))
+
+      setMediaRecorder()
+
+      nextHandler()
    }
 
    return (
@@ -157,10 +179,7 @@ const RecordSayingStatement = ({ questions }) => {
                      )}
 
                      {showNextButton && (
-                        <Button
-                           onClick={nextButtonHandler}
-                           disabled={!mediaRecorder}
-                        >
+                        <Button onClick={onSubmit} disabled={!mediaRecorder}>
                            NEXT
                         </Button>
                      )}
@@ -178,15 +197,11 @@ const Container = styled(Box)(() => ({
    display: 'flex',
    alignItems: 'center',
    justifyContent: 'center',
+
    '& > .styled-container': {
-      width: '56.25rem',
-      height: '100%',
+      width: '100%',
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center',
-      marginTop: '3.125rem',
-      borderRadius: '0.5rem',
-      boxShadow: '0 0.125rem 0.375rem rgba(0, 0, 0, 0.2)',
 
       '& .block': {
          display: 'flex',
@@ -194,6 +209,7 @@ const Container = styled(Box)(() => ({
          justifyContent: 'center',
          gap: '1rem',
          marginBottom: '2.3rem',
+
          '& > .speak': {
             width: '7.5rem',
             height: '7.5rem',
@@ -203,24 +219,22 @@ const Container = styled(Box)(() => ({
          },
       },
       '& .record-saying-title': {
-         width: '91.5%',
-         marginTop: '2.5rem',
          display: 'flex',
          flexDirection: 'column',
          justifyContent: 'center',
          alignItems: 'center',
+
          '& > .title': {
             fontFamily: 'Poppins',
-            fontStyle: 'inherit',
-            fontWeight: 400,
             fontSize: '1.75rem',
             color: '#4C4859',
-            marginLeft: '14.5rem',
-            marginTop: '3.125rem',
             width: '100%',
             marginBottom: '1rem',
+            display: 'flex',
+            justifyContent: 'center',
          },
       },
+
       '& .container-button': {
          width: '95%',
          display: 'flex',
@@ -231,6 +245,8 @@ const Container = styled(Box)(() => ({
          gap: '10rem',
          marginLeft: '1.5rem',
          padding: '2rem 0',
+         height: '7rem',
+
          '& > .block-of-visualize': {
             display: 'flex',
             justifyContent: 'center',

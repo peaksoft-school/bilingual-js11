@@ -6,15 +6,17 @@ import { testsSlice } from './slices/admin/tests/testsSlice'
 import { questionSlice } from './slices/admin/question/questionSlice'
 import { resultsSlice } from './slices/user/results/resultsSlice'
 import { testsListSlice } from './slices/user/tests/testsListSlice'
+import { practiceTestSlice } from './slices/user/practiceTestSlice'
 import { answersSlice } from './slices/admin/answers/answersSlice'
 
 const rootReducer = combineReducers({
    [authSlice.name]: authSlice.reducer,
    [testsSlice.name]: testsSlice.reducer,
-   [questionSlice.name]: questionSlice.reducer,
-   [resultsSlice.name]: resultsSlice.reducer,
-   [testsListSlice.name]: testsListSlice.reducer,
    [answersSlice.name]: answersSlice.reducer,
+   [resultsSlice.name]: resultsSlice.reducer,
+   [questionSlice.name]: questionSlice.reducer,
+   [testsListSlice.name]: testsListSlice.reducer,
+   [practiceTestSlice.name]: practiceTestSlice.reducer,
 })
 
 const persistConfig = {

@@ -53,6 +53,19 @@ const StyledModal = styled(MuiModal)(() => ({
          },
       },
 
+      '& > .quit-content': {
+         gap: '1rem',
+         display: 'flex',
+         padding: '2.5rem 1rem',
+         alignItems: 'center',
+         flexDirection: 'column',
+
+         '& > .buttons': {
+            gap: '1.2rem',
+            display: 'flex',
+         },
+      },
+
       '& > .modal-title': {
          fontSize: '17px',
          marginTop: '2.2rem',

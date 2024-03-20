@@ -78,6 +78,7 @@ const CreateTest = () => {
                name="title"
                value={testData.title}
                onChange={formChangeHandler}
+               autoComplete="off"
             />
 
             <Typography className="label">Short Description</Typography>
@@ -87,6 +88,7 @@ const CreateTest = () => {
                name="shortDescription"
                value={testData.shortDescription}
                onChange={formChangeHandler}
+               autoComplete="off"
             />
 
             <Box className="container-buttons">

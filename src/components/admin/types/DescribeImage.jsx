@@ -6,8 +6,8 @@ import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { showNotification } from '../../../utils/helpers/notification'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
-import Button from '../../../components/UI/buttons/Button'
-import Input from '../../../components/UI/Input'
+import Input from '../../UI/Input'
+import Button from '../../UI/buttons/Button'
 
 const DescribeImage = ({
    title,
@@ -180,7 +180,11 @@ const DescribeImage = ({
          <Box className="answer">
             <InputLabel className="correct-answer">Correct answer</InputLabel>
 
-            <Input value={answer} onChange={changeAnswerHandler} />
+            <Input
+               value={answer}
+               onChange={changeAnswerHandler}
+               autoComplete="off"
+            />
          </Box>
 
          <Box className="buttons">

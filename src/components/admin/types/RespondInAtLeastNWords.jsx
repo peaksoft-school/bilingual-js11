@@ -4,8 +4,8 @@ import { InputLabel, styled, Box } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
-import Button from '../../../components/UI/buttons/Button'
-import Input from '../../../components/UI/Input'
+import Button from '../../UI/buttons/Button'
+import Input from '../../UI/Input'
 
 const RespondInAtLeastNWords = ({
    title,
@@ -17,7 +17,7 @@ const RespondInAtLeastNWords = ({
 }) => {
    const { isLoading } = useSelector((state) => state.question)
 
-   const [attempts, setAttempts] = useState(0)
+   const [attempts, setAttempts] = useState(1)
    const [statement, setStatement] = useState('')
 
    const { testId } = useParams()
@@ -28,7 +28,13 @@ const RespondInAtLeastNWords = ({
 
    const statementChangeHandler = (e) => setStatement(e.target.value)
 
-   const attemptsChangeHandler = (e) => setAttempts(e.target.value)
+   const attemptsChangeHandler = (e) => {
+      const newValue = e.target.value.replace(/\D/g, '')
+
+      const limitedValue = newValue.slice(0, 2)
+
+      setAttempts(limitedValue)
+   }
 
    const navigateGoBackHandler = () => navigate(-1)
 
@@ -79,7 +85,11 @@ const RespondInAtLeastNWords = ({
          <Box>
             <InputLabel>Question statement</InputLabel>
 
-            <Input value={statement} onChange={statementChangeHandler} />
+            <Input
+               value={statement}
+               onChange={statementChangeHandler}
+               autoComplete="off"
+            />
          </Box>
 
          <Box>
@@ -94,6 +104,7 @@ const RespondInAtLeastNWords = ({
                value={attempts}
                onChange={attemptsChangeHandler}
                inputProps={{ min: 0, max: 15 }}
+               autoComplete="off"
             />
          </Box>
 

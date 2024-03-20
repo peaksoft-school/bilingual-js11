@@ -10,6 +10,7 @@ const initialState = {
    role: ROLES.GUEST,
    email: null,
    isLoading: false,
+   passwordToken: null,
 }
 
 const authSlice = createSlice({
@@ -77,6 +78,46 @@ const authSlice = createSlice({
          })
 
          .addCase(AUTH_THUNKS.authWithGoogle.pending, (state) => {
+            state.isLoading = true
+         })
+
+         .addCase(AUTH_THUNKS.forgotPasswordEmail.fulfilled, (state) => {
+            state.isLoading = false
+         })
+
+         .addCase(AUTH_THUNKS.forgotPasswordEmail.rejected, (state) => {
+            state.isLoading = false
+         })
+
+         .addCase(AUTH_THUNKS.forgotPasswordEmail.pending, (state) => {
+            state.isLoading = true
+         })
+
+         .addCase(
+            AUTH_THUNKS.verificationCode.fulfilled,
+            (state, { payload }) => {
+               state.passwordToken = payload.token
+               state.isLoading = false
+            }
+         )
+
+         .addCase(AUTH_THUNKS.verificationCode.rejected, (state) => {
+            state.isLoading = false
+         })
+
+         .addCase(AUTH_THUNKS.verificationCode.pending, (state) => {
+            state.isLoading = true
+         })
+
+         .addCase(AUTH_THUNKS.passwordChange.fulfilled, (state) => {
+            state.isLoading = false
+         })
+
+         .addCase(AUTH_THUNKS.passwordChange.rejected, (state) => {
+            state.isLoading = false
+         })
+
+         .addCase(AUTH_THUNKS.passwordChange.pending, (state) => {
             state.isLoading = true
          })
    },
