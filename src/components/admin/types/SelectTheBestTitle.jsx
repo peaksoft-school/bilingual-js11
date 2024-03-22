@@ -1,12 +1,14 @@
-import { v4 as uuidv4 } from 'uuid'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Box, TextField, Typography, styled } from '@mui/material'
+import { v4 as uuidv4 } from 'uuid'
 import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
 import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
+import { useToggleModal } from '../../../hooks/useToogleModal'
 import { PlusIcon } from '../../../assets/icons'
+import { ROUTES } from '../../../routes/routes'
 import DeleteModal from '../../UI/modals/DeleteModal'
 import SaveModal from '../../UI/modals/SaveModal'
 import Option from '../../UI/Option'
@@ -32,10 +34,9 @@ const SelectTheBestTitle = ({
    const [optionTitle, setOptionTitle] = useState('')
    const [checkedOption, setCheckedOption] = useState(false)
    const [selectedOptionId, setSelectedOptionId] = useState(null)
-   const [modals, setModals] = useState({
-      delete: false,
-      save: false,
-   })
+
+   const deleteModalToggle = useToggleModal('delete')
+   const saveModalToggle = useToggleModal('save')
 
    const dispatch = useDispatch()
 
@@ -54,7 +55,9 @@ const SelectTheBestTitle = ({
    }
 
    const navigateGoBackHandler = () => {
-      navigate(-1)
+      navigate(
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
+      )
 
       dispatch(QUESTION_ACTIONS.clearOptions())
    }
@@ -78,10 +81,11 @@ const SelectTheBestTitle = ({
    }, [state, question])
 
    const toggleModal = (modalName) => {
-      setModals((prevModals) => ({
-         ...prevModals,
-         [modalName]: !prevModals[modalName],
-      }))
+      if (modalName === 'delete') {
+         deleteModalToggle.onOpenModal()
+      } else if (modalName === 'save') {
+         saveModalToggle.onOpenModal()
+      }
 
       setOptionTitle('')
       setCheckedOption(false)
@@ -110,6 +114,7 @@ const SelectTheBestTitle = ({
    const isDisabled =
       !selectType ||
       !duration ||
+      duration < 1 ||
       !title ||
       options.selectTheBestTitleOptions?.length < 2 ||
       !passage
@@ -182,11 +187,11 @@ const SelectTheBestTitle = ({
       dispatch(
          QUESTION_ACTIONS.addOptionRadio({
             option,
-            optionName: OPTIONS_NAME.selectTheBestTitleOptions,
+            optionName: OPTIONS_NAME?.selectTheBestTitleOptions,
          })
       )
 
-      toggleModal('save')
+      saveModalToggle.onCloseModal()
 
       setOptionTitle('')
       setCheckedOption(false)
@@ -255,8 +260,8 @@ const SelectTheBestTitle = ({
 
          <DeleteModal
             isCloseIcon
-            isVisible={modals.delete}
-            toggleModal={() => toggleModal('delete')}
+            isVisible={deleteModalToggle.isOpen}
+            toggleModal={saveModalToggle.onCloseModal}
             deleteHandler={deleteHandler}
          >
             <Typography className="modal-message">You can`t restore</Typography>
@@ -267,8 +272,8 @@ const SelectTheBestTitle = ({
             checkbox
             title={optionTitle}
             checked={checkedOption}
-            isVisible={modals.save}
-            toggleModal={() => toggleModal('save')}
+            isVisible={saveModalToggle.isOpen}
+            toggleModal={saveModalToggle.onCloseModal}
             isDisabledModal={!isDisabledModal}
             addOptionHandler={addOptionHandler}
             changeTitleHandler={changeTitleHandler}

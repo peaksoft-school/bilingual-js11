@@ -5,6 +5,7 @@ import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSl
 import { GradientListenerIcon } from '../../../assets/icons'
 import Button from '../../UI/buttons/Button'
 import TextArea from '../../UI/TextArea'
+import { NoData } from '../../../assets/images'
 
 const TypeWhatYouHear = ({ questions, nextHandler }) => {
    const [description, setDescription] = useState('')
@@ -57,53 +58,62 @@ const TypeWhatYouHear = ({ questions, nextHandler }) => {
 
    return (
       <StyledContainer>
-         <Box className="main-content">
-            <Typography className="title">
-               Type the statement you hear
-            </Typography>
-
-            <audio
-               ref={soundRef}
-               className="audio"
-               type="audio/mp3"
-               onEnded={handleEnd}
-            >
-               <track kind="captions" srcLang="english" />
-
-               <source src={questions.fileUrl} type="audio/mp3" />
-            </audio>
-
-            <Box className="content">
-               <GradientListenerIcon
-                  className={`listener ${replays === 0 ? 'disabled' : ''}`}
-                  onClick={soundHandler}
-               />
-
-               <Box className="description">
-                  <TextArea
-                     className="text-area"
-                     placeholder="Your response"
-                     rows={5}
-                     value={description}
-                     handleChange={changeDescriptionHandler}
-                  />
-
-                  <Typography
-                     className={replays !== 0 ? 'replays' : 'attempts'}
-                  >
-                     {!replays
-                        ? 'Your attempts are over !'
-                        : `Number of replays left: ${replays}`}
+         {questions.fileUrl !== '' ? (
+            <>
+               <Box className="main-content">
+                  <Typography className="title">
+                     Type the statement you hear
                   </Typography>
-               </Box>
-            </Box>
-         </Box>
 
-         <Box className="container-button">
-            <Button disabled={!description} onClick={onSubmit}>
-               NEXT
-            </Button>
-         </Box>
+                  <audio
+                     ref={soundRef}
+                     className="audio"
+                     type="audio/mp3"
+                     onEnded={handleEnd}
+                  >
+                     <track kind="captions" srcLang="english" />
+
+                     <source src={questions.fileUrl} type="audio/mp3" />
+                  </audio>
+
+                  <Box className="content">
+                     <GradientListenerIcon
+                        className={`listener ${
+                           replays === 0 ? 'disabled' : ''
+                        }`}
+                        onClick={soundHandler}
+                     />
+
+                     <Box className="description">
+                        <TextArea
+                           className="text-area"
+                           placeholder="Your response"
+                           rows={5}
+                           value={description}
+                           handleChange={changeDescriptionHandler}
+                           contentEditable={false}
+                        />
+
+                        <Typography
+                           className={replays !== 0 ? 'replays' : 'attempts'}
+                        >
+                           {!replays
+                              ? 'Your attempts are over !'
+                              : `Number of replays left: ${replays}`}
+                        </Typography>
+                     </Box>
+                  </Box>
+               </Box>
+
+               <Box className="container-button">
+                  <Button disabled={!description} onClick={onSubmit}>
+                     NEXT
+                  </Button>
+               </Box>
+            </>
+         ) : (
+            <img src={NoData} alt="no-data" />
+         )}
       </StyledContainer>
    )
 }

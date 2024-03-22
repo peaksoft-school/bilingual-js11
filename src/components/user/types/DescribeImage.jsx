@@ -4,6 +4,7 @@ import { Box, Typography, styled } from '@mui/material'
 import Button from '../../UI/buttons/Button'
 import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSlice'
 import TextArea from '../../UI/TextArea'
+import { NoData } from '../../../assets/images'
 
 const DescribeImage = ({ questions, nextHandler }) => {
    const [description, setDescription] = useState('')
@@ -30,33 +31,39 @@ const DescribeImage = ({ questions, nextHandler }) => {
 
    return (
       <StyledContainer>
-         <Box className="content-box">
-            <Typography className="title">
-               Write one or more sentences that describe the image
-            </Typography>
+         {questions.fileUrl !== '' ? (
+            <>
+               <Box className="content-box">
+                  <Typography className="title">
+                     Write one or more sentences that describe the image
+                  </Typography>
 
-            <Box className="image-box">
-               <img src={questions.fileUrl} alt="img" className="image" />
+                  <Box className="image-box">
+                     <img src={questions.fileUrl} alt="img" className="image" />
 
-               <TextArea
-                  className="text-area"
-                  placeholder="Your response"
-                  value={description}
-                  rows={6}
-                  handleChange={changeDescriptionHandler}
-               />
-            </Box>
-         </Box>
+                     <TextArea
+                        className="text-area"
+                        placeholder="Your response"
+                        value={description}
+                        rows={6}
+                        handleChange={changeDescriptionHandler}
+                     />
+                  </Box>
+               </Box>
 
-         <Box className="button-box">
-            <Button
-               className="button"
-               disabled={!description}
-               onClick={onSubmit}
-            >
-               NEXT
-            </Button>
-         </Box>
+               <Box className="button-box">
+                  <Button
+                     className="button"
+                     disabled={!description}
+                     onClick={onSubmit}
+                  >
+                     NEXT
+                  </Button>
+               </Box>
+            </>
+         ) : (
+            <img src={NoData} alt="no-data" />
+         )}
       </StyledContainer>
    )
 }

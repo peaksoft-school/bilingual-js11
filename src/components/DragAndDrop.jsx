@@ -71,28 +71,32 @@ const DragAndDrop = ({ options }) => {
             ))}
          </Box>
 
-         <StyledBox
-            className="board-container"
-            dragging={isDragging.toString()}
-            onDrop={onDropHandler}
-            onDragOver={onDragOverHandler}
-         >
-            {correctOptions.length === 0 ? (
-               <Box className="board-text">
-                  <Typography>Select words & drag here</Typography>
-               </Box>
-            ) : (
-               correctOptions.map(({ id, optionTitle }) => (
-                  <Box
-                     key={id}
-                     className="option-container"
-                     onClick={() => deleteWordHandler(id)}
-                  >
-                     <Typography className="option">{optionTitle}</Typography>
+         <Box className="main-bord-container">
+            <StyledBox
+               className="board-container"
+               dragging={isDragging.toString()}
+               onDrop={onDropHandler}
+               onDragOver={onDragOverHandler}
+            >
+               {correctOptions.length === 0 ? (
+                  <Box className="board-text">
+                     <Typography>Select words & drag here</Typography>
                   </Box>
-               ))
-            )}
-         </StyledBox>
+               ) : (
+                  correctOptions.map(({ id, optionTitle }) => (
+                     <Box
+                        key={id}
+                        className="option-container"
+                        onClick={() => deleteWordHandler(id)}
+                     >
+                        <Typography className="option">
+                           {optionTitle}
+                        </Typography>
+                     </Box>
+                  ))
+               )}
+            </StyledBox>
+         </Box>
       </StyledContainer>
    )
 }
@@ -103,7 +107,6 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    padding: '44px 0px',
    display: 'flex',
    flexDirection: 'column',
-   alignItems: 'flex-end',
    gap: '1.5rem',
    width: '100%',
 
@@ -138,13 +141,18 @@ const StyledContainer = styled(Box)(({ theme }) => ({
          fontWeight: '500',
       },
    },
+
+   '& .main-bord-container': {
+      display: 'flex',
+      justifyContent: 'flex-end',
+   },
 }))
 
 const StyledBox = styled(Box)(({ dragging }) => ({
    gap: '0.3rem',
    display: 'flex',
    flexWrap: 'wrap',
-   maxWidth: '18.7rem',
+   maxWidth: '35rem',
    alignItems: 'center',
    borderRadius: '0.5rem',
    justifyContent: 'center',

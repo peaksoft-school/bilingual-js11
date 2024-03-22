@@ -1,13 +1,14 @@
-import { useDropzone } from 'react-dropzone'
 import { useState, useRef, useEffect } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useDropzone } from 'react-dropzone'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { showNotification } from '../../../utils/helpers/notification'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
 import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
+import { ROUTES } from '../../../routes/routes'
 import Input from '../../UI/Input'
 
 const DescribeImage = ({
@@ -45,7 +46,10 @@ const DescribeImage = ({
       setAnswer(value || '')
    }
 
-   const navigateGoBackHandler = () => navigate(-1)
+   const navigateGoBackHandler = () =>
+      navigate(
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
+      )
 
    useEffect(() => {
       if (state !== null) {
@@ -65,6 +69,7 @@ const DescribeImage = ({
       (!state &&
          (!selectType ||
             !duration ||
+            duration < 1 ||
             !title.trim() ||
             !image ||
             !answer ||
@@ -123,8 +128,8 @@ const DescribeImage = ({
    useEffect(() => {
       if (fileRejections && fileRejections.length > 0) {
          const rejectionMessage = fileRejections
-            .map(({ errors }) => errors.map((e) => e.message).join(', '))
-            .join('\n')
+            ?.map(({ errors }) => errors?.map((e) => e.message)?.join(', '))
+            ?.join('\n')
 
          showNotification({
             title: 'Error',

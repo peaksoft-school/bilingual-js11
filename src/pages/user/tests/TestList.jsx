@@ -28,10 +28,11 @@ const TestList = () => {
    return (
       <>
          {isLoading && <Loading />}
-         <TestContainer>
-            {tests.length === 0 ? (
-               <img src={NoDataImage} alt="no-data" />
-            ) : (
+
+         {tests?.length === 0 ? (
+            <StyledImage src={NoDataImage} alt="no-data" />
+         ) : (
+            <TestContainer>
                <MainContent>
                   {Array.isArray(tests) &&
                      enabledTests?.map(
@@ -67,8 +68,8 @@ const TestList = () => {
                         )
                      )}
                </MainContent>
-            )}
-         </TestContainer>
+            </TestContainer>
+         )}
       </>
    )
 }
@@ -118,4 +119,10 @@ const MainContent = styled(Box)(() => ({
          marginLeft: 'auto',
       },
    },
+}))
+
+const StyledImage = styled('img')(() => ({
+   margin: '0 0 0 31.5rem',
+   width: '33rem',
+   weight: '20rem',
 }))

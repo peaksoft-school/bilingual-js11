@@ -3,6 +3,7 @@ import { Box, Typography, styled } from '@mui/material'
 import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSlice'
 import Button from '../../UI/buttons/Button'
 import DragAndDrop from '../../DragAndDrop'
+import { NoData } from '../../../assets/images'
 
 const SelectRealEnglishWords = ({ questions, nextHandler }) => {
    const options = questions?.optionResponses
@@ -33,19 +34,25 @@ const SelectRealEnglishWords = ({ questions, nextHandler }) => {
 
    return (
       <StyledContainer>
-         <Typography variant="h5" className="title">
-            Select the real English words in this list
-         </Typography>
+         {options?.length > 0 ? (
+            <>
+               <Typography variant="h5" className="title">
+                  Select the real English words in this list
+               </Typography>
 
-         <Box className="content">
-            <DragAndDrop options={options} />
-         </Box>
+               <Box className="content">
+                  <DragAndDrop options={options} />
+               </Box>
 
-         <Box className="button-container">
-            <Button onClick={onSubmit} disabled={isDisabled}>
-               NEXT
-            </Button>
-         </Box>
+               <Box className="button-container">
+                  <Button onClick={onSubmit} disabled={isDisabled}>
+                     NEXT
+                  </Button>
+               </Box>
+            </>
+         ) : (
+            <img src={NoData} alt="no-data" />
+         )}
       </StyledContainer>
    )
 }
@@ -57,6 +64,10 @@ const StyledContainer = styled(Box)(() => ({
    flexDirection: 'column',
    alignItems: 'center',
    justifyContent: 'center',
+
+   '& > img': {
+      width: '25rem',
+   },
 
    '& .title': {
       padding: '1rem 0 0 0',
@@ -70,6 +81,7 @@ const StyledContainer = styled(Box)(() => ({
       display: 'flex',
       gap: '1rem',
       flexWrap: 'wrap',
+      justifyContent: 'flex-end',
    },
 
    '& > .button-container': {

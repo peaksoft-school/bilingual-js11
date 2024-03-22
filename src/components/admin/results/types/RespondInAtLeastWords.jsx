@@ -15,7 +15,7 @@ const RespondInAtLeastWords = ({ isDisabled, saveHandler }) => {
    const countWords = (text) => {
       const wordsArray = text.split(' ').filter((word) => word !== '')
 
-      return wordsArray.length
+      return wordsArray?.length
    }
 
    const wordsCount = userAnswer ? countWords(userAnswer) : 0

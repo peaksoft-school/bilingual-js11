@@ -8,6 +8,7 @@ import { QUESTION_TITLES } from '../../../utils/constants'
 import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
 import Input from '../../UI/Input'
+import { ROUTES } from '../../../routes/routes'
 
 const TypeWhatYouHear = ({
    title,
@@ -37,7 +38,10 @@ const TypeWhatYouHear = ({
 
    const audioRef = useRef(null)
 
-   const navigateGoBackHandler = () => navigate(-1)
+   const navigateGoBackHandler = () =>
+      navigate(
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
+      )
 
    const attemptsChangeHandler = (e) => {
       const { value } = e.target
@@ -99,6 +103,7 @@ const TypeWhatYouHear = ({
       !fileUrl ||
       !attempts ||
       !duration ||
+      duration < 1 ||
       !selectType ||
       !correctAnswer
 

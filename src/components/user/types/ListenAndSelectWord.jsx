@@ -5,6 +5,7 @@ import { Box, Typography, styled } from '@mui/material'
 import { AnimationSoundIcon, CheckIcon, SoundIcon } from '../../../assets/icons'
 import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSlice'
 import Button from '../../UI/buttons/Button'
+import { NoData } from '../../../assets/images'
 
 const ListenAndSelectWord = ({ questions, nextHandler }) => {
    const options = questions?.optionResponses
@@ -97,47 +98,57 @@ const ListenAndSelectWord = ({ questions, nextHandler }) => {
    }
    return (
       <StyledContainer>
-         <Typography className="title">
-            Select the real English words in this list
-         </Typography>
+         {options?.length > 0 ? (
+            <>
+               <Typography className="title">
+                  Select the real English words in this list
+               </Typography>
 
-         <Box className="options-box">
-            {options.map(({ id, fileUrl, optionTitle }) => (
-               <Box
-                  key={id}
-                  className={`option ${
-                     optionState[id]?.isChecked ? 'selected' : ''
-                  }`}
-               >
-                  {optionState[id]?.isPlaying ? (
-                     <AnimationSoundIcon
-                        onClick={() => stopSoundHandler(id)}
-                        className="animation-sound"
-                     />
-                  ) : (
-                     <SoundIcon
-                        onClick={() => startSoundHandler(fileUrl, id)}
-                        className="sound"
-                     />
-                  )}
-                  <Typography className="text">{optionTitle}</Typography>
-                  <Box
-                     className={`checkbox ${
-                        optionState[id]?.isChecked ? 'checked' : ''
-                     }`}
-                     onClick={() => toggleCheckboxHandler(id)}
-                  >
-                     <CheckIcon />
-                  </Box>
+               <Box className="options-box">
+                  {options.map(({ id, fileUrl, optionTitle }) => (
+                     <Box
+                        key={id}
+                        className={`option ${
+                           optionState[id]?.isChecked ? 'selected' : ''
+                        }`}
+                     >
+                        {optionState[id]?.isPlaying ? (
+                           <AnimationSoundIcon
+                              onClick={() => stopSoundHandler(id)}
+                              className="animation-sound"
+                           />
+                        ) : (
+                           <SoundIcon
+                              onClick={() => startSoundHandler(fileUrl, id)}
+                              className="sound"
+                           />
+                        )}
+                        <Typography className="text">{optionTitle}</Typography>
+                        <Box
+                           className={`checkbox ${
+                              optionState[id]?.isChecked ? 'checked' : ''
+                           }`}
+                           onClick={() => toggleCheckboxHandler(id)}
+                        >
+                           <CheckIcon />
+                        </Box>
+                     </Box>
+                  ))}
                </Box>
-            ))}
-         </Box>
 
-         <Box className="line" />
+               <Box className="line" />
 
-         <Button className="button" disabled={isDisabled} onClick={onSubmit}>
-            NEXT
-         </Button>
+               <Button
+                  className="button"
+                  disabled={isDisabled}
+                  onClick={onSubmit}
+               >
+                  NEXT
+               </Button>
+            </>
+         ) : (
+            <img src={NoData} alt="no-data" />
+         )}
       </StyledContainer>
    )
 }

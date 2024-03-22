@@ -19,10 +19,10 @@ const getResults = createAsyncThunk(
 const deleteResult = createAsyncThunk(
    'resultsSlice/deleteResults',
 
-   async ({ answerId }, { rejectWithValue, dispatch }) => {
+   async ({ resultId }, { rejectWithValue, dispatch }) => {
       try {
          const response = await axiosInstance.delete(
-            `/api/answer/deleteById?answerId=${answerId}`
+            `/api/result?resultId=${resultId}`
          )
 
          showNotification({

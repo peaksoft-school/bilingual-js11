@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom'
+import { useSearchParams, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,6 +23,23 @@ const Question = () => {
       questionTypeHandler(state?.questionType) || ''
    )
 
+   const [searchParams, setSearchParams] = useSearchParams()
+
+   useEffect(() => {
+      const typeParam = searchParams.get('type')
+      if (typeParam) {
+         setSelectType(typeParam)
+      }
+   }, [searchParams])
+
+   const changeSelecTypeHandler = (e) => {
+      const newSelectType = e.target.value
+
+      setSearchParams({ type: newSelectType })
+
+      setSelectType(newSelectType)
+   }
+
    const changeTitleHandler = (e) => setTitle(e.target.value)
 
    const changeDurationHandler = (e) => {
@@ -32,8 +49,6 @@ const Question = () => {
 
       setDuration(limitedValue)
    }
-
-   const changeSelecTypeHandler = (e) => setSelectType(e.target.value)
 
    useEffect(() => {
       dispatch(QUESTION_ACTIONS.updateOptions(options || []))
@@ -58,7 +73,7 @@ const Question = () => {
 
                   <Box className="duration-container">
                      <Typography className="text duration">
-                        Duration <br /> (in seconds)
+                        Duration <br /> (in minutes)
                      </Typography>
 
                      <Input

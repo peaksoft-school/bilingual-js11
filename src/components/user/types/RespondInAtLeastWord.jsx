@@ -7,6 +7,7 @@ import {
    ScrollTopArrowIcon,
 } from '../../../assets/icons'
 import Button from '../../UI/buttons/Button'
+import { NoData } from '../../../assets/images'
 
 const RespondInAtLeastWord = ({ questions, nextHandler }) => {
    const [text, setText] = useState('')
@@ -43,36 +44,51 @@ const RespondInAtLeastWord = ({ questions, nextHandler }) => {
 
    return (
       <StyledContainer>
-         <Typography className="title">
-            Respond to the question in at least {questions.attempts} words
-         </Typography>
-
-         <Box className="content-box">
-            <Typography className="question">{questions.statement}</Typography>
-
-            <Box>
-               <textarea
-                  name="text"
-                  value={text}
-                  onChange={changeTextHandler}
-                  placeholder="Your response"
-                  className="text-area"
-               />
-               <Typography
-                  className={`${
-                     wordsCount >= 50 ? 'highlight-word' : 'word-length'
-                  }`}
-               >
-                  Word: {wordsCount}
+         {questions.statement !== '' ? (
+            <>
+               <Typography className="title">
+                  Respond to the question in at least {questions.attempts} words
                </Typography>
-            </Box>
-         </Box>
 
-         <Box className="line" />
+               <Box className="content-box">
+                  <Typography className="question">
+                     {questions.statement}
+                  </Typography>
 
-         <Button disabled={isDisabled} className="button" onClick={onSubmit}>
-            NEXT
-         </Button>
+                  <Box>
+                     <textarea
+                        name="text"
+                        value={text}
+                        onChange={changeTextHandler}
+                        placeholder="Your response"
+                        className="text-area"
+                        contentEditable={false}
+                     />
+                     <Typography
+                        className={`${
+                           wordsCount >= questions.attempts
+                              ? 'highlight-word'
+                              : 'word-length'
+                        }`}
+                     >
+                        Word: {wordsCount}
+                     </Typography>
+                  </Box>
+               </Box>
+
+               <Box className="line" />
+
+               <Button
+                  disabled={isDisabled}
+                  className="button"
+                  onClick={onSubmit}
+               >
+                  NEXT
+               </Button>
+            </>
+         ) : (
+            <img src={NoData} alt="no-data" />
+         )}
       </StyledContainer>
    )
 }

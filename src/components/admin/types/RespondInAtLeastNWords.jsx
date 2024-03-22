@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router'
 import { InputLabel, styled, Box } from '@mui/material'
-import { useDispatch, useSelector } from 'react-redux'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
+import { ROUTES } from '../../../routes/routes'
 import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
 import Input from '../../UI/Input'
@@ -41,7 +42,10 @@ const RespondInAtLeastNWords = ({
       setAttempts(value || '')
    }
 
-   const navigateGoBackHandler = () => navigate(-1)
+   const navigateGoBackHandler = () =>
+      navigate(
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
+      )
 
    useEffect(() => {
       if (state !== null) {
@@ -59,6 +63,7 @@ const RespondInAtLeastNWords = ({
    const isDisabled =
       !selectType ||
       !duration ||
+      duration < 1 ||
       !title ||
       !statement ||
       !attempts ||

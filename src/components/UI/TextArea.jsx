@@ -12,6 +12,7 @@ const TextArea = forwardRef(
             value={value}
             onChange={handleChange}
             ref={ref}
+            onPaste={(e) => e.preventDefault()}
          />
       )
    }

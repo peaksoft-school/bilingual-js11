@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { useState, useEffect } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { CompleteIcon, LogoIcon } from '../../assets/icons'
@@ -8,11 +8,14 @@ import TestContainer from '../../components/UI/TestContainer'
 import Button from '../../components/UI/buttons/Button'
 import { PRACTICE_TEST_THUNKS } from '../../store/slices/user/practiceTestThunk'
 import { PRACTICE_TEST_ACTIONS } from '../../store/slices/user/practiceTestSlice'
+import { ROUTES } from '../../routes/routes'
 
 const TestComplete = () => {
    const { correctAnswer } = useSelector((state) => state.practiceTest)
 
    const [showConfetti, setShowConfetti] = useState(false)
+
+   const { testId } = useParams()
 
    const dispatch = useDispatch()
 
@@ -32,11 +35,12 @@ const TestComplete = () => {
 
    const navigateHandler = () => {
       dispatch(PRACTICE_TEST_ACTIONS.clearCorrectAnswer())
-      navigate(-2)
+
+      navigate(`${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}/${testId}`)
    }
 
    const onSubmit = () => {
-      dispatch(PRACTICE_TEST_THUNKS.postTest({ correctAnswer, navigate }))
+      dispatch(PRACTICE_TEST_THUNKS.addAnswer({ correctAnswer, navigate }))
    }
 
    return (

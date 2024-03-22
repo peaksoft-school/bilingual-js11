@@ -6,6 +6,7 @@ const initialState = {
    questions: [],
    correctOptions: [],
    correctAnswer: [],
+   fileUrl: '',
    isLoading: false,
 }
 
@@ -55,15 +56,37 @@ const practiceTestSlice = createSlice({
             state.isLoading = false
          })
 
-         .addCase(PRACTICE_TEST_THUNKS.postTest.fulfilled, (state) => {
+         .addCase(PRACTICE_TEST_THUNKS.addAnswer.fulfilled, (state) => {
             state.isLoading = false
          })
 
-         .addCase(PRACTICE_TEST_THUNKS.postTest.rejected, (state) => {
+         .addCase(PRACTICE_TEST_THUNKS.addAnswer.rejected, (state) => {
             state.isLoading = false
          })
 
-         .addCase(PRACTICE_TEST_THUNKS.postTest.pending, (state) => {
+         .addCase(PRACTICE_TEST_THUNKS.addAnswer.pending, (state) => {
+            state.isLoading = true
+
+            showNotification({
+               title: 'Pending',
+               message: false,
+               type: 'warning',
+               duration: 200,
+            })
+         })
+         .addCase(
+            PRACTICE_TEST_THUNKS.addAnswerFile.fulfilled,
+            (state, { payload }) => {
+               state.isLoading = false
+               state.fileUrl = payload.link
+            }
+         )
+
+         .addCase(PRACTICE_TEST_THUNKS.addAnswerFile.rejected, (state) => {
+            state.isLoading = false
+         })
+
+         .addCase(PRACTICE_TEST_THUNKS.addAnswerFile.pending, (state) => {
             state.isLoading = true
 
             showNotification({

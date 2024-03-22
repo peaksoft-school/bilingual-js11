@@ -6,13 +6,13 @@ import { TrashIcon } from '../../../assets/icons'
 import DeleteModal from '../../UI/modals/DeleteModal'
 import IconButton from '../../UI/buttons/IconButton'
 
-const DeleteResults = ({ answerId, row }) => {
+const DeleteResults = ({ resultId, row }) => {
    const dispatch = useDispatch()
 
    const [isVisible, setIsVisible] = useState(false)
 
    const deleteHandler = () => {
-      dispatch(MY_RESULTS_THUNKS.deleteResult({ answerId }))
+      dispatch(MY_RESULTS_THUNKS.deleteResult({ resultId }))
 
       setIsVisible(false)
    }

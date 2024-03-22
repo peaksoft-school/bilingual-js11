@@ -6,7 +6,9 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
 import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
+import { useToggleModal } from '../../../hooks/useToogleModal'
 import { PlusIcon } from '../../../assets/icons'
+import { ROUTES } from '../../../routes/routes'
 import DeleteModal from '../../UI/modals/DeleteModal'
 import SaveModal from '../../UI/modals/SaveModal'
 import Loading from '../../Loading'
@@ -28,10 +30,6 @@ const SelectRealEnglish = ({
    const [optionId, setOptionId] = useState(null)
    const [optionTitle, setOptionTitle] = useState('')
    const [checkedOption, setCheckedOption] = useState(false)
-   const [modals, setModals] = useState({
-      delete: false,
-      save: false,
-   })
 
    const { testId } = useParams()
 
@@ -39,12 +37,17 @@ const SelectRealEnglish = ({
 
    const navigate = useNavigate()
 
+   const deleteModal = useToggleModal('delete')
+   const saveModal = useToggleModal('save')
+
    const changeCheckbox = (e) => setCheckedOption(e.target.checked)
 
    const changeTitleHandler = (e) => setOptionTitle(e.target.value)
 
    const navigateGoBackHandler = () => {
-      navigate(-1)
+      navigate(
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
+      )
 
       dispatch(QUESTION_ACTIONS.clearOptions())
    }
@@ -61,16 +64,6 @@ const SelectRealEnglish = ({
       }
    }, [dispatch, state])
 
-   const toggleModal = (modalName) => {
-      setModals((prevModals) => ({
-         ...prevModals,
-         [modalName]: !prevModals[modalName],
-      }))
-
-      setOptionTitle('')
-      setCheckedOption(false)
-   }
-
    const deleteHandler = () => {
       dispatch(
          QUESTION_ACTIONS.deleteOption({
@@ -79,7 +72,7 @@ const SelectRealEnglish = ({
          })
       )
 
-      toggleModal('delete')
+      deleteModal.onCloseModal()
    }
 
    const checkedHandler = (optionId) => {
@@ -94,6 +87,7 @@ const SelectRealEnglish = ({
    const isDisabled =
       !selectType ||
       !duration ||
+      duration < 1 ||
       !title ||
       options.selectRealEnglishWordsOptions?.length < 2
 
@@ -172,7 +166,7 @@ const SelectRealEnglish = ({
          })
       )
 
-      toggleModal('save')
+      saveModal.onCloseModal()
 
       setOptionTitle('')
       setCheckedOption(false)
@@ -185,7 +179,7 @@ const SelectRealEnglish = ({
 
             <Box className="add-button">
                <Button
-                  onClick={() => toggleModal('save')}
+                  onClick={saveModal.onOpenModal} // Open the save modal
                   icon={<PlusIcon className="plus" />}
                >
                   Add Options
@@ -199,7 +193,7 @@ const SelectRealEnglish = ({
                      index={index}
                      deletion
                      option={option}
-                     toggleModal={() => toggleModal('delete')}
+                     toggleModal={deleteModal.onOpenModal} // Open the delete modal
                      setOptionId={setOptionId}
                      checkedHandler={checkedHandler}
                   />
@@ -223,8 +217,8 @@ const SelectRealEnglish = ({
 
          <DeleteModal
             isCloseIcon
-            isVisible={modals.delete}
-            toggleModal={() => toggleModal('delete')}
+            isVisible={deleteModal.isOpen}
+            toggleModal={deleteModal.onCloseModal}
             deleteHandler={deleteHandler}
          >
             <Typography className="title" variant="p">
@@ -233,7 +227,7 @@ const SelectRealEnglish = ({
                {deleteOption}
             </Typography>
 
-            <Typography className="modal-message">You can`t restore</Typography>
+            <Typography className="modal-message">You cant restore</Typography>
          </DeleteModal>
 
          <SaveModal
@@ -241,8 +235,8 @@ const SelectRealEnglish = ({
             checkbox
             title={optionTitle}
             checked={checkedOption}
-            isVisible={modals.save}
-            toggleModal={() => toggleModal('save')}
+            isVisible={saveModal.isOpen}
+            toggleModal={saveModal.onCloseModal}
             isDisabledModal={!isDisabledModal}
             addOptionHandler={addOptionHandler}
             changeTitleHandler={changeTitleHandler}

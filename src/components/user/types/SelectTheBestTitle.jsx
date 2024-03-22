@@ -4,6 +4,7 @@ import { Box, Typography, styled } from '@mui/material'
 import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSlice'
 import Radio from '../../UI/Radio'
 import Button from '../../UI/buttons/Button'
+import { NoData } from '../../../assets/images'
 
 const SelectTheBestTitle = ({ questions, nextHandler }) => {
    const options = questions?.optionResponses
@@ -34,44 +35,48 @@ const SelectTheBestTitle = ({ questions, nextHandler }) => {
 
    return (
       <StyledContainer>
-         <Box className="content-box">
-            <Box className="correct-answer">
-               <Typography className="title">PASSAGE</Typography>
+         {options?.length > 0 ? (
+            <Box className="content-box">
+               <Box className="correct-answer">
+                  <Typography className="title">PASSAGE</Typography>
 
-               <Typography className="passage">{questions.title}</Typography>
-            </Box>
+                  <Typography className="passage">{questions.title}</Typography>
+               </Box>
 
-            <Box>
-               <Typography className="instruction">
-                  Select the best title for the passage
-               </Typography>
+               <Box>
+                  <Typography className="instruction">
+                     Select the best title for the passage
+                  </Typography>
 
-               {options.map(({ id, optionTitle }) => (
-                  <Box
-                     key={id}
-                     className={`option ${
-                        selectedOptionId === id ? 'selected' : ''
-                     }`}
-                     onClick={() => optionSelectHandler(id)}
-                  >
-                     <Radio
-                        checked={selectedOptionId === id}
+                  {options.map(({ id, optionTitle }) => (
+                     <Box
+                        key={id}
+                        className={`option ${
+                           selectedOptionId === id ? 'selected' : ''
+                        }`}
                         onClick={() => optionSelectHandler(id)}
-                     />
+                     >
+                        <Radio
+                           checked={selectedOptionId === id}
+                           onClick={() => optionSelectHandler(id)}
+                        />
 
-                     <Typography className="title">{optionTitle}</Typography>
-                  </Box>
-               ))}
+                        <Typography className="title">{optionTitle}</Typography>
+                     </Box>
+                  ))}
 
-               <Button
-                  className="button"
-                  disabled={isDisabled}
-                  onClick={onSubmit}
-               >
-                  NEXT
-               </Button>
+                  <Button
+                     className="button"
+                     disabled={isDisabled}
+                     onClick={onSubmit}
+                  >
+                     NEXT
+                  </Button>
+               </Box>
             </Box>
-         </Box>
+         ) : (
+            <img src={NoData} alt="no-data" />
+         )}
       </StyledContainer>
    )
 }
