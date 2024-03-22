@@ -39,7 +39,7 @@ const COLUMNS = [
       accessor: 'action',
 
       Cell: ({ row }) => (
-         <DeleteResults answerId={row.original.answerId} row={row} />
+         <DeleteResults resultId={row.original.resultId} row={row} />
       ),
    },
 ]

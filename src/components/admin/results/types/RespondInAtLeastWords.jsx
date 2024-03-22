@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
+import { Box, Typography, styled } from '@mui/material'
 import { ANSWERS_THUNKS } from '../../../../store/slices/admin/answers/answersThunk'
 import TestQuestion from '../../../UI/TestQuestion'
 import Button from '../../../UI/buttons/Button'
@@ -17,10 +17,10 @@ const RespondInAtLeastWords = () => {
    const countWords = (text) => {
       const wordsArray = text.split(' ').filter((word) => word !== '')
 
-      return wordsArray.length
+      return wordsArray?.length
    }
 
-   const wordsCount = answers.userAnswer ? countWords(answers.userAnswer) : 0
+   const wordsCount = answers?.userAnswer ? countWords(answers?.userAnswer) : 0
 
    return (
       <TestQuestion
@@ -36,7 +36,7 @@ const RespondInAtLeastWords = () => {
                <Typography className="respond">Respond:</Typography>
 
                <Typography className="user-answer">
-                  {answers.userAnswer}
+                  {answers?.userAnswer}
                </Typography>
             </Box>
 

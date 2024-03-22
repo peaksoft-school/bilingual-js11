@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
+import { v4 as uuidv4 } from 'uuid'
 import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
 import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
+import { useToggleModal } from '../../../hooks/useToogleModal'
 import { PlusIcon } from '../../../assets/icons'
+import { ROUTES } from '../../../routes/routes'
 import DeleteModal from '../../UI/modals/DeleteModal'
 import SaveModal from '../../UI/modals/SaveModal'
 import Button from '../../UI/buttons/Button'
@@ -25,10 +27,6 @@ const SelectRealEnglish = ({
    const [optionId, setOptionId] = useState(null)
    const [optionTitle, setOptionTitle] = useState('')
    const [checkedOption, setCheckedOption] = useState(false)
-   const [modals, setModals] = useState({
-      delete: false,
-      save: false,
-   })
 
    const { testId } = useParams()
 
@@ -36,20 +34,17 @@ const SelectRealEnglish = ({
 
    const navigate = useNavigate()
 
+   const deleteModal = useToggleModal('delete')
+   const saveModal = useToggleModal('save')
+
    const changeCheckbox = (e) => setCheckedOption(e.target.checked)
 
    const changeTitleHandler = (e) => setOptionTitle(e.target.value)
 
-   const navigateGoBackHandler = () => navigate(-1)
-
-   const toggleModal = (modalName) => {
-      setModals((prevModals) => ({
-         ...prevModals,
-         [modalName]: !prevModals[modalName],
-      }))
-      setOptionTitle('')
-      setCheckedOption(false)
-   }
+   const navigateGoBackHandler = () =>
+      navigate(
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
+      )
 
    const deleteHandler = () => {
       dispatch(
@@ -59,7 +54,7 @@ const SelectRealEnglish = ({
          })
       )
 
-      toggleModal('delete')
+      deleteModal.onCloseModal()
    }
 
    const checkedHandler = (id) => {
@@ -97,19 +92,16 @@ const SelectRealEnglish = ({
          dispatch(
             QUESTION_THUNKS.addTest({
                requestData,
-
                data: {
                   testId,
                   questionType: QUESTION_TITLES.SELECT_REAL_ENGLISH_WORD,
                   navigate,
                },
-
                setStates: {
                   setSelectType: setSelectType(selectType),
                   setTitle: setTitle(title),
                   setDuration: setDuration(duration),
                },
-
                clearOptions: QUESTION_ACTIONS,
             })
          )
@@ -130,7 +122,7 @@ const SelectRealEnglish = ({
          })
       )
 
-      toggleModal('save')
+      saveModal.onCloseModal()
 
       setOptionTitle('')
       setCheckedOption(false)
@@ -141,7 +133,7 @@ const SelectRealEnglish = ({
          <StyledContainer>
             <Box className="add-button">
                <Button
-                  onClick={() => toggleModal('save')}
+                  onClick={saveModal.onOpenModal} // Open the save modal
                   icon={<PlusIcon className="plus" />}
                >
                   Add Options
@@ -154,7 +146,7 @@ const SelectRealEnglish = ({
                      key={option.id}
                      index={i}
                      option={option}
-                     toggleModal={() => toggleModal('delete')}
+                     toggleModal={deleteModal.onOpenModal} // Open the delete modal
                      setOptionId={setOptionId}
                      checkedHandler={checkedHandler}
                   />
@@ -178,8 +170,8 @@ const SelectRealEnglish = ({
 
          <DeleteModal
             isCloseIcon
-            isVisible={modals.delete}
-            toggleModal={() => toggleModal('delete')}
+            isVisible={deleteModal.isOpen}
+            toggleModal={deleteModal.onCloseModal}
             deleteHandler={deleteHandler}
          >
             <Typography className="title" variant="p">
@@ -188,7 +180,7 @@ const SelectRealEnglish = ({
                {deleteOption}
             </Typography>
 
-            <Typography className="modal-message">You can`t restore</Typography>
+            <Typography className="modal-message">You cant restore</Typography>
          </DeleteModal>
 
          <SaveModal
@@ -196,8 +188,8 @@ const SelectRealEnglish = ({
             checkbox
             title={optionTitle}
             checked={checkedOption}
-            isVisible={modals.save}
-            toggleModal={() => toggleModal('save')}
+            isVisible={saveModal.isOpen}
+            toggleModal={saveModal.onCloseModal}
             isDisabledModal={!isDisabledModal}
             addOptionHandler={addOptionHandler}
             changeTitleHandler={changeTitleHandler}

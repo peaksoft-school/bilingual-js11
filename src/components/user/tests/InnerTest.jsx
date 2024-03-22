@@ -23,7 +23,8 @@ const InnerTest = () => {
       dispatch(TESTS_LIST_THUNKS.getTest(testId))
    }, [dispatch, testId])
 
-   const navigateHandler = () => navigate(-1)
+   const navigateHandler = () =>
+      navigate(`${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}`)
 
    const practiceHandler = () =>
       navigate(

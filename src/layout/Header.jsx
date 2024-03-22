@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { AppBar, Box, Typography, styled } from '@mui/material'
@@ -7,16 +6,15 @@ import { LogoImage } from '../assets/images'
 import { ROUTES } from '../routes/routes'
 import Button from '../components/UI/buttons/Button'
 import Modal from '../components/UI/modals/Modal'
+import { useToggleModal } from '../hooks/useToogleModal'
 
 const Header = () => {
    const { role } = useSelector((state) => state.auth)
 
-   const [isVisibleModal, setIsVisibleModal] = useState(false)
+   const { isOpen, onOpenModal, onCloseModal } = useToggleModal('modal')
 
    const dispatch = useDispatch()
    const navigate = useNavigate()
-
-   const handleModal = () => setIsVisibleModal((prev) => !prev)
 
    const handlelogOut = () => dispatch(AUTH_ACTIONS.logOut({ navigate }))
 
@@ -63,18 +61,18 @@ const Header = () => {
 
             <Button
                variant="secondary"
-               onClick={handleModal}
+               onClick={onOpenModal}
                className="log-out"
             >
                LOG OUT
             </Button>
 
-            <Modal isVisible={isVisibleModal} handleIsVisible={handleModal}>
+            <Modal isVisible={isOpen} handleIsVisible={onCloseModal}>
                <Box className="log-out">
                   <Typography>Are you sure you want to log out?</Typography>
 
                   <Box className="buttons">
-                     <Button variant="secondary" onClick={handleModal}>
+                     <Button variant="secondary" onClick={onCloseModal}>
                         CANCEL
                      </Button>
 

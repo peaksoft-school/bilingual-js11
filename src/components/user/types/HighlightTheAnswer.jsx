@@ -4,6 +4,7 @@ import { Box, Typography, styled } from '@mui/material'
 import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSlice'
 import Input from '../../UI/Input'
 import Button from '../../UI/buttons/Button'
+import { NoData } from '../../../assets/images'
 
 const HighlightTheAnswer = ({ questions, nextHandler }) => {
    const [highlightAnswer, setHighlightAnswer] = useState('')
@@ -36,45 +37,49 @@ const HighlightTheAnswer = ({ questions, nextHandler }) => {
 
    return (
       <StyledContainer>
-         <Box className="content-box">
-            <Box className="correct-answer">
-               <Typography className="title">PASSAGE</Typography>
+         {questions.passage !== '' ? (
+            <Box className="content-box">
+               <Box className="correct-answer">
+                  <Typography className="title">PASSAGE</Typography>
 
-               <Typography onMouseUp={mouseUpHandler} className="passage">
-                  {questions.passage}
-               </Typography>
+                  <Typography onMouseUp={mouseUpHandler} className="passage">
+                     {questions.passage}
+                  </Typography>
+               </Box>
+
+               <Box>
+                  <Typography className="instruction">
+                     Click and drag text to highlight the answer to the question
+                     below
+                  </Typography>
+
+                  <Typography className="question">
+                     What did residents think could happen with the new bridge?
+                  </Typography>
+
+                  <Input
+                     readOnly
+                     value={highlightAnswer}
+                     multiline
+                     placeholder="Highlight text in the passage to set an answer"
+                     className={`input ${
+                        highlightAnswer.length > 0 ? 'highlighted-input' : ''
+                     }`}
+                     autoComplete="off"
+                  />
+
+                  <Button
+                     className="button"
+                     disabled={!highlightAnswer}
+                     onClick={onSubmit}
+                  >
+                     NEXT
+                  </Button>
+               </Box>
             </Box>
-
-            <Box>
-               <Typography className="instruction">
-                  Click and drag text to highlight the answer to the question
-                  below
-               </Typography>
-
-               <Typography className="question">
-                  What did residents think could happen with the new bridge?
-               </Typography>
-
-               <Input
-                  readOnly
-                  value={highlightAnswer}
-                  multiline
-                  placeholder="Highlight text in the passage to set an answer"
-                  className={`input ${
-                     highlightAnswer.length > 0 ? 'highlighted-input' : ''
-                  }`}
-                  autoComplete="off"
-               />
-
-               <Button
-                  className="button"
-                  disabled={!highlightAnswer}
-                  onClick={onSubmit}
-               >
-                  NEXT
-               </Button>
-            </Box>
-         </Box>
+         ) : (
+            <img src={NoData} alt="no-data" />
+         )}
       </StyledContainer>
    )
 }
@@ -84,6 +89,11 @@ export default HighlightTheAnswer
 const StyledContainer = styled(Box)(({ theme }) => ({
    color: '#4C4859',
    fontFamily: 'Poppins',
+
+   '& > img': {
+      width: '25rem',
+      margin: '0 0 0 15rem',
+   },
 
    '& > div > .correct-answer': {
       marginTop: '1.8rem',

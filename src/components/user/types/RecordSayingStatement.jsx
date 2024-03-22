@@ -5,6 +5,8 @@ import { RecordingIcon, SpeakManIcon } from '../../../assets/icons'
 import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSlice'
 import { showNotification } from '../../../utils/helpers/notification'
 import Button from '../../UI/buttons/Button'
+import { PRACTICE_TEST_THUNKS } from '../../../store/slices/user/practiceTestThunk'
+import { NoData } from '../../../assets/images'
 
 const RecordSayingStatement = ({ questions, nextHandler }) => {
    const [array, setArray] = useState(null)
@@ -101,10 +103,12 @@ const RecordSayingStatement = ({ questions, nextHandler }) => {
             })
 
             mediaRecorderInstance.addEventListener('stop', () => {
-               const blob = new Blob(chunks, { type: 'audio/webm' })
+               const blob = new Blob(chunks, { type: 'audio/mp3' })
                const url = URL.createObjectURL(blob)
 
                setRecordedAudio(url)
+
+               dispatch(PRACTICE_TEST_THUNKS.addAnswerFile(url))
             })
 
             setMediaRecorder(mediaRecorderInstance)
@@ -141,52 +145,56 @@ const RecordSayingStatement = ({ questions, nextHandler }) => {
 
    return (
       <Container>
-         <Box className="styled-container">
-            <Box>
-               <Box className="record-saying-title">
-                  <Typography className="title">
-                     Record yourself saying the statement below:
-                  </Typography>
-                  <Box className="block">
-                     <SpeakManIcon className="speak" />
-                     <Typography>”{questions.statement}”.</Typography>
-                  </Box>
-               </Box>
-               <Box className="container-button">
-                  {isRecording && <RecordingIcon />}
-                  {isRecording ? (
-                     <Box className="block-of-visualize">
-                        {myElements.map((element) => (
-                           <AudioVisualize
-                              key={element.key}
-                              element={element}
-                              widthpx={width}
-                           />
-                        ))}
+         {questions.statement !== '' ? (
+            <Box className="styled-container">
+               <Box>
+                  <Box className="record-saying-title">
+                     <Typography className="title">
+                        Record yourself saying the statement below:
+                     </Typography>
+                     <Box className="block">
+                        <SpeakManIcon className="speak" />
+                        <Typography>{questions.statement}</Typography>
                      </Box>
-                  ) : null}
-                  <Box>
-                     {!showNextButton && (
-                        <Button
-                           onClick={
-                              isRecording
-                                 ? stopRecordingHandler
-                                 : startRecordingHandler
-                           }
-                        >
-                           {!isRecording ? 'RECORD NOW' : 'STOP RECORDING'}
-                        </Button>
-                     )}
+                  </Box>
+                  <Box className="container-button">
+                     {isRecording && <RecordingIcon />}
+                     {isRecording ? (
+                        <Box className="block-of-visualize">
+                           {myElements.map((element) => (
+                              <AudioVisualize
+                                 key={element.key}
+                                 element={element}
+                                 widthpx={width}
+                              />
+                           ))}
+                        </Box>
+                     ) : null}
+                     <Box>
+                        {!showNextButton && (
+                           <Button
+                              onClick={
+                                 isRecording
+                                    ? stopRecordingHandler
+                                    : startRecordingHandler
+                              }
+                           >
+                              {!isRecording ? 'RECORD NOW' : 'STOP RECORDING'}
+                           </Button>
+                        )}
 
-                     {showNextButton && (
-                        <Button onClick={onSubmit} disabled={!mediaRecorder}>
-                           NEXT
-                        </Button>
-                     )}
+                        {showNextButton && (
+                           <Button onClick={onSubmit} disabled={!mediaRecorder}>
+                              NEXT
+                           </Button>
+                        )}
+                     </Box>
                   </Box>
                </Box>
             </Box>
-         </Box>
+         ) : (
+            <img src={NoData} alt="no-data" />
+         )}
       </Container>
    )
 }

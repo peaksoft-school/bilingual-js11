@@ -9,6 +9,7 @@ import {
    TableRow,
    Table as MuiTable,
    Skeleton,
+   Typography,
 } from '@mui/material'
 
 const Table = ({ columns: headers, data, isLoading }) => {
@@ -32,12 +33,12 @@ const Table = ({ columns: headers, data, isLoading }) => {
                />
             ) : (
                <TableHead>
-                  {headerGroups.map((headerGroup, i) => (
+                  {headerGroups?.map((headerGroup, i) => (
                      <TableRow
                         {...headerGroup.getHeaderGroupProps()}
                         key={headerGroup.headers[i].Header}
                      >
-                        {headerGroup.headers.map((column) => (
+                        {headerGroup.headers?.map((column) => (
                            <StyledCellTh
                               {...column.getHeaderProps({
                                  style: { ...column.style },
@@ -53,7 +54,7 @@ const Table = ({ columns: headers, data, isLoading }) => {
             )}
 
             <TableBody {...getTableBodyProps()}>
-               {rows.map((row) => {
+               {rows?.map((row) => {
                   prepareRow(row)
                   return isLoading ? (
                      <Skeleton
@@ -69,7 +70,7 @@ const Table = ({ columns: headers, data, isLoading }) => {
                         key={row.id}
                         index={row.index}
                      >
-                        {row.cells.map((cell) => (
+                        {row.cells?.map((cell) => (
                            <StyledCellTd
                               {...cell.getCellProps({
                                  style: { ...cell.column.style },
@@ -79,7 +80,9 @@ const Table = ({ columns: headers, data, isLoading }) => {
                            >
                               {cell.column.id === 'resultStatus' ||
                               cell.column.id === 'score' ? (
-                                 <span>{cell.render('Cell')}</span>
+                                 <Typography variant="span">
+                                    {cell.render('Cell')}
+                                 </Typography>
                               ) : (
                                  cell.render('Cell')
                               )}
@@ -137,7 +140,7 @@ const StyledCellTd = styled(TableCell)(({ row }) => ({
    textAlign: 'left',
    fontFamily: 'Poppins',
 
-   '& span': {
+   '& > span': {
       color: row.original.resultStatus === 'EVALUATED' ? 'green' : 'red',
       fontFamily: 'inherit',
    },

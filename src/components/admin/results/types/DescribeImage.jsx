@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
+import { Box, Typography, styled } from '@mui/material'
 import { ANSWERS_THUNKS } from '../../../../store/slices/admin/answers/answersThunk'
 import TestQuestion from '../../../UI/TestQuestion'
 import Button from '../../../UI/buttons/Button'
@@ -19,7 +19,7 @@ const DescribeImage = () => {
          <StyledContainer>
             <Box className="admin-answers-box">
                <Box>
-                  <img src={answers.fileUrl} alt="img" />
+                  <img src={answers?.fileUrl} alt="img" />
                </Box>
 
                <Typography className="correct-answer">

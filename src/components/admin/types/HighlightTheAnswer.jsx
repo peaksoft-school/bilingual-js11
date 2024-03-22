@@ -6,6 +6,7 @@ import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionTh
 import { QUESTION_TITLES } from '../../../utils/constants'
 import Input from '../../UI/Input'
 import Button from '../../UI/buttons/Button'
+import { ROUTES } from '../../../routes/routes'
 
 const HighlightTheAnswer = ({
    title,
@@ -31,7 +32,10 @@ const HighlightTheAnswer = ({
 
    const changeQuestionHandler = (e) => setQuestion(e.target.value)
 
-   const navigateGoBackHandler = () => navigate(-1)
+   const navigateGoBackHandler = () =>
+      navigate(
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
+      )
 
    const isDisabled =
       !selectType ||

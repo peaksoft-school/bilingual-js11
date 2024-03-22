@@ -1,7 +1,8 @@
+/* eslint-disable radix */
 import { Box, Typography, styled } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { PRACTICE_TEST_ACTIONS } from '../../store/slices/user/practiceTestSlice'
 import { PRACTICE_TEST_THUNKS } from '../../store/slices/user/practiceTestThunk'
 import { QUESTION_COMPONENTS } from '../../utils/constants/questionComponents'
@@ -10,6 +11,8 @@ import TestContainer from '../../components/UI/TestContainer'
 import ProgressBar from '../../components/UI/ProgressBar'
 import Button from '../../components/UI/buttons/Button'
 import Modal from '../../components/UI/modals/Modal'
+import { NoData } from '../../assets/images'
+import { useToggleModal } from '../../hooks/useToogleModal'
 
 const PracticeTest = () => {
    const { questions } = useSelector((state) => state.practiceTest)
@@ -20,12 +23,29 @@ const PracticeTest = () => {
 
    const navigate = useNavigate()
 
-   const [count, setCount] = useState(0)
-   const [isVisible, setIsVisible] = useState(false)
+   const [searchParams] = useSearchParams()
+   const savedCount = parseInt(searchParams.get('count')) || 1
 
-   const handleIsVisible = () => setIsVisible((prev) => !prev)
+   const [count, setCount] = useState(savedCount)
 
-   const quitHandler = () => navigate(-1)
+   useEffect(() => {
+      dispatch(PRACTICE_TEST_THUNKS.getAllQuestions({ testId }))
+   }, [dispatch, testId])
+
+   useEffect(() => {
+      const queryParams = new URLSearchParams()
+
+      queryParams.set('count', count)
+
+      navigate({ search: queryParams.toString() })
+   }, [count, navigate])
+
+   const { isOpen, onCloseModal, onOpenModal } = useToggleModal('modal')
+
+   const quitHandler = () => {
+      dispatch(PRACTICE_TEST_ACTIONS.clearCorrectAnswer())
+      navigate(`${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}/${testId}`)
+   }
 
    useEffect(() => {
       dispatch(PRACTICE_TEST_THUNKS.getAllQuestions({ testId }))
@@ -52,7 +72,7 @@ const PracticeTest = () => {
 
       if (lastQuestion) {
          navigate(
-            `${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}/:${ROUTES.USER.TEST_ID}/${ROUTES.USER.PRACTICE_TEST}/${ROUTES.USER.COMPLETE}`
+            `${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}/${testId}/${ROUTES.USER.PRACTICE_TEST}/${ROUTES.USER.COMPLETE}`
          )
       }
    }
@@ -60,22 +80,18 @@ const PracticeTest = () => {
    const lastQuestionHandler = () => {
       if (lastQuestion) {
          navigate(
-            `${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}/:${ROUTES.USER.TEST_ID}/${ROUTES.USER.PRACTICE_TEST}/${ROUTES.USER.COMPLETE}`
+            `${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}/${testId}/${ROUTES.USER.PRACTICE_TEST}/${ROUTES.USER.COMPLETE}`
          )
       }
    }
 
    return (
-      <>
-         <StyledContainer>
-            <Button
-               variant="secondary"
-               className="quit"
-               onClick={handleIsVisible}
-            >
+      <StyledContainer>
+         <Box className="quit-container">
+            <Button variant="secondary" className="quit" onClick={onOpenModal}>
                QUIT TEST
             </Button>
-         </StyledContainer>
+         </Box>
 
          <TestContainer>
             <ProgressBar
@@ -84,15 +100,17 @@ const PracticeTest = () => {
                count={count}
             />
 
-            {QuestionComponent && (
+            {QuestionComponent ? (
                <QuestionComponent
                   questions={questions[count]}
                   nextHandler={lastQuestion ? lastQuestionHandler : nextHandler}
                />
+            ) : (
+               <img src={NoData} alt="no-data" className="no-data" />
             )}
          </TestContainer>
 
-         <Modal isVisible={isVisible} handleIsVisible={handleIsVisible}>
+         <Modal isVisible={isOpen} handleIsVisible={onCloseModal}>
             <Box className="quit-content">
                <Typography className="text">
                   Are you sure you want to leave your practice test?
@@ -107,25 +125,38 @@ const PracticeTest = () => {
                      QUIT TEST
                   </Button>
 
-                  <Button onClick={handleIsVisible}>CONTINUE TEST</Button>
+                  <Button onClick={onCloseModal}>CONTINUE TEST</Button>
                </Box>
             </Box>
          </Modal>
-      </>
+      </StyledContainer>
    )
 }
 
 export default PracticeTest
 
-const StyledContainer = styled(Box)(() => ({
-   display: 'flex',
-   justifyContent: 'flex-end',
-   alignItems: 'center',
-   margin: '2rem 2rem -3rem 0',
+const StyledContainer = styled(Box)(({ theme }) => ({
+   '& > .quit-container': {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+      margin: '2rem 2rem -3rem 0',
 
-   '& > .quit': {
-      color: '#4C4C4C',
-      fontWeight: '700',
-      border: '0.125rem solid #4C4859',
+      '& > .quit': {
+         color: '#4C4C4C',
+         fontWeight: '700',
+         border: '0.125rem solid #4C4859',
+
+         '&:hover': {
+            borderColor: theme.palette.primary.main,
+            background: theme.palette.primary.main,
+            color: theme.palette.primary.white,
+         },
+      },
+   },
+
+   '& .no-data': {
+      width: '30rem',
+      margin: '0 0 0 12rem',
    },
 }))

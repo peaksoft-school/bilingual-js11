@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
+import { Box, Typography, styled } from '@mui/material'
 import { ANSWERS_THUNKS } from '../../../../store/slices/admin/answers/answersThunk'
 import TestQuestion from '../../../UI/TestQuestion'
 import Button from '../../../UI/buttons/Button'
@@ -20,14 +20,14 @@ const HighlightTheAnswer = () => {
             <Box className="admin-answers-box">
                <Typography className="respond">Passage:</Typography>
 
-               <Typography className="passage">{answers.passage}</Typography>
+               <Typography className="passage">{answers?.passage}</Typography>
             </Box>
 
             <Box className="admin-answers-box">
                <Typography className="answer">Correct Answer:</Typography>
 
                <Typography className="correct-answer">
-                  {answers.correctAnswer}
+                  {answers?.correctAnswer}
                </Typography>
             </Box>
 
@@ -36,7 +36,7 @@ const HighlightTheAnswer = () => {
             <Box className="user-answers-box">
                <Typography className="respond">Respond:</Typography>
 
-               <Typography>{answers.userAnswer}</Typography>
+               <Typography>{answers?.userAnswer}</Typography>
             </Box>
 
             <Box className="buttons-box">

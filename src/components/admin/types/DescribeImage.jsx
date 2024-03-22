@@ -1,13 +1,14 @@
-import { useDropzone } from 'react-dropzone'
 import { useState, useRef, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useDropzone } from 'react-dropzone'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { showNotification } from '../../../utils/helpers/notification'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
 import Input from '../../UI/Input'
 import Button from '../../UI/buttons/Button'
+import { ROUTES } from '../../../routes/routes'
 
 const DescribeImage = ({
    title,
@@ -36,7 +37,10 @@ const DescribeImage = ({
 
    const changeAnswerHandler = (e) => setAnswer(e.target.value)
 
-   const navigateGoBackHandler = () => navigate(-1)
+   const navigateGoBackHandler = () =>
+      navigate(
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
+      )
 
    const isDisabled =
       !selectType || !duration || !title.trim() || !image || !answer || !fileUrl
@@ -86,8 +90,8 @@ const DescribeImage = ({
    useEffect(() => {
       if (fileRejections && fileRejections.length > 0) {
          const rejectionMessage = fileRejections
-            .map(({ errors }) => errors.map((e) => e.message).join(', '))
-            .join('\n')
+            ?.map(({ errors }) => errors?.map((e) => e.message)?.join(', '))
+            ?.join('\n')
 
          showNotification({
             title: 'Error',

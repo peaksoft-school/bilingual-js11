@@ -1,12 +1,14 @@
 import { useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
-import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
 import { styled, Box, Typography, InputLabel } from '@mui/material'
+import { v4 as uuidv4 } from 'uuid'
 import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
 import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
+import { useToggleModal } from '../../../hooks/useToogleModal'
 import { PlusIcon } from '../../../assets/icons'
+import { ROUTES } from '../../../routes/routes'
 import DeleteModal from '../../UI/modals/DeleteModal'
 import SaveModal from '../../UI/modals/SaveModal'
 import Button from '../../UI/buttons/Button'
@@ -30,10 +32,9 @@ const ListenAndSelectEnglishWord = ({
    const [optionTitle, setOptionTitle] = useState('')
    const [checkedOption, setCheckedOption] = useState(false)
    const [activeOptionId, setActiveOptionId] = useState(null)
-   const [modals, setModals] = useState({
-      delete: false,
-      save: false,
-   })
+
+   const deleteModalToggle = useToggleModal('delete')
+   const saveModalToggle = useToggleModal('save')
 
    const { testId } = useParams()
 
@@ -45,9 +46,12 @@ const ListenAndSelectEnglishWord = ({
 
    const changeTitleHandler = (e) => setOptionTitle(e.target.value)
 
-   const navigateGoBackHandler = () => navigate(-1)
+   const navigateGoBackHandler = () =>
+      navigate(
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
+      )
 
-   const deleteOption = options.listenAndSelectOptions?.find(
+   const deleteOption = options?.listenAndSelectOptions?.find(
       (option) => option.id === optionId
    )?.optionTitle
 
@@ -55,7 +59,7 @@ const ListenAndSelectEnglishWord = ({
       !selectType ||
       !duration ||
       !title.trim() ||
-      options.listenAndSelectOptions.length < 2
+      options?.listenAndSelectOptions?.length < 2
 
    const isDisabledModal =
       optionTitle.trim() !== '' &&
@@ -64,10 +68,11 @@ const ListenAndSelectEnglishWord = ({
       fileUrl !== ''
 
    const toggleModal = (modalName) => {
-      setModals((prevModals) => ({
-         ...prevModals,
-         [modalName]: !prevModals[modalName],
-      }))
+      if (modalName === 'delete') {
+         deleteModalToggle.onOpenModal()
+      } else if (modalName === 'save') {
+         saveModalToggle.onOpenModal()
+      }
 
       setOptionTitle('')
       setCheckedOption(false)
@@ -92,18 +97,18 @@ const ListenAndSelectEnglishWord = ({
       dispatch(
          QUESTION_ACTIONS.deleteOption({
             optionId,
-            optionName: OPTIONS_NAME.listenAndSelectOptions,
+            optionName: OPTIONS_NAME?.listenAndSelectOptions,
          })
       )
 
-      toggleModal('delete')
+      deleteModalToggle.onCloseModal()
    }
 
    const checkedHandler = (id) => {
       dispatch(
          QUESTION_ACTIONS.handleIsCorrect({
             id,
-            optionName: OPTIONS_NAME.listenAndSelectOptions,
+            optionName: OPTIONS_NAME?.listenAndSelectOptions,
          })
       )
    }
@@ -113,10 +118,10 @@ const ListenAndSelectEnglishWord = ({
          const requestData = {
             title: title.trim(),
             duration: +duration,
-            option: options.listenAndSelectOptions.map((option) => ({
-               optionTitle: option.optionTitle,
-               fileUrl: option.fileUrl,
-               isCorrectOption: option.isCorrectOption,
+            option: options?.listenAndSelectOptions?.map((option) => ({
+               optionTitle: option?.optionTitle,
+               fileUrl: option?.fileUrl,
+               isCorrectOption: option?.isCorrectOption,
             })),
          }
 
@@ -152,7 +157,7 @@ const ListenAndSelectEnglishWord = ({
       dispatch(
          QUESTION_ACTIONS.addOptionCheck({
             option,
-            optionName: OPTIONS_NAME.listenAndSelectOptions,
+            optionName: OPTIONS_NAME?.listenAndSelectOptions,
          })
       )
 
@@ -168,20 +173,20 @@ const ListenAndSelectEnglishWord = ({
          <Box className="add-button">
             <Button
                icon={<PlusIcon className="plus" />}
-               onClick={() => toggleModal('save')}
+               onClick={saveModalToggle.onOpenModal}
             >
                ADD OPTIONS
             </Button>
          </Box>
 
          <Box className="cards">
-            {options.listenAndSelectOptions?.map((option, index) => (
+            {options?.listenAndSelectOptions?.map((option, index) => (
                <Option
                   key={option.id}
                   icon
                   index={index}
                   option={option}
-                  toggleModal={() => toggleModal('delete')}
+                  toggleModal={deleteModalToggle.onOpenModal}
                   setOptionId={setOptionId}
                   checkedHandler={checkedHandler}
                   activeOptionId={activeOptionId}
@@ -204,9 +209,9 @@ const ListenAndSelectEnglishWord = ({
          <SaveModal
             isCloseIcon
             title={optionTitle}
-            isVisible={modals.save}
+            isVisible={saveModalToggle.isOpen}
             isLoading={isLoading}
-            toggleModal={() => toggleModal('save')}
+            toggleModal={saveModalToggle.onCloseModal}
             isDisabledModal={isDisabledModal}
             addOptionHandler={addOptionHandler}
             changeTitleHandler={changeTitleHandler}
@@ -236,9 +241,9 @@ const ListenAndSelectEnglishWord = ({
          </SaveModal>
 
          <DeleteModal
-            isVisible={modals.delete}
+            isVisible={deleteModalToggle.isOpen}
             isCloseIcon
-            toggleModal={() => toggleModal('delete')}
+            toggleModal={deleteModalToggle.onCloseModal}
             deleteHandler={deleteHandler}
          >
             <Typography className="title" variant="p">

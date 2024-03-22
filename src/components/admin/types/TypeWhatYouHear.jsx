@@ -7,6 +7,7 @@ import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionTh
 import { QUESTION_TITLES } from '../../../utils/constants'
 import Button from '../../UI/buttons/Button'
 import Input from '../../UI/Input'
+import { ROUTES } from '../../../routes/routes'
 
 const TypeWhatYouHear = ({
    title,
@@ -32,7 +33,10 @@ const TypeWhatYouHear = ({
 
    const audioRef = useRef(null)
 
-   const navigateGoBackHandler = () => navigate(-1)
+   const navigateGoBackHandler = () =>
+      navigate(
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
+      )
 
    const attemptsChangeHandler = (e) => {
       const newValue = e.target.value.replace(/\D/g, '')

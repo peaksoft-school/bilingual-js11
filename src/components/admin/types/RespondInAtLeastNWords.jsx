@@ -1,9 +1,10 @@
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router'
 import { InputLabel, styled, Box } from '@mui/material'
-import { useDispatch, useSelector } from 'react-redux'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
+import { ROUTES } from '../../../routes/routes'
 import Button from '../../UI/buttons/Button'
 import Input from '../../UI/Input'
 
@@ -36,7 +37,10 @@ const RespondInAtLeastNWords = ({
       setAttempts(limitedValue)
    }
 
-   const navigateGoBackHandler = () => navigate(-1)
+   const navigateGoBackHandler = () =>
+      navigate(
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
+      )
 
    const isDisabled =
       !selectType ||

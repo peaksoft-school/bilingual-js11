@@ -5,10 +5,11 @@ import { ROLES } from '../../../routes/routes'
 const BILINGUAL = process.env.BINGUAL
 
 const initialState = {
-   token: null,
-   isAuth: false,
    role: ROLES.GUEST,
    email: null,
+   token: null,
+   isAuth: false,
+   rememberMe: false,
    isLoading: false,
    passwordToken: null,
 }
