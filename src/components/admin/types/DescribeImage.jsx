@@ -172,17 +172,20 @@ const DescribeImage = ({
                })
             )
          } else {
+            const requestData = {
+               title: title.trim(),
+               duration: +duration,
+               correctAnswer: answer.trim(),
+               optionRequest: [],
+               fileUrl,
+            }
+
             dispatch(
                QUESTION_THUNKS.updateQuestion({
                   id: state.id,
+                  testId,
                   requestData,
                   navigate,
-
-                  setStates: {
-                     setSelectType: setSelectType(selectType),
-                     setTitle: setTitle(title),
-                     setDuration: setDuration(duration),
-                  },
                })
             )
          }

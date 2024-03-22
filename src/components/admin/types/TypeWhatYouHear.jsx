@@ -1,14 +1,14 @@
+import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router'
-import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { PauseIcon, PlayIcon } from '../../../assets/icons'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
+import { ROUTES } from '../../../routes/routes'
 import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
 import Input from '../../UI/Input'
-import { ROUTES } from '../../../routes/routes'
 
 const TypeWhatYouHear = ({
    title,
@@ -145,9 +145,19 @@ const TypeWhatYouHear = ({
                })
             )
          } else {
+            const requestData = {
+               title: title.trim(),
+               duration: +duration,
+               correctAnswer: correctAnswer.trim(),
+               optionRequest: [],
+               attempts,
+               fileUrl,
+            }
+
             dispatch(
                QUESTION_THUNKS.updateQuestion({
                   id: state.id,
+                  testId,
                   requestData,
                   navigate,
                })
@@ -243,7 +253,7 @@ const TypeWhatYouHear = ({
             <Button
                variant="primary"
                onClick={onSubmit}
-               disabled={state !== null ? null : isDisabled}
+               disabled={isDisabled}
                isLoading={isLoading}
                loadingColor="secondary"
             >

@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { styled, Box, Typography, InputLabel } from '@mui/material'
-import { v4 as uuidv4 } from 'uuid'
 import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
 import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
@@ -23,11 +22,11 @@ const ListenAndSelectEnglishWord = ({
    setDuration,
    setSelectType,
 }) => {
-   const { fileUrl, isLoading, options } = useSelector(
+   const { fileUrl, isLoading, options, isCreate } = useSelector(
       (state) => state.question
    )
 
-   const { state } = useLocation()
+   const { questionId } = useParams()
 
    const [files, setFiles] = useState([])
    const [optionId, setOptionId] = useState(null)
@@ -35,8 +34,8 @@ const ListenAndSelectEnglishWord = ({
    const [optionTitle, setOptionTitle] = useState('')
    const [checkedOption, setCheckedOption] = useState(false)
 
-   const deleteModalToggle = useToggleModal('delete')
-   const saveModalToggle = useToggleModal('save')
+   const deleteModal = useToggleModal('delete')
+   const saveModal = useToggleModal('save')
 
    const { testId } = useParams()
 
@@ -55,16 +54,16 @@ const ListenAndSelectEnglishWord = ({
    }
 
    useEffect(() => {
-      if (state !== null) {
+      if (questionId) {
          dispatch(
             QUESTION_THUNKS.getQuestion({
-               id: state?.id,
+               id: questionId,
                addUpdateOption: QUESTION_ACTIONS,
                optionName: OPTIONS_NAME.listenAndSelectOptions,
             })
          )
       }
-   }, [dispatch, state])
+   }, [dispatch, questionId])
 
    const deleteOption = options?.listenAndSelectOptions?.find(
       (option) => option.optionId === optionId
@@ -82,17 +81,6 @@ const ListenAndSelectEnglishWord = ({
       isUploaded !== false &&
       isLoading !== true &&
       fileUrl !== ''
-
-   const toggleModal = (modalName) => {
-      if (modalName === 'delete') {
-         deleteModalToggle.onOpenModal()
-      } else if (modalName === 'save') {
-         saveModalToggle.onOpenModal()
-      }
-
-      setOptionTitle('')
-      setCheckedOption(false)
-   }
 
    const fileChangeHandler = (e) => {
       const file = e.target.files[0]
@@ -117,7 +105,7 @@ const ListenAndSelectEnglishWord = ({
          })
       )
 
-      deleteModalToggle.onCloseModal()
+      deleteModal.onCloseModal()
    }
 
    const checkedHandler = (optionId) => {
@@ -141,7 +129,7 @@ const ListenAndSelectEnglishWord = ({
             })),
          }
 
-         if (state === null) {
+         if (isCreate) {
             dispatch(
                QUESTION_THUNKS.addTest({
                   requestData,
@@ -165,14 +153,17 @@ const ListenAndSelectEnglishWord = ({
                title: title.trim(),
                duration: +duration,
                optionRequest: options.listenAndSelectOptions?.map((option) => ({
+                  id: option.optionId,
                   optionTitle: option.optionTitle,
                   isCorrectOption: option.isCorrectOption,
+                  fileUrl: option.fileUrl,
                })),
             }
 
             dispatch(
                QUESTION_THUNKS.updateQuestion({
-                  id: state.id,
+                  id: questionId,
+                  testId,
                   requestData,
                   navigate,
                   clearOptions: QUESTION_ACTIONS,
@@ -186,7 +177,7 @@ const ListenAndSelectEnglishWord = ({
       const option = {
          optionTitle: optionTitle.trim(),
          isCorrectOption: checkedOption,
-         optionId: uuidv4(),
+         optionId: Math.floor(Math.random() * 200) + 50,
          fileUrl,
       }
 
@@ -197,7 +188,7 @@ const ListenAndSelectEnglishWord = ({
          })
       )
 
-      toggleModal('save')
+      saveModal.onCloseModal()
 
       setOptionTitle('')
       setCheckedOption(false)
@@ -206,12 +197,12 @@ const ListenAndSelectEnglishWord = ({
 
    return (
       <StyledContainer>
-         {state !== null ? isLoading && <Loading /> : null}
+         {isCreate ? isLoading && <Loading /> : null}
 
          <Box className="add-button">
             <Button
                icon={<PlusIcon className="plus" />}
-               onClick={saveModalToggle.onOpenModal}
+               onClick={saveModal.onOpenModal}
             >
                ADD OPTIONS
             </Button>
@@ -225,7 +216,7 @@ const ListenAndSelectEnglishWord = ({
                   deletion
                   index={index}
                   option={option}
-                  toggleModal={deleteModalToggle.onOpenModal}
+                  toggleModal={deleteModal.onOpenModal}
                   setOptionId={setOptionId}
                   checkedHandler={checkedHandler}
                />
@@ -237,21 +228,17 @@ const ListenAndSelectEnglishWord = ({
                GO BACK
             </Button>
 
-            <Button
-               variant="primary"
-               disabled={state !== null ? null : isDisabled}
-               onClick={onSubmit}
-            >
-               {state !== null ? 'UPDATE' : 'SAVE'}
+            <Button variant="primary" disabled={isDisabled} onClick={onSubmit}>
+               {isCreate ? 'SAVE' : 'UPDATE'}
             </Button>
          </Box>
 
          <SaveModal
             isCloseIcon
             title={optionTitle}
-            isVisible={saveModalToggle.isOpen}
+            isVisible={saveModal.isOpen}
+            toggleModal={saveModal.onCloseModal}
             isLoading={isLoading}
-            toggleModal={saveModalToggle.onCloseModal}
             isDisabledModal={isDisabledModal}
             addOptionHandler={addOptionHandler}
             changeTitleHandler={changeTitleHandler}
@@ -281,9 +268,9 @@ const ListenAndSelectEnglishWord = ({
          </SaveModal>
 
          <DeleteModal
-            isVisible={deleteModalToggle.isOpen}
+            isVisible={deleteModal.isOpen}
             isCloseIcon
-            toggleModal={deleteModalToggle.onCloseModal}
+            toggleModal={deleteModal.onCloseModal}
             deleteHandler={deleteHandler}
          >
             <Typography className="title" variant="p">
