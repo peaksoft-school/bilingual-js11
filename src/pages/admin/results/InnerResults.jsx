@@ -37,6 +37,8 @@ const InnerResults = () => {
       return format(date, 'dd.MM.yyyy HH:mm')
    }
 
+   const stopPropagationHandler = (e) => e.stopPropagation()
+
    const sendResultsHandler = () => {
       dispatch(SUBMITTED_RESULTS_THUNKS.postResults({ resultId, navigate }))
    }
@@ -201,24 +203,39 @@ const InnerResults = () => {
                            key={answerId}
                            onClick={() => navigateHandler(answerId)}
                         >
-                           <Typography className="numbering">
+                           <Typography
+                              className="numbering"
+                              onClick={stopPropagationHandler}
+                           >
                               {index + 1}
                            </Typography>
 
-                           <Typography className="question-type">
+                           <Typography
+                              className="question-type"
+                              onClick={stopPropagationHandler}
+                           >
                               {questionTypeHandler(questionType)}
                            </Typography>
 
-                           <Typography className="score">
+                           <Typography
+                              className="score"
+                              onClick={stopPropagationHandler}
+                           >
                               0 out of {score}
                            </Typography>
 
                            {status === 'EVALUATED' ? (
-                              <Typography className="status evaluated">
+                              <Typography
+                                 className="status evaluated"
+                                 onClick={stopPropagationHandler}
+                              >
                                  {resultsStatusHandler(status)}
                               </Typography>
                            ) : (
-                              <Typography className="status">
+                              <Typography
+                                 className="status"
+                                 onClick={stopPropagationHandler}
+                              >
                                  {resultsStatusHandler(status)}
                               </Typography>
                            )}
@@ -342,6 +359,10 @@ const StyledBox = styled(Box)(() => ({
    cursor: 'pointer',
    boxShadow:
       '0px 4px 10px 0px rgba(0, 0, 0, 0.06), 0px -4px 10px 0px rgba(0, 0, 0, 0.06)',
+
+   '& > .numbering, & > .question-type, & > .score, & > .status': {
+      cursor: 'auto',
+   },
 
    '& > .numbering': {
       width: '1rem',
