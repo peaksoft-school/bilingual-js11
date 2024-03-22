@@ -63,6 +63,7 @@ const RespondInAtLeastNWords = ({
    const isDisabled =
       !selectType ||
       !duration ||
+      duration < 1 ||
       !title ||
       !statement ||
       !attempts ||

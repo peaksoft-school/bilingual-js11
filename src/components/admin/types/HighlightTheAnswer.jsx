@@ -67,6 +67,7 @@ const HighlightTheAnswer = ({
    const isDisabled =
       !selectType ||
       !duration ||
+      duration < 1 ||
       !title?.trim() ||
       !answerValue?.trim() ||
       !statement?.trim()

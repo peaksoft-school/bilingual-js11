@@ -118,6 +118,7 @@ const SelectTheMainIdea = ({
    const isDisabled =
       !selectType ||
       !duration ||
+      duration < 1 ||
       !title ||
       !passage ||
       options.selectTheMainIdeaOptions?.length < 2

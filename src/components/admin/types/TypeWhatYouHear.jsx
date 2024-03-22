@@ -103,6 +103,7 @@ const TypeWhatYouHear = ({
       !fileUrl ||
       !attempts ||
       !duration ||
+      duration < 1 ||
       !selectType ||
       !correctAnswer
 

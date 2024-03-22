@@ -69,6 +69,7 @@ const DescribeImage = ({
       (!state &&
          (!selectType ||
             !duration ||
+            duration < 1 ||
             !title.trim() ||
             !image ||
             !answer ||

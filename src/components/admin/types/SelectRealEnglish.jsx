@@ -87,6 +87,7 @@ const SelectRealEnglish = ({
    const isDisabled =
       !selectType ||
       !duration ||
+      duration < 1 ||
       !title ||
       options.selectRealEnglishWordsOptions?.length < 2
 

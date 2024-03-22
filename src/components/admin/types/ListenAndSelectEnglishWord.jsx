@@ -73,6 +73,7 @@ const ListenAndSelectEnglishWord = ({
    const isDisabled =
       !selectType ||
       !duration ||
+      duration < 1 ||
       !title.trim() ||
       options?.listenAndSelectOptions?.length < 2
 

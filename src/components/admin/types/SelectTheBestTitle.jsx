@@ -114,6 +114,7 @@ const SelectTheBestTitle = ({
    const isDisabled =
       !selectType ||
       !duration ||
+      duration < 1 ||
       !title ||
       options.selectTheBestTitleOptions?.length < 2 ||
       !passage

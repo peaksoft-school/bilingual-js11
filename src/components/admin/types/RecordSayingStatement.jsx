@@ -55,6 +55,7 @@ const RecordSayingStatement = ({
    const isDisabled =
       !selectType ||
       !duration ||
+      duration < 1 ||
       !title.trim() ||
       !statement ||
       (state === null && !statement.trim())
