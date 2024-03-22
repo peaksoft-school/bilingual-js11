@@ -1,8 +1,8 @@
-import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
-import { Box, Typography, styled } from '@mui/material'
 import { v4 as uuidv4 } from 'uuid'
+import { useEffect, useState } from 'react'
+import { Box, Typography, styled } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
 import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
@@ -11,6 +11,7 @@ import { PlusIcon } from '../../../assets/icons'
 import { ROUTES } from '../../../routes/routes'
 import DeleteModal from '../../UI/modals/DeleteModal'
 import SaveModal from '../../UI/modals/SaveModal'
+import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
 import Option from '../../UI/Option'
 
@@ -22,7 +23,9 @@ const SelectRealEnglish = ({
    setDuration,
    setSelectType,
 }) => {
-   const { options } = useSelector((state) => state.question)
+   const { options, isLoading } = useSelector((state) => state.question)
+
+   const { state } = useLocation()
 
    const [optionId, setOptionId] = useState(null)
    const [optionTitle, setOptionTitle] = useState('')
@@ -41,10 +44,25 @@ const SelectRealEnglish = ({
 
    const changeTitleHandler = (e) => setOptionTitle(e.target.value)
 
-   const navigateGoBackHandler = () =>
+   const navigateGoBackHandler = () => {
       navigate(
          `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
       )
+
+      dispatch(QUESTION_ACTIONS.clearOptions())
+   }
+
+   useEffect(() => {
+      if (state !== null) {
+         dispatch(
+            QUESTION_THUNKS.getQuestion({
+               id: state?.id,
+               addUpdateOption: QUESTION_ACTIONS,
+               optionName: OPTIONS_NAME.selectRealEnglishWordsOptions,
+            })
+         )
+      }
+   }, [dispatch, state])
 
    const deleteHandler = () => {
       dispatch(
@@ -57,10 +75,10 @@ const SelectRealEnglish = ({
       deleteModal.onCloseModal()
    }
 
-   const checkedHandler = (id) => {
+   const checkedHandler = (optionId) => {
       dispatch(
          QUESTION_ACTIONS.handleIsChecked({
-            id,
+            optionId,
             optionName: OPTIONS_NAME.selectRealEnglishWordsOptions,
          })
       )
@@ -69,13 +87,13 @@ const SelectRealEnglish = ({
    const isDisabled =
       !selectType ||
       !duration ||
-      !title.trim() ||
+      !title ||
       options.selectRealEnglishWordsOptions?.length < 2
 
    const isDisabledModal = !optionTitle.trim()
 
    const deleteOption = options.selectRealEnglishWordsOptions?.find(
-      (option) => option.id === optionId
+      (option) => option.optionId === optionId
    )?.optionTitle
 
    const onSubmit = () => {
@@ -83,28 +101,53 @@ const SelectRealEnglish = ({
          const requestData = {
             title: title.trim(),
             duration: +duration,
-            option: options.selectRealEnglishWordsOptions.map((option) => ({
+            option: options.selectRealEnglishWordsOptions?.map((option) => ({
                optionTitle: option.optionTitle,
                isCorrectOption: option.isCorrectOption,
             })),
          }
 
-         dispatch(
-            QUESTION_THUNKS.addTest({
-               requestData,
-               data: {
-                  testId,
-                  questionType: QUESTION_TITLES.SELECT_REAL_ENGLISH_WORD,
+         if (state === null) {
+            dispatch(
+               QUESTION_THUNKS.addTest({
+                  requestData,
+
+                  data: {
+                     testId,
+                     questionType: QUESTION_TITLES.SELECT_REAL_ENGLISH_WORD,
+                     navigate,
+                  },
+
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
+
+                  clearOptions: QUESTION_ACTIONS,
+               })
+            )
+         } else {
+            const requestData = {
+               title: title.trim(),
+               duration: +duration,
+               optionRequest: options.selectRealEnglishWordsOptions?.map(
+                  (option) => ({
+                     optionTitle: option.optionTitle,
+                     isCorrectOption: option.isCorrectOption,
+                  })
+               ),
+            }
+
+            dispatch(
+               QUESTION_THUNKS.updateQuestion({
+                  id: state.id,
+                  requestData,
                   navigate,
-               },
-               setStates: {
-                  setSelectType: setSelectType(selectType),
-                  setTitle: setTitle(title),
-                  setDuration: setDuration(duration),
-               },
-               clearOptions: QUESTION_ACTIONS,
-            })
-         )
+                  clearOptions: QUESTION_ACTIONS,
+               })
+            )
+         }
       }
    }
 
@@ -112,7 +155,7 @@ const SelectRealEnglish = ({
       const option = {
          optionTitle: optionTitle.trim(),
          isCorrectOption: checkedOption,
-         id: uuidv4(),
+         optionId: uuidv4(),
       }
 
       dispatch(
@@ -131,6 +174,8 @@ const SelectRealEnglish = ({
    return (
       <>
          <StyledContainer>
+            {state !== null ? isLoading && <Loading /> : null}
+
             <Box className="add-button">
                <Button
                   onClick={saveModal.onOpenModal} // Open the save modal
@@ -141,10 +186,11 @@ const SelectRealEnglish = ({
             </Box>
 
             <Box className="cards">
-               {options.selectRealEnglishWordsOptions?.map((option, i) => (
+               {options.selectRealEnglishWordsOptions?.map((option, index) => (
                   <Option
-                     key={option.id}
-                     index={i}
+                     key={option.optionId}
+                     index={index}
+                     deletion
                      option={option}
                      toggleModal={deleteModal.onOpenModal} // Open the delete modal
                      setOptionId={setOptionId}
@@ -160,10 +206,10 @@ const SelectRealEnglish = ({
 
                <Button
                   variant="primary"
-                  disabled={isDisabled}
+                  disabled={state !== null ? null : isDisabled}
                   onClick={onSubmit}
                >
-                  SAVE
+                  {state !== null ? 'UPDATE' : 'SAVE'}
                </Button>
             </Box>
          </StyledContainer>
@@ -202,10 +248,10 @@ const SelectRealEnglish = ({
 export default SelectRealEnglish
 
 const StyledContainer = styled(Box)(() => ({
-   width: '822px',
+   width: '820px',
 
    '& > .add-button': {
-      margin: '2rem 0 1.375rem 41rem',
+      margin: '2rem -1rem 1.375rem 41rem',
 
       '& > button >  span > .plus': {
          width: '1rem',
@@ -247,7 +293,12 @@ const StyledContainer = styled(Box)(() => ({
    '& > .buttons': {
       display: 'flex',
       gap: '1.1rem',
-      marginLeft: '37.4rem',
+      position: 'relative',
+      right: '-35.5rem',
+
+      '& > .MuiButton-root ': {
+         width: '118px',
+      },
 
       '& > .text': {
          textDecoration: 'none',

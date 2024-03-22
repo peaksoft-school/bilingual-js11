@@ -9,7 +9,6 @@ import {
    TableRow,
    Table as MuiTable,
    Skeleton,
-   Typography,
 } from '@mui/material'
 
 const Table = ({ columns: headers, data, isLoading }) => {
@@ -79,10 +78,9 @@ const Table = ({ columns: headers, data, isLoading }) => {
                               row={row}
                            >
                               {cell.column.id === 'resultStatus' ||
-                              cell.column.id === 'score' ? (
-                                 <Typography variant="span">
-                                    {cell.render('Cell')}
-                                 </Typography>
+                              cell.column.id === 'score' ||
+                              cell.column.id === 'status' ? (
+                                 <span>{cell.render('Cell')}</span>
                               ) : (
                                  cell.render('Cell')
                               )}
@@ -116,9 +114,10 @@ const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
       padding: '1.13rem 3.13rem',
    },
 
-   '& > table > tbody > .skeleton-box': {
+   '& .skeleton-box': {
       marginBottom: '0.87rem',
       borderRadius: '8px',
+      backgroundColor: '#e5e5e567',
    },
 }))
 
@@ -141,8 +140,12 @@ const StyledCellTd = styled(TableCell)(({ row }) => ({
    fontFamily: 'Poppins',
 
    '& > span': {
-      color: row.original.resultStatus === 'EVALUATED' ? 'green' : 'red',
       fontFamily: 'inherit',
+      color:
+         row.original.status === 'EVALUATED' ||
+         row.original.resultStatus === 'EVALUATED'
+            ? '#2AB930'
+            : '#F61414',
    },
 }))
 

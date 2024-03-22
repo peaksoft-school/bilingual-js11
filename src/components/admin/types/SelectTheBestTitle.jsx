@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Box, TextField, Typography, styled } from '@mui/material'
 import { v4 as uuidv4 } from 'uuid'
 import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
@@ -13,6 +13,7 @@ import DeleteModal from '../../UI/modals/DeleteModal'
 import SaveModal from '../../UI/modals/SaveModal'
 import Option from '../../UI/Option'
 import Button from '../../UI/buttons/Button'
+import Loading from '../../Loading'
 
 const SelectTheBestTitle = ({
    title,
@@ -22,7 +23,11 @@ const SelectTheBestTitle = ({
    setDuration,
    setSelectType,
 }) => {
-   const { options } = useSelector((state) => state.question)
+   const { options, question, isLoading } = useSelector(
+      (state) => state.question
+   )
+
+   const { state } = useLocation()
 
    const [passage, setPassage] = useState('')
    const [optionId, setOptionId] = useState(null)
@@ -41,14 +46,39 @@ const SelectTheBestTitle = ({
 
    const changeTitleHandler = (e) => setOptionTitle(e.target.value)
 
-   const textAreaChangeHandler = (e) => setPassage(e.target.value)
-
    const changeCheckboxHandler = (e) => setCheckedOption(e.target.checked)
 
-   const navigateGoBackHandler = () =>
+   const textAreaChangeHandler = (e) => {
+      const { value } = e.target
+
+      setPassage(value || '')
+   }
+
+   const navigateGoBackHandler = () => {
       navigate(
          `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
       )
+
+      dispatch(QUESTION_ACTIONS.clearOptions())
+   }
+
+   useEffect(() => {
+      if (state !== null) {
+         dispatch(
+            QUESTION_THUNKS.getQuestion({
+               id: state?.id,
+               addUpdateOption: QUESTION_ACTIONS,
+               optionName: OPTIONS_NAME.selectTheBestTitleOptions,
+            })
+         )
+      }
+   }, [dispatch, state])
+
+   useEffect(() => {
+      if (state !== null && question) {
+         setPassage(question?.passage)
+      }
+   }, [state, question])
 
    const toggleModal = (modalName) => {
       if (modalName === 'delete') {
@@ -72,10 +102,10 @@ const SelectTheBestTitle = ({
       toggleModal('delete')
    }
 
-   const checkedHandler = (id) => {
+   const checkedHandler = (optionId) => {
       dispatch(
          QUESTION_ACTIONS.handleIsCorrect({
-            id,
+            optionId,
             optionName: OPTIONS_NAME.selectTheBestTitleOptions,
          })
       )
@@ -84,9 +114,9 @@ const SelectTheBestTitle = ({
    const isDisabled =
       !selectType ||
       !duration ||
-      !title.trim() ||
-      options?.selectTheBestTitleOptions?.length < 2 ||
-      !passage.trim()
+      !title ||
+      options.selectTheBestTitleOptions?.length < 2 ||
+      !passage
 
    const isDisabledModal = !optionTitle.trim()
 
@@ -95,30 +125,54 @@ const SelectTheBestTitle = ({
          const requestData = {
             title: title.trim(),
             duration: +duration,
-            option: options?.selectTheBestTitleOptions?.map((option) => ({
-               optionTitle: option?.optionTitle,
-               isCorrectOption: option?.isCorrectOption,
+            passage,
+            option: options.selectTheBestTitleOptions?.map((option) => ({
+               optionTitle: option.optionTitle,
+               isCorrectOption: option.isCorrectOption,
             })),
          }
 
-         dispatch(
-            QUESTION_THUNKS.addTest({
-               requestData,
-               data: {
-                  testId,
-                  questionType: QUESTION_TITLES.SELECT_THE_BEST_TITLE,
+         if (state === null) {
+            dispatch(
+               QUESTION_THUNKS.addTest({
+                  requestData,
+
+                  data: {
+                     testId,
+                     questionType: QUESTION_TITLES.SELECT_THE_BEST_TITLE,
+                     navigate,
+                  },
+
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
+
+                  clearOptions: QUESTION_ACTIONS,
+               })
+            )
+         } else {
+            const requestData = {
+               title: title.trim(),
+               duration: +duration,
+               optionRequest: options.selectTheBestTitleOptions?.map(
+                  (option) => ({
+                     optionTitle: option.optionTitle,
+                     isCorrectOption: option.isCorrectOption,
+                  })
+               ),
+            }
+
+            dispatch(
+               QUESTION_THUNKS.updateQuestion({
+                  id: state.id,
+                  requestData,
                   navigate,
-               },
-
-               setStates: {
-                  setSelectType: setSelectType(selectType),
-                  setTitle: setTitle(title),
-                  setDuration: setDuration(duration),
-               },
-
-               clearOptions: QUESTION_ACTIONS,
-            })
-         )
+                  clearOptions: QUESTION_ACTIONS,
+               })
+            )
+         }
       }
    }
 
@@ -126,7 +180,7 @@ const SelectTheBestTitle = ({
       const option = {
          optionTitle: optionTitle.trim(),
          isCorrectOption: checkedOption,
-         id: uuidv4(),
+         optionId: uuidv4(),
       }
 
       dispatch(
@@ -141,19 +195,21 @@ const SelectTheBestTitle = ({
       setOptionTitle('')
       setCheckedOption(false)
 
-      if (options?.selectTheBestTitleOptions?.length === 0 || checkedOption) {
-         setSelectedOptionId(option.id)
+      if (options.selectTheBestTitleOptions?.length === 0 || checkedOption) {
+         setSelectedOptionId(option.optionId)
       }
    }
 
    return (
       <StyledContainer>
+         {state !== null ? isLoading && <Loading /> : null}
+
          <Box className="passage">
             <Typography className="title">Passage</Typography>
 
             <TextField
                name="text"
-               value={passage}
+               value={passage || ''}
                onChange={textAreaChangeHandler}
                multiline
                fullWidth
@@ -171,12 +227,13 @@ const SelectTheBestTitle = ({
          </Box>
 
          <Box className="cards">
-            {options?.selectTheBestTitleOptions?.map((option, i) => (
+            {options.selectTheMainIdeaOptions?.map((option, index) => (
                <Option
-                  key={option.id}
-                  index={i}
+                  key={option.optionId}
+                  index={index}
                   option={option}
                   isRadio
+                  deletion
                   toggleModal={() => toggleModal('delete')}
                   setOptionId={setOptionId}
                   checkedHandler={checkedHandler}
@@ -191,8 +248,12 @@ const SelectTheBestTitle = ({
                GO BACK
             </Button>
 
-            <Button variant="primary" disabled={isDisabled} onClick={onSubmit}>
-               SAVE
+            <Button
+               variant="primary"
+               disabled={state !== null ? null : isDisabled}
+               onClick={onSubmit}
+            >
+               {state !== null ? 'UPDATE' : 'SAVE'}
             </Button>
          </Box>
 
@@ -224,7 +285,7 @@ const SelectTheBestTitle = ({
 export default SelectTheBestTitle
 
 const StyledContainer = styled(Box)(({ theme }) => ({
-   width: '822px',
+   width: '820px',
 
    '& > .add-button': {
       margin: '2rem 0 1.375rem 41rem',
@@ -268,6 +329,11 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    '& > .buttons': {
       display: 'flex',
       gap: '1.1rem',
-      marginLeft: '37.4rem',
+      position: 'relative',
+      right: '-35.5rem',
+
+      '& > .MuiButton-root ': {
+         width: '118px',
+      },
    },
 }))

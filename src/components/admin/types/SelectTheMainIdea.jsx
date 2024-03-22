@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Box, TextField, Typography, styled } from '@mui/material'
 import { v4 as uuidv4 } from 'uuid'
 import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
@@ -11,6 +11,7 @@ import { PlusIcon } from '../../../assets/icons'
 import { ROUTES } from '../../../routes/routes'
 import DeleteModal from '../../UI/modals/DeleteModal'
 import SaveModal from '../../UI/modals/SaveModal'
+import Loading from '../../Loading'
 import Option from '../../UI/Option'
 import Button from '../../UI/buttons/Button'
 
@@ -22,7 +23,11 @@ const SelectTheMainIdea = ({
    setDuration,
    setSelectType,
 }) => {
-   const { options } = useSelector((state) => state.question)
+   const { options, question, isLoading } = useSelector(
+      (state) => state.question
+   )
+
+   const { state } = useLocation()
 
    const [passage, setPassage] = useState('')
    const [optionId, setOptionId] = useState(null)
@@ -41,14 +46,43 @@ const SelectTheMainIdea = ({
 
    const changeCheckbox = (e) => setCheckedOption(e.target.checked)
 
-   const handleChangeTitle = (e) => setOptionTitle(e.target.value)
+   const handleChangeTitle = (e) => {
+      const { value } = e.target
 
-   const handleChangeTextArea = (e) => setPassage(e.target.value)
+      setOptionTitle(value || '')
+   }
 
-   const navigateGoBackHandler = () =>
+   const handleChangeTextArea = (e) => {
+      const { value } = e.target
+
+      setPassage(value || '')
+   }
+
+   const navigateGoBackHandler = () => {
       navigate(
          `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
       )
+
+      dispatch(QUESTION_ACTIONS.clearOptions())
+   }
+
+   useEffect(() => {
+      if (state !== null) {
+         dispatch(
+            QUESTION_THUNKS.getQuestion({
+               id: state?.id,
+               addUpdateOption: QUESTION_ACTIONS,
+               optionName: OPTIONS_NAME.selectTheMainIdeaOptions,
+            })
+         )
+      }
+   }, [dispatch, state])
+
+   useEffect(() => {
+      if (state !== null && question) {
+         setPassage(question?.passage)
+      }
+   }, [state, question])
 
    const toggleModal = (modalName) => {
       if (modalName === 'delete') {
@@ -72,10 +106,10 @@ const SelectTheMainIdea = ({
       toggleModal('delete')
    }
 
-   const checkedHandler = (id) => {
+   const checkedHandler = (optionId) => {
       dispatch(
          QUESTION_ACTIONS.handleIsCorrect({
-            id,
+            optionId,
             optionName: OPTIONS_NAME.selectTheMainIdeaOptions,
          })
       )
@@ -84,9 +118,9 @@ const SelectTheMainIdea = ({
    const isDisabled =
       !selectType ||
       !duration ||
-      !title.trim() ||
-      !passage.trim() ||
-      options?.selectTheMainIdeaOptions?.length < 2
+      !title ||
+      !passage ||
+      options.selectTheMainIdeaOptions?.length < 2
 
    const isDisabledModal = !optionTitle.trim()
 
@@ -95,30 +129,54 @@ const SelectTheMainIdea = ({
          const requestData = {
             title: title.trim(),
             duration: +duration,
-            option: options?.selectTheMainIdeaOptions?.map((option) => ({
-               optionTitle: option?.optionTitle,
-               isCorrectOption: option?.isCorrectOption,
+            passage,
+            option: options.selectTheMainIdeaOptions?.map((option) => ({
+               optionTitle: option.optionTitle,
+               isCorrectOption: option.isCorrectOption,
             })),
          }
 
-         dispatch(
-            QUESTION_THUNKS.addTest({
-               requestData,
-               data: {
-                  testId,
-                  questionType: QUESTION_TITLES.SELECT_MAIN_IDEA,
+         if (state === null) {
+            dispatch(
+               QUESTION_THUNKS.addTest({
+                  requestData,
+
+                  data: {
+                     testId,
+                     questionType: QUESTION_TITLES.SELECT_MAIN_IDEA,
+                     navigate,
+                  },
+
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
+
+                  clearOptions: QUESTION_ACTIONS,
+               })
+            )
+         } else {
+            const requestData = {
+               title: title.trim(),
+               duration: +duration,
+               optionRequest: options.selectTheMainIdeaOptions?.map(
+                  (option) => ({
+                     optionTitle: option.optionTitle,
+                     isCorrectOption: option.isCorrectOption,
+                  })
+               ),
+            }
+
+            dispatch(
+               QUESTION_THUNKS.updateQuestion({
+                  id: state.id,
+                  requestData,
                   navigate,
-               },
-
-               setStates: {
-                  setSelectType: setSelectType(selectType),
-                  setTitle: setTitle(title),
-                  setDuration: setDuration(duration),
-               },
-
-               clearOptions: QUESTION_ACTIONS,
-            })
-         )
+                  clearOptions: QUESTION_ACTIONS,
+               })
+            )
+         }
       }
    }
 
@@ -126,7 +184,7 @@ const SelectTheMainIdea = ({
       const option = {
          optionTitle: optionTitle.trim(),
          isCorrectOption: checkedOption,
-         id: uuidv4(),
+         optionId: uuidv4(),
       }
 
       dispatch(
@@ -141,19 +199,21 @@ const SelectTheMainIdea = ({
       setOptionTitle('')
       setCheckedOption(false)
 
-      if (options?.selectTheMainIdeaOptions?.length === 0 || checkedOption) {
-         setSelectedOptionId(option.id)
+      if (options.selectTheMainIdeaOptions.length === 0 || checkedOption) {
+         setSelectedOptionId(option.optionId)
       }
    }
 
    return (
       <StyledContainer>
+         {state !== null ? isLoading && <Loading /> : null}
+
          <Box className="passage">
             <Typography className="title">Passage</Typography>
 
             <TextField
                name="text"
-               value={passage}
+               value={passage || ''}
                onChange={handleChangeTextArea}
                multiline
                fullWidth
@@ -171,12 +231,13 @@ const SelectTheMainIdea = ({
          </Box>
 
          <Box className="cards">
-            {options.selectTheMainIdeaOptions?.map((option, i) => (
+            {options.selectTheMainIdeaOptions?.map((option, index) => (
                <Option
-                  key={option.id}
-                  index={i}
+                  key={option.optionId}
+                  index={index}
                   option={option}
                   isRadio
+                  deletion
                   toggleModal={() => toggleModal('delete')}
                   setOptionId={setOptionId}
                   checkedHandler={checkedHandler}
@@ -191,8 +252,12 @@ const SelectTheMainIdea = ({
                GO BACK
             </Button>
 
-            <Button variant="primary" disabled={isDisabled} onClick={onSubmit}>
-               SAVE
+            <Button
+               variant="primary"
+               disabled={state !== null ? null : isDisabled}
+               onClick={onSubmit}
+            >
+               {state !== null ? 'UPDATE' : 'SAVE'}
             </Button>
          </Box>
 
@@ -224,7 +289,7 @@ const SelectTheMainIdea = ({
 export default SelectTheMainIdea
 
 const StyledContainer = styled(Box)(({ theme }) => ({
-   width: '822px',
+   width: '820px',
 
    '& > .add-button': {
       margin: '2rem 0 1.375rem 41rem',
@@ -268,6 +333,11 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    '& > .buttons': {
       display: 'flex',
       gap: '1.1rem',
-      marginLeft: '37.4rem',
+      position: 'relative',
+      right: '-35.5rem',
+
+      '& > .MuiButton-root ': {
+         width: '118px',
+      },
    },
 }))

@@ -1,18 +1,18 @@
 import { useState } from 'react'
-import { Typography } from '@mui/material'
 import { useDispatch } from 'react-redux'
-import { MY_RESULTS_THUNKS } from '../../../store/slices/user/results/resultsThunk'
+import { Box, Typography } from '@mui/material'
+import { SUBMITTED_RESULTS_THUNKS } from '../../../store/slices/admin/results/submitedResultsThunk'
 import { TrashIcon } from '../../../assets/icons'
 import DeleteModal from '../../UI/modals/DeleteModal'
 import IconButton from '../../UI/buttons/IconButton'
 
-const DeleteResults = ({ resultId, row }) => {
-   const dispatch = useDispatch()
-
+const AdminDeleteResults = ({ resultId, row }) => {
    const [isVisible, setIsVisible] = useState(false)
 
+   const dispatch = useDispatch()
+
    const deleteHandler = () => {
-      dispatch(MY_RESULTS_THUNKS.deleteResult({ resultId }))
+      dispatch(SUBMITTED_RESULTS_THUNKS.deleteResults({ resultId }))
 
       setIsVisible(false)
    }
@@ -24,7 +24,7 @@ const DeleteResults = ({ resultId, row }) => {
    }
 
    return (
-      <>
+      <Box>
          <IconButton onClick={isVisibleHandler}>
             <TrashIcon />
          </IconButton>
@@ -42,8 +42,8 @@ const DeleteResults = ({ resultId, row }) => {
 
             <Typography className="modal-message">You can`t restore</Typography>
          </DeleteModal>
-      </>
+      </Box>
    )
 }
 
-export default DeleteResults
+export default AdminDeleteResults

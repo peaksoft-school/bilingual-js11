@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router'
+import { useLocation, useNavigate, useParams } from 'react-router'
 import { InputLabel, styled, Box } from '@mui/material'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
 import { ROUTES } from '../../../routes/routes'
+import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
 import Input from '../../UI/Input'
 
@@ -16,7 +17,9 @@ const RespondInAtLeastNWords = ({
    setDuration,
    setSelectType,
 }) => {
-   const { isLoading } = useSelector((state) => state.question)
+   const { isLoading, question } = useSelector((state) => state.question)
+
+   const { state } = useLocation()
 
    const [attempts, setAttempts] = useState(1)
    const [statement, setStatement] = useState('')
@@ -27,14 +30,16 @@ const RespondInAtLeastNWords = ({
 
    const navigate = useNavigate()
 
-   const statementChangeHandler = (e) => setStatement(e.target.value)
+   const statementChangeHandler = (e) => {
+      const { value } = e.target
+
+      setStatement(value || '')
+   }
 
    const attemptsChangeHandler = (e) => {
-      const newValue = e.target.value.replace(/\D/g, '')
+      const { value } = e.target
 
-      const limitedValue = newValue.slice(0, 2)
-
-      setAttempts(limitedValue)
+      setAttempts(value || '')
    }
 
    const navigateGoBackHandler = () =>
@@ -42,12 +47,26 @@ const RespondInAtLeastNWords = ({
          `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
       )
 
+   useEffect(() => {
+      if (state !== null) {
+         dispatch(QUESTION_THUNKS.getQuestion({ id: state?.id }))
+      }
+   }, [dispatch, state])
+
+   useEffect(() => {
+      if (state !== null && question) {
+         setAttempts(question?.attempts)
+         setStatement(question?.statement)
+      }
+   }, [state, question])
+
    const isDisabled =
       !selectType ||
       !duration ||
-      !title.trim() ||
-      !statement.trim() ||
-      !attempts
+      !title ||
+      !statement ||
+      !attempts ||
+      (state === null && (!title.trim() || !attempts || !statement.trim()))
 
    const onSubmit = () => {
       if (
@@ -61,39 +80,53 @@ const RespondInAtLeastNWords = ({
             title: title.trim(),
             duration: +duration,
             statement: statement.trim(),
-            attempts: attempts.trim(),
+            attempts,
          }
 
-         dispatch(
-            QUESTION_THUNKS.addTest({
-               requestData,
+         if (state === null) {
+            dispatch(
+               QUESTION_THUNKS.addTest({
+                  requestData,
 
-               data: {
-                  testId,
-                  questionType: QUESTION_TITLES.RESPOND_IN_AT_LEAST_N_WORDS,
+                  data: {
+                     testId,
+                     questionType: QUESTION_TITLES.RESPOND_IN_AT_LEAST_N_WORDS,
+                     navigate,
+                  },
+
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
+               })
+            )
+         } else {
+            dispatch(
+               QUESTION_THUNKS.updateQuestion({
+                  id: state.id,
+                  requestData,
                   navigate,
-               },
 
-               setStates: {
-                  setSelectType: setSelectType(selectType),
-                  setTitle: setTitle(title),
-                  setDuration: setDuration(duration),
-               },
-            })
-         )
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
+               })
+            )
+         }
       }
    }
 
    return (
       <StyledContainer>
+         {state !== null ? isLoading && <Loading /> : null}
+
          <Box>
             <InputLabel>Question statement</InputLabel>
 
-            <Input
-               value={statement}
-               onChange={statementChangeHandler}
-               autoComplete="off"
-            />
+            <Input value={statement || ''} onChange={statementChangeHandler} />
          </Box>
 
          <Box>
@@ -105,7 +138,7 @@ const RespondInAtLeastNWords = ({
             <Input
                className="input-number"
                type="number"
-               value={attempts}
+               value={attempts || ''}
                onChange={attemptsChangeHandler}
                inputProps={{ min: 0, max: 15 }}
                autoComplete="off"
@@ -124,7 +157,7 @@ const RespondInAtLeastNWords = ({
                disabled={isDisabled}
                loadingColor="secondary"
             >
-               SAVE
+               {state !== null ? 'UPDATE' : 'SAVE'}
             </Button>
          </Box>
       </StyledContainer>
@@ -138,7 +171,7 @@ const StyledContainer = styled(Box)(() => ({
    flexDirection: 'column',
    gap: '2rem',
    marginTop: '2rem',
-   width: '822px',
+   width: '820px',
 
    '& > .MuiInputLabel-root': {
       fontFamily: 'Poppins',
@@ -164,7 +197,12 @@ const StyledContainer = styled(Box)(() => ({
 
    '& > .buttons': {
       display: 'flex',
-      justifyContent: 'flex-end',
-      gap: '1rem',
+      gap: '1.1rem',
+      position: 'relative',
+      right: '-35.5rem',
+
+      '& > .MuiButton-root ': {
+         width: '118px',
+      },
    },
 }))

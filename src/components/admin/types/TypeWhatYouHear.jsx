@@ -1,10 +1,11 @@
-import { useRef, useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useEffect, useRef, useState } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { PauseIcon, PlayIcon } from '../../../assets/icons'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
+import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
 import Input from '../../UI/Input'
 import { ROUTES } from '../../../routes/routes'
@@ -17,7 +18,11 @@ const TypeWhatYouHear = ({
    setDuration,
    setSelectType,
 }) => {
-   const { fileUrl, isLoading } = useSelector((state) => state.question)
+   const { fileUrl, isLoading, question } = useSelector(
+      (state) => state.question
+   )
+
+   const { state } = useLocation()
 
    const [file, setFile] = useState('')
    const [fileName, setFileName] = useState('')
@@ -39,14 +44,29 @@ const TypeWhatYouHear = ({
       )
 
    const attemptsChangeHandler = (e) => {
-      const newValue = e.target.value.replace(/\D/g, '')
+      const { value } = e.target
 
-      const limitedValue = newValue.slice(0, 2)
-
-      setAttempts(limitedValue)
+      setAttempts(value || '')
    }
 
-   const correctAnswerChangeHandler = (e) => setCorrectAnswer(e.target.value)
+   const correctAnswerChangeHandler = (e) => {
+      const { value } = e.target
+
+      setCorrectAnswer(value || '')
+   }
+
+   useEffect(() => {
+      if (state !== null) {
+         dispatch(QUESTION_THUNKS.getQuestion({ id: state?.id }))
+      }
+   }, [dispatch, state])
+
+   useEffect(() => {
+      if (state !== null && question) {
+         setCorrectAnswer(question?.correctAnswer)
+         setAttempts(question?.attempts)
+      }
+   }, [state, question])
 
    const toggleHandler = () => {
       if (isPlaying) {
@@ -54,6 +74,7 @@ const TypeWhatYouHear = ({
       } else {
          audioRef.current.play()
       }
+
       setIsPlaying(!isPlaying)
    }
 
@@ -76,6 +97,15 @@ const TypeWhatYouHear = ({
       }
    }
 
+   const isDisabled =
+      !file ||
+      !title ||
+      !fileUrl ||
+      !attempts ||
+      !duration ||
+      !selectType ||
+      !correctAnswer
+
    const endedHandler = () => setIsPlaying(false)
 
    const onSubmit = () => {
@@ -90,42 +120,45 @@ const TypeWhatYouHear = ({
          const requestData = {
             title: title.trim(),
             duration: +duration,
-            attempts: attempts.trim(),
             correctAnswer: correctAnswer.trim(),
+            attempts,
             fileUrl,
          }
 
-         dispatch(
-            QUESTION_THUNKS.addTest({
-               requestData,
+         if (state === null) {
+            dispatch(
+               QUESTION_THUNKS.addTest({
+                  requestData,
 
-               data: {
-                  testId,
-                  questionType: QUESTION_TITLES.TYPE_WHAT_YOU_HEAR,
+                  data: {
+                     testId,
+                     questionType: QUESTION_TITLES.TYPE_WHAT_YOU_HEAR,
+                     navigate,
+                  },
+
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
+               })
+            )
+         } else {
+            dispatch(
+               QUESTION_THUNKS.updateQuestion({
+                  id: state.id,
+                  requestData,
                   navigate,
-               },
-
-               setStates: {
-                  setSelectType: setSelectType(selectType),
-                  setTitle: setTitle(title),
-                  setDuration: setDuration(duration),
-               },
-            })
-         )
+               })
+            )
+         }
       }
    }
 
-   const isDisabled =
-      !selectType ||
-      !duration ||
-      !title.trim() ||
-      !correctAnswer.trim() ||
-      !attempts ||
-      !file ||
-      !fileUrl
-
    return (
       <StyledContainer>
+         {state !== null ? isLoading && <Loading /> : null}
+
          <Box className="content">
             <Box className="replays">
                <InputLabel>
@@ -138,7 +171,7 @@ const TypeWhatYouHear = ({
                   type="number"
                   name="attempts"
                   inputProps={{ min: 0, max: 15 }}
-                  value={attempts}
+                  value={attempts || ''}
                   onChange={attemptsChangeHandler}
                   autoComplete="off"
                />
@@ -195,7 +228,7 @@ const TypeWhatYouHear = ({
             <Input
                type="text"
                name="correctAnswer"
-               value={correctAnswer}
+               value={correctAnswer || ''}
                onChange={correctAnswerChangeHandler}
                autoComplete="off"
             />
@@ -209,11 +242,11 @@ const TypeWhatYouHear = ({
             <Button
                variant="primary"
                onClick={onSubmit}
-               disabled={isDisabled}
+               disabled={state !== null ? null : isDisabled}
                isLoading={isLoading}
                loadingColor="secondary"
             >
-               SAVE
+               {state !== null ? 'UPDATE' : 'SAVE'}
             </Button>
          </Box>
       </StyledContainer>
@@ -227,7 +260,7 @@ const StyledContainer = styled(Box)(() => ({
    flexDirection: 'column',
    marginTop: '2rem',
    gap: '1rem',
-   width: '90%',
+   width: '820px',
 
    '& > .content': {
       display: 'flex',
@@ -298,7 +331,12 @@ const StyledContainer = styled(Box)(() => ({
 
    '& > .buttons': {
       display: 'flex',
-      justifyContent: 'flex-end',
-      gap: '1rem',
+      gap: '1.1rem',
+      position: 'relative',
+      right: '-35.5rem',
+
+      '& > .MuiButton-root ': {
+         width: '118px',
+      },
    },
 }))

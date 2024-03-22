@@ -1,48 +1,51 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
-import { ANSWERS_THUNKS } from '../../../../store/slices/admin/answers/answersThunk'
-import TestQuestion from '../../../UI/TestQuestion'
 import Button from '../../../UI/buttons/Button'
 
-const DescribeImage = () => {
-   const { answers, isLoading } = useSelector((state) => state.answersSlice)
+const DescribeImage = ({ isDisabled, saveHandler }) => {
+   const { answers } = useSelector((state) => state.answersSlice)
 
-   const dispatch = useDispatch()
+   const { fileUrl, correctAnswer, userAnswer } = answers
 
-   useEffect(() => {
-      dispatch(ANSWERS_THUNKS.getAnswers({ answerId: 3 }))
-   }, [dispatch])
+   const navigate = useNavigate()
+
+   const navigateHandler = () => navigate(-1)
 
    return (
-      <TestQuestion {...answers} isLoading={isLoading}>
-         <StyledContainer>
-            <Box className="admin-answers-box">
-               <Box>
-                  <img src={answers?.fileUrl} alt="img" />
-               </Box>
-
-               <Typography className="correct-answer">
-                  Correct Answer:
-               </Typography>
-
-               <Typography>{answers?.correctAnswer}</Typography>
+      <StyledContainer>
+         <Box className="admin-answers-box">
+            <Box>
+               <img src={fileUrl} alt="img" />
             </Box>
 
-            <Typography className="user-answer">User`s Answer </Typography>
+            <Typography className="correct-answer">Correct Answer:</Typography>
 
-            <Box className="user-answers-box">
-               <Typography>Entered Statement:</Typography>
+            <Typography>{correctAnswer}</Typography>
+         </Box>
 
-               <Typography>{answers?.userAnswer}</Typography>
-            </Box>
+         <Typography className="user-answer">User`s Answer </Typography>
 
-            <Box className="buttons-box">
-               <Button variant="secondary">GO BACK</Button>
-               <Button variant="primary">SAVE</Button>
-            </Box>
-         </StyledContainer>
-      </TestQuestion>
+         <Box className="user-answers-box">
+            <Typography>Entered Statement:</Typography>
+
+            <Typography>{userAnswer}</Typography>
+         </Box>
+
+         <Box className="buttons-box">
+            <Button variant="secondary" onClick={navigateHandler}>
+               GO BACK
+            </Button>
+
+            <Button
+               variant="primary"
+               onClick={saveHandler}
+               disabled={isDisabled}
+            >
+               SAVE
+            </Button>
+         </Box>
+      </StyledContainer>
    )
 }
 
@@ -95,5 +98,6 @@ const StyledContainer = styled(Box)(() => ({
       gap: '0 1rem',
       display: 'flex',
       justifyContent: 'flex-end',
+      marginTop: '2rem',
    },
 }))

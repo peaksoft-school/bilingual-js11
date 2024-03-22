@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { styled, Box, Typography, InputLabel } from '@mui/material'
 import { v4 as uuidv4 } from 'uuid'
 import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
@@ -11,6 +11,7 @@ import { PlusIcon } from '../../../assets/icons'
 import { ROUTES } from '../../../routes/routes'
 import DeleteModal from '../../UI/modals/DeleteModal'
 import SaveModal from '../../UI/modals/SaveModal'
+import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
 import Option from '../../UI/Option'
 
@@ -26,12 +27,13 @@ const ListenAndSelectEnglishWord = ({
       (state) => state.question
    )
 
+   const { state } = useLocation()
+
    const [files, setFiles] = useState([])
    const [optionId, setOptionId] = useState(null)
    const [isUploaded, setIsUploaded] = useState(false)
    const [optionTitle, setOptionTitle] = useState('')
    const [checkedOption, setCheckedOption] = useState(false)
-   const [activeOptionId, setActiveOptionId] = useState(null)
 
    const deleteModalToggle = useToggleModal('delete')
    const saveModalToggle = useToggleModal('save')
@@ -42,17 +44,30 @@ const ListenAndSelectEnglishWord = ({
 
    const dispatch = useDispatch()
 
-   const optionClickHandler = (id) => setActiveOptionId(id)
-
    const changeTitleHandler = (e) => setOptionTitle(e.target.value)
 
-   const navigateGoBackHandler = () =>
+   const navigateGoBackHandler = () => {
       navigate(
          `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
       )
 
+      dispatch(QUESTION_ACTIONS.clearOptions())
+   }
+
+   useEffect(() => {
+      if (state !== null) {
+         dispatch(
+            QUESTION_THUNKS.getQuestion({
+               id: state?.id,
+               addUpdateOption: QUESTION_ACTIONS,
+               optionName: OPTIONS_NAME.listenAndSelectOptions,
+            })
+         )
+      }
+   }, [dispatch, state])
+
    const deleteOption = options?.listenAndSelectOptions?.find(
-      (option) => option.id === optionId
+      (option) => option.optionId === optionId
    )?.optionTitle
 
    const isDisabled =
@@ -104,10 +119,10 @@ const ListenAndSelectEnglishWord = ({
       deleteModalToggle.onCloseModal()
    }
 
-   const checkedHandler = (id) => {
+   const checkedHandler = (optionId) => {
       dispatch(
-         QUESTION_ACTIONS.handleIsCorrect({
-            id,
+         QUESTION_ACTIONS.handleIsChecked({
+            optionId,
             optionName: OPTIONS_NAME?.listenAndSelectOptions,
          })
       )
@@ -125,24 +140,44 @@ const ListenAndSelectEnglishWord = ({
             })),
          }
 
-         dispatch(
-            QUESTION_THUNKS.addTest({
-               requestData,
-               data: {
-                  testId,
-                  questionType: QUESTION_TITLES.LISTEN_AND_SELECT_WORD,
+         if (state === null) {
+            dispatch(
+               QUESTION_THUNKS.addTest({
+                  requestData,
+                  data: {
+                     testId,
+                     questionType: QUESTION_TITLES.LISTEN_AND_SELECT_WORD,
+                     navigate,
+                  },
+
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
+
+                  clearOptions: QUESTION_ACTIONS,
+               })
+            )
+         } else {
+            const requestData = {
+               title: title.trim(),
+               duration: +duration,
+               optionRequest: options.listenAndSelectOptions?.map((option) => ({
+                  optionTitle: option.optionTitle,
+                  isCorrectOption: option.isCorrectOption,
+               })),
+            }
+
+            dispatch(
+               QUESTION_THUNKS.updateQuestion({
+                  id: state.id,
+                  requestData,
                   navigate,
-               },
-
-               setStates: {
-                  setSelectType: setSelectType(selectType),
-                  setTitle: setTitle(title),
-                  setDuration: setDuration(duration),
-               },
-
-               clearOptions: QUESTION_ACTIONS,
-            })
-         )
+                  clearOptions: QUESTION_ACTIONS,
+               })
+            )
+         }
       }
    }
 
@@ -150,7 +185,7 @@ const ListenAndSelectEnglishWord = ({
       const option = {
          optionTitle: optionTitle.trim(),
          isCorrectOption: checkedOption,
-         id: uuidv4(),
+         optionId: uuidv4(),
          fileUrl,
       }
 
@@ -170,6 +205,8 @@ const ListenAndSelectEnglishWord = ({
 
    return (
       <StyledContainer>
+         {state !== null ? isLoading && <Loading /> : null}
+
          <Box className="add-button">
             <Button
                icon={<PlusIcon className="plus" />}
@@ -182,16 +219,14 @@ const ListenAndSelectEnglishWord = ({
          <Box className="cards">
             {options?.listenAndSelectOptions?.map((option, index) => (
                <Option
-                  key={option.id}
+                  key={option.optionId}
                   icon
+                  deletion
                   index={index}
                   option={option}
                   toggleModal={deleteModalToggle.onOpenModal}
                   setOptionId={setOptionId}
                   checkedHandler={checkedHandler}
-                  activeOptionId={activeOptionId}
-                  setActiveOptionId={setActiveOptionId}
-                  onClick={() => optionClickHandler(option.id)}
                />
             ))}
          </Box>
@@ -201,8 +236,12 @@ const ListenAndSelectEnglishWord = ({
                GO BACK
             </Button>
 
-            <Button variant="primary" disabled={isDisabled} onClick={onSubmit}>
-               SAVE
+            <Button
+               variant="primary"
+               disabled={state !== null ? null : isDisabled}
+               onClick={onSubmit}
+            >
+               {state !== null ? 'UPDATE' : 'SAVE'}
             </Button>
          </Box>
 
@@ -261,7 +300,7 @@ const ListenAndSelectEnglishWord = ({
 export default ListenAndSelectEnglishWord
 
 const StyledContainer = styled(Box)(() => ({
-   width: '822px',
+   width: '820px',
 
    '& > .add-button': {
       margin: '2rem 0 1.375rem 41rem',
@@ -272,11 +311,15 @@ const StyledContainer = styled(Box)(() => ({
          marginRight: '0.6rem',
       },
    },
-
    '& > .buttons': {
       display: 'flex',
       gap: '1.1rem',
-      marginLeft: '37.5rem',
+      position: 'relative',
+      right: '-35.5rem',
+
+      '& > .MuiButton-root ': {
+         width: '118px',
+      },
    },
 
    '& > .cards': {

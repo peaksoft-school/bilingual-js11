@@ -98,7 +98,7 @@ const questionTypeHandler = (type) => {
          return QUESTION_TYPES.HIGHLIGHTS_THE_ANSWER
 
       default:
-         return 'Nothing'
+         return 'Select the type'
    }
 }
 

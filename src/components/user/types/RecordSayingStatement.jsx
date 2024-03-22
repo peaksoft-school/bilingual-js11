@@ -5,7 +5,6 @@ import { RecordingIcon, SpeakManIcon } from '../../../assets/icons'
 import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSlice'
 import { showNotification } from '../../../utils/helpers/notification'
 import Button from '../../UI/buttons/Button'
-import { PRACTICE_TEST_THUNKS } from '../../../store/slices/user/practiceTestThunk'
 import { NoData } from '../../../assets/images'
 
 const RecordSayingStatement = ({ questions, nextHandler }) => {
@@ -107,8 +106,6 @@ const RecordSayingStatement = ({ questions, nextHandler }) => {
                const url = URL.createObjectURL(blob)
 
                setRecordedAudio(url)
-
-               dispatch(PRACTICE_TEST_THUNKS.addAnswerFile(url))
             })
 
             setMediaRecorder(mediaRecorderInstance)

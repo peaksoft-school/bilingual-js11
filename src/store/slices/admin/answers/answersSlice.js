@@ -25,6 +25,19 @@ export const answersSlice = createSlice({
          .addCase(ANSWERS_THUNKS.getAnswers.rejected, (state) => {
             state.isLoading = false
          })
+
+         .addCase(ANSWERS_THUNKS.postResult.pending, (state) => {
+            state.isLoading = true
+         })
+
+         .addCase(ANSWERS_THUNKS.postResult.fulfilled, (state, { payload }) => {
+            state.answers = payload
+            state.isLoading = false
+         })
+
+         .addCase(ANSWERS_THUNKS.postResult.rejected, (state) => {
+            state.isLoading = false
+         })
    },
 })
 

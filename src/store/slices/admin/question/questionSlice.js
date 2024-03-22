@@ -10,6 +10,7 @@ const initialState = {
    attempts: 0,
    correctAnswer: '',
    fileUrl: '',
+   question: {},
    options: {
       selectRealEnglishWordsOptions: [],
       listenAndSelectOptions: [],
@@ -26,6 +27,14 @@ const questionSlice = createSlice({
    reducers: {
       addOptionCheck: (state, { payload }) => {
          state.options[payload.optionName].push(payload.option)
+      },
+
+      addUpdateOption: (state, { payload }) => {
+         if (state.options[payload?.optionName]) {
+            state.options[payload?.optionName].push(
+               ...payload.optionResponses.questionOptionResponses
+            )
+         }
       },
 
       addOptionRadio: (state, { payload }) => {
@@ -45,7 +54,7 @@ const questionSlice = createSlice({
             payload?.optionName
          ].map((option) => {
             if (payload.option?.isCorrectOption) {
-               if (payload?.option?.id === option?.id) {
+               if (payload?.option?.optionId === option?.optionId) {
                   return {
                      ...option,
                      isCorrectOption: payload?.option?.isCorrectOption,
@@ -63,10 +72,10 @@ const questionSlice = createSlice({
       },
 
       handleIsChecked: (state, { payload }) => {
-         state.options[payload.optionName] = state.options[
-            payload.optionName
+         state.options[payload?.optionName] = state.options[
+            payload?.optionName
          ].map((option) => {
-            if (option.id === payload.id) {
+            if (option?.optionId === payload?.optionId) {
                return { ...option, isCorrectOption: !option.isCorrectOption }
             }
             return {
@@ -77,10 +86,10 @@ const questionSlice = createSlice({
       },
 
       handleIsCorrect: (state, { payload }) => {
-         state.options[payload.optionName] = state.options[
-            payload.optionName
+         state.options[payload?.optionName] = state.options[
+            payload?.optionName
          ].map((option) => {
-            if (option.id === payload.id) {
+            if (option?.optionId === payload?.optionId) {
                return {
                   ...option,
                   isCorrectOption: !option.isCorrectOption,
@@ -98,8 +107,8 @@ const questionSlice = createSlice({
             ...state,
             options: {
                ...state.options,
-               [payload.optionName]: state.options[payload.optionName].filter(
-                  (option) => option.id !== payload.optionId
+               [payload?.optionName]: state.options[payload?.optionName].filter(
+                  (option) => option?.optionId !== payload?.optionId
                ),
             },
          }
@@ -117,7 +126,7 @@ const questionSlice = createSlice({
       updateOptions: (state, { payload }) => {
          state.options = {
             ...state.options,
-            [payload.optionName]: payload.options,
+            [payload?.optionName]: payload.options,
          }
       },
    },
@@ -144,6 +153,22 @@ const questionSlice = createSlice({
                type: 'warning',
                duration: 200,
             })
+         })
+
+         .addCase(QUESTION_THUNKS.getQuestion.pending, (state) => {
+            state.isLoading = true
+         })
+
+         .addCase(
+            QUESTION_THUNKS.getQuestion.fulfilled,
+            (state, { payload }) => {
+               state.question = payload
+               state.isLoading = false
+            }
+         )
+
+         .addCase(QUESTION_THUNKS.getQuestion.rejected, (state) => {
+            state.isLoading = false
          })
 
          .addCase(QUESTION_THUNKS.addFile.pending, (state) => {
@@ -182,6 +207,18 @@ const questionSlice = createSlice({
          })
 
          .addCase(QUESTION_THUNKS.updateQuestionByEnable.rejected, (state) => {
+            state.isLoading = false
+         })
+
+         .addCase(QUESTION_THUNKS.updateQuestion.pending, (state) => {
+            state.isLoading = true
+         })
+
+         .addCase(QUESTION_THUNKS.updateQuestion.fulfilled, (state) => {
+            state.isLoading = false
+         })
+
+         .addCase(QUESTION_THUNKS.updateQuestion.rejected, (state) => {
             state.isLoading = false
          })
    },

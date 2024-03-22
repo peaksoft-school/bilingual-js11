@@ -1,22 +1,21 @@
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Box, Typography, styled } from '@mui/material'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { Howl, Howler } from 'howler'
+import { Box, Typography, styled } from '@mui/material'
 import { SmallPauseIcon, SmallPlayIcon } from '../../../../assets/icons'
-import { ANSWERS_THUNKS } from '../../../../store/slices/admin/answers/answersThunk'
-import TestQuestion from '../../../UI/TestQuestion'
 import Button from '../../../UI/buttons/Button'
 
-const RecordSayingStatement = () => {
-   const { answers, isLoading } = useSelector((state) => state.answersSlice)
+const RecordSayingStatement = ({ isDisabled, saveHandler }) => {
+   const { answers } = useSelector((state) => state.answersSlice)
+
+   const navigate = useNavigate()
 
    const [isPlaying, setIsPlaying] = useState(false)
 
-   const dispatch = useDispatch()
+   const { audioFile, correctAnswer } = answers
 
-   useEffect(() => {
-      dispatch(ANSWERS_THUNKS.getAnswers({ answerId: 8 }))
-   }, [dispatch])
+   const navigateHandler = () => navigate(-1)
 
    const stopSoundHandler = () => {
       Howler.stop()
@@ -29,7 +28,7 @@ const RecordSayingStatement = () => {
       }
 
       const sound = new Howl({
-         src: answers.audioFile,
+         src: audioFile,
          html5: true,
          onend: () => setIsPlaying(false),
          onstop: () => setIsPlaying(false),
@@ -41,40 +40,43 @@ const RecordSayingStatement = () => {
    }
 
    return (
-      <TestQuestion {...answers} isLoading={isLoading} evaluateManually>
-         <StyledContainer>
-            <Box className="answers-box">
-               {isPlaying ? (
-                  <Button
-                     className="stop-button"
-                     onClick={stopSoundHandler}
-                     icon={<SmallPlayIcon className="icon" />}
-                  >
-                     STOP RECORDED AUDIO
-                  </Button>
-               ) : (
-                  <Button
-                     className="play-button"
-                     onClick={startSoundHandler}
-                     icon={<SmallPauseIcon className="icon" />}
-                  >
-                     PLAY AUDIO
-                  </Button>
-               )}
+      <StyledContainer>
+         <Box className="answers-box">
+            <Button
+               className={isPlaying ? 'stop-button' : 'play-button'}
+               onClick={isPlaying ? stopSoundHandler : startSoundHandler}
+               icon={
+                  isPlaying ? (
+                     <SmallPlayIcon className="icon" />
+                  ) : (
+                     <SmallPauseIcon className="icon" />
+                  )
+               }
+            >
+               {isPlaying ? 'STOP RECORDED AUDIO' : 'PLAY AUDIO'}
+            </Button>
 
-               <Typography className="correct-answer">
-                  Correct Answer:
-               </Typography>
+            <Box className="correct-answer">
+               <Typography>Correct Answer:</Typography>
 
-               <Typography>{answers?.correctAnswer}</Typography>
+               <Typography>{correctAnswer}</Typography>
             </Box>
+         </Box>
 
-            <Box className="buttons-box">
-               <Button variant="secondary">GO BACK</Button>
-               <Button variant="primary">SAVE</Button>
-            </Box>
-         </StyledContainer>
-      </TestQuestion>
+         <Box className="buttons-box">
+            <Button variant="secondary" onClick={navigateHandler}>
+               GO BACK
+            </Button>
+
+            <Button
+               variant="primary"
+               onClick={saveHandler}
+               disabled={isDisabled}
+            >
+               SAVE
+            </Button>
+         </Box>
+      </StyledContainer>
    )
 }
 
@@ -141,6 +143,8 @@ const StyledContainer = styled(Box)(() => ({
       },
 
       '& > .correct-answer': {
+         display: 'flex',
+         gap: '0.4rem',
          marginLeft: '1rem',
       },
    },
@@ -149,5 +153,6 @@ const StyledContainer = styled(Box)(() => ({
       gap: '0 1rem',
       display: 'flex',
       justifyContent: 'flex-end',
+      marginTop: '2rem',
    },
 }))
