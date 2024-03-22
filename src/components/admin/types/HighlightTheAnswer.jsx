@@ -1,11 +1,12 @@
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Box, InputLabel, TextField, Typography, styled } from '@mui/material'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
-import Input from '../../UI/Input'
+import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
+import Input from '../../UI/Input'
 
 const HighlightTheAnswer = ({
    title,
@@ -15,8 +16,12 @@ const HighlightTheAnswer = ({
    setDuration,
    setSelectType,
 }) => {
+   const { question, isLoading } = useSelector((state) => state.question)
+
+   const { state } = useLocation()
+
    const [text, setText] = useState('')
-   const [question, setQuestion] = useState('')
+   const [statement, setStatement] = useState('')
    const [answerValue, setAnswerValue] = useState('')
 
    const dispatch = useDispatch()
@@ -27,18 +32,42 @@ const HighlightTheAnswer = ({
 
    const mouseUpHandler = () => setAnswerValue(window.getSelection().toString())
 
-   const changeTextHandler = (e) => setText(e.target.value)
+   const changeTextHandler = (e) => {
+      const { value } = e.target
 
-   const changeQuestionHandler = (e) => setQuestion(e.target.value)
+      setText(value || '')
+   }
+
+   const changeQuestionHandler = (e) => {
+      const { value } = e.target
+
+      setStatement(value || '')
+   }
 
    const navigateGoBackHandler = () => navigate(-1)
+
+   useEffect(() => {
+      if (state !== null) {
+         dispatch(QUESTION_THUNKS.getQuestion({ id: state?.id }))
+      }
+   }, [dispatch, state])
+
+   useEffect(() => {
+      if (state !== null && question) {
+         setAnswerValue(question?.correctAnswer)
+         setText(question?.passage)
+         setStatement(question?.statement)
+      }
+   }, [state, question])
 
    const isDisabled =
       !selectType ||
       !duration ||
-      !title.trim() ||
-      !answerValue.trim() ||
-      question.trim() === ''
+      !title?.trim() ||
+      !answerValue?.trim() ||
+      !statement?.trim()
+
+   const isDisabledUpdate = !statement && !text && !answerValue
 
    const onSubmit = () => {
       if (
@@ -46,45 +75,63 @@ const HighlightTheAnswer = ({
          +duration !== 0 &&
          title !== '' &&
          text !== '' &&
-         question !== ''
+         statement !== ''
       ) {
          const requestData = {
             title: title.trim(),
             duration: +duration,
-            statement: question.trim(),
+            statement: statement.trim(),
             passage: text.trim(),
             correctAnswer: answerValue.trim(),
          }
 
-         dispatch(
-            QUESTION_THUNKS.addTest({
-               requestData,
+         if (state === null) {
+            dispatch(
+               QUESTION_THUNKS.addTest({
+                  requestData,
 
-               data: {
-                  testId,
-                  questionType: QUESTION_TITLES.HIGHLIGHTS_THE_ANSWER,
+                  data: {
+                     testId,
+                     questionType: QUESTION_TITLES.HIGHLIGHTS_THE_ANSWER,
+                     navigate,
+                  },
+
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
+               })
+            )
+         } else {
+            dispatch(
+               QUESTION_THUNKS.updateQuestion({
+                  id: state.id,
+                  requestData,
                   navigate,
-               },
 
-               setStates: {
-                  setSelectType: setSelectType(selectType),
-                  setTitle: setTitle(title),
-                  setDuration: setDuration(duration),
-               },
-            })
-         )
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
+               })
+            )
+         }
       }
    }
 
    return (
       <StyledContainer>
+         {state !== null ? isLoading && <Loading /> : null}
+
          <Box>
             <Typography className="title">Questions to the Passage</Typography>
 
             <Input
                fullWidth
                name="question"
-               value={question}
+               value={statement || ''}
                onChange={changeQuestionHandler}
                autoComplete="off"
             />
@@ -96,7 +143,7 @@ const HighlightTheAnswer = ({
             <TextField
                multiline
                name="text"
-               value={text}
+               value={text || ''}
                onChange={changeTextHandler}
                fullWidth
             />
@@ -106,7 +153,7 @@ const HighlightTheAnswer = ({
             <Typography className="title">Highlight correct answer:</Typography>
 
             <Typography className="highlight-text" onMouseUp={mouseUpHandler}>
-               {text}
+               {text || ''}
             </Typography>
          </Box>
 
@@ -115,8 +162,12 @@ const HighlightTheAnswer = ({
                GO BACK
             </Button>
 
-            <Button variant="primary" disabled={isDisabled} onClick={onSubmit}>
-               SAVE
+            <Button
+               variant="primary"
+               disabled={isDisabled || isDisabledUpdate}
+               onClick={onSubmit}
+            >
+               {state !== null ? 'UPDATE' : 'SAVE'}
             </Button>
          </Box>
       </StyledContainer>
@@ -174,6 +225,11 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    '& > .buttons': {
       display: 'flex',
       gap: '1.1rem',
-      marginLeft: '37.4rem',
+      position: 'relative',
+      right: '-35.5rem',
+
+      '& > .MuiButton-root ': {
+         width: '118px',
+      },
    },
 }))

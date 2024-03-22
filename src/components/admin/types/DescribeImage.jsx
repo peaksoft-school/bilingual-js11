@@ -1,13 +1,14 @@
 import { useDropzone } from 'react-dropzone'
 import { useState, useRef, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { showNotification } from '../../../utils/helpers/notification'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
-import Input from '../../UI/Input'
+import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
+import Input from '../../UI/Input'
 
 const DescribeImage = ({
    title,
@@ -17,7 +18,11 @@ const DescribeImage = ({
    setDuration,
    setSelectType,
 }) => {
-   const { fileUrl, isLoading } = useSelector((state) => state.question)
+   const { fileUrl, isLoading, question } = useSelector(
+      (state) => state.question
+   )
+
+   const { state } = useLocation()
 
    const [image, setImage] = useState(null)
    const [answer, setAnswer] = useState('')
@@ -34,12 +39,44 @@ const DescribeImage = ({
 
    const clickHandler = () => inputFileRef.current.click()
 
-   const changeAnswerHandler = (e) => setAnswer(e.target.value)
+   const changeAnswerHandler = (e) => {
+      const { value } = e.target
+
+      setAnswer(value || '')
+   }
 
    const navigateGoBackHandler = () => navigate(-1)
 
+   useEffect(() => {
+      if (state !== null) {
+         dispatch(QUESTION_THUNKS.getQuestion({ id: state?.id }))
+      }
+   }, [dispatch, state])
+
+   useEffect(() => {
+      if (state !== null && question) {
+         setAnswer(question?.correctAnswer)
+         setImage(question?.fileUrl)
+      }
+   }, [state, question])
+
    const isDisabled =
-      !selectType || !duration || !title.trim() || !image || !answer || !fileUrl
+      isLoading ||
+      (!state &&
+         (!selectType ||
+            !duration ||
+            !title.trim() ||
+            !image ||
+            !answer ||
+            !fileUrl)) ||
+      (state &&
+         title === question.title &&
+         +duration === question.duration &&
+         answer === question.correctAnswer &&
+         image === question.fileUrl &&
+         fileUrl === question.fileUrl &&
+         image === null &&
+         fileUrl === null)
 
    const changeFileHandler = (e) => {
       const file = e.target.files[0]
@@ -111,28 +148,46 @@ const DescribeImage = ({
             fileUrl,
          }
 
-         dispatch(
-            QUESTION_THUNKS.addTest({
-               requestData,
+         if (state === null) {
+            dispatch(
+               QUESTION_THUNKS.addTest({
+                  requestData,
 
-               data: {
-                  testId,
-                  questionType: QUESTION_TITLES.DESCRIBE_IMAGE,
+                  data: {
+                     testId,
+                     questionType: QUESTION_TITLES.DESCRIBE_IMAGE,
+                     navigate,
+                  },
+
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
+               })
+            )
+         } else {
+            dispatch(
+               QUESTION_THUNKS.updateQuestion({
+                  id: state.id,
+                  requestData,
                   navigate,
-               },
 
-               setStates: {
-                  setSelectType: setSelectType(selectType),
-                  setTitle: setTitle(title),
-                  setDuration: setDuration(duration),
-               },
-            })
-         )
+                  setStates: {
+                     setSelectType: setSelectType(selectType),
+                     setTitle: setTitle(title),
+                     setDuration: setDuration(duration),
+                  },
+               })
+            )
+         }
       }
    }
 
    return (
       <StyledContainer>
+         {state !== null ? isLoading && <Loading /> : null}
+
          {image ? (
             <Box className="container-image">
                <Box onClick={clickHandler} {...getRootProps()}>
@@ -181,7 +236,7 @@ const DescribeImage = ({
             <InputLabel className="correct-answer">Correct answer</InputLabel>
 
             <Input
-               value={answer}
+               value={answer || ''}
                onChange={changeAnswerHandler}
                autoComplete="off"
             />
@@ -199,7 +254,7 @@ const DescribeImage = ({
                isLoading={isLoading}
                loadingColor="secondary"
             >
-               SAVE
+               {state !== null ? 'UPDATE' : 'SAVE'}
             </Button>
          </Box>
       </StyledContainer>
@@ -211,6 +266,7 @@ export default DescribeImage
 const StyledContainer = styled(Box)(({ theme }) => ({
    fontFamily: 'Arial',
    color: '#4C4859',
+   width: '820px',
 
    '& > .container-image': {
       display: 'flex',
@@ -267,6 +323,11 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    '& > .buttons': {
       display: 'flex',
       gap: '1.1rem',
-      marginLeft: '37.5rem',
+      position: 'relative',
+      right: '-35.5rem',
+
+      '& > .MuiButton-root ': {
+         width: '118px',
+      },
    },
 }))

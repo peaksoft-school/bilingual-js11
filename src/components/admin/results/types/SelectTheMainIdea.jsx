@@ -1,65 +1,62 @@
-import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
-import { useDispatch, useSelector } from 'react-redux'
-import { ANSWERS_THUNKS } from '../../../../store/slices/admin/answers/answersThunk'
-import TestQuestion from '../../../UI/TestQuestion'
 import Button from '../../../UI/buttons/Button'
 import Radio from '../../../UI/Radio'
 
-const SelectTheMainIdea = () => {
-   const { answers, isLoading } = useSelector((state) => state.answersSlice)
+const SelectTheMainIdea = ({ saveHandler }) => {
+   const { answers } = useSelector((state) => state.answersSlice)
 
-   const dispatch = useDispatch()
+   const navigate = useNavigate()
 
-   useEffect(() => {
-      dispatch(ANSWERS_THUNKS.getAnswers({ answerId: 2 }))
-   }, [dispatch])
+   const navigateHandler = () => navigate(-1)
 
    return (
-      <TestQuestion {...answers[0]} isLoading={isLoading}>
-         <StyledContainer>
-            <Box className="passage-box">
-               <Typography className="title">Passage:</Typography>
+      <StyledContainer>
+         <Box className="passage-box">
+            <Typography className="title">Passage:</Typography>
 
-               <Typography className="passage">
-                  {answers[0]?.passage}
-               </Typography>
-            </Box>
+            <Typography className="passage">{answers?.passage}</Typography>
+         </Box>
 
-            <Box className="admin-options-box">
-               {answers[0]?.questionOptionResponses?.map(
-                  ({ optionId, optionTitle, isCorrectOption }, index) => (
-                     <Box key={optionId} className="option">
-                        <Typography className="number">{index + 1} </Typography>
+         <Box className="admin-options-box">
+            {answers?.questionOptionResponses?.map(
+               ({ optionId, optionTitle, isCorrectOption }, index) => (
+                  <Box key={optionId} className="option">
+                     <Typography className="number">{index + 1} </Typography>
 
-                        <Typography>{optionTitle}</Typography>
+                     <Typography>{optionTitle}</Typography>
 
-                        <Radio checked={isCorrectOption} className="radio" />
-                     </Box>
-                  )
-               )}
-            </Box>
+                     <Radio checked={isCorrectOption} className="radio" />
+                  </Box>
+               )
+            )}
+         </Box>
 
-            <Typography className="user-answer">User`s Answer </Typography>
+         <Typography className="user-answer">User`s Answer </Typography>
 
-            <Box className="user-options-box">
-               {answers[0]?.userOptionResponses?.map(
-                  ({ optionId, number, optionTitle }) => (
-                     <Box key={optionId} className="option">
-                        <Typography className="number">{number}</Typography>
+         <Box className="user-options-box">
+            {answers?.userOptionResponses?.map(
+               ({ optionId, number, optionTitle }) => (
+                  <Box key={optionId} className="option">
+                     <Typography className="number">{number}</Typography>
 
-                        <Typography>{optionTitle}</Typography>
-                     </Box>
-                  )
-               )}
-            </Box>
+                     <Typography>{optionTitle}</Typography>
+                  </Box>
+               )
+            )}
+         </Box>
 
-            <Box className="buttons-box">
-               <Button variant="secondary">GO BACK</Button>
-               <Button variant="primary">SAVE</Button>
-            </Box>
-         </StyledContainer>
-      </TestQuestion>
+         <Box className="buttons-box">
+            <Button variant="secondary" onClick={navigateHandler}>
+               GO BACK
+            </Button>
+
+            <Button variant="primary" onClick={saveHandler}>
+               SAVE
+            </Button>
+         </Box>
+      </StyledContainer>
    )
 }
 
@@ -156,5 +153,6 @@ const StyledContainer = styled(Box)(() => ({
       gap: '0 1rem',
       display: 'flex',
       justifyContent: 'flex-end',
+      marginTop: '2rem',
    },
 }))

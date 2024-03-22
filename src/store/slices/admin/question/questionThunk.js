@@ -76,6 +76,34 @@ const addFile = createAsyncThunk(
    }
 )
 
+const getQuestion = createAsyncThunk(
+   'question/getQuestion',
+
+   async (
+      { id, addUpdateOption, optionName },
+      { rejectWithValue, dispatch }
+   ) => {
+      try {
+         const response = await axiosInstance.get(
+            `/api/question/getById?id=${id}`
+         )
+
+         if (addUpdateOption) {
+            dispatch(
+               addUpdateOption.addUpdateOption({
+                  optionResponses: response.data,
+                  optionName,
+               })
+            )
+         }
+
+         return response.data
+      } catch (error) {
+         return rejectWithValue.message
+      }
+   }
+)
+
 const addQuestion = createAsyncThunk(
    'question/addQuestion',
 
@@ -135,6 +163,38 @@ const deleteQuestion = createAsyncThunk(
    }
 )
 
+const updateQuestion = createAsyncThunk(
+   'question/updateQuestion',
+
+   async (
+      { id, requestData, navigate, clearOptions },
+      { rejectWithValue, dispatch }
+   ) => {
+      try {
+         const response = await axiosInstance.patch(
+            `api/question?id=${id}`,
+            requestData
+         )
+
+         showNotification({
+            title: 'Success',
+            message: `${response.data.message}`,
+            type: 'success',
+         })
+
+         navigate(-1)
+
+         if (clearOptions) {
+            dispatch(clearOptions.clearOptions())
+         }
+
+         return response.data
+      } catch (error) {
+         return rejectWithValue.message
+      }
+   }
+)
+
 const updateQuestionByEnable = createAsyncThunk(
    'question/updateQuestionByEnable',
 
@@ -158,7 +218,9 @@ const updateQuestionByEnable = createAsyncThunk(
 export const QUESTION_THUNKS = {
    addFile,
    addTest,
+   getQuestion,
    addQuestion,
    deleteQuestion,
+   updateQuestion,
    updateQuestionByEnable,
 }

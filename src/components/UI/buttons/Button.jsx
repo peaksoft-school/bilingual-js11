@@ -118,6 +118,13 @@ const StyledButton = styled(MuiButton)(({ theme, variant }) => {
             color: theme.palette.primary.white,
             background: '#3007DA',
          },
+
+         '&.Mui-disabled': {
+            color: '#C4C4C4',
+            background: 'none',
+            border: '2px solid #C4C4C4',
+            boxShadow: 'none',
+         },
       }
    }
 

@@ -9,9 +9,7 @@ const Dropdown = forwardRef(({ options, value, onChange, ...rest }, ref) => (
       ref={ref}
       {...rest}
       renderValue={(selected) => (
-         <InputLabel shrink={false}>
-            {selected || 'Select main idea'}
-         </InputLabel>
+         <InputLabel shrink={false}>{selected || 'Select the type'}</InputLabel>
       )}
    >
       {options?.map(({ id, title }) => (

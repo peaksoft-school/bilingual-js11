@@ -204,7 +204,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
          backgroundColor: theme.palette.primary.main,
          width: '30px',
          height: '100%',
-         borderRadius: ' 0 6px 6px 0 ',
+         borderRadius: ' 0 8px 8px 0 ',
          borderLeft: `1.53px solid ${theme.palette.primary.main} !important`,
 
          '& > svg > path': {

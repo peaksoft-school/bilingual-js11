@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { Howl, Howler } from 'howler'
 import Checkbox from './Checkbox'
@@ -18,23 +18,27 @@ const Option = ({
    selectedOptionId,
    setSelectedOptionId,
 }) => {
-   const { id, fileUrl, optionTitle: title, isCorrectOption } = option
+   const { optionId, fileUrl, optionTitle: title, isCorrectOption } = option
 
    const [isChecked, setIsChecked] = useState(isCorrectOption)
    const [isPlaying, setIsPlaying] = useState(false)
 
+   useEffect(() => {
+      setIsChecked(isCorrectOption)
+   }, [isCorrectOption])
+
    const audioRef = useRef(null)
 
    const toggleRadioHandler = () => {
-      setSelectedOptionId(id)
+      setSelectedOptionId(optionId)
 
-      checkedHandler(id)
+      checkedHandler(optionId)
    }
 
    const toggleCheckboxHandler = () => {
       setIsChecked((prev) => !prev)
 
-      checkedHandler(id)
+      checkedHandler(optionId)
    }
 
    const stopSoundHandler = () => {
@@ -62,7 +66,7 @@ const Option = ({
    const deleteHandler = () => {
       toggleModal((prev) => !prev)
 
-      setOptionId(id)
+      setOptionId(optionId)
 
       stopSoundHandler()
    }
@@ -99,7 +103,7 @@ const Option = ({
             {isRadio ? (
                <Radio
                   onClick={checked ? null : toggleRadioHandler}
-                  checked={id === selectedOptionId}
+                  checked={optionId === selectedOptionId}
                />
             ) : (
                <Checkbox

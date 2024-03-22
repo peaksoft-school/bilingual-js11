@@ -1,16 +1,27 @@
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
+import { ADMIN_QUESTION_COMPONENTS } from '../../utils/constants/AdminQuestionComponents'
 import { questionTypeHandler } from '../../utils/helpers'
+import { showNotification } from '../../utils/helpers/notification'
+import { QUESTION_TITLES } from '../../utils/constants'
+import { ANSWERS_THUNKS } from '../../store/slices/admin/answers/answersThunk'
 import TestContainer from './TestContainer'
 import Loading from '../Loading'
 import Input from './Input'
 
-const TestQuestion = ({
-   children,
-   minimumNumber,
-   evaluateManually,
-   isLoading,
-   ...answerProps
-}) => {
+const TestQuestion = () => {
+   const { answers, isLoading } = useSelector((state) => state.answersSlice)
+
+   const { answerId } = useParams()
+
+   const dispatch = useDispatch()
+
+   const navigate = useNavigate()
+
+   const [scoreValue, setScoreValue] = useState('')
+
    const {
       score,
       fullName,
@@ -20,7 +31,26 @@ const TestQuestion = ({
       questionType,
       questionTitle,
       questionAttempts,
-   } = answerProps
+   } = answers
+
+   const changeScoreValueHandler = (e) => setScoreValue(e.target.value)
+
+   useEffect(() => {
+      dispatch(ANSWERS_THUNKS.getAnswers({ answerId }))
+   }, [dispatch])
+
+   const saveHandler = () => {
+      if (answers.status !== 'EVALUATED') {
+         dispatch(ANSWERS_THUNKS.postResult({ answerId, scoreValue, navigate }))
+      } else {
+         showNotification({
+            type: 'error',
+            message: 'This test has already been evaluated.',
+         })
+      }
+   }
+
+   const QuestionComponent = ADMIN_QUESTION_COMPONENTS[questionType]
 
    const changeValueHandler = (e) => {
       const value = parseInt(e.target.value, 10)
@@ -36,12 +66,14 @@ const TestQuestion = ({
 
    const formattedDuration = `${hours}:${minutes < 10 ? '0' : ''}${minutes}`
 
+   const isDisabled = !scoreValue
+
    return (
       <TestContainer>
          <StyledContainer>
-            <Box>
-               {isLoading && <Loading />}
+            {isLoading && <Loading />}
 
+            <Box>
                <Box className="title-box">
                   <Box className="titles">
                      <Typography className="title">User:</Typography>
@@ -78,7 +110,7 @@ const TestQuestion = ({
                      </Typography>
                   </Box>
 
-                  {minimumNumber && (
+                  {questionType === QUESTION_TITLES.TYPE_WHAT_YOU_HEAR && (
                      <Box className="test-questions">
                         <Typography className="title">
                            Mimimum number of words:
@@ -88,9 +120,20 @@ const TestQuestion = ({
                      </Box>
                   )}
 
-                  {statement && (
+                  {questionType === QUESTION_TITLES.RECORD_SAYING && (
                      <Box className="test-questions">
                         <Typography className="title">Statement:</Typography>
+                        <Typography>{statement}</Typography>
+                     </Box>
+                  )}
+
+                  {questionType ===
+                     QUESTION_TITLES.RESPOND_IN_AT_LEAST_N_WORDS && (
+                     <Box className="test-questions">
+                        <Typography className="title">
+                           Question Statement:
+                        </Typography>
+
                         <Typography>{statement}</Typography>
                      </Box>
                   )}
@@ -103,26 +146,37 @@ const TestQuestion = ({
                <Box className="score-box">
                   <Typography className="score">Score:</Typography>
 
-                  {evaluateManually ? (
-                     <Typography className="score">(1-10)</Typography>
-                  ) : (
+                  {questionType === QUESTION_TITLES.SELECT_MAIN_IDEA ||
+                  questionType === QUESTION_TITLES.SELECT_THE_BEST_TITLE ? (
                      <Typography className="number">{score}</Typography>
+                  ) : (
+                     <Typography className="score">(1-10)</Typography>
                   )}
                </Box>
 
-               {evaluateManually && (
+               {questionType === QUESTION_TITLES.SELECT_MAIN_IDEA ||
+               questionType === QUESTION_TITLES.SELECT_THE_BEST_TITLE ? null : (
                   <Input
                      className="input"
                      type="number"
                      inputProps={{ min: 1, max: 10 }}
                      autoComplete="off"
                      onInput={changeValueHandler}
+                     value={scoreValue}
+                     onChange={changeScoreValueHandler}
                   />
                )}
             </Box>
          </StyledContainer>
 
-         <Box>{children}</Box>
+         {QuestionComponent && (
+            <QuestionComponent
+               answers={answers[answerId]}
+               isDisabled={isDisabled}
+               answerId={answerId}
+               saveHandler={saveHandler}
+            />
+         )}
       </TestContainer>
    )
 }
@@ -134,6 +188,11 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    fontFamily: 'Poppins',
    display: 'flex',
    justifyContent: 'space-between',
+
+   '& .skeleton-box': {
+      backgroundColor: '#e5e5e567',
+      marginBottom: '6px',
+   },
 
    '& > div > .title-box': {
       display: 'flex',
@@ -186,6 +245,10 @@ const StyledContainer = styled(Box)(({ theme }) => ({
          width: '5.875rem',
          currentColor: theme.palette.primary.main,
          marginTop: '0.3rem',
+
+         '& > .MuiOutlinedInput-root': {
+            height: '46px',
+         },
 
          '& div > .MuiOutlinedInput-input[type="number"]::-webkit-inner-spin-button':
             {

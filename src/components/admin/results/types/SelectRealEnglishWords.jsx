@@ -1,53 +1,54 @@
-import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { Box, Typography, styled } from '@mui/material'
-import { useDispatch, useSelector } from 'react-redux'
-import { ANSWERS_THUNKS } from '../../../../store/slices/admin/answers/answersThunk'
-import TestQuestion from '../../../UI/TestQuestion'
 import Option from '../../../UI/Option'
 import Button from '../../../UI/buttons/Button'
 
-const SelectRealEnglishWords = () => {
-   const { answers, isLoading } = useSelector((state) => state.answersSlice)
+const SelectRealEnglishWords = ({ isDisabled, saveHandler }) => {
+   const { answers } = useSelector((state) => state.answersSlice)
 
-   const dispatch = useDispatch()
+   const navigate = useNavigate()
 
-   useEffect(() => {
-      dispatch(ANSWERS_THUNKS.getAnswers({ answerId: 4 }))
-   }, [dispatch])
+   const navigateHandler = () => navigate(-1)
 
    return (
-      <TestQuestion {...answers[0]} isLoading={isLoading}>
-         <StyledContainer>
-            <Box className="admin-options-box">
-               {answers[0]?.questionOptionResponses?.map((option, index) => (
-                  <Option
-                     key={option.optionId}
-                     index={index}
-                     option={option}
-                     deletion={false}
-                     checked
-                  />
-               ))}
-            </Box>
+      <StyledContainer>
+         <Box className="admin-options-box">
+            {answers?.questionOptionResponses?.map((option, index) => (
+               <Option
+                  key={option.optionId}
+                  index={index}
+                  option={option}
+                  deletion={false}
+                  checked
+               />
+            ))}
+         </Box>
 
-            <Typography className="user-answer">User`s Answer </Typography>
+         <Typography className="user-answer">User`s Answer </Typography>
 
-            <Box className="user-options-box">
-               {answers[0]?.userOptionResponses?.map(
-                  ({ optionId, optionTitle }) => (
-                     <Box key={optionId} className="option">
-                        {optionTitle}
-                     </Box>
-                  )
-               )}
-            </Box>
+         <Box className="user-options-box">
+            {answers?.userOptionResponses?.map(({ optionId, optionTitle }) => (
+               <Box key={optionId} className="option">
+                  {optionTitle}
+               </Box>
+            ))}
+         </Box>
 
-            <Box className="buttons-box">
-               <Button variant="secondary">GO BACK</Button>
-               <Button variant="primary">SAVE</Button>
-            </Box>
-         </StyledContainer>
-      </TestQuestion>
+         <Box className="buttons-box">
+            <Button variant="secondary" onClick={navigateHandler}>
+               GO BACK
+            </Button>
+
+            <Button
+               variant="primary"
+               onClick={saveHandler}
+               disabled={isDisabled}
+            >
+               SAVE
+            </Button>
+         </Box>
+      </StyledContainer>
    )
 }
 
@@ -102,5 +103,6 @@ const StyledContainer = styled(Box)(() => ({
       gap: '0 1rem',
       display: 'flex',
       justifyContent: 'flex-end',
+      marginTop: '2rem',
    },
 }))
