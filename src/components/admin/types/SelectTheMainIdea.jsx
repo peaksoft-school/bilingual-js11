@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Box, TextField, Typography, styled } from '@mui/material'
@@ -9,9 +9,9 @@ import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionTh
 import { PlusIcon } from '../../../assets/icons'
 import DeleteModal from '../../UI/modals/DeleteModal'
 import SaveModal from '../../UI/modals/SaveModal'
+import Loading from '../../Loading'
 import Option from '../../UI/Option'
 import Button from '../../UI/buttons/Button'
-import { OPTIONS_THUNKS } from '../../../store/slices/admin/options/optionsThunk'
 
 const SelectTheMainIdea = ({
    title,
@@ -21,13 +21,11 @@ const SelectTheMainIdea = ({
    setDuration,
    setSelectType,
 }) => {
-   const { options, question } = useSelector((state) => state.question)
-
-   const { optionResponses } = useSelector((state) => state.options.options)
+   const { options, question, isLoading } = useSelector(
+      (state) => state.question
+   )
 
    const { state } = useLocation()
-
-   const id = optionResponses?.map((option) => option.optionId)
 
    const [passage, setPassage] = useState('')
    const [optionId, setOptionId] = useState(null)
@@ -59,21 +57,29 @@ const SelectTheMainIdea = ({
       setPassage(value || '')
    }
 
-   const navigateGoBackHandler = () => navigate(-1)
+   const navigateGoBackHandler = () => {
+      navigate(-1)
+
+      dispatch(QUESTION_ACTIONS.clearOptions())
+   }
 
    useEffect(() => {
       if (state !== null) {
-         dispatch(OPTIONS_THUNKS.getOptions({ questionId: state?.id }))
-         dispatch(QUESTION_THUNKS.getQuestion({ id: state?.id }))
+         dispatch(
+            QUESTION_THUNKS.getQuestion({
+               id: state?.id,
+               addUpdateOption: QUESTION_ACTIONS,
+               optionName: OPTIONS_NAME.selectTheMainIdeaOptions,
+            })
+         )
       }
    }, [dispatch, state])
 
    useEffect(() => {
-      if (state !== null && optionResponses) {
-         setOptionId(id)
+      if (state !== null && question) {
          setPassage(question?.passage)
       }
-   }, [state, optionResponses])
+   }, [state, question])
 
    const toggleModal = (modalName) => {
       setModals((prevModals) => ({
@@ -96,23 +102,10 @@ const SelectTheMainIdea = ({
       toggleModal('delete')
    }
 
-   const deleteOptionHandler = () => {
-      if (state !== null) {
-         dispatch(
-            OPTIONS_THUNKS.deleteOption({
-               optionId,
-               questionId: state?.id,
-            })
-         )
-      }
-
-      toggleModal('delete')
-   }
-
-   const checkedHandler = (id) => {
+   const checkedHandler = (optionId) => {
       dispatch(
          QUESTION_ACTIONS.handleIsCorrect({
-            id,
+            optionId,
             optionName: OPTIONS_NAME.selectTheMainIdeaOptions,
          })
       )
@@ -133,7 +126,7 @@ const SelectTheMainIdea = ({
             title: title.trim(),
             duration: +duration,
             passage,
-            option: options.selectTheMainIdeaOptions.map((option) => ({
+            option: options.selectTheMainIdeaOptions?.map((option) => ({
                optionTitle: option.optionTitle,
                isCorrectOption: option.isCorrectOption,
             })),
@@ -160,18 +153,22 @@ const SelectTheMainIdea = ({
                })
             )
          } else {
+            const requestData = {
+               title: title.trim(),
+               duration: +duration,
+               optionRequest: options.selectTheMainIdeaOptions?.map(
+                  (option) => ({
+                     optionTitle: option.optionTitle,
+                     isCorrectOption: option.isCorrectOption,
+                  })
+               ),
+            }
+
             dispatch(
                QUESTION_THUNKS.updateQuestion({
                   id: state.id,
                   requestData,
                   navigate,
-
-                  setStates: {
-                     setSelectType: setSelectType(selectType),
-                     setTitle: setTitle(title),
-                     setDuration: setDuration(duration),
-                  },
-
                   clearOptions: QUESTION_ACTIONS,
                })
             )
@@ -205,6 +202,8 @@ const SelectTheMainIdea = ({
 
    return (
       <StyledContainer>
+         {state !== null ? isLoading && <Loading /> : null}
+
          <Box className="passage">
             <Typography className="title">Passage</Typography>
 
@@ -228,35 +227,20 @@ const SelectTheMainIdea = ({
          </Box>
 
          <Box className="cards">
-            {state !== null
-               ? optionResponses?.map((option, index) => (
-                    <Option
-                       key={option.optionId}
-                       index={index}
-                       option={option}
-                       isRadio
-                       deletion
-                       toggleModal={() => toggleModal('delete')}
-                       setOptionId={setOptionId}
-                       checkedHandler={checkedHandler}
-                       selectedOptionId={selectedOptionId}
-                       setSelectedOptionId={setSelectedOptionId}
-                    />
-                 ))
-               : options.selectTheMainIdeaOptions?.map((option, index) => (
-                    <Option
-                       key={option.optionId}
-                       index={index}
-                       option={option}
-                       isRadio
-                       deletion
-                       toggleModal={() => toggleModal('delete')}
-                       setOptionId={setOptionId}
-                       checkedHandler={checkedHandler}
-                       selectedOptionId={selectedOptionId}
-                       setSelectedOptionId={setSelectedOptionId}
-                    />
-                 ))}
+            {options.selectTheMainIdeaOptions?.map((option, index) => (
+               <Option
+                  key={option.optionId}
+                  index={index}
+                  option={option}
+                  isRadio
+                  deletion
+                  toggleModal={() => toggleModal('delete')}
+                  setOptionId={setOptionId}
+                  checkedHandler={checkedHandler}
+                  selectedOptionId={selectedOptionId}
+                  setSelectedOptionId={setSelectedOptionId}
+               />
+            ))}
          </Box>
 
          <Box className="buttons">
@@ -277,7 +261,7 @@ const SelectTheMainIdea = ({
             isCloseIcon
             isVisible={modals.delete}
             toggleModal={() => toggleModal('delete')}
-            deleteHandler={state !== null ? deleteOptionHandler : deleteHandler}
+            deleteHandler={deleteHandler}
          >
             <Typography className="modal-message">You can`t restore</Typography>
          </DeleteModal>
@@ -345,6 +329,11 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    '& > .buttons': {
       display: 'flex',
       gap: '1.1rem',
-      marginLeft: '36.5rem',
+      position: 'relative',
+      right: '-35.5rem',
+
+      '& > .MuiButton-root ': {
+         width: '118px',
+      },
    },
 }))

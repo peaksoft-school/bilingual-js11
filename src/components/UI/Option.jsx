@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { Howl, Howler } from 'howler'
 import Checkbox from './Checkbox'
@@ -22,6 +22,10 @@ const Option = ({
 
    const [isChecked, setIsChecked] = useState(isCorrectOption)
    const [isPlaying, setIsPlaying] = useState(false)
+
+   useEffect(() => {
+      setIsChecked(isCorrectOption)
+   }, [isCorrectOption])
 
    const audioRef = useRef(null)
 

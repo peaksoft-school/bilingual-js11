@@ -4,8 +4,9 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Box, InputLabel, TextField, Typography, styled } from '@mui/material'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
-import Input from '../../UI/Input'
+import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
+import Input from '../../UI/Input'
 
 const HighlightTheAnswer = ({
    title,
@@ -15,12 +16,12 @@ const HighlightTheAnswer = ({
    setDuration,
    setSelectType,
 }) => {
-   const { question: updateQuestion } = useSelector((state) => state.question)
+   const { question, isLoading } = useSelector((state) => state.question)
 
    const { state } = useLocation()
 
    const [text, setText] = useState('')
-   const [question, setQuestion] = useState('')
+   const [statement, setStatement] = useState('')
    const [answerValue, setAnswerValue] = useState('')
 
    const dispatch = useDispatch()
@@ -40,7 +41,7 @@ const HighlightTheAnswer = ({
    const changeQuestionHandler = (e) => {
       const { value } = e.target
 
-      setQuestion(value || '')
+      setStatement(value || '')
    }
 
    const navigateGoBackHandler = () => navigate(-1)
@@ -52,21 +53,21 @@ const HighlightTheAnswer = ({
    }, [dispatch, state])
 
    useEffect(() => {
-      if (state !== null && updateQuestion) {
-         setAnswerValue(updateQuestion?.correctAnswer)
-         setText(updateQuestion?.passage)
-         setQuestion(updateQuestion?.statement)
+      if (state !== null && question) {
+         setAnswerValue(question?.correctAnswer)
+         setText(question?.passage)
+         setStatement(question?.statement)
       }
-   }, [state, updateQuestion])
+   }, [state, question])
 
    const isDisabled =
       !selectType ||
       !duration ||
-      !title ||
-      !answerValue ||
-      !question ||
-      (state === null &&
-         (!title.trim() || !answerValue.trim() || !question.trim()))
+      !title?.trim() ||
+      !answerValue?.trim() ||
+      !statement?.trim()
+
+   const isDisabledUpdate = !statement && !text && !answerValue
 
    const onSubmit = () => {
       if (
@@ -74,12 +75,12 @@ const HighlightTheAnswer = ({
          +duration !== 0 &&
          title !== '' &&
          text !== '' &&
-         question !== ''
+         statement !== ''
       ) {
          const requestData = {
             title: title.trim(),
             duration: +duration,
-            statement: question.trim(),
+            statement: statement.trim(),
             passage: text.trim(),
             correctAnswer: answerValue.trim(),
          }
@@ -122,13 +123,15 @@ const HighlightTheAnswer = ({
 
    return (
       <StyledContainer>
+         {state !== null ? isLoading && <Loading /> : null}
+
          <Box>
             <Typography className="title">Questions to the Passage</Typography>
 
             <Input
                fullWidth
                name="question"
-               value={question || ''}
+               value={statement || ''}
                onChange={changeQuestionHandler}
                autoComplete="off"
             />
@@ -159,7 +162,11 @@ const HighlightTheAnswer = ({
                GO BACK
             </Button>
 
-            <Button variant="primary" disabled={isDisabled} onClick={onSubmit}>
+            <Button
+               variant="primary"
+               disabled={isDisabled || isDisabledUpdate}
+               onClick={onSubmit}
+            >
                {state !== null ? 'UPDATE' : 'SAVE'}
             </Button>
          </Box>
@@ -218,6 +225,11 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    '& > .buttons': {
       display: 'flex',
       gap: '1.1rem',
-      marginLeft: '36.53rem',
+      position: 'relative',
+      right: '-35.5rem',
+
+      '& > .MuiButton-root ': {
+         width: '118px',
+      },
    },
 }))

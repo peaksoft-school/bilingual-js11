@@ -29,6 +29,14 @@ const questionSlice = createSlice({
          state.options[payload.optionName].push(payload.option)
       },
 
+      addUpdateOption: (state, { payload }) => {
+         if (state.options[payload?.optionName]) {
+            state.options[payload?.optionName].push(
+               ...payload.optionResponses.questionOptionResponses
+            )
+         }
+      },
+
       addOptionRadio: (state, { payload }) => {
          const isFirstOption = state.options[payload?.optionName]?.length === 0
 
@@ -46,7 +54,7 @@ const questionSlice = createSlice({
             payload?.optionName
          ].map((option) => {
             if (payload.option?.isCorrectOption) {
-               if (payload?.option?.id === option?.id) {
+               if (payload?.option?.optionId === option?.optionId) {
                   return {
                      ...option,
                      isCorrectOption: payload?.option?.isCorrectOption,
@@ -64,10 +72,10 @@ const questionSlice = createSlice({
       },
 
       handleIsChecked: (state, { payload }) => {
-         state.options[payload.optionName] = state.options[
-            payload.optionName
+         state.options[payload?.optionName] = state.options[
+            payload?.optionName
          ].map((option) => {
-            if (option.id === payload.id) {
+            if (option?.optionId === payload?.optionId) {
                return { ...option, isCorrectOption: !option.isCorrectOption }
             }
             return {
@@ -78,10 +86,10 @@ const questionSlice = createSlice({
       },
 
       handleIsCorrect: (state, { payload }) => {
-         state.options[payload.optionName] = state.options[
-            payload.optionName
+         state.options[payload?.optionName] = state.options[
+            payload?.optionName
          ].map((option) => {
-            if (option.id === payload.id) {
+            if (option?.optionId === payload?.optionId) {
                return {
                   ...option,
                   isCorrectOption: !option.isCorrectOption,
@@ -99,8 +107,8 @@ const questionSlice = createSlice({
             ...state,
             options: {
                ...state.options,
-               [payload.optionName]: state.options[payload.optionName].filter(
-                  (option) => option.id !== payload.optionId
+               [payload?.optionName]: state.options[payload?.optionName].filter(
+                  (option) => option?.optionId !== payload?.optionId
                ),
             },
          }
@@ -118,7 +126,7 @@ const questionSlice = createSlice({
       updateOptions: (state, { payload }) => {
          state.options = {
             ...state.options,
-            [payload.optionName]: payload.options,
+            [payload?.optionName]: payload.options,
          }
       },
    },

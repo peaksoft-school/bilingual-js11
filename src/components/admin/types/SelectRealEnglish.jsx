@@ -6,10 +6,10 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
 import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
-import { OPTIONS_THUNKS } from '../../../store/slices/admin/options/optionsThunk'
 import { PlusIcon } from '../../../assets/icons'
 import DeleteModal from '../../UI/modals/DeleteModal'
 import SaveModal from '../../UI/modals/SaveModal'
+import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
 import Option from '../../UI/Option'
 
@@ -21,13 +21,9 @@ const SelectRealEnglish = ({
    setDuration,
    setSelectType,
 }) => {
-   const { options } = useSelector((state) => state.question)
-
-   const { optionResponses } = useSelector((state) => state.options.options)
+   const { options, isLoading } = useSelector((state) => state.question)
 
    const { state } = useLocation()
-
-   const id = optionResponses?.map((option) => option.optionId)
 
    const [optionId, setOptionId] = useState(null)
    const [optionTitle, setOptionTitle] = useState('')
@@ -47,13 +43,21 @@ const SelectRealEnglish = ({
 
    const changeTitleHandler = (e) => setOptionTitle(e.target.value)
 
-   const navigateGoBackHandler = () => navigate(-1)
+   const navigateGoBackHandler = () => {
+      navigate(-1)
+
+      dispatch(QUESTION_ACTIONS.clearOptions())
+   }
 
    useEffect(() => {
       if (state !== null) {
-         dispatch(OPTIONS_THUNKS.getOptions({ questionId: state?.id }))
-
-         setOptionId(id)
+         dispatch(
+            QUESTION_THUNKS.getQuestion({
+               id: state?.id,
+               addUpdateOption: QUESTION_ACTIONS,
+               optionName: OPTIONS_NAME.selectRealEnglishWordsOptions,
+            })
+         )
       }
    }, [dispatch, state])
 
@@ -62,6 +66,7 @@ const SelectRealEnglish = ({
          ...prevModals,
          [modalName]: !prevModals[modalName],
       }))
+
       setOptionTitle('')
       setCheckedOption(false)
    }
@@ -77,23 +82,10 @@ const SelectRealEnglish = ({
       toggleModal('delete')
    }
 
-   const deleteOptionHandler = () => {
-      if (state !== null) {
-         dispatch(
-            OPTIONS_THUNKS.deleteOption({
-               optionId,
-               questionId: state?.id,
-            })
-         )
-      }
-
-      toggleModal('delete')
-   }
-
-   const checkedHandler = (id) => {
+   const checkedHandler = (optionId) => {
       dispatch(
          QUESTION_ACTIONS.handleIsChecked({
-            id,
+            optionId,
             optionName: OPTIONS_NAME.selectRealEnglishWordsOptions,
          })
       )
@@ -108,7 +100,7 @@ const SelectRealEnglish = ({
    const isDisabledModal = !optionTitle.trim()
 
    const deleteOption = options.selectRealEnglishWordsOptions?.find(
-      (option) => option.id === optionId
+      (option) => option.optionId === optionId
    )?.optionTitle
 
    const onSubmit = () => {
@@ -116,7 +108,7 @@ const SelectRealEnglish = ({
          const requestData = {
             title: title.trim(),
             duration: +duration,
-            option: options.selectRealEnglishWordsOptions.map((option) => ({
+            option: options.selectRealEnglishWordsOptions?.map((option) => ({
                optionTitle: option.optionTitle,
                isCorrectOption: option.isCorrectOption,
             })),
@@ -143,18 +135,22 @@ const SelectRealEnglish = ({
                })
             )
          } else {
+            const requestData = {
+               title: title.trim(),
+               duration: +duration,
+               optionRequest: options.selectRealEnglishWordsOptions?.map(
+                  (option) => ({
+                     optionTitle: option.optionTitle,
+                     isCorrectOption: option.isCorrectOption,
+                  })
+               ),
+            }
+
             dispatch(
                QUESTION_THUNKS.updateQuestion({
                   id: state.id,
                   requestData,
                   navigate,
-
-                  setStates: {
-                     setSelectType: setSelectType(selectType),
-                     setTitle: setTitle(title),
-                     setDuration: setDuration(duration),
-                  },
-
                   clearOptions: QUESTION_ACTIONS,
                })
             )
@@ -185,6 +181,8 @@ const SelectRealEnglish = ({
    return (
       <>
          <StyledContainer>
+            {state !== null ? isLoading && <Loading /> : null}
+
             <Box className="add-button">
                <Button
                   onClick={() => toggleModal('save')}
@@ -195,29 +193,17 @@ const SelectRealEnglish = ({
             </Box>
 
             <Box className="cards">
-               {state !== null
-                  ? optionResponses?.map((option, i) => (
-                       <Option
-                          key={option.optionId}
-                          index={i}
-                          deletion
-                          option={option}
-                          toggleModal={() => toggleModal('delete')}
-                          setOptionId={setOptionId}
-                          checkedHandler={checkedHandler}
-                       />
-                    ))
-                  : options.selectRealEnglishWordsOptions?.map((option, i) => (
-                       <Option
-                          key={option.optionId}
-                          index={i}
-                          deletion
-                          option={option}
-                          toggleModal={() => toggleModal('delete')}
-                          setOptionId={setOptionId}
-                          checkedHandler={checkedHandler}
-                       />
-                    ))}
+               {options.selectRealEnglishWordsOptions?.map((option, index) => (
+                  <Option
+                     key={option.optionId}
+                     index={index}
+                     deletion
+                     option={option}
+                     toggleModal={() => toggleModal('delete')}
+                     setOptionId={setOptionId}
+                     checkedHandler={checkedHandler}
+                  />
+               ))}
             </Box>
 
             <Box className="buttons">
@@ -230,7 +216,7 @@ const SelectRealEnglish = ({
                   disabled={state !== null ? null : isDisabled}
                   onClick={onSubmit}
                >
-                  SAVE
+                  {state !== null ? 'UPDATE' : 'SAVE'}
                </Button>
             </Box>
          </StyledContainer>
@@ -239,7 +225,7 @@ const SelectRealEnglish = ({
             isCloseIcon
             isVisible={modals.delete}
             toggleModal={() => toggleModal('delete')}
-            deleteHandler={state !== null ? deleteOptionHandler : deleteHandler}
+            deleteHandler={deleteHandler}
          >
             <Typography className="title" variant="p">
                <Typography variant="span">Option: </Typography>
@@ -269,10 +255,10 @@ const SelectRealEnglish = ({
 export default SelectRealEnglish
 
 const StyledContainer = styled(Box)(() => ({
-   width: '822px',
+   width: '820px',
 
    '& > .add-button': {
-      margin: '2rem 0 1.375rem 41rem',
+      margin: '2rem -1rem 1.375rem 41rem',
 
       '& > button >  span > .plus': {
          width: '1rem',
@@ -314,7 +300,12 @@ const StyledContainer = styled(Box)(() => ({
    '& > .buttons': {
       display: 'flex',
       gap: '1.1rem',
-      marginLeft: '37.4rem',
+      position: 'relative',
+      right: '-35.5rem',
+
+      '& > .MuiButton-root ': {
+         width: '118px',
+      },
 
       '& > .text': {
          textDecoration: 'none',

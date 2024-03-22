@@ -79,11 +79,23 @@ const addFile = createAsyncThunk(
 const getQuestion = createAsyncThunk(
    'question/getQuestion',
 
-   async ({ id }, { rejectWithValue }) => {
+   async (
+      { id, addUpdateOption, optionName },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
          const response = await axiosInstance.get(
             `/api/question/getById?id=${id}`
          )
+
+         if (addUpdateOption) {
+            dispatch(
+               addUpdateOption.addUpdateOption({
+                  optionResponses: response.data,
+                  optionName,
+               })
+            )
+         }
 
          return response.data
       } catch (error) {
@@ -154,7 +166,10 @@ const deleteQuestion = createAsyncThunk(
 const updateQuestion = createAsyncThunk(
    'question/updateQuestion',
 
-   async ({ id, requestData, navigate }, { rejectWithValue }) => {
+   async (
+      { id, requestData, navigate, clearOptions },
+      { rejectWithValue, dispatch }
+   ) => {
       try {
          const response = await axiosInstance.patch(
             `api/question?id=${id}`,
@@ -169,14 +184,12 @@ const updateQuestion = createAsyncThunk(
 
          navigate(-1)
 
+         if (clearOptions) {
+            dispatch(clearOptions.clearOptions())
+         }
+
          return response.data
       } catch (error) {
-         showNotification({
-            title: 'Error',
-            message: 'Failed to delete test',
-            type: 'error',
-         })
-
          return rejectWithValue.message
       }
    }

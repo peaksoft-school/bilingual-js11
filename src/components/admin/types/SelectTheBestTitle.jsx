@@ -6,12 +6,12 @@ import { Box, TextField, Typography, styled } from '@mui/material'
 import { OPTIONS_NAME, QUESTION_TITLES } from '../../../utils/constants'
 import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
-import { OPTIONS_THUNKS } from '../../../store/slices/admin/options/optionsThunk'
 import { PlusIcon } from '../../../assets/icons'
 import DeleteModal from '../../UI/modals/DeleteModal'
 import SaveModal from '../../UI/modals/SaveModal'
 import Option from '../../UI/Option'
 import Button from '../../UI/buttons/Button'
+import Loading from '../../Loading'
 
 const SelectTheBestTitle = ({
    title,
@@ -21,13 +21,11 @@ const SelectTheBestTitle = ({
    setDuration,
    setSelectType,
 }) => {
-   const { options, question } = useSelector((state) => state.question)
-
-   const { optionResponses } = useSelector((state) => state.options.options)
+   const { options, question, isLoading } = useSelector(
+      (state) => state.question
+   )
 
    const { state } = useLocation()
-
-   const id = optionResponses?.map((option) => option.optionId)
 
    const [passage, setPassage] = useState('')
    const [optionId, setOptionId] = useState(null)
@@ -47,25 +45,37 @@ const SelectTheBestTitle = ({
 
    const changeTitleHandler = (e) => setOptionTitle(e.target.value)
 
-   const textAreaChangeHandler = (e) => setPassage(e.target.value)
-
    const changeCheckboxHandler = (e) => setCheckedOption(e.target.checked)
 
-   const navigateGoBackHandler = () => navigate(-1)
+   const textAreaChangeHandler = (e) => {
+      const { value } = e.target
+
+      setPassage(value || '')
+   }
+
+   const navigateGoBackHandler = () => {
+      navigate(-1)
+
+      dispatch(QUESTION_ACTIONS.clearOptions())
+   }
 
    useEffect(() => {
       if (state !== null) {
-         dispatch(OPTIONS_THUNKS.getOptions({ questionId: state?.id }))
-         dispatch(QUESTION_THUNKS.getQuestion({ id: state?.id }))
+         dispatch(
+            QUESTION_THUNKS.getQuestion({
+               id: state?.id,
+               addUpdateOption: QUESTION_ACTIONS,
+               optionName: OPTIONS_NAME.selectTheBestTitleOptions,
+            })
+         )
       }
    }, [dispatch, state])
 
    useEffect(() => {
-      if (state !== null && optionResponses) {
-         setOptionId(id)
+      if (state !== null && question) {
          setPassage(question?.passage)
       }
-   }, [state, optionResponses])
+   }, [state, question])
 
    const toggleModal = (modalName) => {
       setModals((prevModals) => ({
@@ -88,23 +98,10 @@ const SelectTheBestTitle = ({
       toggleModal('delete')
    }
 
-   const deleteOptionHandler = () => {
-      if (state !== null) {
-         dispatch(
-            OPTIONS_THUNKS.deleteOption({
-               optionId,
-               questionId: state?.id,
-            })
-         )
-      }
-
-      toggleModal('delete')
-   }
-
-   const checkedHandler = (id) => {
+   const checkedHandler = (optionId) => {
       dispatch(
          QUESTION_ACTIONS.handleIsCorrect({
-            id,
+            optionId,
             optionName: OPTIONS_NAME.selectTheBestTitleOptions,
          })
       )
@@ -125,7 +122,7 @@ const SelectTheBestTitle = ({
             title: title.trim(),
             duration: +duration,
             passage,
-            option: options.selectTheBestTitleOptions.map((option) => ({
+            option: options.selectTheBestTitleOptions?.map((option) => ({
                optionTitle: option.optionTitle,
                isCorrectOption: option.isCorrectOption,
             })),
@@ -152,18 +149,22 @@ const SelectTheBestTitle = ({
                })
             )
          } else {
+            const requestData = {
+               title: title.trim(),
+               duration: +duration,
+               optionRequest: options.selectTheBestTitleOptions?.map(
+                  (option) => ({
+                     optionTitle: option.optionTitle,
+                     isCorrectOption: option.isCorrectOption,
+                  })
+               ),
+            }
+
             dispatch(
                QUESTION_THUNKS.updateQuestion({
                   id: state.id,
                   requestData,
                   navigate,
-
-                  setStates: {
-                     setSelectType: setSelectType(selectType),
-                     setTitle: setTitle(title),
-                     setDuration: setDuration(duration),
-                  },
-
                   clearOptions: QUESTION_ACTIONS,
                })
             )
@@ -197,6 +198,8 @@ const SelectTheBestTitle = ({
 
    return (
       <StyledContainer>
+         {state !== null ? isLoading && <Loading /> : null}
+
          <Box className="passage">
             <Typography className="title">Passage</Typography>
 
@@ -220,12 +223,13 @@ const SelectTheBestTitle = ({
          </Box>
 
          <Box className="cards">
-            {options.selectTheBestTitleOptions?.map((option, i) => (
+            {options.selectTheMainIdeaOptions?.map((option, index) => (
                <Option
                   key={option.optionId}
-                  index={i}
+                  index={index}
                   option={option}
                   isRadio
+                  deletion
                   toggleModal={() => toggleModal('delete')}
                   setOptionId={setOptionId}
                   checkedHandler={checkedHandler}
@@ -253,7 +257,7 @@ const SelectTheBestTitle = ({
             isCloseIcon
             isVisible={modals.delete}
             toggleModal={() => toggleModal('delete')}
-            deleteHandler={state !== null ? deleteOptionHandler : deleteHandler}
+            deleteHandler={deleteHandler}
          >
             <Typography className="modal-message">You can`t restore</Typography>
          </DeleteModal>
@@ -321,6 +325,11 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    '& > .buttons': {
       display: 'flex',
       gap: '1.1rem',
-      marginLeft: '36.5rem',
+      position: 'relative',
+      right: '-35.5rem',
+
+      '& > .MuiButton-root ': {
+         width: '118px',
+      },
    },
 }))

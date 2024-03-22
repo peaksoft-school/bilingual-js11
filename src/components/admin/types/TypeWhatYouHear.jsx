@@ -5,6 +5,7 @@ import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { PauseIcon, PlayIcon } from '../../../assets/icons'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
+import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
 import Input from '../../UI/Input'
 
@@ -69,6 +70,7 @@ const TypeWhatYouHear = ({
       } else {
          audioRef.current.play()
       }
+
       setIsPlaying(!isPlaying)
    }
 
@@ -114,8 +116,8 @@ const TypeWhatYouHear = ({
          const requestData = {
             title: title.trim(),
             duration: +duration,
-            attempts: attempts.trim(),
             correctAnswer: correctAnswer.trim(),
+            attempts,
             fileUrl,
          }
 
@@ -143,12 +145,6 @@ const TypeWhatYouHear = ({
                   id: state.id,
                   requestData,
                   navigate,
-
-                  setStates: {
-                     setSelectType: setSelectType(selectType),
-                     setTitle: setTitle(title),
-                     setDuration: setDuration(duration),
-                  },
                })
             )
          }
@@ -157,6 +153,8 @@ const TypeWhatYouHear = ({
 
    return (
       <StyledContainer>
+         {state !== null ? isLoading && <Loading /> : null}
+
          <Box className="content">
             <Box className="replays">
                <InputLabel>
@@ -258,7 +256,7 @@ const StyledContainer = styled(Box)(() => ({
    flexDirection: 'column',
    marginTop: '2rem',
    gap: '1rem',
-   width: '90%',
+   width: '820px',
 
    '& > .content': {
       display: 'flex',
@@ -329,7 +327,12 @@ const StyledContainer = styled(Box)(() => ({
 
    '& > .buttons': {
       display: 'flex',
-      justifyContent: 'flex-end',
-      gap: '1rem',
+      gap: '1.1rem',
+      position: 'relative',
+      right: '-35.5rem',
+
+      '& > .MuiButton-root ': {
+         width: '118px',
+      },
    },
 }))

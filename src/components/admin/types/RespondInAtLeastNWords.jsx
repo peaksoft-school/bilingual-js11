@@ -4,6 +4,7 @@ import { InputLabel, styled, Box } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
+import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
 import Input from '../../UI/Input'
 
@@ -61,8 +62,7 @@ const RespondInAtLeastNWords = ({
       !title ||
       !statement ||
       !attempts ||
-      (state === null &&
-         (!title.trim() || !attempts.trim() || !statement.trim()))
+      (state === null && (!title.trim() || !attempts || !statement.trim()))
 
    const onSubmit = () => {
       if (
@@ -76,7 +76,7 @@ const RespondInAtLeastNWords = ({
             title: title.trim(),
             duration: +duration,
             statement: statement.trim(),
-            attempts: attempts.trim(),
+            attempts,
          }
 
          if (state === null) {
@@ -117,6 +117,8 @@ const RespondInAtLeastNWords = ({
 
    return (
       <StyledContainer>
+         {state !== null ? isLoading && <Loading /> : null}
+
          <Box>
             <InputLabel>Question statement</InputLabel>
 
@@ -165,7 +167,7 @@ const StyledContainer = styled(Box)(() => ({
    flexDirection: 'column',
    gap: '2rem',
    marginTop: '2rem',
-   width: '822px',
+   width: '820px',
 
    '& > .MuiInputLabel-root': {
       fontFamily: 'Poppins',
@@ -191,7 +193,12 @@ const StyledContainer = styled(Box)(() => ({
 
    '& > .buttons': {
       display: 'flex',
-      justifyContent: 'flex-end',
-      gap: '1rem',
+      gap: '1.1rem',
+      position: 'relative',
+      right: '-35.5rem',
+
+      '& > .MuiButton-root ': {
+         width: '118px',
+      },
    },
 }))

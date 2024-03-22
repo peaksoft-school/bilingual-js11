@@ -4,6 +4,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
+import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
 import Input from '../../UI/Input'
 
@@ -15,7 +16,7 @@ const RecordSayingStatement = ({
    setDuration,
    setSelectType,
 }) => {
-   const { question } = useSelector((state) => state.question)
+   const { question, isLoading } = useSelector((state) => state.question)
 
    const { state } = useLocation()
 
@@ -100,6 +101,8 @@ const RecordSayingStatement = ({
 
    return (
       <StyledContainer>
+         {state !== null ? isLoading && <Loading /> : null}
+
          <Box className="statement">
             <Typography className="text">Statement</Typography>
 
@@ -127,7 +130,7 @@ const RecordSayingStatement = ({
 export default RecordSayingStatement
 
 const StyledContainer = styled(Box)(() => ({
-   width: '825px',
+   width: '820px',
 
    '& > .statement': {
       marginTop: '1.4rem',
@@ -142,6 +145,11 @@ const StyledContainer = styled(Box)(() => ({
    '& > .buttons': {
       display: 'flex',
       gap: '1.1rem',
-      marginLeft: '36.8rem',
+      position: 'relative',
+      right: '-35.5rem',
+
+      '& > .MuiButton-root ': {
+         width: '118px',
+      },
    },
 }))

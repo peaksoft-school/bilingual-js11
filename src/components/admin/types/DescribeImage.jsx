@@ -6,8 +6,9 @@ import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { showNotification } from '../../../utils/helpers/notification'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
-import Input from '../../UI/Input'
+import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
+import Input from '../../UI/Input'
 
 const DescribeImage = ({
    title,
@@ -38,7 +39,11 @@ const DescribeImage = ({
 
    const clickHandler = () => inputFileRef.current.click()
 
-   const changeAnswerHandler = (e) => setAnswer(e.target.value)
+   const changeAnswerHandler = (e) => {
+      const { value } = e.target
+
+      setAnswer(value || '')
+   }
 
    const navigateGoBackHandler = () => navigate(-1)
 
@@ -56,7 +61,22 @@ const DescribeImage = ({
    }, [state, question])
 
    const isDisabled =
-      !selectType || !duration || !title.trim() || !image || !answer || !fileUrl
+      isLoading ||
+      (!state &&
+         (!selectType ||
+            !duration ||
+            !title.trim() ||
+            !image ||
+            !answer ||
+            !fileUrl)) ||
+      (state &&
+         title === question.title &&
+         +duration === question.duration &&
+         answer === question.correctAnswer &&
+         image === question.fileUrl &&
+         fileUrl === question.fileUrl &&
+         image === null &&
+         fileUrl === null)
 
    const changeFileHandler = (e) => {
       const file = e.target.files[0]
@@ -166,6 +186,8 @@ const DescribeImage = ({
 
    return (
       <StyledContainer>
+         {state !== null ? isLoading && <Loading /> : null}
+
          {image ? (
             <Box className="container-image">
                <Box onClick={clickHandler} {...getRootProps()}>
@@ -214,7 +236,7 @@ const DescribeImage = ({
             <InputLabel className="correct-answer">Correct answer</InputLabel>
 
             <Input
-               value={answer}
+               value={answer || ''}
                onChange={changeAnswerHandler}
                autoComplete="off"
             />
@@ -301,6 +323,11 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    '& > .buttons': {
       display: 'flex',
       gap: '1.1rem',
-      marginLeft: '36.533rem',
+      position: 'relative',
+      right: '-35.5rem',
+
+      '& > .MuiButton-root ': {
+         width: '118px',
+      },
    },
 }))
