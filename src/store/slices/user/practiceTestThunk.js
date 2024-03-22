@@ -1,9 +1,7 @@
-/* eslint-disable import/no-cycle */
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstance } from '../../../configs/axiosInstance'
 import { showNotification } from '../../../utils/helpers/notification'
 import { axiosInstanceFile } from '../../../configs/axiosInstanceFile'
-import { PRACTICE_TEST_ACTIONS } from './practiceTestSlice'
 import { ROUTES } from '../../../routes/routes'
 
 const getAllQuestions = createAsyncThunk(
@@ -25,15 +23,13 @@ const getAllQuestions = createAsyncThunk(
 const addAnswer = createAsyncThunk(
    'practiceTest/postTest',
 
-   async ({ correctAnswer, navigate }, { rejectWithValue, dispatch }) => {
+   async ({ correctAnswer, navigate }, { rejectWithValue }) => {
       try {
          const response = await axiosInstance.post('/api/answer', correctAnswer)
 
          navigate(`${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}`)
 
          showNotification({ message: `${response.data.message}` })
-
-         dispatch(PRACTICE_TEST_ACTIONS.clearCorrectAnswer())
 
          return response.data
       } catch (error) {

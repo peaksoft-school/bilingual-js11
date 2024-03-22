@@ -41,6 +41,7 @@ const TestComplete = () => {
 
    const onSubmit = () => {
       dispatch(PRACTICE_TEST_THUNKS.addAnswer({ correctAnswer, navigate }))
+      dispatch(PRACTICE_TEST_ACTIONS.clearCorrectAnswer())
    }
 
    return (
