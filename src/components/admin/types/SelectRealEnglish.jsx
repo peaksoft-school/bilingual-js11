@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid'
 import { useEffect, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
@@ -134,12 +133,13 @@ const SelectRealEnglish = ({
                duration: +duration,
                optionRequest: options.selectRealEnglishWordsOptions?.map(
                   (option) => ({
+                     id: option.optionId,
                      optionTitle: option.optionTitle,
                      isCorrectOption: option.isCorrectOption,
                   })
                ),
             }
-
+            console.log(requestData)
             dispatch(
                QUESTION_THUNKS.updateQuestion({
                   id: state.id,
@@ -156,7 +156,7 @@ const SelectRealEnglish = ({
       const option = {
          optionTitle: optionTitle.trim(),
          isCorrectOption: checkedOption,
-         optionId: uuidv4(),
+         optionId: Math.floor(Math.random() * 200) + 50,
       }
 
       dispatch(
@@ -179,7 +179,7 @@ const SelectRealEnglish = ({
 
             <Box className="add-button">
                <Button
-                  onClick={saveModal.onOpenModal} // Open the save modal
+                  onClick={saveModal.onOpenModal}
                   icon={<PlusIcon className="plus" />}
                >
                   Add Options
@@ -193,7 +193,7 @@ const SelectRealEnglish = ({
                      index={index}
                      deletion
                      option={option}
-                     toggleModal={deleteModal.onOpenModal} // Open the delete modal
+                     toggleModal={deleteModal.onOpenModal}
                      setOptionId={setOptionId}
                      checkedHandler={checkedHandler}
                   />
