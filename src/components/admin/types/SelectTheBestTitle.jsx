@@ -100,6 +100,7 @@ const SelectTheBestTitle = ({
       )
 
       toggleModal('delete')
+      deleteModalToggle.onCloseModal()
    }
 
    const checkedHandler = (optionId) => {
@@ -261,7 +262,7 @@ const SelectTheBestTitle = ({
          <DeleteModal
             isCloseIcon
             isVisible={deleteModalToggle.isOpen}
-            toggleModal={saveModalToggle.onCloseModal}
+            toggleModal={deleteModalToggle.onCloseModal}
             deleteHandler={deleteHandler}
          >
             <Typography className="modal-message">You can`t restore</Typography>

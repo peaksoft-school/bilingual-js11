@@ -62,7 +62,7 @@ const RespondInAtLeastWord = ({ questions, nextHandler }) => {
                         onChange={changeTextHandler}
                         placeholder="Your response"
                         className="text-area"
-                        contentEditable={false}
+                        onPaste={(e) => e.preventDefault()}
                      />
                      <Typography
                         className={`${

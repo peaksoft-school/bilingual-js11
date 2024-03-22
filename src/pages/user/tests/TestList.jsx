@@ -23,7 +23,7 @@ const TestList = () => {
    const navigateHandler = (id) =>
       navigate(`${ROUTES.USER.INDEX}/${ROUTES.USER.TESTS}/${id}`)
 
-   const enabledTests = tests.filter((test) => test.enable)
+   const enabledTests = tests?.filter((test) => test.enable)
 
    return (
       <>
