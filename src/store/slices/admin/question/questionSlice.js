@@ -128,8 +128,8 @@ const questionSlice = createSlice({
          state.options = {
             selectRealEnglishWordsOptions: [],
             listenAndSelectOptions: [],
-            selectTheMainIdea: [],
-            selectTheBestTitle: [],
+            selectTheMainIdeaOptions: [],
+            selectTheBestTitleOptions: [],
          }
       },
 

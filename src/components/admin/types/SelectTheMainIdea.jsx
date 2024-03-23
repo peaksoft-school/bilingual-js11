@@ -214,7 +214,7 @@ const SelectTheMainIdea = ({
 
    return (
       <StyledContainer>
-         {isCreate ? isLoading && <Loading /> : null}
+         {isLoading && <Loading />}
 
          <Box className="passage">
             <Typography className="title">Passage</Typography>
@@ -251,6 +251,7 @@ const SelectTheMainIdea = ({
                   checkedHandler={checkedHandler}
                   selectedOptionId={selectedOptionId}
                   setSelectedOptionId={setSelectedOptionId}
+                  checked={option.isCorrectOption}
                />
             ))}
          </Box>

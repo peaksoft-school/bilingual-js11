@@ -83,6 +83,7 @@ const SelectTheBestTitle = ({
    useEffect(() => {
       if (questionId && question) {
          setPassage(question?.passage)
+         setCheckedOption(question?.isCorrectOption)
       }
    }, [questionId, question])
 
@@ -210,7 +211,7 @@ const SelectTheBestTitle = ({
 
    return (
       <StyledContainer>
-         {isCreate ? isLoading && <Loading /> : null}
+         {isLoading && <Loading />}
 
          <Box className="passage">
             <Typography className="title">Passage</Typography>
@@ -247,6 +248,7 @@ const SelectTheBestTitle = ({
                   checkedHandler={checkedHandler}
                   selectedOptionId={selectedOptionId}
                   setSelectedOptionId={setSelectedOptionId}
+                  checked={option.isCorrectOption}
                />
             ))}
          </Box>

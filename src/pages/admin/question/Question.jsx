@@ -53,8 +53,10 @@ const Question = () => {
 
       const limitedValue = newValue.slice(0, 2)
 
+      setDuration(limitedValue)
+
       if (
-         state.duration === e.target.value ||
+         state?.duration === e.target.value ||
          e.target.value === '0' ||
          e.target.value === ''
       ) {
@@ -62,8 +64,6 @@ const Question = () => {
       } else {
          dispatch(QUESTION_ACTIONS.changeIsdisabled(false))
       }
-
-      setDuration(limitedValue)
    }
 
    useEffect(() => {

@@ -62,10 +62,14 @@ const TypeWhatYouHear = ({
    }, [dispatch, state])
 
    useEffect(() => {
-      if (state !== null && question) {
+      const parts = question?.fileUrl?.split('/')
+
+      if (state !== null && question && parts) {
          setCorrectAnswer(question?.correctAnswer)
          setAttempts(question?.attempts)
          setFile(question?.fileUrl)
+         setFileName(parts[parts.length - 1])
+         audioRef.current.src = question?.fileUrl
       }
    }, [state, question])
 
@@ -105,7 +109,7 @@ const TypeWhatYouHear = ({
             !duration ||
             duration < 1 ||
             !title?.trim() ||
-            !file?.trim() ||
+            !file ||
             !attempts ||
             !correctAnswer?.trim())) ||
       (title?.trim() === question?.title &&
@@ -282,10 +286,12 @@ const StyledContainer = styled(Box)(() => ({
    marginTop: '2rem',
    gap: '1rem',
    width: '820px',
+   color: '#4C4859',
 
    '& > .content': {
       display: 'flex',
       gap: '2rem',
+
       '& > .replays': {
          display: 'table-column',
 
@@ -298,6 +304,11 @@ const StyledContainer = styled(Box)(() => ({
                fontSize: '1.2rem',
             },
          },
+      },
+
+      '& > div > .file-name': {
+         fontFamily: 'Arial',
+         maxWidth: '20rem',
       },
 
       '& div > .MuiOutlinedInput-input[type="number"]::-webkit-inner-spin-button':

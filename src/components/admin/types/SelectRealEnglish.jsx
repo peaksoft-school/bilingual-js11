@@ -189,7 +189,7 @@ const SelectRealEnglish = ({
    return (
       <>
          <StyledContainer>
-            {isCreate ? isLoading && <Loading /> : null}
+            {isCreate || isLoading ? <Loading /> : null}
 
             <Box className="add-button">
                <Button
