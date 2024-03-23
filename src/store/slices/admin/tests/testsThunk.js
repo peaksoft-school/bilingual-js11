@@ -19,9 +19,9 @@ const getTests = createAsyncThunk(
 const getTest = createAsyncThunk(
    'tests/getTest',
 
-   async ({ testId }, { rejectWithValue }) => {
+   async (id, { rejectWithValue }) => {
       try {
-         const response = await axiosInstance.get(`/api/test?testId=${testId}`)
+         const response = await axiosInstance.get(`/api/test?testId=${id}`)
 
          return response.data
       } catch (error) {

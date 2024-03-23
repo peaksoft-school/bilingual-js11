@@ -28,8 +28,8 @@ const Questions = () => {
    const navigateGoBackHandler = () => navigate('/')
 
    useEffect(() => {
-      dispatch(TESTS_THUNKS.getTest({ testId }))
-   }, [dispatch, testId])
+      if (testId) dispatch(TESTS_THUNKS.getTest(testId))
+   }, [testId])
 
    const deleteQuestionHandler = () => {
       dispatch(
