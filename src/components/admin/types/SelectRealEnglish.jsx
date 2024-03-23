@@ -22,7 +22,7 @@ const SelectRealEnglish = ({
    setDuration,
    setSelectType,
 }) => {
-   const { options, isLoading, isCreate } = useSelector(
+   const { options, isLoading, isCreate, isUpdateDisabled } = useSelector(
       (state) => state.question
    )
 
@@ -50,6 +50,8 @@ const SelectRealEnglish = ({
          `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
       )
 
+      dispatch(QUESTION_ACTIONS.changeIsdisabled(true))
+
       dispatch(QUESTION_ACTIONS.clearOptions())
    }
 
@@ -73,6 +75,8 @@ const SelectRealEnglish = ({
          })
       )
 
+      dispatch(QUESTION_ACTIONS.changeIsdisabled(false))
+
       deleteModal.onCloseModal()
    }
 
@@ -83,6 +87,8 @@ const SelectRealEnglish = ({
             optionName: OPTIONS_NAME.selectRealEnglishWordsOptions,
          })
       )
+
+      dispatch(QUESTION_ACTIONS.changeIsdisabled(false))
    }
 
    const isDisabled =
@@ -142,6 +148,7 @@ const SelectRealEnglish = ({
                   })
                ),
             }
+
             dispatch(
                QUESTION_THUNKS.updateQuestion({
                   id: questionId,
@@ -151,6 +158,8 @@ const SelectRealEnglish = ({
                   clearOptions: QUESTION_ACTIONS,
                })
             )
+
+            dispatch(QUESTION_ACTIONS.changeIsdisabled(true))
          }
       }
    }
@@ -168,6 +177,8 @@ const SelectRealEnglish = ({
             optionName: OPTIONS_NAME.selectRealEnglishWordsOptions,
          })
       )
+
+      dispatch(QUESTION_ACTIONS.changeIsdisabled(false))
 
       saveModal.onCloseModal()
 
@@ -210,7 +221,7 @@ const SelectRealEnglish = ({
 
                <Button
                   variant="primary"
-                  disabled={isDisabled}
+                  disabled={isCreate ? isDisabled : isUpdateDisabled}
                   onClick={onSubmit}
                >
                   {isCreate ? 'SAVE' : 'UPDATE'}

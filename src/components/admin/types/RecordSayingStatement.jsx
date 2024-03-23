@@ -53,12 +53,18 @@ const RecordSayingStatement = ({
    }, [state, question])
 
    const isDisabled =
-      !selectType ||
+      isLoading ||
+      (!state &&
+         (!selectType ||
+            !duration ||
+            duration < 1 ||
+            !title?.trim() ||
+            !statement?.trim())) ||
+      (title?.trim() === question?.title &&
+         duration === question?.duration &&
+         statement?.trim() === question?.correctAnswer) ||
       !duration ||
-      duration < 1 ||
-      !title.trim() ||
-      !statement ||
-      (state === null && !statement.trim())
+      duration < 1
 
    const onSubmit = () => {
       if (selectType !== '' && +duration !== 0 && title !== '') {

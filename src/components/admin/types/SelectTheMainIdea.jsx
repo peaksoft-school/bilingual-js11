@@ -22,9 +22,8 @@ const SelectTheMainIdea = ({
    setDuration,
    setSelectType,
 }) => {
-   const { options, question, isLoading, isCreate } = useSelector(
-      (state) => state.question
-   )
+   const { options, question, isLoading, isCreate, isUpdateDisabled } =
+      useSelector((state) => state.question)
 
    const [passage, setPassage] = useState('')
    const [optionId, setOptionId] = useState(null)
@@ -45,13 +44,19 @@ const SelectTheMainIdea = ({
 
    const changeCheckbox = (e) => setCheckedOption(e.target.checked)
 
-   const handleChangeTitle = (e) => {
+   const changeTitleHandler = (e) => {
       const { value } = e.target
 
       setOptionTitle(value || '')
    }
 
-   const handleChangeTextArea = (e) => {
+   const changeTextAreaHandler = (e) => {
+      if (passage === options?.passage) {
+         dispatch(QUESTION_ACTIONS.changeIsdisabled(true))
+      } else {
+         dispatch(QUESTION_ACTIONS.changeIsdisabled(false))
+      }
+
       const { value } = e.target
 
       setPassage(value || '')
@@ -61,6 +66,8 @@ const SelectTheMainIdea = ({
       navigate(
          `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
       )
+
+      dispatch(QUESTION_ACTIONS.changeIsdisabled(true))
 
       dispatch(QUESTION_ACTIONS.clearOptions())
    }
@@ -91,6 +98,8 @@ const SelectTheMainIdea = ({
          })
       )
 
+      dispatch(QUESTION_ACTIONS.changeIsdisabled(false))
+
       deleteModal.onCloseModal()
    }
 
@@ -101,6 +110,8 @@ const SelectTheMainIdea = ({
             optionName: OPTIONS_NAME.selectTheMainIdeaOptions,
          })
       )
+
+      dispatch(QUESTION_ACTIONS.changeIsdisabled(false))
    }
 
    const isDisabled =
@@ -169,6 +180,8 @@ const SelectTheMainIdea = ({
                   clearOptions: QUESTION_ACTIONS,
                })
             )
+
+            dispatch(QUESTION_ACTIONS.changeIsdisabled(true))
          }
       }
    }
@@ -186,6 +199,8 @@ const SelectTheMainIdea = ({
             optionName: OPTIONS_NAME.selectTheMainIdeaOptions,
          })
       )
+
+      dispatch(QUESTION_ACTIONS.changeIsdisabled(false))
 
       saveModal.onCloseModal()
 
@@ -207,7 +222,7 @@ const SelectTheMainIdea = ({
             <TextField
                name="text"
                value={passage || ''}
-               onChange={handleChangeTextArea}
+               onChange={changeTextAreaHandler}
                multiline
                fullWidth
                autoComplete="off"
@@ -245,7 +260,11 @@ const SelectTheMainIdea = ({
                GO BACK
             </Button>
 
-            <Button variant="primary" disabled={isDisabled} onClick={onSubmit}>
+            <Button
+               variant="primary"
+               disabled={isCreate ? isDisabled : isUpdateDisabled}
+               onClick={onSubmit}
+            >
                {isCreate ? 'SAVE' : 'UPDATE'}
             </Button>
          </Box>
@@ -268,7 +287,7 @@ const SelectTheMainIdea = ({
             toggleModal={saveModal.onCloseModal}
             isDisabledModal={!isDisabledModal}
             addOptionHandler={addOptionHandler}
-            changeTitleHandler={handleChangeTitle}
+            changeTitleHandler={changeTitleHandler}
             changeCheckboxHandler={changeCheckbox}
          />
       </StyledContainer>

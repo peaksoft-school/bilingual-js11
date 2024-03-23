@@ -10,9 +10,9 @@ import { PlusIcon } from '../../../assets/icons'
 import { ROUTES } from '../../../routes/routes'
 import DeleteModal from '../../UI/modals/DeleteModal'
 import SaveModal from '../../UI/modals/SaveModal'
+import Loading from '../../Loading'
 import Option from '../../UI/Option'
 import Button from '../../UI/buttons/Button'
-import Loading from '../../Loading'
 
 const SelectTheBestTitle = ({
    title,
@@ -22,9 +22,8 @@ const SelectTheBestTitle = ({
    setDuration,
    setSelectType,
 }) => {
-   const { options, isLoading, isCreate, question } = useSelector(
-      (state) => state.question
-   )
+   const { options, isLoading, isCreate, question, isUpdateDisabled } =
+      useSelector((state) => state.question)
 
    const [passage, setPassage] = useState('')
    const [optionId, setOptionId] = useState(null)
@@ -47,7 +46,13 @@ const SelectTheBestTitle = ({
 
    const changeCheckboxHandler = (e) => setCheckedOption(e.target.checked)
 
-   const textAreaChangeHandler = (e) => {
+   const changeTextAreaHandler = (e) => {
+      if (passage === options?.passage) {
+         dispatch(QUESTION_ACTIONS.changeIsdisabled(true))
+      } else {
+         dispatch(QUESTION_ACTIONS.changeIsdisabled(false))
+      }
+
       const { value } = e.target
 
       setPassage(value || '')
@@ -57,6 +62,8 @@ const SelectTheBestTitle = ({
       navigate(
          `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
       )
+
+      dispatch(QUESTION_ACTIONS.changeIsdisabled(true))
 
       dispatch(QUESTION_ACTIONS.clearOptions())
    }
@@ -87,6 +94,8 @@ const SelectTheBestTitle = ({
          })
       )
 
+      dispatch(QUESTION_ACTIONS.changeIsdisabled(false))
+
       deleteModal.onCloseModal()
    }
 
@@ -97,6 +106,8 @@ const SelectTheBestTitle = ({
             optionName: OPTIONS_NAME.selectTheBestTitleOptions,
          })
       )
+
+      dispatch(QUESTION_ACTIONS.changeIsdisabled(false))
    }
 
    const isDisabled =
@@ -165,6 +176,8 @@ const SelectTheBestTitle = ({
                   clearOptions: QUESTION_ACTIONS,
                })
             )
+
+            dispatch(QUESTION_ACTIONS.changeIsdisabled(true))
          }
       }
    }
@@ -182,6 +195,8 @@ const SelectTheBestTitle = ({
             optionName: OPTIONS_NAME?.selectTheBestTitleOptions,
          })
       )
+
+      dispatch(QUESTION_ACTIONS.changeIsdisabled(false))
 
       saveModal.onCloseModal()
 
@@ -203,7 +218,7 @@ const SelectTheBestTitle = ({
             <TextField
                name="text"
                value={passage || ''}
-               onChange={textAreaChangeHandler}
+               onChange={changeTextAreaHandler}
                multiline
                fullWidth
                autoComplete="off"
@@ -241,7 +256,11 @@ const SelectTheBestTitle = ({
                GO BACK
             </Button>
 
-            <Button variant="primary" disabled={isDisabled} onClick={onSubmit}>
+            <Button
+               variant="primary"
+               disabled={isCreate ? isDisabled : isUpdateDisabled}
+               onClick={onSubmit}
+            >
                {isCreate ? 'SAVE' : 'UPDATE'}
             </Button>
          </Box>

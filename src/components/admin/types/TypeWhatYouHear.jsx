@@ -65,6 +65,7 @@ const TypeWhatYouHear = ({
       if (state !== null && question) {
          setCorrectAnswer(question?.correctAnswer)
          setAttempts(question?.attempts)
+         setFile(question?.fileUrl)
       }
    }, [state, question])
 
@@ -98,14 +99,23 @@ const TypeWhatYouHear = ({
    }
 
    const isDisabled =
-      !file ||
-      !title ||
-      !fileUrl ||
-      !attempts ||
+      isLoading ||
+      (!state &&
+         (!selectType ||
+            !duration ||
+            duration < 1 ||
+            !title?.trim() ||
+            !file?.trim() ||
+            !attempts ||
+            !correctAnswer?.trim())) ||
+      (title?.trim() === question?.title &&
+         duration === question?.duration &&
+         file === question?.fileUrl &&
+         attempts === question?.attempts &&
+         correctAnswer?.trim() === question?.correctAnswer) ||
       !duration ||
       duration < 1 ||
-      !selectType ||
-      !correctAnswer
+      !attempts
 
    const endedHandler = () => setIsPlaying(false)
 

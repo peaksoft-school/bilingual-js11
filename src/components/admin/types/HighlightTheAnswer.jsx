@@ -65,12 +65,21 @@ const HighlightTheAnswer = ({
    }, [state, question])
 
    const isDisabled =
-      !selectType ||
+      isLoading ||
+      (!state &&
+         (!selectType ||
+            !duration ||
+            duration < 1 ||
+            !title?.trim() ||
+            !answerValue?.trim() ||
+            !statement?.trim())) ||
+      (title?.trim() === question?.title &&
+         duration === question?.duration &&
+         answerValue === question?.correctAnswer &&
+         statement?.trim() === question?.statement &&
+         text?.trim() === question?.passage) ||
       !duration ||
-      duration < 1 ||
-      !title?.trim() ||
-      !answerValue?.trim() ||
-      !statement?.trim()
+      duration < 1
 
    const isDisabledUpdate = !statement && !text && !answerValue
 

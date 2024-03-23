@@ -1,14 +1,14 @@
+import { useDropzone } from 'react-dropzone'
+import { useDispatch, useSelector } from 'react-redux'
 import { useState, useRef, useEffect } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { useDropzone } from 'react-dropzone'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { showNotification } from '../../../utils/helpers/notification'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
+import { ROUTES } from '../../../routes/routes'
 import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
-import { ROUTES } from '../../../routes/routes'
 import Input from '../../UI/Input'
 
 const DescribeImage = ({
@@ -70,18 +70,16 @@ const DescribeImage = ({
          (!selectType ||
             !duration ||
             duration < 1 ||
-            !title.trim() ||
+            !title?.trim() ||
             !image ||
-            !answer ||
+            !answer?.trim() ||
             !fileUrl)) ||
-      (state &&
-         title === question.title &&
-         +duration === question.duration &&
-         answer === question.correctAnswer &&
-         image === question.fileUrl &&
-         fileUrl === question.fileUrl &&
-         image === null &&
-         fileUrl === null)
+      (title?.trim() === question?.title &&
+         image === question?.fileUrl &&
+         duration === question?.duration &&
+         answer?.trim() === question?.correctAnswer) ||
+      !duration ||
+      duration < 1
 
    const changeFileHandler = (e) => {
       const file = e.target.files[0]

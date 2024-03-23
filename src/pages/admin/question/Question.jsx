@@ -40,12 +40,28 @@ const Question = () => {
       setSelectType(newSelectType)
    }
 
-   const changeTitleHandler = (e) => setTitle(e.target.value)
+   const changeTitleHandler = (e) => {
+      setTitle(e.target.value)
+
+      if (state?.title.trim() !== e.target.value.trim()) {
+         dispatch(QUESTION_ACTIONS.changeIsdisabled(false))
+      }
+   }
 
    const changeDurationHandler = (e) => {
       const newValue = e.target.value.replace(/\D/g, '')
 
       const limitedValue = newValue.slice(0, 2)
+
+      if (
+         state.duration === e.target.value ||
+         e.target.value === '0' ||
+         e.target.value === ''
+      ) {
+         dispatch(QUESTION_ACTIONS.changeIsdisabled(true))
+      } else {
+         dispatch(QUESTION_ACTIONS.changeIsdisabled(false))
+      }
 
       setDuration(limitedValue)
    }

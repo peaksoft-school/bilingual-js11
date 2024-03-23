@@ -22,9 +22,8 @@ const ListenAndSelectEnglishWord = ({
    setDuration,
    setSelectType,
 }) => {
-   const { fileUrl, isLoading, options, isCreate } = useSelector(
-      (state) => state.question
-   )
+   const { fileUrl, isLoading, options, isUpdateDisabled, isCreate } =
+      useSelector((state) => state.question)
 
    const { questionId } = useParams()
 
@@ -50,6 +49,8 @@ const ListenAndSelectEnglishWord = ({
          `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
       )
 
+      dispatch(QUESTION_ACTIONS.changeIsdisabled(true))
+
       dispatch(QUESTION_ACTIONS.clearOptions())
    }
 
@@ -73,7 +74,7 @@ const ListenAndSelectEnglishWord = ({
       !selectType ||
       !duration ||
       duration < 1 ||
-      !title.trim() ||
+      !title?.trim() ||
       options?.listenAndSelectOptions?.length < 2
 
    const isDisabledModal =
@@ -105,6 +106,8 @@ const ListenAndSelectEnglishWord = ({
          })
       )
 
+      dispatch(QUESTION_ACTIONS.changeIsdisabled(false))
+
       deleteModal.onCloseModal()
    }
 
@@ -115,6 +118,8 @@ const ListenAndSelectEnglishWord = ({
             optionName: OPTIONS_NAME?.listenAndSelectOptions,
          })
       )
+
+      dispatch(QUESTION_ACTIONS.changeIsdisabled(false))
    }
 
    const onSubmit = () => {
@@ -169,6 +174,8 @@ const ListenAndSelectEnglishWord = ({
                   clearOptions: QUESTION_ACTIONS,
                })
             )
+
+            dispatch(QUESTION_ACTIONS.changeIsdisabled(true))
          }
       }
    }
@@ -187,6 +194,8 @@ const ListenAndSelectEnglishWord = ({
             optionName: OPTIONS_NAME?.listenAndSelectOptions,
          })
       )
+
+      dispatch(QUESTION_ACTIONS.changeIsdisabled(false))
 
       saveModal.onCloseModal()
 
@@ -228,7 +237,11 @@ const ListenAndSelectEnglishWord = ({
                GO BACK
             </Button>
 
-            <Button variant="primary" disabled={isDisabled} onClick={onSubmit}>
+            <Button
+               variant="primary"
+               disabled={isCreate ? isDisabled : isUpdateDisabled}
+               onClick={onSubmit}
+            >
                {isCreate ? 'SAVE' : 'UPDATE'}
             </Button>
          </Box>
