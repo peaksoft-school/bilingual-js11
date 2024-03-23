@@ -1,18 +1,19 @@
 import { useNavigate } from 'react-router-dom'
 import { Box, styled } from '@mui/material'
-import { PlusIcon } from '../../../assets/icons'
-import { ROUTES } from '../../../routes/routes'
 import TestContainer from '../../../components/UI/TestContainer'
 import TestList from '../../../components/admin/tests/AdminTestList'
 import Button from '../../../components/UI/buttons/Button'
+import { PlusIcon } from '../../../assets/icons'
+import { ROUTES } from '../../../routes/routes'
 
 const AdminTests = () => {
    const navigate = useNavigate()
 
-   const navigateHandler = () =>
+   const navigateHandler = () => {
       navigate(
          `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.CREATE_TEST}`
       )
+   }
 
    return (
       <StyledContainer>
@@ -24,6 +25,7 @@ const AdminTests = () => {
             >
                ADD NEW TEST
             </Button>
+
             <TestList />
          </TestContainer>
       </StyledContainer>
