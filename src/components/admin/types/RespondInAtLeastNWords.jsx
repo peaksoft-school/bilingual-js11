@@ -61,13 +61,20 @@ const RespondInAtLeastNWords = ({
    }, [state, question])
 
    const isDisabled =
-      !selectType ||
+      isLoading ||
+      (!state &&
+         (!selectType ||
+            !duration ||
+            duration < 1 ||
+            !title?.trim() ||
+            !statement?.trim())) ||
+      (title?.trim() === question?.title &&
+         duration === question?.duration &&
+         statement?.trim() === question?.statement &&
+         attempts === question?.attempts) ||
       !duration ||
       duration < 1 ||
-      !title ||
-      !statement ||
-      !attempts ||
-      (state === null && (!title.trim() || !attempts || !statement.trim()))
+      !attempts
 
    const onSubmit = () => {
       if (
@@ -103,17 +110,20 @@ const RespondInAtLeastNWords = ({
                })
             )
          } else {
+            const requestData = {
+               title: title.trim(),
+               duration: +duration,
+               statement: statement.trim(),
+               optionRequest: [],
+               attempts,
+            }
+
             dispatch(
                QUESTION_THUNKS.updateQuestion({
                   id: state.id,
+                  testId,
                   requestData,
                   navigate,
-
-                  setStates: {
-                     setSelectType: setSelectType(selectType),
-                     setTitle: setTitle(title),
-                     setDuration: setDuration(duration),
-                  },
                })
             )
          }

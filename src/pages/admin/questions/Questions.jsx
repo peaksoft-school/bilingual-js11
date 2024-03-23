@@ -12,6 +12,7 @@ import TestContainer from '../../../components/UI/TestContainer'
 import DeleteModal from '../../../components/UI/modals/DeleteModal'
 import Switcher from '../../../components/UI/Switcher'
 import Button from '../../../components/UI/buttons/Button'
+import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
 
 const Questions = () => {
    const { test, isLoading } = useSelector((state) => state.tests)
@@ -61,13 +62,16 @@ const Questions = () => {
       navigate(
          `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}/${ROUTES.ADMIN.CREATE_QUESTION}`
       )
+
+      dispatch(QUESTION_ACTIONS.changeIsUpdate(true))
    }
 
-   const navigateEditHandler = (question) => {
+   const navigateEditHandler = (question, questionId) => {
       navigate(
-         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}/${ROUTES.ADMIN.UPDATE_QUESTION}`,
+         `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}/${ROUTES.ADMIN.UPDATE_QUESTION}/${questionId}`,
          { state: question }
       )
+      dispatch(QUESTION_ACTIONS.changeIsUpdate(false))
    }
 
    const deleteQuestion = test?.question?.find(
@@ -193,7 +197,7 @@ const Questions = () => {
 
                            <EditIcon
                               className="edit"
-                              onClick={() => navigateEditHandler(item)}
+                              onClick={() => navigateEditHandler(item, item.id)}
                            />
 
                            <TrashIcon

@@ -23,6 +23,7 @@ const ROUTES = {
       RESULT_ID: 'resultId',
       QUESTION_TYPE: 'questionType',
       ANSWER_ID: 'answerId',
+      QUESTION_ID: 'questionId',
    },
 
    USER: {

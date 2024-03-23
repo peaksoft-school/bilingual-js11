@@ -8,6 +8,8 @@ const initialState = {
    statement: '',
    passage: '',
    attempts: 0,
+   isCreate: false,
+   isUpdateDisabled: true,
    correctAnswer: '',
    fileUrl: '',
    question: {},
@@ -26,7 +28,7 @@ const questionSlice = createSlice({
 
    reducers: {
       addOptionCheck: (state, { payload }) => {
-         state.options[payload.optionName].push(payload.option)
+         state.options[payload?.optionName].push(payload.option)
       },
 
       addUpdateOption: (state, { payload }) => {
@@ -35,6 +37,14 @@ const questionSlice = createSlice({
                ...payload.optionResponses.questionOptionResponses
             )
          }
+      },
+
+      changeIsUpdate: (state, { payload }) => {
+         state.isCreate = payload
+      },
+
+      changeIsdisabled: (state, { payload }) => {
+         state.isUpdateDisabled = payload
       },
 
       addOptionRadio: (state, { payload }) => {
@@ -118,8 +128,8 @@ const questionSlice = createSlice({
          state.options = {
             selectRealEnglishWordsOptions: [],
             listenAndSelectOptions: [],
-            selectTheMainIdea: [],
-            selectTheBestTitle: [],
+            selectTheMainIdeaOptions: [],
+            selectTheBestTitleOptions: [],
          }
       },
 

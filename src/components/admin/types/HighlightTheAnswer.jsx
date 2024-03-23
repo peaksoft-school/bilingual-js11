@@ -65,12 +65,21 @@ const HighlightTheAnswer = ({
    }, [state, question])
 
    const isDisabled =
-      !selectType ||
+      isLoading ||
+      (!state &&
+         (!selectType ||
+            !duration ||
+            duration < 1 ||
+            !title?.trim() ||
+            !answerValue?.trim() ||
+            !statement?.trim())) ||
+      (title?.trim() === question?.title &&
+         duration === question?.duration &&
+         answerValue === question?.correctAnswer &&
+         statement?.trim() === question?.statement &&
+         text?.trim() === question?.passage) ||
       !duration ||
-      duration < 1 ||
-      !title?.trim() ||
-      !answerValue?.trim() ||
-      !statement?.trim()
+      duration < 1
 
    const isDisabledUpdate = !statement && !text && !answerValue
 
@@ -109,17 +118,21 @@ const HighlightTheAnswer = ({
                })
             )
          } else {
+            const requestData = {
+               title: title.trim(),
+               duration: +duration,
+               statement: statement.trim(),
+               passage: text.trim(),
+               correctAnswer: answerValue.trim(),
+               optionRequest: [],
+            }
+
             dispatch(
                QUESTION_THUNKS.updateQuestion({
                   id: state.id,
+                  testId,
                   requestData,
                   navigate,
-
-                  setStates: {
-                     setSelectType: setSelectType(selectType),
-                     setTitle: setTitle(title),
-                     setDuration: setDuration(duration),
-                  },
                })
             )
          }
