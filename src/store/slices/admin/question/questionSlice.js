@@ -38,37 +38,40 @@ const questionSlice = createSlice({
       },
 
       addOptionRadio: (state, { payload }) => {
-         const isFirstOption = state.options[payload?.optionName]?.length === 0
+         if (payload && payload.option) {
+            const isFirstOption =
+               state.options[payload.optionName]?.length === 0
 
-         const newOption = {
-            ...payload.option,
-            isCorrectOption: isFirstOption,
-         }
+            const newOption = {
+               ...payload.option,
+               isCorrectOption: isFirstOption,
+            }
 
-         state.options[payload?.optionName] = [
-            ...state.options[payload?.optionName],
-            newOption,
-         ]
+            state.options[payload.optionName] = [
+               ...state.options[payload.optionName],
+               newOption,
+            ]
 
-         state.options[payload?.optionName] = state.options[
-            payload?.optionName
-         ].map((option) => {
-            if (payload.option?.isCorrectOption) {
-               if (payload?.option?.optionId === option?.optionId) {
+            state.options[payload.optionName] = state.options[
+               payload.optionName
+            ].map((option) => {
+               if (payload.option.isCorrectOption) {
+                  if (payload.option.optionId === option.optionId) {
+                     return {
+                        ...option,
+                        isCorrectOption: payload.option.isCorrectOption,
+                     }
+                  }
+
                   return {
                      ...option,
-                     isCorrectOption: payload?.option?.isCorrectOption,
+                     isCorrectOption: false,
                   }
                }
 
-               return {
-                  ...option,
-                  isCorrectOption: false,
-               }
-            }
-
-            return option
-         })
+               return option
+            })
+         }
       },
 
       handleIsChecked: (state, { payload }) => {

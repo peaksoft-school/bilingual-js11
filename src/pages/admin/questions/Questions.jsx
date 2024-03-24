@@ -74,10 +74,6 @@ const Questions = () => {
       (test) => test.id === selectedQuestionId
    )?.title
 
-   const totalMinutes = test.duration / 60
-   const seconds = test.duration % 60
-   const minutes = Math.floor(totalMinutes)
-
    return (
       <StyledContainer>
          <TestContainer>
@@ -124,7 +120,7 @@ const Questions = () => {
                ) : (
                   <Box className="text">
                      <Typography className="title">Duration:</Typography>
-                     <Typography>{`${minutes}:${seconds}`}</Typography>
+                     <Typography>{test?.duration}:00</Typography>
                   </Box>
                )}
             </Box>
@@ -174,7 +170,7 @@ const Questions = () => {
                         </Typography>
 
                         <Typography className="duration-props">
-                           {item.duration * 60}s
+                           {item.duration} m
                         </Typography>
 
                         <Typography className="question-type-props">

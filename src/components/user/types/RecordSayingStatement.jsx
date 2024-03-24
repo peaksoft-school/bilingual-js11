@@ -6,6 +6,7 @@ import { PRACTICE_TEST_ACTIONS } from '../../../store/slices/user/practiceTestSl
 import { showNotification } from '../../../utils/helpers/notification'
 import Button from '../../UI/buttons/Button'
 import { NoData } from '../../../assets/images'
+import { PRACTICE_TEST_THUNKS } from '../../../store/slices/user/practiceTestThunk'
 
 const RecordSayingStatement = ({ questions, nextHandler }) => {
    const [array, setArray] = useState(null)
@@ -95,6 +96,7 @@ const RecordSayingStatement = ({ questions, nextHandler }) => {
          .getUserMedia({ audio: true })
          .then((stream) => {
             const mediaRecorderInstance = new MediaRecorder(stream)
+
             const chunks = []
 
             mediaRecorderInstance.addEventListener('dataavailable', (event) => {
@@ -106,6 +108,18 @@ const RecordSayingStatement = ({ questions, nextHandler }) => {
                const url = URL.createObjectURL(blob)
 
                setRecordedAudio(url)
+
+               const reader = new FileReader()
+
+               reader.onload = (event) => {
+                  dispatch(
+                     PRACTICE_TEST_THUNKS.addAnswerFile(event.target.result)
+                  )
+                  console.log(event.target.result, 'e.target')
+               }
+
+               reader.readAsDataURL(blob)
+               console.log(reader.readAsDataURL(blob), 'reader')
             })
 
             setMediaRecorder(mediaRecorderInstance)

@@ -62,7 +62,7 @@ const DescribeImage = ({ questions, nextHandler }) => {
                </Box>
             </>
          ) : (
-            <img src={NoData} alt="no-data" />
+            <img src={NoData} alt="no-data" className="no-data" />
          )}
       </StyledContainer>
    )
@@ -72,6 +72,11 @@ export default DescribeImage
 
 const StyledContainer = styled(Box)(() => ({
    color: '#4C4859',
+
+   '& > .no-data': {
+      width: '25rem',
+      margin: '0 0 0 15rem',
+   },
 
    '& > .content-box': {
       width: '78.72%',

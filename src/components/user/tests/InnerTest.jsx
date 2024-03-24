@@ -35,8 +35,10 @@ const InnerTest = () => {
       <StyledContainer>
          {isLoading && <Loading />}
 
-         <MainContent key={tests.id}>
-            <Typography className="title">{tests.title}</Typography>
+         <MainContent key={tests?.id}>
+            <Typography className="title" variant="h1">
+               {tests?.title}
+            </Typography>
 
             <Box className="content">
                <img src={TestImage} alt="test" className="test" />
@@ -52,7 +54,7 @@ const InnerTest = () => {
                      <ClockIcon />
 
                      <Typography>
-                        Practice takes just {tests.duration % 60}
+                        Practice takes just {tests.duration % 60} minutes
                      </Typography>
                   </ListItem>
 
@@ -95,7 +97,8 @@ const MainContent = styled(Box)(() => ({
    color: '#4c4859',
 
    '& > .title': {
-      fontSize: '28px',
+      fontSize: '30px !important',
+      fontWeight: '300',
       fontFamily: 'Poppins',
    },
 

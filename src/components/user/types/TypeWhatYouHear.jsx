@@ -112,7 +112,7 @@ const TypeWhatYouHear = ({ questions, nextHandler }) => {
                </Box>
             </>
          ) : (
-            <img src={NoData} alt="no-data" />
+            <img src={NoData} alt="no-data" className="no-data" />
          )}
       </StyledContainer>
    )
@@ -124,6 +124,11 @@ const StyledContainer = styled(Box)(({ theme }) => ({
    display: 'flex',
    flexDirection: 'column',
    alignItems: 'center',
+
+   '& > .no-data': {
+      width: '25rem',
+      margin: 'auto',
+   },
 
    '& > .main-content': {
       width: '91.5%',

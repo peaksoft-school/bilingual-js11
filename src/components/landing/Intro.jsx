@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Box, Typography, styled } from '@mui/material'
 import { motion } from 'framer-motion'
@@ -18,6 +18,7 @@ import {
    ThirdPaperIcon,
 } from '../../assets/icons'
 import { ROUTES } from '../../routes/routes'
+import { AUTH_THUNKS } from '../../store/slices/auth/authThunk'
 
 const Intro = () => {
    const { isAuth } = useSelector((state) => state.auth)
@@ -25,6 +26,8 @@ const Intro = () => {
    const [isVisible, setIsVisible] = useState(false)
 
    const navigate = useNavigate()
+
+   const dispatch = useDispatch()
 
    const beginHandler = () => {
       if (isAuth) navigate(ROUTES.USER.INDEX, { replace: true })
@@ -35,6 +38,28 @@ const Intro = () => {
       const timeoutId = setTimeout(() => setIsVisible(true), 100)
 
       return () => clearTimeout(timeoutId)
+   }, [])
+
+   useEffect(() => {
+      const cookies = Object.fromEntries(
+         document.cookie.split('; ').map((cookie) => cookie.split('='))
+      )
+
+      const rememberMe = cookies.rememberMe === 'true'
+
+      if (rememberMe) {
+         const savedEmail = cookies.email
+         const savedPassword = cookies.password
+
+         if (savedEmail && savedPassword) {
+            dispatch(
+               AUTH_THUNKS.signIn({
+                  values: { email: savedEmail, password: savedPassword },
+                  navigate,
+               })
+            )
+         }
+      }
    }, [])
 
    return (
