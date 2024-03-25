@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { format } from 'date-fns'
 import { Box, Skeleton, Typography, styled } from '@mui/material'
-import { useDispatch, useSelector } from 'react-redux'
-import { SUBMITTED_RESULTS_THUNKS } from '../../../store/slices/admin/results/submitedResultsThunk'
 import { CheckedIcon, EyeIcon } from '../../../assets/icons'
+import { SUBMITTED_RESULTS_THUNKS } from '../../../store/slices/admin/results/submitedResultsThunk'
 import {
    questionTypeHandler,
    resultsStatusHandler,

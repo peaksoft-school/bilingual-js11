@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
-import { Box, Typography, styled } from '@mui/material'
-import { useSearchParams, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { questionTypeHandler } from '../../../utils/helpers'
+import { useSearchParams, useLocation } from 'react-router-dom'
+import { Box, Typography, styled } from '@mui/material'
+import TestType from '../../../components/admin/TestType'
+import Input from '../../../components/UI/Input'
+import Dropdown from '../../../components/UI/Dropdown'
+import TestContainer from '../../../components/UI/TestContainer'
 import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
 import { OPTIONS } from '../../../utils/constants'
-import TestContainer from '../../../components/UI/TestContainer'
-import TestType from '../../../components/admin/TestType'
-import Dropdown from '../../../components/UI/Dropdown'
-import Input from '../../../components/UI/Input'
+import { questionTypeHandler } from '../../../utils/helpers'
 
 const Question = () => {
    const { options } = useSelector((state) => state.question)

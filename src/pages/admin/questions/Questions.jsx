@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Box, Skeleton, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { EditIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
-import { questionTypeHandler } from '../../../utils/helpers'
+import { Box, Skeleton, Typography, styled } from '@mui/material'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
-import { NoDataImage } from '../../../assets/images'
 import { TESTS_THUNKS } from '../../../store/slices/admin/tests/testsThunk'
-import { ROUTES } from '../../../routes/routes'
 import TestContainer from '../../../components/UI/TestContainer'
 import DeleteModal from '../../../components/UI/modals/DeleteModal'
 import Switcher from '../../../components/UI/Switcher'
 import Button from '../../../components/UI/buttons/Button'
+import { NoDataImage } from '../../../assets/images'
+import { EditIcon, PlusIcon, TrashIcon } from '../../../assets/icons'
 import { QUESTION_ACTIONS } from '../../../store/slices/admin/question/questionSlice'
+import { ROUTES } from '../../../routes/routes'
+import { questionTypeHandler } from '../../../utils/helpers'
 
 const Questions = () => {
    const { test, isLoading } = useSelector((state) => state.tests)
@@ -78,10 +78,6 @@ const Questions = () => {
       (test) => test.id === selectedQuestionId
    )?.title
 
-   const totalMinutes = test.duration / 60
-   const seconds = test.duration % 60
-   const minutes = Math.floor(totalMinutes)
-
    return (
       <StyledContainer>
          <TestContainer>
@@ -128,7 +124,7 @@ const Questions = () => {
                ) : (
                   <Box className="text">
                      <Typography className="title">Duration:</Typography>
-                     <Typography>{`${minutes}:${seconds}`}</Typography>
+                     <Typography>{test?.duration}:00</Typography>
                   </Box>
                )}
             </Box>
@@ -178,7 +174,7 @@ const Questions = () => {
                         </Typography>
 
                         <Typography className="duration-props">
-                           {item.duration * 60}s
+                           {item.duration} m
                         </Typography>
 
                         <Typography className="question-type-props">

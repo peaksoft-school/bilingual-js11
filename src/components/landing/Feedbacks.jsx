@@ -1,8 +1,8 @@
-import Slider from 'react-slick'
 import { useState } from 'react'
+import Slider from 'react-slick'
 import { Box, Rating, Typography, styled } from '@mui/material'
-import { FEEDBACKS } from '../../utils/constants'
 import { NextArrowIcon, PrevArrowIcon } from '../../assets/icons'
+import { FEEDBACKS } from '../../utils/constants'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
