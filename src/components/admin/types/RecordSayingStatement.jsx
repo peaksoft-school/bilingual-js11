@@ -53,12 +53,18 @@ const RecordSayingStatement = ({
    }, [state, question])
 
    const isDisabled =
-      !selectType ||
+      isLoading ||
+      (!state &&
+         (!selectType ||
+            !duration ||
+            duration < 1 ||
+            !title?.trim() ||
+            !statement?.trim())) ||
+      (title?.trim() === question?.title &&
+         duration === question?.duration &&
+         statement?.trim() === question?.correctAnswer) ||
       !duration ||
-      duration < 1 ||
-      !title.trim() ||
-      !statement ||
-      (state === null && !statement.trim())
+      duration < 1
 
    const onSubmit = () => {
       if (selectType !== '' && +duration !== 0 && title !== '') {
@@ -87,17 +93,19 @@ const RecordSayingStatement = ({
                })
             )
          } else {
+            const requestData = {
+               title: title.trim(),
+               duration: +duration,
+               correctAnswer: statement.trim(),
+               optionRequest: [],
+            }
+
             dispatch(
                QUESTION_THUNKS.updateQuestion({
                   id: state.id,
+                  testId,
                   requestData,
                   navigate,
-
-                  setStates: {
-                     setSelectType: setSelectType(selectType),
-                     setTitle: setTitle(title),
-                     setDuration: setDuration(duration),
-                  },
                })
             )
          }

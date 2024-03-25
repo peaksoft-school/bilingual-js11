@@ -103,7 +103,7 @@ const Option = ({
             {isRadio ? (
                <Radio
                   onClick={checked ? null : toggleRadioHandler}
-                  checked={optionId === selectedOptionId}
+                  checked={checked || optionId === selectedOptionId}
                />
             ) : (
                <Checkbox

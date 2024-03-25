@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useFormik } from 'formik'
 import { Box, Typography, styled } from '@mui/material'
-import { TESTS_THUNKS } from '../../../store/slices/admin/tests/testsThunk'
 import TestContainer from '../../../components/UI/TestContainer'
 import Button from '../../../components/UI/buttons/Button'
 import Input from '../../../components/UI/Input'
+import { TESTS_THUNKS } from '../../../store/slices/admin/tests/testsThunk'
 
 const CreateTest = () => {
    const { test } = useSelector((state) => state.tests)
@@ -36,8 +36,9 @@ const CreateTest = () => {
    const { values, handleChange, handleBlur, handleSubmit, isValid, dirty } =
       useFormik({
          initialValues: {
-            title: isNewTest ? '' : test.title || '',
-            shortDescription: isNewTest ? '' : test.shortDescription || '',
+            title: isNewTest && test ? '' : test?.title || '',
+            shortDescription:
+               isNewTest && test ? '' : test?.shortDescription || '',
          },
 
          onSubmit,
@@ -74,7 +75,7 @@ const CreateTest = () => {
                autoComplete="off"
             />
 
-            <Box className="container-buttons">
+            <Box className="buttons-box">
                <Link to="/">
                   <Button variant="secondary">GO BACK</Button>
                </Link>
@@ -104,7 +105,7 @@ const StyledContainer = styled(Box)(() => ({
       marginBottom: '1.8rem',
    },
 
-   '& > .container-buttons': {
+   '& > .buttons-box': {
       display: 'flex',
       justifyContent: 'flex-end',
       gap: '1rem',

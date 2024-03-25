@@ -167,7 +167,7 @@ const updateQuestion = createAsyncThunk(
    'question/updateQuestion',
 
    async (
-      { id, requestData, navigate, clearOptions },
+      { id, requestData, navigate, clearOptions, testId },
       { rejectWithValue, dispatch }
    ) => {
       try {
@@ -182,7 +182,9 @@ const updateQuestion = createAsyncThunk(
             type: 'success',
          })
 
-         navigate(-1)
+         navigate(
+            `${ROUTES.ADMIN.INDEX}/${ROUTES.ADMIN.TESTS}/${ROUTES.ADMIN.QUESTIONS}/${testId}`
+         )
 
          if (clearOptions) {
             dispatch(clearOptions.clearOptions())

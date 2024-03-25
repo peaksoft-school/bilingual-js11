@@ -18,7 +18,6 @@ import {
    ThirdPaperIcon,
 } from '../../assets/icons'
 import { ROUTES } from '../../routes/routes'
-import { AUTH_THUNKS } from '../../store/slices/auth/authThunk'
 
 const Intro = () => {
    const { isAuth } = useSelector((state) => state.auth)
@@ -26,7 +25,6 @@ const Intro = () => {
    const [isVisible, setIsVisible] = useState(false)
 
    const navigate = useNavigate()
-
    const dispatch = useDispatch()
 
    const beginHandler = () => {
@@ -41,25 +39,27 @@ const Intro = () => {
    }, [])
 
    useEffect(() => {
-      const cookies = Object.fromEntries(
-         document.cookie.split('; ').map((cookie) => cookie.split('='))
-      )
+      const checkCookies = () => {
+         const email = document.cookie.replace(
+            /(?:(?:^|.*;\s*)email\s*=\s*([^;]*).*$)|^.*$/,
+            '$1'
+         )
+         const password = document.cookie.replace(
+            /(?:(?:^|.*;\s*)password\s*=\s*([^;]*).*$)|^.*$/,
+            '$1'
+         )
+         const rememberMe =
+            document.cookie.replace(
+               /(?:(?:^|.*;\s*)rememberMe\s*=\s*([^;]*).*$)|^.*$/,
+               '$1'
+            ) === 'true'
 
-      const rememberMe = cookies.rememberMe === 'true'
-
-      if (rememberMe) {
-         const savedEmail = cookies.email
-         const savedPassword = cookies.password
-
-         if (savedEmail && savedPassword) {
-            dispatch(
-               AUTH_THUNKS.signIn({
-                  values: { email: savedEmail, password: savedPassword },
-                  navigate,
-               })
-            )
+         if (email && password && rememberMe) {
+            dispatch()
          }
       }
+
+      checkCookies()
    }, [])
 
    return (

@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useState } from 'react'
-import { FormControlLabel, Switch, styled } from '@mui/material'
 import { ErrorMessage } from 'formik'
+import { FormControlLabel, Switch, styled } from '@mui/material'
 
 const Switcher = forwardRef(({ checked, onChange, disabled, ...rest }, ref) => {
    const [isChecked, setChecked] = useState(checked)

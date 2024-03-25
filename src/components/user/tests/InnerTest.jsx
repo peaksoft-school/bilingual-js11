@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Box, ListItem, Typography, styled } from '@mui/material'
 import { TESTS_LIST_THUNKS } from '../../../store/slices/user/tests/testsListThunk'
-import { TestImage } from '../../../assets/images'
-import { ROUTES } from '../../../routes/routes'
-import TestContainer from '../../UI/TestContainer'
 import Loading from '../../Loading'
+import TestContainer from '../../UI/TestContainer'
 import Button from '../../UI/buttons/Button'
+import { ROUTES } from '../../../routes/routes'
+import { TestImage } from '../../../assets/images'
 import { ClockIcon, LaptopIcon, UserCardIcon } from '../../../assets/icons'
 
 const InnerTest = () => {

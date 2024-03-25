@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { Box, Typography, styled } from '@mui/material'
 import { RecordingIcon, SpeakManIcon } from '../../../assets/icons'
@@ -9,11 +9,13 @@ import { NoData } from '../../../assets/images'
 import { PRACTICE_TEST_THUNKS } from '../../../store/slices/user/practiceTestThunk'
 
 const RecordSayingStatement = ({ questions, nextHandler }) => {
+   const { fileUrl } = useSelector((state) => state.practiceTest)
+
    const [array, setArray] = useState(null)
    const [analyser, setAnalyser] = useState(null)
    const [myElements, setMyElements] = useState([])
    const [isRecording, setIsRecording] = useState(false)
-   const [recordedAudio, setRecordedAudio] = useState(null)
+   // const [recordedAudio, setRecordedAudio] = useState(null)
    const [mediaRecorder, setMediaRecorder] = useState(null)
    const [showNextButton, setShowNextButton] = useState(false)
 
@@ -48,10 +50,10 @@ const RecordSayingStatement = ({ questions, nextHandler }) => {
             })
       }
 
-      window.onclick = handleClick
+      window.addEventListener('click', handleClick)
 
       return () => {
-         window.onclick = null
+         window.removeEventListener('click', handleClick)
       }
    }, [analyser])
 
@@ -105,21 +107,19 @@ const RecordSayingStatement = ({ questions, nextHandler }) => {
 
             mediaRecorderInstance.addEventListener('stop', () => {
                const blob = new Blob(chunks, { type: 'audio/mp3' })
-               const url = URL.createObjectURL(blob)
+               // const url = URL.createObjectURL(blob)
 
-               setRecordedAudio(url)
+               // setRecordedAudio(url)
 
-               const reader = new FileReader()
+               // const gokme = url.split('')
 
-               reader.onload = (event) => {
-                  dispatch(
-                     PRACTICE_TEST_THUNKS.addAnswerFile(event.target.result)
-                  )
-                  console.log(event.target.result, 'e.target')
-               }
+               // gokme.splice(0, 5)
 
-               reader.readAsDataURL(blob)
-               console.log(reader.readAsDataURL(blob), 'reader')
+               dispatch(
+                  PRACTICE_TEST_THUNKS.addAnswerFile({
+                     recordedAudio: blob,
+                  })
+               )
             })
 
             setMediaRecorder(mediaRecorderInstance)
@@ -142,7 +142,7 @@ const RecordSayingStatement = ({ questions, nextHandler }) => {
       const answerData = {
          attempts: 0,
          input: '',
-         audioFile: recordedAudio,
+         audioFile: fileUrl,
          optionId: [],
          questionID: questions.questionId,
       }
@@ -156,7 +156,7 @@ const RecordSayingStatement = ({ questions, nextHandler }) => {
 
    return (
       <Container>
-         {questions.statement !== '' ? (
+         {questions.statement ? (
             <Box className="styled-container">
                <Box>
                   <Box className="record-saying-title">
@@ -204,7 +204,7 @@ const RecordSayingStatement = ({ questions, nextHandler }) => {
                </Box>
             </Box>
          ) : (
-            <img src={NoData} alt="no-data" />
+            <img src={NoData} alt="no-data" className="no-data" />
          )}
       </Container>
    )
@@ -216,6 +216,11 @@ const Container = styled(Box)(() => ({
    display: 'flex',
    alignItems: 'center',
    justifyContent: 'center',
+
+   '& > .no-data': {
+      width: '25rem',
+      margin: '0 0 0 15rem',
+   },
 
    '& > .styled-container': {
       width: '100%',

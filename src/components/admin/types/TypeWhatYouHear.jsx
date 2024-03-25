@@ -1,14 +1,14 @@
+import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router'
-import { useDispatch, useSelector } from 'react-redux'
 import { Box, InputLabel, Typography, styled } from '@mui/material'
 import { PauseIcon, PlayIcon } from '../../../assets/icons'
 import { QUESTION_THUNKS } from '../../../store/slices/admin/question/questionThunk'
 import { QUESTION_TITLES } from '../../../utils/constants'
+import { ROUTES } from '../../../routes/routes'
 import Loading from '../../Loading'
 import Button from '../../UI/buttons/Button'
 import Input from '../../UI/Input'
-import { ROUTES } from '../../../routes/routes'
 
 const TypeWhatYouHear = ({
    title,
@@ -62,9 +62,14 @@ const TypeWhatYouHear = ({
    }, [dispatch, state])
 
    useEffect(() => {
-      if (state !== null && question) {
+      const parts = question?.fileUrl?.split('/')
+
+      if (state !== null && question && parts) {
          setCorrectAnswer(question?.correctAnswer)
          setAttempts(question?.attempts)
+         setFile(question?.fileUrl)
+         setFileName(parts[parts.length - 1])
+         audioRef.current.src = question?.fileUrl
       }
    }, [state, question])
 
@@ -98,14 +103,23 @@ const TypeWhatYouHear = ({
    }
 
    const isDisabled =
-      !file ||
-      !title ||
-      !fileUrl ||
-      !attempts ||
+      isLoading ||
+      (!state &&
+         (!selectType ||
+            !duration ||
+            duration < 1 ||
+            !title?.trim() ||
+            !file ||
+            !attempts ||
+            !correctAnswer?.trim())) ||
+      (title?.trim() === question?.title &&
+         duration === question?.duration &&
+         file === question?.fileUrl &&
+         attempts === question?.attempts &&
+         correctAnswer?.trim() === question?.correctAnswer) ||
       !duration ||
       duration < 1 ||
-      !selectType ||
-      !correctAnswer
+      !attempts
 
    const endedHandler = () => setIsPlaying(false)
 
@@ -145,9 +159,19 @@ const TypeWhatYouHear = ({
                })
             )
          } else {
+            const requestData = {
+               title: title.trim(),
+               duration: +duration,
+               correctAnswer: correctAnswer.trim(),
+               optionRequest: [],
+               attempts,
+               fileUrl,
+            }
+
             dispatch(
                QUESTION_THUNKS.updateQuestion({
                   id: state.id,
+                  testId,
                   requestData,
                   navigate,
                })
@@ -243,7 +267,7 @@ const TypeWhatYouHear = ({
             <Button
                variant="primary"
                onClick={onSubmit}
-               disabled={state !== null ? null : isDisabled}
+               disabled={isDisabled}
                isLoading={isLoading}
                loadingColor="secondary"
             >
@@ -262,10 +286,12 @@ const StyledContainer = styled(Box)(() => ({
    marginTop: '2rem',
    gap: '1rem',
    width: '820px',
+   color: '#4C4859',
 
    '& > .content': {
       display: 'flex',
       gap: '2rem',
+
       '& > .replays': {
          display: 'table-column',
 
@@ -278,6 +304,11 @@ const StyledContainer = styled(Box)(() => ({
                fontSize: '1.2rem',
             },
          },
+      },
+
+      '& > div > .file-name': {
+         fontFamily: 'Arial',
+         maxWidth: '20rem',
       },
 
       '& div > .MuiOutlinedInput-input[type="number"]::-webkit-inner-spin-button':
