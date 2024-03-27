@@ -1,11 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { Box, Typography, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { useFormik } from 'formik'
-import { Box, Typography, styled } from '@mui/material'
+import Input from '../../../components/UI/Input'
 import TestContainer from '../../../components/UI/TestContainer'
 import Button from '../../../components/UI/buttons/Button'
-import Input from '../../../components/UI/Input'
 import { TESTS_THUNKS } from '../../../store/slices/admin/tests/testsThunk'
 
 const CreateTest = () => {
@@ -13,77 +12,81 @@ const CreateTest = () => {
 
    const { id } = useParams()
 
-   const dispatch = useDispatch()
-
-   const navigate = useNavigate()
+   const [formData, setFormData] = useState({
+      title: '',
+      shortDescription: '',
+   })
 
    const isNewTest = id === undefined || id === ''
 
-   const onSubmit = (values) => {
+   const navigate = useNavigate()
+   const dispatch = useDispatch()
+
+   const handleInputChange = (e) => {
+      const { name, value } = e.target
+      setFormData({
+         ...formData,
+         [name]: value,
+      })
+   }
+
+   useEffect(() => {
+      if (id) {
+         dispatch(TESTS_THUNKS.getTest({ id }))
+      }
+   }, [dispatch, id])
+
+   useEffect(() => {
+      if (!isNewTest && test) {
+         setFormData({
+            title: test.title || '',
+            shortDescription: test.shortDescription || '',
+         })
+      }
+   }, [isNewTest, test, id])
+
+   const handleSave = () => {
+      const testToSave = { ...formData }
+
       if (isNewTest) {
-         dispatch(TESTS_THUNKS.addTest({ testData: { ...values }, navigate }))
+         dispatch(TESTS_THUNKS.addTest({ testData: testToSave, navigate }))
       } else {
          dispatch(
-            TESTS_THUNKS.updateTest({
-               id,
-               updatedTest: { ...values },
-               navigate,
-            })
+            TESTS_THUNKS.updateTest({ id, updatedTest: testToSave, navigate })
          )
       }
    }
 
-   const { values, handleChange, handleBlur, handleSubmit, isValid, dirty } =
-      useFormik({
-         initialValues: {
-            title: isNewTest && test ? '' : test?.title || '',
-            shortDescription:
-               isNewTest && test ? '' : test?.shortDescription || '',
-         },
-
-         onSubmit,
-      })
-
-   useEffect(() => {
-      if (id) {
-         dispatch(TESTS_THUNKS.getTest({ testId: id }))
-      }
-   }, [dispatch, id])
+   const isFormValid = formData.title !== '' && formData.shortDescription !== ''
 
    return (
       <TestContainer>
          <StyledContainer>
             <Typography className="label">Title</Typography>
-
             <Input
                className="input"
                name="title"
-               value={values.title}
-               onChange={handleChange}
-               onBlur={handleBlur}
-               autoComplete="off"
+               value={formData.title}
+               onChange={handleInputChange}
             />
 
             <Typography className="label">Short Description</Typography>
-
             <Input
                className="input"
                name="shortDescription"
-               value={values.shortDescription}
-               onChange={handleChange}
-               onBlur={handleBlur}
-               autoComplete="off"
+               value={formData.shortDescription}
+               onChange={handleInputChange}
             />
 
-            <Box className="buttons-box">
+            <Box className="container-buttons">
                <Link to="/">
                   <Button variant="secondary">GO BACK</Button>
                </Link>
 
                <Button
                   variant="primary"
-                  onClick={handleSubmit}
-                  disabled={!dirty || !isValid}
+                  onClick={handleSave}
+                  disabled={!isFormValid}
                >
                   SAVE
                </Button>
@@ -105,7 +108,7 @@ const StyledContainer = styled(Box)(() => ({
       marginBottom: '1.8rem',
    },
 
-   '& > .buttons-box': {
+   '& > .container-buttons': {
       display: 'flex',
       justifyContent: 'flex-end',
       gap: '1rem',

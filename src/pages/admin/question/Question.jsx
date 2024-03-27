@@ -125,6 +125,7 @@ const Question = () => {
                title={title}
                setTitle={setTitle}
                setSelectType={setSelectType}
+               onChange={changeSelecTypeHandler}
             />
          </StyledContainer>
       </TestContainer>

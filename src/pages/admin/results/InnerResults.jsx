@@ -221,7 +221,7 @@ const InnerResults = () => {
                               className="score"
                               onClick={stopPropagationHandler}
                            >
-                              0 out of {score}
+                              {score} out of 10
                            </Typography>
 
                            {status === 'EVALUATED' ? (
