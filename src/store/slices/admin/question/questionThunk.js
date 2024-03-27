@@ -142,7 +142,7 @@ const deleteQuestion = createAsyncThunk(
             `/api/question?questionId=${questionId}`
          )
 
-         dispatch(TESTS_THUNKS.getTest({ testId }))
+         dispatch(TESTS_THUNKS.getTest({ id: testId }))
 
          showNotification({
             title: 'Success',
@@ -206,7 +206,7 @@ const updateQuestionByEnable = createAsyncThunk(
             `/api/question/IsEnable?questionId=${questionId}&isEnable=${isEnable}`
          )
 
-         dispatch(TESTS_THUNKS.getTest({ testId }))
+         dispatch(TESTS_THUNKS.getTest({ id: testId }))
 
          return response.data
       } catch (error) {
